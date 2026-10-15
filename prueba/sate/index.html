@@ -2,6 +2,10 @@
 <html lang="es" data-pestanas="v1">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none'; script-src-attr 'none'; base-uri 'self'; form-action 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://accounts.google.com; connect-src 'self' https://login.microsoftonline.com https://graph.microsoft.com https://*.files.1drv.com https://*.sharepoint.com https://*.storage.live.com https://www.googleapis.com https://accounts.google.com https://script.google.com https://script.googleusercontent.com; frame-src 'self' blob: https://login.microsoftonline.com https://accounts.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; worker-src 'none';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>if(window.top!==window.self){let propio=false;try{propio=window.top.location.origin===location.origin}catch(e){}if(!propio){document.documentElement.hidden=true;document.documentElement.style.setProperty('display','none','important')}}</script>
+
 <title>Sistema de Apoyo a la Trayectoria Escolar | IPN</title>
 <link rel="icon" href="../assets/icono/favicon.ico">
 <script>(function(){var r=document.documentElement;try{localStorage.removeItem('theme');localStorage.removeItem('skin');var t=sessionStorage.getItem('theme');if(t==='light'||t==='dark')r.setAttribute('data-theme',t)}catch(e){}var sync=function(){var t=r.getAttribute('data-theme');if(t)r.setAttribute('data-tema',t==='dark'?'oscuro':'claro');else r.removeAttribute('data-tema')};sync();if(window.MutationObserver)new MutationObserver(sync).observe(r,{attributes:true,attributeFilter:['data-theme']});var z=function(){var v=Math.min(1.35,Math.max(1,innerWidth/1550));r.style.setProperty('--ui-zoom',v.toFixed(3))};z();addEventListener('resize',z)})()</script>
@@ -1603,16 +1607,29 @@ html[data-vista=cupos] .brand h1{font-size:1.5rem}
   </div>
   <div id="ipnt-in" hidden>
     <p style="margin:0;font-size:.92rem"><b id="ipnt-who"></b></p>
-    <div class="row" style="margin-top:10px"><button class="btn" id="ipnt-sync" type="button">Sincronizar ahora</button><button class="btn primary" id="ipnt-relogin" type="button" hidden>Volver a iniciar sesión</button><button class="btn" id="ipnt-logout" type="button">Cerrar sesión</button><button class="link" id="ipnt-wipe" type="button">Cerrar sesión y borrar mis datos de este navegador</button></div>
-    <div class="row" id="ipnt-wipe-ok" hidden style="margin-top:8px;font-size:.88rem">¿Borrar de este navegador tus planes, marcas, actividades y datos del SAES? Tu copia en <span id="ipnt-where">la nube</span> se conserva. <button class="btn" id="ipnt-wipe-yes" type="button">Sí, borrar</button></div>
+    <div class="row" style="margin-top:10px"><button class="btn" id="ipnt-sync" type="button">Sincronizar ahora</button><button class="btn primary" id="ipnt-relogin" type="button" hidden>Volver a iniciar sesión</button><button class="btn" id="ipnt-logout" type="button">Cerrar sesión</button></div>
     <label class="chk"><input type="checkbox" id="ipnt-saes"><span>Guardar también mis datos del SAES (kárdex, estado general y cita) en mi nube.</span></label>
   </div>
+  <h3>En este navegador</h3>
+  <label class="chk"><input type="checkbox" id="ipnt-mantener"><span>¿Mantener tu sesión y tus datos en este navegador?</span></label>
+  <p class="saes-note">Si sincronizas con tu cuenta Microsoft, tus datos quedan en tu OneDrive y no se pierden aunque no los guardes aquí. Si solo usas este navegador, se borrarán al cerrarlo.</p>
+  <label class="chk"><input type="checkbox" id="ipnt-publica"><span>Estoy en una computadora pública: al cerrar sesión, borrar mis datos de este navegador.</span></label>
+  <button class="link" id="ipnt-wipe" type="button">Borrar mis datos de este navegador</button>
+  <div class="row" id="ipnt-wipe-ok" hidden style="margin-top:8px;font-size:.88rem">¿Cerrar sesión y borrar de este navegador tus planes, marcas, actividades y datos del SAES? Tu copia en <span id="ipnt-where">la nube</span> se conserva. <button class="btn" id="ipnt-wipe-yes" type="button">Sí, borrar</button></div>
   <p class="ipnt-state" id="ipnt-state" aria-live="polite"></p>
   <h3>Respaldo en archivo</h3>
   <p class="saes-note" style="margin:0 0 8px">Descarga tus datos para guardarlos o pasarlos a otro navegador. Restaurar reemplaza los datos de este navegador por los del archivo.</p>
   <div class="row"><button class="btn" id="ipnt-down" type="button">Descargar respaldo</button><label class="btn ipnt-file">Restaurar desde archivo<input type="file" id="ipnt-file" accept=".json,application/json"></label></div>
   <p class="ipnt-state" id="ipnt-filemsg" aria-live="polite"></p>
   <p class="saes-note" style="margin:14px 0 0">Tus datos se guardan en tu propia nube: en OneDrive, en la <b>carpeta de la aplicación</b>; en Google Drive, en un espacio privado de la aplicación que no aparece entre tus archivos. La herramienta solo tiene acceso a ese espacio. No hay servidor intermedio: nadie más puede consultarlos. <a href="../privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a> · <a href="../condiciones.html" target="_blank" rel="noopener">Condiciones de uso</a></p>
+</dialog>
+<dialog class="saes-dlg ipnt-dlg" id="ipnt-privacidad" aria-labelledby="ipnt-privacidad-h">
+  <h2 id="ipnt-privacidad-h">¿Mantener tu sesión y tus datos en este navegador?</h2>
+  <label class="chk"><input type="checkbox" id="ipnt-privacidad-mantener"><span>Mantener la sesión y los datos al cerrar el navegador.</span></label>
+  <p>Si sincronizas con tu cuenta Microsoft, tus datos quedan en tu OneDrive y no se pierden aunque no los guardes aquí. Si solo usas este navegador, se borrarán al cerrarlo.</p>
+  <p class="saes-note">Sin marcar, se conservan en esta pestaña hasta cerrarla. Puedes cambiar esta opción desde tu cuenta.</p>
+  <p id="ipnt-privacidad-error" role="alert"></p>
+  <button class="btn primary" type="button">Continuar</button>
 </dialog>
 <dialog class="saes-dlg ipnt-dlg" id="ipnt-conf" aria-labelledby="ipnt-conf-h">
   <div class="dl-head"><h2 id="ipnt-conf-h">Ya hay datos en tu cuenta</h2></div>
@@ -1777,7 +1794,7 @@ html[data-vista=cupos] .brand h1{font-size:1.5rem}
 const C={"activa": true, "fase": "pruebas-2026-10", "endpoint": "https://script.google.com/macros/s/AKfycbyk3lyUjzBE7W6HVyLn_BZqw-euTpjZpR4nVFM97j-2-ejy4_4vGTKDulfmYgrwPlfP/exec", "cierre": null, "seguimientoDias": 4, "unidad": ""};
 const APOYO="<div class=\"ipnt-apoyo\"><a href=\"https://github.com/sponsors/Silver-VS\" target=\"_blank\" rel=\"noopener\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z\"/></svg><span>Apoya el proyecto</span></a><small>Donar es voluntario; el proyecto es gratuito y lo mantiene un alumno del IPN.</small></div>";
 const K='ipnt.encuesta', DIA=864e5, ahora=()=>Date.now();
-const ls={get(){try{return JSON.parse(localStorage.getItem(K))||{}}catch(e){return {}}},set(v){try{localStorage.setItem(K,JSON.stringify(v))}catch(e){}}};
+const ls={get(){try{return JSON.parse((window.IPNT?.almacen||localStorage).getItem(K))||{}}catch(e){return {}}},set(v){try{(window.IPNT?.almacen||localStorage).setItem(K,JSON.stringify(v))}catch(e){}}};
 let E=ls.get();
 E.id=E.id||(crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)+ahora().toString(36));
 E.uso=E.uso||{min:0,ses:0,exp:0,gen:0};E.pos=E.pos||0;E.hasta=E.hasta||0;
