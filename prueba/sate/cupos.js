@@ -86,7 +86,14 @@
       return (op['='+n]??op[new Intl.PluralRules('es-MX').select(n)]??op.other??'').replace(/#/g,new Intl.NumberFormat('es-MX').format(n));
     }).replace(/\{(\w+)\}/g,(_,key)=>v[key]??'');
   }
-  raiz.IPNCupos={texto,origenSaes,origenSate,clave,parsear,validar,limpiar,antigua,reciente,fecha,tarjetas,consultar,cambios};
+  function notificar(titulo,opciones){
+    if(typeof raiz.Notification!=='function'||raiz.Notification.permission!=='granted')return;
+    const directo=()=>{try{const n=new raiz.Notification(titulo,opciones);n.onclick=()=>{raiz.focus();n.close()}}catch(e){/* Algunas plataformas solo admiten notificaciones persistentes. */}};
+    const sw=raiz.navigator?.serviceWorker;
+    if(sw?.getRegistration)Promise.resolve().then(()=>sw.getRegistration()).then(r=>r?sw.ready:null).then(r=>r?.showNotification?r.showNotification(titulo,opciones):directo()).catch(()=>{});
+    else directo();
+  }
+  raiz.IPNCupos={texto,origenSaes,origenSate,clave,parsear,validar,limpiar,antigua,reciente,fecha,tarjetas,consultar,cambios,notificar};
 })(typeof window==='undefined'?globalThis:window);
 
 /* Consulta compartida entre pestañas y dispositivos, separada del perfil. */
