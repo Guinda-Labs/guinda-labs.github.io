@@ -1,0 +1,543 @@
+/* Componentes de SATE: tokens comunes y realce local por unidad. */
+:root{--sate-realce:var(--sate-acento-base);--sate-sobre-realce:var(--sate-sobre-base)}
+.sate-unidad{color:var(--sate-realce)}
+#sate-titulo{display:flex;align-items:center;gap:.3rem;overflow:visible}
+.sate-logo-halo{position:relative;display:inline-grid;place-items:center;isolation:isolate;overflow:visible;flex:none}
+.sate-logo-halo[hidden]{display:none}
+/* Opción B (dueño): resplandor que sigue el contorno, solo capas amplias y tenues para no cargar el centro del logo. */
+.sate-logo-halo img{filter:drop-shadow(0 0 9px color-mix(in srgb,var(--halo) 45%,transparent)) drop-shadow(0 0 18px color-mix(in srgb,var(--halo) 30%,transparent))}
+/* El centro transparente deja intacto el logo; el aro absoluto no modifica sus dimensiones. */
+.sate-logo-halo::before{content:none}
+.sate-logo-unidad{max-height:36px;width:auto;height:auto;object-fit:contain;vertical-align:middle;padding:4px;box-sizing:content-box;position:relative;z-index:0}
+.sate-selector-unidad{display:inline-flex;align-items:center;gap:.3rem;overflow:visible}
+.sate-selector-unidad .sate-logo-unidad{max-height:24px;max-width:24px}
+.sate-entrada{max-width:52rem;margin:var(--ipn-esp-4) auto;min-width:0}
+.sate-entrada>label{display:block;margin-top:var(--ipn-esp-4);margin-bottom:var(--ipn-esp-2)}
+.sate-entrada>input{box-sizing:border-box;width:100%;min-width:0;min-height:2.75rem;padding:var(--ipn-esp-2);border:1px solid var(--ipn-borde-control);border-radius:var(--ipn-radio);background:var(--ipn-superficie);color:var(--ipn-texto);font:inherit}
+.sate-entrada>h2{overflow-wrap:anywhere}
+.sate-unidades{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,21rem),1fr));gap:var(--ipn-esp-2)}
+.sate-unidades .sate-selector-unidad{width:100%;min-height:5rem;white-space:normal;text-align:left;padding:var(--ipn-esp-3);gap:var(--ipn-esp-3)}
+.sate-unidades .sate-logo-halo{flex:0 0 2rem}
+.sate-unidades .sate-selector-unidad>span:last-child{display:grid;gap:.25rem;min-width:0;overflow-wrap:anywhere}
+.sate-unidades .sate-selector-unidad>span:last-child>span{font-size:var(--ipn-tamano-s);font-weight:400;color:var(--ipn-tenue)}
+.sate-unidades .sate-selector-unidad:hover{border-color:var(--halo,var(--sate-realce));background:color-mix(in srgb,var(--sate-realce) 5%,var(--ipn-superficie))}
+.sate-entrada :is(input,button):focus-visible{outline:2px solid var(--sate-realce);outline-offset:2px}
+.sate-unidades>li[hidden]{display:none}
+.tramite-lista{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:var(--ipn-esp-4)}
+.tramite-tarjeta{border:1px solid var(--ipn-borde-control);border-radius:var(--ipn-radio);padding:var(--ipn-esp-3);background:var(--ipn-superficie);overflow-wrap:anywhere}
+.tramite-asistente{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--ipn-esp-4)}
+.tramite-pantalla,.tramite-datos{min-width:0;max-width:100%;overflow-wrap:anywhere}
+.tramite-campo{display:flex;flex-direction:column;gap:var(--ipn-esp-1);margin-block:var(--ipn-esp-2)}
+.tramite-campo input,.tramite-campo textarea,.tramite-campo select{box-sizing:border-box;width:100%;min-width:0;max-width:100%;font:inherit;padding:var(--ipn-esp-2);color:var(--ipn-texto);background:var(--ipn-superficie);border:1px solid var(--ipn-borde-control);border-radius:var(--ipn-radio)}
+.tramite-campo [aria-invalid=true]{border-color:var(--ipn-error)}
+.tramite-pasos,.tramite-chips,.tramite-acciones{display:flex;flex-wrap:wrap;gap:var(--ipn-esp-2)}
+.tramite-compuesto,.tramite-chips>*{min-width:0;max-width:100%}
+#sate-tramites button{box-sizing:border-box;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+.tramite-acciones{position:sticky;bottom:calc(5rem + env(safe-area-inset-bottom,0px));z-index:2;background:var(--ipn-superficie);padding-block:var(--ipn-esp-2)}
+.tramite-acciones{justify-content:flex-end}.tramite-acciones button{flex:0 1 auto;min-width:0}
+@media(min-width:1024px){.tramite-acciones{bottom:0}}
+.tramite-pasos{display:block;margin-block:var(--ipn-esp-2);padding:0;font-weight:600;color:var(--ipn-acento)}
+.tramite-pasos li{margin-right:var(--ipn-esp-4);overflow-wrap:anywhere}
+.tramite-pasos [aria-current=step]{font-weight:700;color:var(--ipn-acento)}
+.tramite-revision>div{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--ipn-esp-2);padding-block:var(--ipn-esp-3);border-bottom:1px solid var(--ipn-borde-control)}
+.tramite-revision dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.tramite-preview{display:none;min-width:0}
+.tramite-preview iframe{width:100%;height:70vh;border:1px solid var(--ipn-borde-control)}
+.tramite-ver{display:inline-flex;margin-top:var(--ipn-esp-3)}  /* el formato se abre aparte: el visor incrustado se veía tosco (dueño, 2026-10-07) */
+.dictamen-opciones{min-width:0;border:0;padding:0;margin-block:var(--ipn-esp-3)}
+.dictamen-opciones label{display:flex;align-items:flex-start;gap:var(--ipn-esp-2);padding:var(--ipn-esp-2);margin-block:var(--ipn-esp-1);border:1px solid var(--ipn-borde-control);border-radius:var(--ipn-radio);cursor:pointer}
+.dictamen-opciones label:has(input:checked){border-color:var(--ipn-acento);background:var(--ipn-hundido)}
+.dictamen-opciones input{flex:none;margin-top:.25rem}
+.tramite-campo textarea{min-height:8rem;resize:vertical}
+.tramite-encabezado{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--ipn-esp-2)}
+.tramite-encabezado h2{margin:0;min-width:0}
+.tramite-regreso{background:transparent;border-color:transparent;color:var(--ipn-acento);text-decoration:underline;text-underline-offset:3px}
+.tramite-pie{display:flex;justify-content:flex-start;margin-top:var(--ipn-esp-5);padding-top:var(--ipn-esp-3);border-top:1px solid var(--ipn-borde-control)}
+.tramite-falta{margin-block:var(--ipn-esp-2);color:var(--ipn-tenue)}
+.dictamen-tipo{margin-block:var(--ipn-esp-3)}
+.dictamen-tipo label{margin-bottom:0}
+.dictamen-situaciones{margin:var(--ipn-esp-2) 0 0;padding-left:var(--ipn-esp-5);overflow-wrap:anywhere}
+.dictamen-situaciones li{margin-block:var(--ipn-esp-2)}
+.dictamen-situaciones small{display:block;color:var(--ipn-tenue)}
+.dictamen-situaciones a{color:var(--ipn-acento)}
+.dictamen-anexos{min-width:0;margin-block:var(--ipn-esp-4)}
+.dictamen-anexos ol{list-style:none;margin:var(--ipn-esp-2) 0;padding:0}
+.dictamen-anexos li{display:flex;flex-wrap:wrap;align-items:center;gap:var(--ipn-esp-2);padding:var(--ipn-esp-2);margin-block:var(--ipn-esp-1);border:1px solid var(--ipn-borde-control);border-radius:var(--ipn-radio);background:var(--ipn-superficie);cursor:grab}
+.dictamen-anexos li>span{flex:1 1 12rem;min-width:0;overflow-wrap:anywhere}
+.dictamen-anexos li[data-sobre]{border-color:var(--ipn-acento)}
+.tramite-campo input[type=checkbox]{width:auto;align-self:flex-start}
+:is(.tramite-campo input,.tramite-campo textarea,.tramite-chips button,.tramite-acciones button):focus-visible{outline:2px solid var(--sate-realce);outline-offset:2px}
+.tramite-chips [aria-pressed=true]{background:var(--ipn-acento);color:var(--sate-sobre-realce);border-color:var(--ipn-acento)}
+.electivas-actividad{box-sizing:border-box;max-width:100%;overflow-wrap:anywhere;border:1px solid var(--ipn-borde-control);border-radius:var(--ipn-radio);padding:var(--ipn-esp-3);margin-block:var(--ipn-esp-3);min-width:0}
+.electivas-resumen{position:sticky;top:0;z-index:1;background:var(--ipn-superficie);padding:var(--ipn-esp-3);border:1px solid var(--ipn-borde-control)}
+.tramite-compuesto details button{display:block;text-align:left;max-width:100%;white-space:normal;margin-block:var(--ipn-esp-2)}
+@media(min-width:1024px){.tramite-revision>div{grid-template-columns:minmax(0,1fr) minmax(0,2fr) auto}}
+.sate-recorte-calendario{display:flex;align-items:center;gap:var(--ipn-esp-2);width:100%;min-width:0;height:28px;margin:0 0 var(--ipn-esp-2);padding:0;color:var(--ipn-tenue);background:none;border:0;font:inherit;font-size:var(--ipn-tamano-xs);text-align:left;cursor:pointer}
+.sate-recorte-calendario__texto{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sate-recorte-calendario__mas{flex:none;white-space:nowrap}
+.sate-recorte-calendario:focus-visible{outline:2px solid var(--sate-realce);outline-offset:2px}
+.trayectoria-resumen .sate-recorte-calendario{margin:0}
+/* Dos filas, sin separadores heredados. min-width:0 permite carreras largas. */
+header.top{border-bottom:0;border-top:0;gap:var(--ipn-esp-2);padding-block:var(--ipn-esp-4) 0}
+body>.inst{margin-inline:-16px}
+.brand .title-row{display:flex;justify-content:space-between;gap:var(--ipn-esp-2)}
+.sate-identidad{display:flex;align-items:center;gap:var(--ipn-esp-2);min-width:0}
+.sate-identidad h1{font-size:1.7rem;white-space:nowrap}
+.sate-identidad .unit-switch{padding:0;min-width:2rem;min-height:2rem;flex:none}
+.title-row .header-actions{gap:var(--ipn-esp-2);flex:none}
+.brand #sate-nombre{font-size:var(--ipn-tamano-xs);margin:var(--ipn-esp-1) 0 0}
+#sate-leyenda .sate-ayuda__btn{width:auto;height:auto;min-height:2rem;border:1px solid var(--ipn-borde-control);border-radius:999px;padding:0 var(--ipn-esp-2);font-size:var(--ipn-tamano-xs);color:var(--ipn-texto);background:var(--ipn-superficie);white-space:nowrap}
+.sate-navegacion{display:flex;align-items:center;flex-wrap:wrap;gap:var(--ipn-esp-3);width:100%;min-width:0;margin-bottom:var(--ipn-esp-3)}
+#sate-tabs{flex:1;min-width:0}
+:is(#sate-tabs,.sate-medicion) .sate-pestanas{width:100%;overflow:visible;border-radius:var(--ipn-radio);padding:var(--ipn-esp-1);gap:var(--ipn-esp-1)}
+:is(#sate-tabs,.sate-medicion) .sate-pestana{flex:1;min-width:max-content;min-height:2.5rem;padding-inline:var(--ipn-esp-2);font-size:var(--ipn-tamano-xs);white-space:nowrap}
+:is(#sate-tabs,.sate-medicion) .sate-pestana__texto{white-space:nowrap;overflow-wrap:normal}
+:is(#sate-tabs,.sate-medicion) .sate-pestana__texto--corto{display:none}
+:is(#sate-tabs,.sate-medicion) [data-escalon=corto] .sate-pestana__texto:not(.sate-pestana__texto--corto){display:none}
+:is(#sate-tabs,.sate-medicion) [data-escalon=corto] .sate-pestana__texto--corto{display:inline}
+:is(#sate-tabs,.sate-medicion) .sate-grupo-inicio{margin-left:var(--ipn-esp-2)}
+.sate-controles{display:flex;align-items:center;gap:var(--ipn-esp-2);min-width:0;flex:0 1 15rem}
+.sate-controles .field{flex:1;min-width:0}
+.sate-controles select{width:100%;min-width:0;font-size:var(--ipn-tamano-xs);min-height:2.5rem}
+.sate-fila-avisos{display:flex;flex-wrap:wrap;align-items:center;gap:var(--ipn-esp-2);margin-block:var(--ipn-esp-2)}
+#sate-avisos-globales{min-width:0;flex:1 1 auto}
+.sate-datos{display:flex;align-items:center;flex:none;gap:var(--ipn-esp-2);margin-left:auto}
+.sate-datos .saes-open{font-size:var(--ipn-tamano-xs);min-height:2.5rem;padding-inline:var(--ipn-esp-2)}
+.sate-datos .saes-open::before{content:none}
+#sate-saes-indicador{display:inline-flex;align-items:center;gap:var(--ipn-esp-1);font-size:var(--ipn-tamano-xs);white-space:nowrap}
+#sate-saes-indicador::before{content:"";width:9px;height:9px;border:2px solid var(--ipn-tenue);border-radius:50%;flex:none}
+#sate-saes-indicador.on::before{background:var(--ipn-ok);border-color:var(--ipn-ok)}
+.bar-top{border-bottom:0;padding-block:0;align-items:center}
+.bar-top:has(>#sate-oferta-periodo[hidden]):has(>#notice[hidden]){display:none}
+:is(.unit-switch,.sate-controles select,.sate-datos .btn,.header-actions button):focus-visible{outline:2px solid var(--sate-realce);outline-offset:2px}
+/* El ancho natural decide cuándo separar controles, abreviar y usar la barra inferior. */
+.sate-navegacion[data-controles-separados=true]>#sate-tabs{flex-basis:100%}
+.sate-navegacion[data-controles-separados=true]>.sate-controles{flex-basis:100%}
+.sate-navegacion[data-controles-separados=true]>.sate-controles .field{max-width:24rem}
+body.sate-flotante #sate-tabs{display:none}
+.sate-medicion{position:absolute;width:0;height:0;overflow:hidden;visibility:hidden;pointer-events:none}
+:is(#sate-tabs,.sate-medicion).sate-medicion .sate-pestanas{width:max-content;max-width:none}
+:is(#sate-tabs,.sate-medicion).sate-medicion .sate-pestana{flex:none;font-weight:600}
+.sate-medicion .sate-controles{width:15rem;max-width:none;flex:none}
+.sate-medicion .field{max-width:none}
+@media(max-width:720px){
+  #sate-titulo .sate-logo-unidad{max-height:28px}
+  .sate-navegacion{margin-top:var(--ipn-esp-1)}
+  .sate-controles{flex:1;width:100%}
+  .sate-identidad{gap:var(--ipn-esp-1);flex-wrap:wrap}
+  .sate-identidad h1{font-size:1.2rem}
+  .sate-identidad .unit-switch{min-width:1.5rem;grid-column:auto;grid-row:auto}
+  #sate-leyenda .sate-ayuda__btn{font-size:.65rem;padding-inline:var(--ipn-esp-1)}
+  .title-row .header-actions{gap:var(--ipn-esp-1)}
+  .title-row .header-actions button{width:2rem;height:2rem;padding:0;justify-content:center}
+  .header-actions .enc-btn span,.header-actions .ipnt-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+}
+/* Calendario: dos pistas, colores comunes y contraste independiente del relleno. */
+#sate-calendario{--cal-fondo:#fff;--cal-texto:#18181b;--cal-tenue:#52525b;--cal-linea:#e4e4e7;--cal-hundido:#f4f4f5;--cal-acento:var(--sate-acento-base);min-width:0;color:var(--cal-texto);--cal-color:var(--ipn-cal-gestion)}
+#sate-calendario *{box-sizing:border-box}
+.calendario-cabecera{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1rem;justify-content:space-between;margin-bottom:.75rem}
+.calendario-cabecera h2{margin:0}
+.calendario-controles{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .75rem;min-width:0;max-width:100%}
+.calendario-selector{display:flex;align-items:center;gap:.5rem;min-width:0;max-width:100%;color:var(--cal-acento)}
+.calendario-selector svg{flex:none}
+.calendario-selector select{min-width:0;width:100%;max-width:100%;min-height:44px;border:1px solid var(--cal-linea);border-radius:999px;background:var(--cal-fondo);color:var(--cal-texto);font:inherit;font-size:.85rem;padding:.5rem}
+.calendario-audiencia{display:flex;align-items:center;gap:.5rem;font-size:.8rem;min-height:44px;margin-bottom:.5rem}
+.calendario-audiencia input{width:1rem;height:1rem;flex:none}
+/* Acomodo común: resumen y mes arriba, bloque principal a todo lo ancho, agenda y detalle abajo. */
+.calendario-tarjeta{min-width:0;background:var(--cal-fondo);border:1px solid var(--cal-linea);border-radius:14px;padding:16px 20px}
+.calendario-tarjeta[hidden]{display:none}
+.calendario-arriba{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:1rem;margin-bottom:1rem;align-items:stretch}
+.calendario-estado{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center}
+.calendario-semana{display:flex;flex-direction:column}
+.calendario-semana strong{font-size:1.9rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.calendario-hoy-fecha,.calendario-semana-sub{color:var(--cal-tenue);font-size:.85rem}
+.calendario-avance-bloque{display:flex;flex-direction:column;gap:8px;min-width:0}
+.calendario-barra{position:relative;height:8px;background:var(--cal-hundido);border-radius:99px;overflow:hidden}
+.calendario-barra i{position:absolute;inset:0 auto 0 0;background:var(--cal-acento);border-radius:99px}
+.calendario-extremos{display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;color:var(--cal-tenue)}
+.calendario-fichas{display:flex;flex-wrap:wrap;gap:8px}
+.calendario-ficha{display:inline-flex;align-items:center;gap:6px;min-width:0;max-width:100%;min-height:36px;padding:4px 10px;border:1px solid var(--cal-linea);border-radius:999px;background:var(--cal-hundido);color:var(--cal-texto);font:inherit;font-size:.82rem;text-align:left;cursor:pointer}
+.calendario-ficha>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.calendario-ficha small{flex:none;color:var(--cal-tenue)}
+.calendario-ficha-ahora{border-color:transparent;background:color-mix(in srgb,var(--cal-acento) 14%,var(--cal-fondo))}
+.calendario-ficha-punto{flex:none;width:8px;height:8px;border-radius:50%;background:var(--cal-color)}
+.calendario-ficha[aria-pressed=true]{box-shadow:inset 0 0 0 2px var(--cal-texto)}
+.calendario-mes-chico{padding:12px 14px}
+.calendario-principal{min-width:0;max-width:100%}
+#sate-calendario[data-vista=semicirculo] .calendario-principal{padding:16px 20px;border:1px solid var(--cal-linea);border-radius:14px;background:var(--cal-fondo)}
+.calendario-abajo{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:1rem;margin-top:1rem;align-items:start}
+.calendario-lado{position:sticky;top:1rem;display:flex;flex-direction:column;gap:1rem;min-width:0}
+.calendario-tarjeta-cab{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.75rem}
+.calendario-tarjeta-titulo{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.25rem .75rem;margin:0 0 .75rem;font-size:1rem}
+.calendario-tarjeta-cab .calendario-tarjeta-titulo{margin:0}
+.calendario-tarjeta-titulo small{font-weight:400;color:var(--cal-tenue);font-size:.8rem}
+.calendario-vacio{margin:0;color:var(--cal-tenue)}
+.calendario-arco-contenedor{position:relative;container-type:inline-size;max-width:760px;margin-inline:auto}
+.calendario-vistas{display:flex;flex-wrap:wrap;gap:4px;width:fit-content;max-width:100%;padding:4px;margin:0;border:1px solid var(--cal-linea);border-radius:12px;background:var(--cal-hundido)}
+.calendario-vistas .sate-btn{min-height:44px;padding:.5rem .85rem;border:0;border-radius:8px;background:transparent;color:var(--cal-tenue);font:inherit;font-size:.85rem;cursor:pointer}
+.calendario-vistas .sate-btn[aria-pressed=true]{background:var(--cal-fondo);color:var(--cal-texto);font-weight:600;box-shadow:0 1px 3px rgb(0 0 0 / .1)}
+/* Vista Detallado: una fila delgada por tipo de fecha, meses proporcionales y línea «Hoy». */
+.calendario-linea{--etq:136px;position:relative;min-width:0}
+.calendario-linea-meses{display:grid;margin-left:var(--etq);padding-bottom:4px;border-bottom:1px solid var(--cal-linea);font-size:.75rem;color:var(--cal-tenue)}
+.calendario-linea-meses span{padding-left:6px;border-left:1px solid var(--cal-linea);overflow:hidden;white-space:nowrap}
+.calendario-linea-cuerpo{position:relative;margin-top:22px}
+.calendario-linea-fila{display:grid;grid-template-columns:var(--etq) minmax(0,1fr);align-items:center;min-height:34px}
+.calendario-linea-fila+.calendario-linea-fila{border-top:1px dashed var(--cal-linea)}
+.calendario-linea-fila>b{display:flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;color:var(--cal-tenue)}
+.calendario-linea-pista{position:relative;min-width:0;min-height:34px}
+.calendario-ev{position:absolute;height:20px;min-width:6px;padding:0;border:0;border-radius:6px;background:var(--cal-color);cursor:pointer}
+.calendario-ev::before{content:"";position:absolute;inset:-6px -3px}
+.calendario-ev[data-puntual=true]{width:12px;height:12px;min-width:0;border-radius:50%;transform:translateX(-6px)}
+.calendario-ev[data-rayado=true]{background:repeating-linear-gradient(135deg,var(--cal-color) 0 3px,transparent 3px 6px);outline:1px solid var(--cal-color)}
+.calendario-ev[data-pasado=true]:not([data-seleccionado=true]){opacity:.35}
+.calendario-ev[data-seleccionado=true]{outline:2px solid var(--cal-texto);outline-offset:2px;opacity:1}
+.calendario-linea-nombre{position:absolute;height:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.72rem;line-height:16px;color:var(--cal-texto);pointer-events:none}
+.calendario-linea-hoy-capa{position:absolute;top:-4px;bottom:0;left:var(--etq);right:0;z-index:2;pointer-events:none}
+.calendario-linea-hoy{position:absolute;top:0;bottom:0;width:2px;background:var(--cal-acento)}
+.calendario-linea-hoy::before{content:attr(data-etiqueta);position:absolute;top:-18px;left:50%;transform:translateX(-50%);padding:0 3px;background:var(--cal-fondo);font-size:.68rem;font-weight:700;color:var(--cal-acento)}
+.calendario-linea-leyenda{margin:.75rem 0 0;font-size:.75rem;color:var(--cal-tenue)}
+/* Agenda «Lo que viene» */
+.calendario-agenda-lista{display:flex;flex-direction:column;gap:18px}
+.calendario-agenda-mes h4{margin:0 0 6px;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--cal-tenue)}
+.calendario-item{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;min-height:48px;padding:8px 10px;border:1px solid transparent;border-radius:10px;background:none;color:var(--cal-texto);font:inherit;text-align:left;cursor:pointer}
+.calendario-item:hover{background:var(--cal-hundido)}
+.calendario-item[aria-pressed=true]{border-color:var(--cal-texto);background:var(--cal-hundido)}
+.calendario-fecha{display:flex;flex-direction:column;align-items:center;line-height:1.1;padding-left:6px;border-left:3px solid var(--cal-color)}
+.calendario-fecha b{font-size:1.1rem;font-variant-numeric:tabular-nums}
+.calendario-fecha small{font-size:.68rem;color:var(--cal-tenue);text-transform:uppercase}
+.calendario-item-texto{display:flex;flex-direction:column;min-width:0}
+.calendario-item-titulo{font-weight:500;overflow-wrap:anywhere}
+.calendario-item-texto small{font-size:.78rem;color:var(--cal-tenue);overflow-wrap:anywhere}
+.calendario-item[data-estado=pasado] .calendario-item-titulo{color:var(--cal-tenue)}
+.calendario-item[data-estado=pasado] .calendario-fecha{border-left-color:color-mix(in srgb,var(--cal-color) 40%,transparent)}
+.calendario-pildora{padding:2px 8px;border-radius:999px;background:var(--cal-hundido);font-size:.72rem;color:var(--cal-tenue);white-space:nowrap}
+.calendario-item[data-estado=pronto] .calendario-pildora{color:var(--cal-texto)}
+.calendario-item[data-estado=ahora] .calendario-pildora{background:color-mix(in srgb,var(--cal-acento) 14%,var(--cal-fondo));color:var(--cal-texto);font-weight:600}
+.calendario-pasados{width:100%;min-height:44px;margin-bottom:12px;border:1px dashed var(--cal-linea);border-radius:10px;background:none;color:var(--cal-tenue);font:inherit;font-size:.82rem;cursor:pointer}
+#sate-calendario button:focus-visible,.calendario-arco:focus-visible{outline:2px solid var(--cal-acento);outline-offset:3px}
+.calendario-semicirculo{display:block;width:100%;height:auto}
+.calendario-pista{fill:var(--cal-hundido)}
+.calendario-tick{stroke:var(--cal-linea);stroke-width:1}
+.calendario-arco{cursor:pointer}
+.calendario-arco[data-pasado=true]:not([data-seleccionado=true]){opacity:.38}
+.calendario-arco[data-puntual=true][data-pasado=true]:not([data-seleccionado=true]){opacity:.5}
+.calendario-trazo{stroke:var(--cal-fondo);stroke-width:1}
+.calendario-arco[data-categoria=suspension] .calendario-trazo{stroke:var(--ipn-cal-suspension);stroke-width:1.5}
+.calendario-arco[data-seleccionado=true] .calendario-trazo,.calendario-arco[data-seleccionado=true] .calendario-punto-fondo{stroke:var(--cal-texto);stroke-width:2.5}
+.calendario-punto-fondo{fill:var(--cal-fondo);stroke:var(--cal-color);stroke-width:2}
+.calendario-svg-simbolo{fill:var(--cal-color);font:14px var(--ipn-fuente-texto);pointer-events:none}
+.calendario-svg-mes,.calendario-svg-extremo{fill:var(--cal-tenue);font:14px var(--ipn-fuente-texto)}
+.calendario-svg-extremo{font-weight:600;fill:var(--cal-texto)}
+.calendario-patron-fondo{fill:var(--cal-fondo)}
+.calendario-patron-linea{fill:var(--cal-color);opacity:.65}
+.calendario-avance{fill:none;stroke:var(--cal-acento);stroke-width:3;stroke-linecap:round}
+.calendario-aguja{stroke:var(--cal-acento);stroke-width:3;stroke-linecap:round;pointer-events:none}
+.calendario-aguja-punta{fill:var(--cal-acento);stroke:var(--cal-fondo);stroke-width:2;pointer-events:none}
+/* El texto central crece como en la maqueta; limitar su altura introduce una barra sobre el arco. */
+.calendario-centro{position:absolute;left:50%;bottom:9%;width:44%;transform:translateX(-50%);display:flex;flex-direction:column;gap:4px;text-align:center;overflow-wrap:anywhere;font-size:clamp(.65rem,1.9cqw,.9rem);line-height:1.35}
+.calendario-centro-etiqueta{color:var(--cal-tenue)}
+.calendario-centro strong{font-size:clamp(.9rem,3.8cqw,1.8rem);line-height:1.15}
+.calendario-centro-largo{display:flex;flex-direction:column;gap:4px}
+.calendario-centro .sate-btn{padding:0 .25rem;min-height:32px;font:inherit;color:var(--cal-acento);background:none;border:0}
+.calendario-nav{display:flex;align-items:center;gap:.4rem;margin-bottom:.5rem}
+.calendario-nav h3{flex:1;margin:0;font-size:.9rem;text-align:center;text-transform:capitalize}
+.calendario-nav .sate-btn{min-width:40px;min-height:40px;padding:0;background:var(--cal-fondo);color:var(--cal-texto)}
+.calendario-nav .sate-btn:disabled{opacity:.5}
+.calendario-mes{width:100%;min-width:0;overflow:hidden;background:var(--cal-fondo)}
+.calendario-dias-semana,.calendario-fechas{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.calendario-dias-semana{text-align:center;color:var(--cal-tenue);padding:.25rem 0;font-size:.72rem}
+.calendario-celda{min-width:0;padding:1px}
+.calendario-dia{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;min-width:0;min-height:40px;border:0;border-radius:8px;background:var(--cal-fondo);color:var(--cal-texto);font:inherit;font-size:.78rem;padding:2px;cursor:pointer;font-variant-numeric:tabular-nums}
+.calendario-dia:hover{background:var(--cal-hundido)}
+.calendario-fuera{opacity:.5}
+.calendario-numero{display:grid;place-items:center;min-width:1.5rem;min-height:1.5rem;background:transparent;border-radius:4px}
+.calendario-dia[aria-current=date] .calendario-numero{border:2px solid var(--cal-acento);border-radius:50%;font-weight:700}
+.calendario-signos{display:flex;justify-content:center;gap:2px;min-height:6px;max-width:100%}
+.calendario-signo{width:6px;height:6px;border-radius:50%;background:var(--cal-color)}
+.calendario-dia.calendario-rayado{background:repeating-linear-gradient(135deg,var(--cal-fondo) 0 4px,var(--cal-linea) 4px 5px)}
+.calendario-dia.calendario-suspension{border:1px solid var(--ipn-cal-suspension);background:repeating-linear-gradient(135deg,var(--cal-fondo) 0 4px,var(--ipn-cal-suspension) 4px 5px)}
+.calendario-dia[data-seleccionado=true]{background:color-mix(in srgb,var(--cal-color) 24%,var(--cal-fondo));box-shadow:inset 0 0 0 2px var(--cal-texto)}
+.calendario-detalle{min-width:0;max-height:calc(100dvh - 2rem);padding:1rem 1.25rem;overflow:auto;border:1px solid var(--cal-linea);border-radius:14px;background:var(--cal-fondo);color:var(--cal-texto);font-size:.88rem;line-height:1.5;overflow-wrap:anywhere}
+.calendario-lado[data-copia=true] .calendario-detalle{max-height:max(10rem,calc(100dvh - 2rem - 22rem))}
+.calendario-detalle[hidden]{display:none}.calendario-detalle h3{margin:0 0 .5rem;font-size:1.05rem}.calendario-detalle h4{margin:0;font-size:.95rem}
+.calendario-detalle-evento{border-left:3px solid var(--cal-color);padding-left:.75rem;margin-top:1rem}
+.calendario-detalle-categoria{display:block;font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--cal-color)}
+.calendario-cuenta{display:block;margin:.5rem 0 .25rem;font-size:1.6rem;font-weight:700;line-height:1.2}
+.calendario-detalle-evento p{margin:.4rem 0}.calendario-detalle-vacio{color:var(--cal-tenue)}.calendario-fuente{color:var(--cal-tenue);font-size:.8rem}.calendario-fuente summary{cursor:pointer;min-height:44px;padding-top:.5rem}.calendario-fuente a{color:var(--cal-acento)}
+.calendario-detalle>.sate-btn{margin-top:1rem;min-height:44px}
+.calendario-hoja-fondo{position:fixed;inset:0;background:rgb(9 9 11 / .45);border:0;z-index:1000}
+#sate-calendario :is(button,select,input,summary):focus-visible{outline:2px solid var(--cal-acento);outline-offset:2px}
+@media(max-width:819px){.calendario-arriba,.calendario-abajo{grid-template-columns:minmax(0,1fr)}.calendario-lado{position:static}.calendario-lado .calendario-mes-chico{display:none}.calendario-estado{grid-template-columns:minmax(0,1fr);gap:12px}.calendario-tarjeta{padding:14px}#sate-calendario[data-vista=semicirculo] .calendario-principal{padding:12px}.calendario-centro{bottom:16%;gap:2px;font-size:clamp(.65rem,2.5cqw,.85rem)}.calendario-centro strong{font-size:clamp(.85rem,4cqw,1.35rem)}.calendario-centro-largo{display:none}.calendario-svg-mes,.calendario-svg-extremo{font-size:21px}.calendario-linea{--etq:0px}.calendario-linea-fila{grid-template-columns:minmax(0,1fr);margin-bottom:4px}.calendario-linea-fila+.calendario-linea-fila{border-top:0}.calendario-linea-fila>b{position:relative;z-index:3;width:max-content;margin-top:6px;padding-right:8px;background:var(--cal-fondo);font-size:.72rem}.calendario-linea-nombre{display:none}.calendario-linea-meses span{font-size:.7rem}.calendario-detalle{position:fixed;left:0;right:0;bottom:0;max-height:75dvh;z-index:1001;margin:0;border-radius:20px 20px 0 0;padding:1rem 1.25rem max(1rem,env(safe-area-inset-bottom))}.calendario-detalle::before{content:'';display:block;width:40px;height:4px;background:var(--cal-linea);border-radius:4px;margin:0 auto .75rem}}
+@media(max-width:720px){.calendario-controles{width:100%}.calendario-selector{flex:1 1 12rem}.calendario-item{grid-template-columns:48px minmax(0,1fr)}.calendario-pildora{grid-column:2;justify-self:start}}
+#sate-calendario{--ipn-cal-academico:#475569;--ipn-cal-becas:#0E7490;--ipn-cal-descanso:#71717A;--ipn-cal-ets:#0369A1;--ipn-cal-extraordinaria:#854D0E;--ipn-cal-feriado:#57534E;--ipn-cal-fin:#9F1239;--ipn-cal-gestion:var(--sate-acento-base);--ipn-cal-grado_posgrado:#86198F;--ipn-cal-induccion:#3F6212;--ipn-cal-induccion_nms:#4D7C0F;--ipn-cal-inicio:#15803D;--ipn-cal-inicio_nms:#166534;--ipn-cal-inscripcion:#1D4ED8;--ipn-cal-inscripcion_ets:#1E3A6E;--ipn-cal-nivelacion:#0F766E;--ipn-cal-ordinaria:#6D4AB0;--ipn-cal-planeacion:#5B21B6;--ipn-cal-politecnico:#A16207;--ipn-cal-posgrado:#A21CAF;--ipn-cal-reanudacion:#115E59;--ipn-cal-saberes:#9A3412;--ipn-cal-servicios:#155E75;--ipn-cal-sindical:#4338CA;--ipn-cal-suspension:#C62828;--ipn-cal-tt:#9A5B13;--ipn-cal-vacaciones:#52525B;}
+[data-theme=dark] #sate-calendario{--cal-fondo:#18181b;--cal-texto:#fafafa;--cal-tenue:#a1a1aa;--cal-linea:#3f3f46;--cal-hundido:#232326;--cal-acento:#f0a3c4;--ipn-cal-academico:#CBD5E1;--ipn-cal-becas:#5EC8D8;--ipn-cal-descanso:#A1A1AA;--ipn-cal-ets:#A6D3F2;--ipn-cal-extraordinaria:#E9B824;--ipn-cal-feriado:#D6D3D1;--ipn-cal-fin:#FDA4AF;--ipn-cal-gestion:#F0A3C4;--ipn-cal-grado_posgrado:#E879F9;--ipn-cal-induccion:#BEF264;--ipn-cal-induccion_nms:#A3E635;--ipn-cal-inicio:#4ADE80;--ipn-cal-inicio_nms:#86EFAC;--ipn-cal-inscripcion:#93C5FD;--ipn-cal-inscripcion_ets:#7393DA;--ipn-cal-nivelacion:#5EEAD4;--ipn-cal-ordinaria:#A58BE6;--ipn-cal-planeacion:#C4B5FD;--ipn-cal-politecnico:#FBBF24;--ipn-cal-posgrado:#F0ABFC;--ipn-cal-reanudacion:#2DD4BF;--ipn-cal-saberes:#F5B48A;--ipn-cal-servicios:#67E8F9;--ipn-cal-sindical:#818CF8;--ipn-cal-suspension:#F87171;--ipn-cal-tt:#E0A458;--ipn-cal-vacaciones:#D4D4D8;}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) #sate-calendario{--cal-fondo:#18181b;--cal-texto:#fafafa;--cal-tenue:#a1a1aa;--cal-linea:#3f3f46;--cal-hundido:#232326;--cal-acento:#f0a3c4;--ipn-cal-academico:#CBD5E1;--ipn-cal-becas:#5EC8D8;--ipn-cal-descanso:#A1A1AA;--ipn-cal-ets:#A6D3F2;--ipn-cal-extraordinaria:#E9B824;--ipn-cal-feriado:#D6D3D1;--ipn-cal-fin:#FDA4AF;--ipn-cal-gestion:#F0A3C4;--ipn-cal-grado_posgrado:#E879F9;--ipn-cal-induccion:#BEF264;--ipn-cal-induccion_nms:#A3E635;--ipn-cal-inicio:#4ADE80;--ipn-cal-inicio_nms:#86EFAC;--ipn-cal-inscripcion:#93C5FD;--ipn-cal-inscripcion_ets:#7393DA;--ipn-cal-nivelacion:#5EEAD4;--ipn-cal-ordinaria:#A58BE6;--ipn-cal-planeacion:#C4B5FD;--ipn-cal-politecnico:#FBBF24;--ipn-cal-posgrado:#F0ABFC;--ipn-cal-reanudacion:#2DD4BF;--ipn-cal-saberes:#F5B48A;--ipn-cal-servicios:#67E8F9;--ipn-cal-sindical:#818CF8;--ipn-cal-suspension:#F87171;--ipn-cal-tt:#E0A458;--ipn-cal-vacaciones:#D4D4D8;}}
+#sate-calendario [data-categoria=academico]{--cal-color:var(--ipn-cal-academico)}
+#sate-calendario [data-categoria=becas]{--cal-color:var(--ipn-cal-becas)}
+#sate-calendario [data-categoria=descanso]{--cal-color:var(--ipn-cal-descanso)}
+#sate-calendario [data-categoria=ets]{--cal-color:var(--ipn-cal-ets)}
+#sate-calendario [data-categoria=extraordinaria]{--cal-color:var(--ipn-cal-extraordinaria)}
+#sate-calendario [data-categoria=feriado]{--cal-color:var(--ipn-cal-feriado)}
+#sate-calendario [data-categoria=fin]{--cal-color:var(--ipn-cal-fin)}
+#sate-calendario [data-categoria=gestion]{--cal-color:var(--ipn-cal-gestion)}
+#sate-calendario [data-categoria=grado_posgrado]{--cal-color:var(--ipn-cal-grado_posgrado)}
+#sate-calendario [data-categoria=induccion]{--cal-color:var(--ipn-cal-induccion)}
+#sate-calendario [data-categoria=induccion_nms]{--cal-color:var(--ipn-cal-induccion_nms)}
+#sate-calendario [data-categoria=inicio]{--cal-color:var(--ipn-cal-inicio)}
+#sate-calendario [data-categoria=inicio_nms]{--cal-color:var(--ipn-cal-inicio_nms)}
+#sate-calendario [data-categoria=inscripcion]{--cal-color:var(--ipn-cal-inscripcion)}
+#sate-calendario [data-categoria=inscripcion_ets]{--cal-color:var(--ipn-cal-inscripcion_ets)}
+#sate-calendario [data-categoria=nivelacion]{--cal-color:var(--ipn-cal-nivelacion)}
+#sate-calendario [data-categoria=ordinaria]{--cal-color:var(--ipn-cal-ordinaria)}
+#sate-calendario [data-categoria=planeacion]{--cal-color:var(--ipn-cal-planeacion)}
+#sate-calendario [data-categoria=politecnico]{--cal-color:var(--ipn-cal-politecnico)}
+#sate-calendario [data-categoria=posgrado]{--cal-color:var(--ipn-cal-posgrado)}
+#sate-calendario [data-categoria=reanudacion]{--cal-color:var(--ipn-cal-reanudacion)}
+#sate-calendario [data-categoria=saberes]{--cal-color:var(--ipn-cal-saberes)}
+#sate-calendario [data-categoria=servicios]{--cal-color:var(--ipn-cal-servicios)}
+#sate-calendario [data-categoria=sindical]{--cal-color:var(--ipn-cal-sindical)}
+#sate-calendario [data-categoria=suspension]{--cal-color:var(--ipn-cal-suspension)}
+#sate-calendario [data-categoria=tt]{--cal-color:var(--ipn-cal-tt)}
+#sate-calendario [data-categoria=vacaciones]{--cal-color:var(--ipn-cal-vacaciones)}
+.sate-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sate-sin-scroll{overflow:hidden}
+.situacion-cifras{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--ipn-esp-3);margin:var(--ipn-esp-4) 0}
+.situacion-cifra{display:flex;flex-direction:column;gap:var(--ipn-esp-2);padding:var(--ipn-esp-3);background:var(--ipn-superficie);border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio);color:var(--ipn-texto)}
+.situacion-cifra b{font-size:var(--ipn-tamano-l)}
+.situacion-cifra progress{width:100%;accent-color:var(--ipn-acento)}
+.situacion-materias{padding:0;list-style:none}
+.situacion-materias li{display:flex;flex-wrap:wrap;align-items:center;gap:var(--ipn-esp-2);padding:var(--ipn-esp-2) 0;border-bottom:1px solid var(--ipn-linea)}
+.situacion-materias li>span:first-child{flex:1;min-width:9rem}
+.situacion-pill{padding:var(--ipn-esp-1) var(--ipn-esp-2);border-radius:var(--ipn-radio);background:var(--ipn-aviso-suave);color:var(--ipn-aviso);font-size:var(--ipn-tamano-xs)}
+.situacion-fuente{color:var(--ipn-tenue);font-size:var(--ipn-tamano-s)}
+#sate-situacion>.sate-chips{margin-bottom:var(--ipn-esp-3)}
+#sate-situacion .sate-globo{max-height:60dvh;overflow:auto}
+@media(max-width:720px){.situacion-cifras{grid-template-columns:repeat(2,minmax(0,1fr))}#sate-situacion .sate-avisos{grid-template-columns:1fr}body[data-sate-pestana=situacion] .bar-top{gap:var(--ipn-esp-2);padding-block:var(--ipn-esp-2)}}
+:where(.sate-chip,.sate-btn,.sate-enlace,.sate-ayuda__btn,.sate-pestana,.sate-barra__btn,.sate-modal__x,.sate-aviso__x,.sate-desp summary){font:inherit;color:inherit}
+:is(.sate-chip,.sate-btn,.sate-enlace,.sate-ayuda__btn,.sate-pestana,.sate-barra__btn,.sate-modal__x,.sate-aviso__x,.sate-desp summary):focus-visible{outline:2px solid var(--sate-realce);outline-offset:2px}
+
+/* chips: el color indica el estado; la marca (✓ ! ✕ i) lo repite sin depender del color */
+.sate-chips{display:flex;flex-wrap:wrap;gap:var(--ipn-esp-2);padding:var(--ipn-esp-1)}   /* se acomodan en varias líneas, sin barra lateral */
+.sate-chips__item{flex:none;display:inline-flex}
+.sate-chip{display:inline-flex;align-items:center;gap:var(--ipn-esp-2);min-height:2.25rem;padding:0 var(--ipn-esp-3);border:1px solid var(--chip-c);border-radius:999px;background:var(--chip-s);font-family:var(--ipn-fuente-texto);font-size:var(--ipn-tamano-s);white-space:nowrap}
+.sate-chip[data-estado=ok]{--chip-c:var(--ipn-ok);--chip-s:var(--ipn-ok-suave)}
+.sate-chip[data-estado=aviso]{--chip-c:var(--ipn-aviso);--chip-s:var(--ipn-aviso-suave)}
+.sate-chip[data-estado=error]{--chip-c:var(--ipn-error);--chip-s:var(--ipn-error-suave)}
+.sate-chip[data-estado=info]{--chip-c:var(--ipn-info);--chip-s:var(--ipn-info-suave)}
+button.sate-chip{cursor:pointer}
+.sate-chip__marca{display:inline-grid;place-items:center;width:1.1rem;height:1.1rem;border-radius:50%;background:var(--chip-c);color:var(--chip-s);font-size:.7rem;font-weight:700;line-height:1}
+.sate-chip__texto{color:var(--ipn-texto)}
+
+/* avisos */
+.sate-avisos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:var(--ipn-esp-3)}
+.sate-aviso{position:relative;padding:var(--ipn-esp-3) var(--ipn-esp-4);border-left:4px solid var(--av-c);border-radius:var(--ipn-radio);background:var(--av-s);color:var(--ipn-texto);font-family:var(--ipn-fuente-texto);font-size:var(--ipn-tamano-s)}
+.sate-aviso[data-estado=ok]{--av-c:var(--ipn-ok);--av-s:var(--ipn-ok-suave)}
+.sate-aviso[data-estado=aviso]{--av-c:var(--ipn-aviso);--av-s:var(--ipn-aviso-suave)}
+.sate-aviso[data-estado=error]{--av-c:var(--ipn-error);--av-s:var(--ipn-error-suave)}
+.sate-aviso[data-estado=info]{--av-c:var(--ipn-info);--av-s:var(--ipn-info-suave)}
+.sate-aviso p{margin:0}
+.sate-aviso__titulo{font-weight:600;color:var(--av-c)}
+.sate-aviso__cuerpo{margin-top:var(--ipn-esp-1)!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sate-aviso__x{position:absolute;top:var(--ipn-esp-1);right:var(--ipn-esp-1);width:2rem;height:2rem;border:0;background:none;cursor:pointer;border-radius:50%}
+.sate-enlace{display:inline-block;margin-top:var(--ipn-esp-2);padding:0;border:0;background:none;color:var(--ipn-acento);text-decoration:underline;cursor:pointer;font-size:var(--ipn-tamano-s)}
+
+/* botones */
+.sate-btn{min-height:2.5rem;padding:0 var(--ipn-esp-4);border:1px solid var(--ipn-borde-control);border-radius:var(--ipn-radio);background:var(--ipn-superficie);cursor:pointer;font-family:var(--ipn-fuente-texto);font-size:var(--ipn-tamano-s)}
+.sate-btn--primario{background:var(--ipn-acento);border-color:var(--ipn-acento);color:var(--sate-sobre-realce)}
+
+/* modal */
+.sate-modal{box-sizing:border-box;width:min(36rem,calc(100vw - var(--ipn-esp-5)));max-height:calc(100dvh - var(--ipn-esp-6));padding:0;border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio);background:var(--ipn-superficie);color:var(--ipn-texto);font-family:var(--ipn-fuente-texto);overflow:hidden}
+.sate-modal[open]{display:flex;flex-direction:column}
+.sate-modal::backdrop{background:rgba(9,9,11,.55)}   /* oscurece en claro y en oscuro (con --ipn-texto se aclaraba en oscuro) */
+.sate-modal--pequeno{width:min(24rem,calc(100vw - var(--ipn-esp-5)))}
+.sate-modal__cab{display:flex;align-items:center;gap:var(--ipn-esp-3);padding:var(--ipn-esp-3) var(--ipn-esp-4);border-bottom:1px solid var(--ipn-linea)}
+.sate-modal__titulo{flex:1;margin:0;font-size:var(--ipn-tamano-m);font-weight:600}
+.sate-modal__x{flex:none;width:2.5rem;height:2.5rem;border:0;border-radius:50%;background:none;cursor:pointer}
+.sate-modal__cuerpo{flex:1;overflow:auto;padding:var(--ipn-esp-4);font-size:var(--ipn-tamano-s);line-height:1.5}
+.sate-modal__cuerpo p{margin:0 0 var(--ipn-esp-3)}
+.sate-modal__cuerpo a{color:var(--ipn-acento)}
+.sate-modal__pie{display:flex;justify-content:flex-end;gap:var(--ipn-esp-2);padding:var(--ipn-esp-3) var(--ipn-esp-4);border-top:1px solid var(--ipn-linea)}
+.sate-modal__pie[hidden]{display:none}
+@media (max-width:720px){
+  .sate-modal,.sate-modal--pequeno{width:100%;max-width:100%;margin:auto 0 0;border-radius:var(--ipn-radio) var(--ipn-radio) 0 0;border-bottom:0;height:calc(100dvh - var(--ipn-esp-5));max-height:none;padding-bottom:env(safe-area-inset-bottom,0px)}
+  .sate-modal--pequeno{height:auto;max-height:calc(100dvh - var(--ipn-esp-5))}
+  .sate-modal[open]{animation:sate-sube var(--ipn-duracion-media) ease-out}
+}
+@keyframes sate-sube{from{transform:translateY(2rem);opacity:0}}
+@media (prefers-reduced-motion:reduce){.sate-modal[open]{animation:none}}
+
+/* ayuda */
+.sate-ayuda{display:inline-block;position:relative;vertical-align:middle}
+.sate-ayuda__btn{display:inline-grid;place-items:center;min-width:1.75rem;min-height:1.75rem;border:0;background:none;color:var(--ipn-tenue);cursor:pointer;border-radius:50%;font-size:var(--ipn-tamano-m);padding:0}
+.sate-ayuda__btn:hover{color:var(--ipn-acento)}
+.sate-globo{position:fixed;z-index:60;box-sizing:border-box;padding:var(--ipn-esp-3);border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio);background:var(--ipn-superficie);color:var(--ipn-texto);font-family:var(--ipn-fuente-texto);font-size:var(--ipn-tamano-s);font-weight:400;line-height:1.45;text-align:left}
+.sate-globo[hidden]{display:none}
+.sate-globo a{color:var(--ipn-acento)}
+
+/* desplegable */
+.sate-desp{border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio);background:var(--ipn-superficie);color:var(--ipn-texto);font-family:var(--ipn-fuente-texto)}
+.sate-desp summary{display:flex;align-items:center;gap:var(--ipn-esp-2);min-height:2.75rem;padding:0 var(--ipn-esp-4);cursor:pointer;font-weight:600;font-size:var(--ipn-tamano-s);list-style:none}
+.sate-desp summary::-webkit-details-marker{display:none}
+.sate-desp summary::before{content:"▸";color:var(--ipn-tenue);transition:transform var(--ipn-duracion-rapida)}
+.sate-desp[open] summary::before{transform:rotate(90deg)}
+.sate-desp__cuerpo{padding:0 var(--ipn-esp-4) var(--ipn-esp-3);font-size:var(--ipn-tamano-s)}
+.sate-desp__cuerpo p{margin:0}
+
+/* pestañas */
+.sate-pestanas{display:flex;width:max-content;max-width:100%;box-sizing:border-box;gap:var(--ipn-esp-1);padding:var(--ipn-esp-2);border:1px solid var(--ipn-linea);border-radius:999px;background:var(--ipn-hundido);box-shadow:inset 0 1px 3px var(--ipn-linea);overflow-x:auto;font-family:var(--ipn-fuente-texto)}
+.sate-pestana{position:relative;display:flex;align-items:center;justify-content:center;gap:var(--ipn-esp-2);flex:none;min-height:2.75rem;padding:var(--ipn-esp-2) var(--ipn-esp-4);border:0;border-radius:999px;background:transparent;color:var(--ipn-tenue);cursor:pointer;font-size:var(--ipn-tamano-s);white-space:nowrap;transition:background var(--ipn-duracion-rapida),box-shadow var(--ipn-duracion-rapida)}
+.sate-pestana:hover,.sate-barra__btn:hover{background:var(--ipn-superficie);color:var(--ipn-texto)}
+.sate-pestana[aria-selected=true]{color:var(--ipn-acento);background:var(--ipn-superficie);box-shadow:0 0 0 1px var(--ipn-linea),0 2px 4px var(--ipn-linea);font-weight:600}
+.sate-pestana__icono{display:inline-flex;flex:none;width:1.25rem;height:1.25rem}
+.sate-pestana__icono svg{width:100%;height:100%}
+[data-pestanas=v3] .sate-pestana__icono{display:none}
+[data-pestanas=v3] .sate-pestana{padding-bottom:var(--ipn-esp-4)}
+.sate-pestana[aria-selected=true]::after,.sate-barra__btn[aria-current=page]::after{content:'';position:absolute;bottom:.3rem;left:calc(50% - .18rem);width:.36rem;height:.36rem;border-radius:50%;background:var(--sate-realce)}
+.sate-pestana:focus-visible,.sate-barra__btn:focus-visible,.trayectoria-minimapa button:focus-visible{outline:2px solid var(--sate-realce);outline-offset:2px}
+.sate-pestanas--seg{display:inline-flex;border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio);padding:var(--ipn-esp-1);background:var(--ipn-hundido)}
+.sate-pestanas--seg .sate-pestana{min-height:2.25rem;border:0;border-radius:calc(var(--ipn-radio) - 2px)}
+.sate-pestanas--seg .sate-pestana[aria-selected=true]{background:var(--ipn-superficie);box-shadow:0 0 0 1px var(--ipn-linea)}
+
+/* barra inferior: teléfono y contenedores donde tampoco caben los textos cortos */
+.sate-barra{display:none;position:fixed;left:var(--ipn-esp-2);right:var(--ipn-esp-2);bottom:var(--ipn-esp-2);z-index:40;box-sizing:border-box;min-height:calc(64px + env(safe-area-inset-bottom,0px));gap:var(--ipn-esp-1);padding:var(--ipn-esp-2);padding-bottom:calc(var(--ipn-esp-2) + env(safe-area-inset-bottom,0px));border:1px solid var(--ipn-linea);border-radius:1.5rem;background:var(--ipn-hundido);box-shadow:inset 0 1px 3px var(--ipn-linea);font-family:var(--ipn-fuente-texto)}
+.sate-barra__btn{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ipn-esp-1);flex:1;min-width:0;min-height:48px;border:0;border-radius:1rem;background:none;color:var(--ipn-tenue);font-size:var(--ipn-tamano-xs);cursor:pointer;padding:var(--ipn-esp-1) 2px var(--ipn-esp-3);transition:background var(--ipn-duracion-rapida)}
+.sate-barra__btn[aria-current=page]{color:var(--ipn-acento);background:var(--ipn-superficie);box-shadow:0 0 0 1px var(--ipn-linea),0 2px 4px var(--ipn-linea);font-weight:600}
+[data-pestanas] .sate-barra .sate-pestana__icono{display:inline-flex}
+body.sate-flotante:has(.sate-barra){padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+body.sate-flotante .sate-barra{display:flex}
+@media(max-width:720px){.sate-barra{display:flex}#sate-tabs{display:none}body:has(.sate-barra){padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}}
+
+/* La separación sigue los grupos del catálogo, también en la navegación móvil. */
+.sate-pestana.sate-grupo-inicio{margin-left:var(--ipn-esp-4)}
+.sate-grupo-inicio::before{content:'';position:absolute;left:calc(-1 * var(--ipn-esp-2) - 1px);top:20%;height:60%;width:1px;background:var(--ipn-linea)}
+.sate-barra__btn.sate-grupo-inicio{margin-left:var(--ipn-esp-2)}
+.trayectoria-resumen{font-weight:600;line-height:1.6}
+#sate-presente{display:grid;gap:.65rem;margin-bottom:1.5rem}
+#sate-presente[hidden]{display:none}
+/* resumen a todo el ancho; debajo, contenido acotado a la izquierda y minimapa a la derecha con la misma altura */
+.trayectoria-resumen{grid-column:1 / -1}
+.trayectoria-minimapa{grid-column:2;grid-row:2 / span 4;align-self:stretch;display:flex;flex-direction:column}
+.trayectoria-minimapa button{flex:1;display:flex;align-items:center;justify-content:center}
+#sate-presente:has(.trayectoria-minimapa){grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);column-gap:var(--ipn-esp-5)}
+.trayectoria-minimapa button{display:block;width:100%;border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio);padding:var(--ipn-esp-2);background:var(--ipn-hundido);cursor:pointer}
+.trayectoria-minimapa button:hover{border-color:var(--ipn-acento)}
+.trayectoria-minimapa svg{display:block;width:100%;height:auto;max-height:260px}
+.trayectoria-minimapa .mm-leg{display:flex;flex-direction:column;align-items:center;gap:var(--ipn-esp-1);margin-top:var(--ipn-esp-2);font-size:var(--ipn-tamano-xs);color:var(--ipn-texto)}
+[data-sate-generico] #v-tray,[data-sate-generico] #v-hor,[data-sate-generico] #sate-trayectoria{min-width:0;max-width:100%;overflow-wrap:anywhere}
+[data-sate-generico] .mapwrap,[data-sate-generico] .calwrap{max-width:100%;min-width:0}
+/* Un solo bloque evita que la altura del minimapa se reparta entre los datos del SAES. */
+.trayectoria-datos{grid-column:1;grid-row:2 / span 4;align-self:start;display:grid;gap:.35rem;min-width:0}
+.trayectoria-datos p{margin:0;line-height:1.6}
+@media(max-width:720px){.trayectoria-datos{grid-row:3}}
+[data-sate-generico] .box,[data-sate-generico] .blk{cursor:default}
+[data-sate-generico] .areas{position:relative;height:30px}
+[data-sate-generico] .tl-name{cursor:default}
+[data-sate-generico] .tl-row>span:last-child{align-self:center;padding:8px;font-size:.78rem}
+.horario-inscrito{border-collapse:collapse;width:100%;font-size:.84rem;text-align:left}
+.horario-inscrito caption{text-align:left;font-weight:600;margin-bottom:8px}
+.horario-inscrito th,.horario-inscrito td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.horario-inscrito td:first-child{border-left:4px solid hsl(var(--h),55%,45%)}
+.horario-inscrito small{display:block;color:var(--muted)}
+@media(max-width:720px){.horario-inscrito,.horario-inscrito tbody{display:block}.horario-inscrito thead{display:none}.horario-inscrito tr{display:block;border:1px solid var(--line);border-left:4px solid hsl(var(--h),55%,45%);border-radius:var(--r);margin-bottom:10px;padding:8px}.horario-inscrito td{display:block;border:0;padding:4px;overflow-wrap:anywhere}.horario-inscrito td:first-child{border:0}.horario-inscrito td::before{content:attr(data-label);display:block;color:var(--muted);font-size:.72rem}}
+@media(max-width:720px){#sate-presente:has(.trayectoria-minimapa){grid-template-columns:minmax(0,1fr)}.trayectoria-minimapa{grid-column:1;grid-row:2;width:100%}}
+.trayectoria-escenario{padding:1rem 0;border-block:1px solid var(--ipn-linea);margin:1rem 0}
+#sate-avisos-globales{margin-block:.65rem}
+.sate-barra__btn .sate-pestana__texto{white-space:nowrap;overflow-wrap:normal}
+@media(max-width:720px){.sate-barra__btn{min-width:0;padding-inline:.3rem;font-size:.72rem}}
+@media(prefers-reduced-motion:reduce){.sate-pestana,.sate-barra__btn{transition:none}}
+
+.mm-leg .mm-fila{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--ipn-esp-1) var(--ipn-esp-3)}
+.semana-campos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}
+.semana-campos p{grid-column:1/-1}
+#semana-opciones{margin:12px 0}
+#semana-opciones .semana-campos{margin-top:12px}
+#mi-semana{margin-bottom:12px;color:var(--ipn-texto)}
+#mi-semana p{font-size:.84rem;overflow-wrap:anywhere}
+#mi-semana .field,#mi-semana input,#mi-semana select{min-width:0;max-width:100%;box-sizing:border-box}
+#mi-semana .ownrow{flex-wrap:wrap}
+.semana-item{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.semana-acc{display:inline-flex;gap:6px;flex-wrap:wrap}
+.semana-ayuda-corta{flex-basis:100%;margin:0;color:var(--ipn-tenue)}
+.semana-ficha{display:grid;gap:12px}
+.semana-ficha .err:empty{display:none}
+.semana-ficha .err{color:var(--ipn-reprobada);margin:0}
+.aviso-deshacer{display:flex;gap:8px;align-items:center;margin:8px 0;font-size:.84rem}
+.blk.own:focus-visible,.ag-it.own:focus-visible{outline:2px solid var(--ipn-acento);outline-offset:1px}
+.semana-barra{display:flex;height:18px;overflow:hidden;border-radius:8px;background:var(--ipn-superficie)}
+.semana-parte{flex-shrink:0;background:var(--ipn-acento)}
+.semana-parte-1{background:var(--ipn-ok)}
+.semana-parte-2{background:var(--ipn-desfasada)}
+.semana-parte-3{background:var(--ipn-reprobada)}
+.semana-parte-4{background:var(--ipn-tenue)}
+.semana-parte-5{background:var(--ipn-texto)}
+.semana-parte-6{background:var(--ipn-linea)}
+
+/* Etiquetas cortas sin cambiar la acción ni duplicar controles. */
+.sate-texto-corto{display:none}
+.plan-menu,.plan-menu-cuerpo{display:contents}
+.plan-menu>summary{display:none}
+.plan-bandeja #plan-simular{order:0}.plan-bandeja #b-go{order:1}.plan-bandeja #b-none{order:2}.plan-bandeja #plan-deshacer{order:3}
+.trayectoria-plegable{margin-block:var(--ipn-esp-3);border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio)}
+.trayectoria-plegable>summary{cursor:pointer;padding:var(--ipn-esp-3);font-weight:600}
+.trayectoria-plegable>summary small{display:block;font-weight:400;color:var(--ipn-tenue);margin-top:var(--ipn-esp-1)}
+.trayectoria-plegable>summary:focus-visible,.plan-menu>summary:focus-visible{outline:2px solid var(--sate-realce);outline-offset:2px}
+.trayectoria-plegable>div{padding:var(--ipn-esp-3);min-width:0}
+@media(max-width:720px){
+  .sate-texto-largo{display:none!important}.sate-texto-corto{display:inline}
+  header.top{padding-top:var(--ipn-esp-2);gap:var(--ipn-esp-1)}
+  .sate-fila-avisos{flex-wrap:nowrap;overflow-x:auto;margin-block:var(--ipn-esp-1);gap:var(--ipn-esp-1)}
+  #sate-avisos-globales{flex:none;margin:0}
+  #sate-avisos-globales .sate-chips{flex-wrap:nowrap;gap:var(--ipn-esp-1);padding:var(--ipn-esp-1)}
+  #sate-avisos-globales .sate-chip{font-size:var(--ipn-tamano-xs);padding-inline:var(--ipn-esp-2);gap:var(--ipn-esp-1)}
+  .sate-datos{gap:var(--ipn-esp-1)}
+  .sate-navegacion{margin-top:0}
+  #v-tray{padding-bottom:calc(160px + env(safe-area-inset-bottom,0px))}
+  .plan-bandeja{position:fixed;left:var(--ipn-esp-2);right:var(--ipn-esp-2);bottom:calc(96px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:nowrap;gap:var(--ipn-esp-1);padding:var(--ipn-esp-2);background:var(--ipn-superficie);border-color:var(--ipn-linea)}
+  .plan-bandeja .plan-resumen{display:block;flex:1;min-width:0;font-size:var(--ipn-tamano-xs);white-space:nowrap}
+  .plan-bandeja .plan-resumen .sate-texto-corto{border:0;padding:0;white-space:nowrap}
+  .plan-bandeja .actions{flex-wrap:nowrap;flex:none;gap:var(--ipn-esp-1);margin:0}
+  .plan-bandeja .btn{padding:var(--ipn-esp-1);min-height:2.5rem;font-size:var(--ipn-tamano-xs)}
+  .plan-bandeja #b-go{order:0}.plan-bandeja #plan-deshacer{order:1}
+  .plan-menu{display:block;position:relative;order:2}
+  .plan-menu>summary{display:grid;place-items:center;list-style:none;width:2.5rem;min-height:2.5rem;cursor:pointer;border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio)}
+  .plan-menu>summary::-webkit-details-marker{display:none}
+  .plan-menu-cuerpo{display:none}
+  .plan-menu[open]>.plan-menu-cuerpo{display:flex;flex-direction:column;position:absolute;right:0;bottom:calc(100% + var(--ipn-esp-2));width:max-content;max-width:80vw;padding:var(--ipn-esp-2);gap:var(--ipn-esp-1);background:var(--ipn-superficie);border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio)}
+}
+
+/* Identidad y controles compactos, compartidos por los asistentes y el Lector. */
+.tramite-identidad{display:flex;align-items:center;flex-wrap:wrap;gap:var(--ipn-esp-2)}
+.tramite-identidad span{min-width:0}
+.tramite-datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:0 var(--ipn-esp-3)}
+.tramite-datos>h3,.tramite-datos>.tramite-acciones{grid-column:1 / -1}
+.tramite-campo input:not([type=checkbox]),.tramite-campo select{min-height:2.25rem;padding:6px 8px}
+#sate-tramites .sate-btn,.tramite-datos .sate-btn{min-height:2.25rem;padding-inline:var(--ipn-esp-3);font:inherit}
+.saes-dlg .tramite-datos{font-size:1rem}
+.saes-dlg .tramite-acciones{position:static}
+.chosen-requisitos{margin-top:12px;font-size:.85rem}
+.chosen-requisitos summary{display:flex;align-items:center;flex-wrap:wrap;gap:8px;cursor:pointer}
+.req-ver{border:1px solid var(--line);border-radius:var(--r);padding:4px 8px;color:var(--accent)}
+.req-ver::before{content:'▸ ';display:inline-block}
+.chosen-requisitos[open] .req-ver::before{content:'▾ '}
+.chosen-requisitos[open] .req-ver{background:var(--surface)}
+.req-tabla{width:100%;table-layout:fixed;border-collapse:collapse;margin-top:8px}
+.req-tabla th,.req-tabla td{text-align:left;padding:7px 8px;overflow-wrap:anywhere;font-weight:400}
+.req-tabla thead{color:var(--muted)}
+.req-tabla .req-area th{border-left:4px solid var(--area);background:var(--surface);font-weight:600}
+.req-fila{cursor:pointer;border-bottom:1px solid var(--line)}
+.req-fila:hover,.req-fila:focus-visible{background:var(--surface);outline:2px solid var(--accent);outline-offset:-2px}
+.req-elegido{display:block;color:var(--accent)}
+.req-etiqueta{display:none}
+.req-acreditados{margin:8px 0}
+.tl-acciones{display:flex;align-items:stretch}
+.tl-acciones>[data-ayuda-creditos]{align-self:center}
+.tl-row.hpre{outline:2px solid var(--rel-pre);outline-offset:-2px}
+.tl-row.hpost{outline:2px solid var(--rel-post);outline-offset:-2px}
+@media(max-width:720px){
+  .req-tabla,.req-tabla tbody,.req-tabla tr,.req-tabla th,.req-tabla td{display:block;width:auto}
+  .req-tabla thead{display:none}
+  .req-tabla .req-fila{margin:6px 0;border:1px solid var(--line);border-radius:var(--r)}
+  .req-fila td{padding-top:0;font-size:.8rem}
+  .req-etiqueta{display:inline;color:var(--muted)}
+}
+

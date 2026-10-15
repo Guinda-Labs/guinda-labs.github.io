@@ -67,8 +67,8 @@ var IPNT=window.IPNT=(()=>{
     return {ipnt:1,tipo:'perfil',app:'IPN-tools',version:CFG.version||'',unidad:CFG.unidad||'',guardado:new Date().toISOString(),claves,borrados};
   }
   function validar(d){
-    if(!d||typeof d!=='object'||d.tipo!=='perfil'||typeof d.claves!=='object') throw new Error('El archivo no es un perfil de IPN-tools.');
-    if(!(d.ipnt>=1)) throw new Error('El archivo no es un perfil de IPN-tools.');
+    if(!d||typeof d!=='object'||d.tipo!=='perfil'||typeof d.claves!=='object') throw new Error('El archivo no es un perfil de SATE.');
+    if(!(d.ipnt>=1)) throw new Error('El archivo no es un perfil de SATE.');
     if(d.ipnt>1) throw new Error('El perfil se guardó con una versión más nueva de la herramienta. Actualiza la página.');
     return d;
   }
@@ -487,7 +487,7 @@ const SAES={
     document.addEventListener('click',e=>{if(!e.target.closest?.('[data-saes-open]'))return;e.preventDefault();SAES.open()});
     dl.querySelector('#saes-x').addEventListener('click',()=>SAES.close());
     dl.addEventListener('click',e=>{if(e.target===dl)SAES.close()});   // clic fuera de la ventana
-    const take=async t=>{const d=SAES.parse(t);if(!d){msg.innerHTML='<span class="bad">El contenido no corresponde al Lector IPN-tools. Ejecuta el marcador en el SAES y selecciona «Copiar mis datos».</span>';return}
+    const take=async t=>{const d=SAES.parse(t);if(!d){msg.innerHTML='<span class="bad">El contenido no corresponde al marcador SATE. Ejecuta el marcador en el SAES y selecciona «Copiar mis datos».</span>';return}
       // Datos de otra unidad: se guardan y se abre el SATE de esa unidad (cualquier unidad tiene SATE).
       const suya=String(d.unidad||'upiita');
       if(suya!==SAES.U()&&/^[a-z0-9-]+$/.test(suya)){SAES.save(d);paste.value='';
@@ -1290,9 +1290,9 @@ function simKardex(){
 // Sin el denominador oficial no es posible reconstruir el promedio del SAES desde sus acreditaciones.
 function promEstimado(){return ALUMNO?.promedio??null}
 /* Promedio oficial (el del SAES): promedio de todo lo que aparece en el kárdex, aprobadas y reprobadas.
-   Exacto: si el Lector trajo los renglones reprobados del kárdex (kardex_reprobadas) y su promedio junto con las aprobadas
+   Exacto: si el marcador SATE trajo los renglones reprobados del kárdex (kardex_reprobadas) y su promedio junto con las aprobadas
    coincide con el promedio oficial, se suman las materias simuladas (aprobadas con su calificación, reprobadas con
-   REPROB_CAL). Estimado: con datos de un Lector anterior se deduce cuántas reprobadas pesan suponiendo REPROB_CAL.
+   REPROB_CAL). Estimado: con datos de una versión anterior del marcador SATE se deduce cuántas reprobadas pesan suponiendo REPROB_CAL.
    Devuelve null si no se puede calcular. */
 const REPROB_CAL=5;
 function promOficialSim(){
@@ -1712,7 +1712,7 @@ $('#b-go').addEventListener('click',()=>{S.onlyWant=true;store.set('onlyWant',tr
 })();
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(SATE.modulos.mapa&&S.tab==='tray'&&ZOOM==null)renderMap()},150)});
 $('#foot-info').textContent=SATE.texto('sate.pie')+' ';
-{const b=document.createElement('button');b.type='button';b.className='enc-link';b.dataset.encuesta='';b.textContent='Dar mi opinión sobre IPN-tools';$('#foot').appendChild(b)}
+{const b=document.createElement('button');b.type='button';b.className='enc-link';b.dataset.encuesta='';b.textContent='Dar mi opinión sobre SATE';$('#foot').appendChild(b)}
 // contexto anónimo para la encuesta (tools/encuesta.py): sin nombre, boleta ni calificaciones
 window.ENCUESTA_CTX=()=>({carrera:S.car,demo:DEMO,conDatos:isPersonal(),elegidas:tr().want.length,enHorario:selected().length,
   lector:DEMO||!ALUMNO?'':ALUMNO.lector||'anterior',datosDias:ALUMNO?.leido&&!DEMO?Math.floor((Date.now()-new Date(ALUMNO.leido))/864e5):null});
