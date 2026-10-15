@@ -2,6 +2,7 @@
 <html lang="es">
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; object-src 'none'; script-src-attr 'none'; base-uri 'self'; form-action 'self'; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://accounts.google.com; connect-src 'self' https://login.microsoftonline.com https://graph.microsoft.com https://*.files.1drv.com https://*.sharepoint.com https://*.storage.live.com https://www.googleapis.com https://accounts.google.com; frame-src 'self' https://login.microsoftonline.com https://accounts.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+<!-- CSP: accounts.google.com y www.googleapis.com se conservan SOLO mientras exista la migración de datos de Google a Microsoft (GOOG1, data/cuenta.json googleSoloMigracion); al retirarla, quitarlos. -->
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <script>if(window.top!==window.self){let propio=false;try{propio=window.top.location.origin===location.origin}catch(e){}if(!propio){document.documentElement.hidden=true;document.documentElement.style.setProperty('display','none','important')}}</script>
 
@@ -26,7 +27,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap">
 <style>
-:root{--bg:#fafafa;--surface:#fff;--fg:#18181b;--muted:#52525b;--line:#d9d9de;--accent:#750946;--accent-fg:#fff;--ok:#3a6449;--warn:#6e521d;--bad:#9e2f52;--r:6px}
+:root{--bg:#fafafa;--surface:#fff;--fg:#18181b;--muted:#52525b;--line:#d9d9de;--accent:#750946;--accent-fg:#fff;--ok:#3a6449;--warn:#6e521d;--bad:#9e2f52;--ipn-radio:0.75rem;--r:var(--ipn-radio)}
 @media (prefers-color-scheme:dark){:root{--bg:#09090b;--surface:#18181b;--fg:#e4e4e7;--muted:#a1a1aa;--line:#323237;--accent:#ec9cbf;--accent-fg:#1d0a13;--ok:#93c4a2;--warn:#dcbd88;--bad:#ee9fb7;color-scheme:dark}}
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 "Noto Sans",system-ui,sans-serif;padding-inline:16px}
 main{max-width:760px;margin:0 auto;padding-block:48px 40px}
@@ -91,6 +92,15 @@ main{max-width:760px;margin:0 auto;padding-block:48px 40px}
 .ipnt-conf-op .btn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:10px 14px;border-radius:10px;height:auto;white-space:normal}
 .ipnt-conf-op small{font-weight:400;font-size:.8rem;color:inherit;opacity:.85}
 .ipnt-prueba{margin:10px 0 0;font-size:.84rem;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.ipnt-mig-link{margin:12px 0 0;font-size:.84rem}.ipnt-mig-link .link{white-space:normal;text-align:start}
+.ipnt-mig{margin:12px 0 0;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.ipnt-mig h3{margin:0 0 8px}
+.ipnt-mig ol{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:14px}
+.ipnt-mig li{display:grid;gap:4px;padding-left:12px;border-left:3px solid var(--line);opacity:.7}
+.ipnt-mig li.ahora{border-left-color:var(--accent);opacity:1}
+.ipnt-mig li.hecho{border-left-color:var(--ok)}
+.ipnt-mig li p{margin:0;font-size:.86rem;color:var(--muted)}
+.ipnt-mig li .row{margin-top:4px}
 .ipnt-hola{width:min(640px,calc(100vw / var(--ui-zoom,1) - 32px));max-height:calc(100dvh - 24px);overflow:auto}
 .ipnt-hola .lead{margin:0;font-size:.95rem;color:var(--muted)}
 .ipnt-unis{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
@@ -139,11 +149,9 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:v
     <div class="row" style="margin-top:12px"><button class="btn primary ipnt-ms" id="ipnt-login" type="button">
       <svg viewBox="0 0 21 21" width="16" height="16" aria-hidden="true"><path fill="#f25022" d="M1 1h9v9H1z"/><path fill="#7fba00" d="M11 1h9v9h-9z"/><path fill="#00a4ef" d="M1 11h9v9H1z"/><path fill="#ffb900" d="M11 11h9v9h-9z"/></svg>
       Continuar con Microsoft</button>
-      <button class="btn ipnt-ms" id="ipnt-glogin" type="button" hidden>
-      <svg viewBox="0 0 48 48" width="16" height="16" aria-hidden="true"><path fill="#ea4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.2C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285f4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.5 5.8c4.4-4 6.8-10 6.8-17.2z"/><path fill="#fbbc05" d="M10.6 28.5c-.5-1.4-.8-2.9-.8-4.5s.3-3.1.8-4.5l-7.9-6.2C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.9-6.2z"/><path fill="#34a853" d="M24 48c6.5 0 11.9-2.1 15.8-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.3 2.3-6.2 0-11.5-4.1-13.4-9.8l-7.9 6.2C6.6 42.6 14.6 48 24 48z"/></svg>
-      Continuar con Google</button></div>
-    <p class="saes-note" style="margin:8px 0 0">Microsoft: se guarda en tu OneDrive.<span id="ipnt-gnote" hidden> Google: se guarda en el espacio privado de la aplicación en tu Google Drive.</span></p>
-    <p class="ipnt-prueba ipnt-msprueba" hidden><b>Cuentas institucionales en proceso de autorización.</b> El acceso con @alumno.ipn.mx e @ipn.mx estará disponible cuando la aplicación sea autorizada por el área de cómputo del IPN. Mientras tanto, puedes usar una cuenta personal de Microsoft (Outlook o Hotmail) o tu cuenta de Google.</p><p class="ipnt-prueba"  hidden><b>Acceso con Google en fase de prueba.</b> Durante esta etapa, el inicio de sesión con Google está disponible solo para las cuentas registradas como usuarios de prueba. Para solicitar acceso, escribe a <span class="ipnt-contacto"></span> desde la cuenta de Google que deseas usar.</p>
+</div>
+    <p class="saes-note" style="margin:8px 0 0">Se guarda en tu OneDrive.</p>
+    <p class="ipnt-prueba ipnt-msprueba" hidden><b>Cuentas institucionales en proceso de autorización.</b> El acceso con @alumno.ipn.mx e @ipn.mx estará disponible cuando la aplicación sea autorizada por el área de cómputo del IPN. Mientras tanto, puedes usar una cuenta personal de Microsoft (Outlook o Hotmail).</p>
     <p class="saes-note" id="ipnt-soon" style="margin:8px 0 0">El inicio de sesión estará disponible próximamente. Mientras tanto, usa el respaldo en archivo.</p>
   </div>
   <div id="ipnt-in" hidden>
@@ -151,6 +159,22 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:v
     <div class="row" style="margin-top:10px"><button class="btn" id="ipnt-sync" type="button">Sincronizar ahora</button><button class="btn primary" id="ipnt-relogin" type="button" hidden>Volver a iniciar sesión</button><button class="btn" id="ipnt-logout" type="button">Cerrar sesión</button></div>
     <label class="chk"><input type="checkbox" id="ipnt-saes"><span>Guardar también mis datos del SAES (kárdex, estado general y cita) en mi nube.</span></label>
   </div>
+  <div class="ipnt-mig-link" id="ipnt-mig"><button class="link" id="ipnt-mig-link" type="button" hidden>¿Guardaste tus datos con Google? Pásalos a Microsoft</button></div>
+  <section class="ipnt-mig" id="ipnt-mig-panel" aria-labelledby="ipnt-mig-h" hidden>
+    <h3 id="ipnt-mig-h">Pasa tus datos de Google a Microsoft</h3>
+    <p class="ipnt-state warn" id="ipnt-mig-aviso" hidden>Tu navegador recuerda una sesión de Google. Ya no sincronizamos con Google: pasa tus datos a Microsoft para seguir guardándolos en tu nube.</p>
+    <ol id="ipnt-mig-pasos">
+      <li id="ipnt-mig-p1"><b>1. Trae tus datos de Google</b><p>Iniciarás sesión con Google solo para leer tu perfil guardado. No escribimos nada en tu Drive.</p>
+        <div class="row"><button class="btn ipnt-ms" id="ipnt-mig-1" type="button">Traer mis datos de Google</button></div></li>
+      <li id="ipnt-mig-p2"><b>2. Se guardan en este navegador</b><p>Tus datos quedan en este navegador, sin cambiar nada en Google.</p></li>
+      <li id="ipnt-mig-p3"><b>3. Continúa con Microsoft</b><p>Inicia sesión con tu cuenta de Microsoft (Outlook, Hotmail o institucional) para guardarlos en tu OneDrive.</p>
+        <div class="row"><button class="btn primary ipnt-ms" id="ipnt-mig-3" type="button"><svg viewBox="0 0 21 21" width="16" height="16" aria-hidden="true"><path fill="#f25022" d="M1 1h9v9H1z"/><path fill="#7fba00" d="M11 1h9v9h-9z"/><path fill="#00a4ef" d="M1 11h9v9H1z"/><path fill="#ffb900" d="M11 11h9v9h-9z"/></svg><span>Continuar con Microsoft</span></button></div></li>
+    </ol>
+    <p class="ipnt-state" id="ipnt-mig-msg" aria-live="polite"></p>
+    <div id="ipnt-mig-fin" hidden><p class="ipnt-state ok" style="margin:0">Listo: tus datos están en tu OneDrive. Ya no usaremos Google.</p>
+      <div class="row" style="margin-top:8px"><button class="btn" type="button" data-ipnt-reload>Recargar para verlos</button><button class="btn" id="ipnt-mig-x" type="button">Cerrar aviso</button></div></div>
+    <p class="saes-note" style="margin:10px 0 0">No borramos nada de tu Google Drive. Si quieres eliminar el archivo: en drive.google.com abre Configuración, luego Administrar aplicaciones, busca la aplicación y elige «Eliminar datos ocultos de la app».</p>
+  </section>
   <h3>En este navegador</h3>
   <label class="chk"><input type="checkbox" id="ipnt-mantener"><span>¿Mantener tu sesión y tus datos en este navegador?</span></label>
   <p class="saes-note">Si sincronizas con tu cuenta Microsoft, tus datos quedan en tu OneDrive y no se pierden aunque no los guardes aquí. Si solo usas este navegador, se borrarán al cerrarlo.</p>
@@ -162,13 +186,12 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:v
   <p class="saes-note" style="margin:0 0 8px">Descarga tus datos para guardarlos o pasarlos a otro navegador. Restaurar reemplaza los datos de este navegador por los del archivo.</p>
   <div class="row"><button class="btn" id="ipnt-down" type="button">Descargar respaldo</button><label class="btn ipnt-file">Restaurar desde archivo<input type="file" id="ipnt-file" accept=".json,application/json"></label></div>
   <p class="ipnt-state" id="ipnt-filemsg" aria-live="polite"></p>
-  <p class="saes-note" style="margin:14px 0 0">Tus datos se guardan en tu propia nube: en OneDrive, en la <b>carpeta de la aplicación</b>; en Google Drive, en un espacio privado de la aplicación que no aparece entre tus archivos. La herramienta solo tiene acceso a ese espacio. No hay servidor intermedio: nadie más puede consultarlos. <a href="privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a> · <a href="condiciones.html" target="_blank" rel="noopener">Condiciones de uso</a></p>
+  <p class="saes-note" style="margin:14px 0 0">Tus datos se guardan en tu propia nube: en tu OneDrive, en la <b>carpeta de la aplicación</b>. La herramienta solo tiene acceso a ese espacio. No hay servidor intermedio: nadie más puede consultarlos. <a href="privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a> · <a href="condiciones.html" target="_blank" rel="noopener">Condiciones de uso</a></p>
 </dialog>
 <dialog class="saes-dlg ipnt-dlg" id="ipnt-privacidad" aria-labelledby="ipnt-privacidad-h">
   <h2 id="ipnt-privacidad-h">¿Mantener tu sesión y tus datos en este navegador?</h2>
   <label class="chk"><input type="checkbox" id="ipnt-privacidad-mantener"><span>Mantener la sesión y los datos al cerrar el navegador.</span></label>
-  <p>Si sincronizas con tu cuenta Microsoft, tus datos quedan en tu OneDrive y no se pierden aunque no los guardes aquí. Si solo usas este navegador, se borrarán al cerrarlo.</p>
-  <p class="saes-note">Sin marcar, se conservan en esta pestaña hasta cerrarla. Puedes cambiar esta opción desde tu cuenta.</p>
+  <p>Con tu cuenta Microsoft sincronizada, tus datos siguen en OneDrive. Sin ella y sin marcar la casilla, se borran al cerrar esta pestaña.</p>
   <p id="ipnt-privacidad-error" role="alert"></p>
   <button class="btn primary" type="button">Continuar</button>
 </dialog>
@@ -191,7 +214,7 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:v
   <div class="alt">
     <div id="ipnt-h-login"><p style="margin:0 0 8px;font-size:.92rem">¿Ya la usaste en otro dispositivo? Inicia sesión y se cargan tus datos.</p>
       <div class="row"><button class="btn ipnt-ms" id="ipnt-h-ms" type="button" data-prov="ms"><svg viewBox="0 0 21 21" width="16" height="16" aria-hidden="true"><path fill="#f25022" d="M1 1h9v9H1z"/><path fill="#7fba00" d="M11 1h9v9h-9z"/><path fill="#00a4ef" d="M1 11h9v9H1z"/><path fill="#ffb900" d="M11 11h9v9h-9z"/></svg>Continuar con Microsoft</button>
-      <button class="btn ipnt-ms" id="ipnt-h-go" type="button" data-prov="google"><svg viewBox="0 0 48 48" width="16" height="16" aria-hidden="true"><path fill="#ea4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.2C12.5 13.6 17.8 9.5 24 9.5z"/><path fill="#4285f4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.5 5.8c4.4-4 6.8-10 6.8-17.2z"/><path fill="#fbbc05" d="M10.6 28.5c-.5-1.4-.8-2.9-.8-4.5s.3-3.1.8-4.5l-7.9-6.2C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.9-6.2z"/><path fill="#34a853" d="M24 48c6.5 0 11.9-2.1 15.8-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.3 2.3-6.2 0-11.5-4.1-13.4-9.8l-7.9 6.2C6.6 42.6 14.6 48 24 48z"/></svg>Continuar con Google</button></div><p class="ipnt-prueba ipnt-msprueba" hidden><b>Cuentas institucionales en proceso de autorización.</b> El acceso con @alumno.ipn.mx e @ipn.mx estará disponible cuando la aplicación sea autorizada por el área de cómputo del IPN. Mientras tanto, puedes usar una cuenta personal de Microsoft (Outlook o Hotmail) o tu cuenta de Google.</p><p class="ipnt-prueba"  hidden><b>Acceso con Google en fase de prueba.</b> Durante esta etapa, el inicio de sesión con Google está disponible solo para las cuentas registradas como usuarios de prueba. Para solicitar acceso, escribe a <span class="ipnt-contacto"></span> desde la cuenta de Google que deseas usar.</p></div>
+</div><p class="ipnt-prueba ipnt-msprueba" hidden><b>Cuentas institucionales en proceso de autorización.</b> El acceso con @alumno.ipn.mx e @ipn.mx estará disponible cuando la aplicación sea autorizada por el área de cómputo del IPN. Mientras tanto, puedes usar una cuenta personal de Microsoft (Outlook o Hotmail).</p></div>
     <p id="ipnt-h-yo" hidden style="margin:0;font-size:.92rem"></p>
     <p class="ipnt-state" id="ipnt-h-msg" aria-live="polite"></p>
     <p style="margin:6px 0 0"><button class="link" type="button" data-hola-x>Explorar sin elegir</button></p>
@@ -206,11 +229,8 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:v
   <p style="margin-top:14px;font-size:.9rem"><a href="revision.html">Guía de revisión</a>: instructivo, perfil de demostración y casos de prueba.</p>
 
   <h2>Tus datos</h2>
-  <p>GuindaLabs no tiene servidor ni base de datos: todo se procesa en tu navegador. Si quieres usar tus datos en varios dispositivos, puedes iniciar sesión con Microsoft o con Google. Tu información se guarda en tu propio OneDrive o Google Drive, en un espacio al que solo tiene acceso la aplicación.</p>
-  <ul>
-    <li>Con Microsoft: acceso a la carpeta de la aplicación de tu OneDrive.</li>
-    <li>Con Google: acceso al espacio privado de la aplicación en tu Google Drive (no ve tus demás archivos).</li>
-  </ul>
+  <p>GuindaLabs no tiene servidor ni base de datos: todo se procesa en tu navegador. Si quieres usar tus datos en varios dispositivos, puedes iniciar sesión con Microsoft. Tu información se guarda en tu propio OneDrive, en la carpeta de la aplicación, a la que solo tiene acceso la aplicación.</p>
+  <p>Si antes guardaste tus datos con Google, desde «Iniciar sesión» puedes pasarlos a Microsoft; Google ya no se usa para iniciar sesión.</p>
   <p>Consulta el <a href="privacidad.html">aviso de privacidad</a> y las <a href="condiciones.html">condiciones de uso</a>.</p>
 
   <footer><span>Herramienta independiente; la inscripción oficial se hace en el SAES.</span><a href="privacidad.html">Aviso de privacidad</a><a href="condiciones.html">Condiciones de uso</a><a href="https://github.com/Silver-VS/IPN-tools">Código fuente</a><div class="ipnt-apoyo"><a href="https://github.com/sponsors/Silver-VS" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg><span>Apoya el proyecto</span></a><small>Donar es voluntario; el proyecto es gratuito y lo mantiene un alumno del IPN.</small></div></footer>
@@ -219,7 +239,7 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:v
 
 /* ---------- perfil IPN-tools: respaldo y sincronización con la cuenta institucional (tools/cuenta.py) ---------- */
 var IPNT=window.IPNT=(()=>{
-  const CFG={"clientId": "7e8e5a95-4337-4652-8b07-3450306cda8f", "tenant": "common", "googleClientId": "959269733-d3h3qm0dtqpshebnabum1jr2g0l6geoa.apps.googleusercontent.com", "unidades": [{"id": "upiita", "disponible": true, "url": "horarios-upiita.html", "siglas": "UPIITA", "nombre": "Unidad Profesional Interdisciplinaria en Ingenier\u00eda y Tecnolog\u00edas Avanzadas"}, {"id": "escom", "disponible": true, "url": "horarios-escom.html", "siglas": "ESCOM", "nombre": "Escuela Superior de C\u00f3mputo"}, {"id": "upibi", "disponible": true, "url": "horarios-upibi.html", "siglas": "UPIBI", "nombre": "Unidad Profesional Interdisciplinaria de Biotecnolog\u00eda"}], "googlePrueba": true, "contacto": "vacevess1900@alumno.ipn.mx", "institucionalPendiente": true, "version": "1.2.0", "unidad": "upiita", "msal": "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.30.0/lib/msal-browser.min.js", "sri": "sha384-RGxxfG5yRS8DLU7ZJ8OoLhbV/BsJFHyPuMVHrTLbpj3t5Z15LnviJmaznKY/a7LZ"}, FILE='perfil.ipnt.json', MS_SCOPES=['Files.ReadWrite.AppFolder'],
+  const CFG={"clientId": "7e8e5a95-4337-4652-8b07-3450306cda8f", "tenant": "common", "googleClientId": "959269733-d3h3qm0dtqpshebnabum1jr2g0l6geoa.apps.googleusercontent.com", "unidades": [{"id": "upiita", "disponible": true, "url": "horarios-upiita.html", "siglas": "UPIITA", "nombre": "Unidad Profesional Interdisciplinaria en Ingenier\u00eda y Tecnolog\u00edas Avanzadas"}, {"id": "escom", "disponible": true, "url": "horarios-escom.html", "siglas": "ESCOM", "nombre": "Escuela Superior de C\u00f3mputo"}, {"id": "upibi", "disponible": true, "url": "horarios-upibi.html", "siglas": "UPIBI", "nombre": "Unidad Profesional Interdisciplinaria de Biotecnolog\u00eda"}], "googleSoloMigracion": true, "t": {"migracion.enlace": "\u00bfGuardaste tus datos con Google? P\u00e1salos a Microsoft", "migracion.titulo": "Pasa tus datos de Google a Microsoft", "migracion.aviso_sesion": "Tu navegador recuerda una sesi\u00f3n de Google. Ya no sincronizamos con Google: pasa tus datos a Microsoft para seguir guard\u00e1ndolos en tu nube.", "migracion.paso1_titulo": "Trae tus datos de Google", "migracion.paso1_detalle": "Iniciar\u00e1s sesi\u00f3n con Google solo para leer tu perfil guardado. No escribimos nada en tu Drive.", "migracion.paso1_boton": "Traer mis datos de Google", "migracion.paso2_titulo": "Se guardan en este navegador", "migracion.paso2_detalle": "Tus datos quedan en este navegador, sin cambiar nada en Google.", "migracion.paso3_titulo": "Contin\u00faa con Microsoft", "migracion.paso3_detalle": "Inicia sesi\u00f3n con tu cuenta de Microsoft (Outlook, Hotmail o institucional) para guardarlos en tu OneDrive.", "migracion.paso3_boton": "Continuar con Microsoft", "migracion.paso3_boton_sync": "Sincronizar con mi OneDrive", "migracion.abriendo": "Abriendo el inicio de sesi\u00f3n de Google\u2026", "migracion.leyendo": "Leyendo tu perfil guardado\u2026", "migracion.sin_perfil": "No encontramos un perfil guardado con esa cuenta de Google.", "migracion.traidos": "Listo: tus datos est\u00e1n guardados en este navegador. Falta el paso 3.", "migracion.listo": "Listo: tus datos est\u00e1n en tu OneDrive. Ya no usaremos Google.", "migracion.recargar": "Recargar para verlos", "migracion.cerrar": "Cerrar aviso", "migracion.borrar_archivo": "No borramos nada de tu Google Drive. Si quieres eliminar el archivo: en drive.google.com abre Configuraci\u00f3n, luego Administrar aplicaciones, busca la aplicaci\u00f3n y elige \u00abEliminar datos ocultos de la app\u00bb."}, "institucionalPendiente": true, "version": "1.2.0", "unidad": "upiita", "msal": "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.30.0/lib/msal-browser.min.js", "sri": "sha384-RGxxfG5yRS8DLU7ZJ8OoLhbV/BsJFHyPuMVHrTLbpj3t5Z15LnviJmaznKY/a7LZ"}, FILE='perfil.ipnt.json', MS_SCOPES=['Files.ReadWrite.AppFolder'],
     GO_SCOPES='openid email profile https://www.googleapis.com/auth/drive.appdata';
   // qué se guarda: todo lo de Horarios (hu.) y Electivas (ue.), menos el estado de pantalla de cada dispositivo
   const SYNC=/^(hu\.|ue\.)|^saes\.alumno$|^perfil\.opciones$/, LOCAL=/^hu\.(?:[a-z]+\.)?(tab|per|tur|niv|view|mview|cview|mobnote|cupos|cuposContexto)$/;
@@ -380,8 +400,8 @@ var IPNT=window.IPNT=(()=>{
     async salir(){try{if(this.pca)await this.pca.clearCache(this.acc?{account:this.acc}:{})}catch(e){console.warn('SATE: no se pudo limpiar la caché de Microsoft',{error:e.name})}this.acc=null}
   };
 
-  // Google + Google Drive (espacio privado de la aplicación, appDataFolder: no aparece entre los archivos del alumno).
-  // Sin servidor, Google entrega tokens de 1 hora sin renovación automática: al vencer se pide «Volver a conectar».
+  // Google Drive SOLO PARA MIGRAR (GOOG1): lee el perfil que el alumno guardó antes en el espacio privado de la aplicación
+  // (appDataFolder). Esta interfaz solo lee: no escribe nada en Drive. Google ya no es un proveedor de sesión.
   const GO={id:'google',nube:'Google Drive',tc:null,fid:null,
     disponible:()=>!!CFG.googleClientId,
     async listo(){
@@ -399,13 +419,13 @@ var IPNT=window.IPNT=(()=>{
       await this.listo();
       const r=await this.pedir(ls.obj('ipnt.gacc',null)?'':'select_account');
       if(!google.accounts.oauth2.hasGrantedAllScopes(r,'https://www.googleapis.com/auth/drive.appdata'))
-        throw new Error('Para guardar tus datos, autoriza el acceso al espacio de la aplicación en Google Drive.');
+        throw new Error('Para traer tus datos, autoriza la lectura del espacio de la aplicación en Google Drive.');
       ls.put('ipnt.gtok',{v:r.access_token,exp:Date.now()+(+r.expires_in||3600)*1000-60000});
       const u=await (await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+r.access_token}})).json();
       const a={name:u.name||'',username:u.email||''};ls.put('ipnt.gacc',a);return a;
     },
     tok:async()=>{const t=ls.obj('ipnt.gtok',null);if(t&&t.exp>Date.now())return t.v;throw expirada()},
-    D:'https://www.googleapis.com/drive/v3/files', U:'https://www.googleapis.com/upload/drive/v3/files',
+    D:'https://www.googleapis.com/drive/v3/files',   // solo GET
     async buscar(){
       const q=encodeURIComponent(`name='${FILE}' and trashed=false`);
       const r=await con(this.tok,`${this.D}?spaces=appDataFolder&q=${q}&fields=files(id,version)&orderBy=modifiedTime%20desc&pageSize=1`);
@@ -420,27 +440,10 @@ var IPNT=window.IPNT=(()=>{
       if(!c.ok) throw new Error('Google Drive respondió '+c.status+' al leer tu perfil.');
       return {doc:validar(await c.json()),ver:f.version};
     },
-    async subir(d,ver){
-      const body=JSON.stringify(d);
-      if(!this.fid){
-        if(await this.buscar()) return null;   // otro dispositivo lo creó mientras tanto: se vuelve a fusionar
-        const b='ipnt'+Math.random().toString(36).slice(2), meta={name:FILE,parents:['appDataFolder'],mimeType:'application/json'};
-        const r=await con(this.tok,`${this.U}?uploadType=multipart&fields=id`,{method:'POST',headers:{'Content-Type':'multipart/related; boundary='+b},
-          body:`--${b}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(meta)}\r\n--${b}\r\nContent-Type: application/json\r\n\r\n${body}\r\n--${b}--`});
-        if(!r.ok) throw new Error('Google Drive respondió '+r.status+' al guardar tu perfil.');
-        this.fid=(await r.json()).id;return true;
-      }
-      // Drive no admite escritura condicional: se comprueba la versión justo antes de escribir
-      const m=await con(this.tok,`${this.D}/${this.fid}?fields=version`);
-      if(m.ok&&ver&&(await m.json()).version!==ver) return null;
-      const r=await con(this.tok,`${this.U}/${this.fid}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json'},body});
-      if(!r.ok) throw new Error('Google Drive respondió '+r.status+' al guardar tu perfil.');
-      return true;
-    },
     async salir(){const t=ls.obj('ipnt.gtok',null);try{if(t&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(t.v,()=>{})}catch(e){}
       ls.del('ipnt.gtok');ls.del('ipnt.gacc');this.fid=null}
   };
-  const PROV={ms:MS,google:GO};
+  const PROV={ms:MS};   // Google no inicia sesión ni sincroniza: solo migra (ver «migración desde Google»)
 
   /* modo: 'login' (gana la nube y se recarga), 'abrir' y 'volver' (al abrir la página o regresar a la pestaña: se
      recarga si llegaron cambios de otro dispositivo), 'auto' (tras un cambio propio: solo se avisa) */
@@ -501,7 +504,7 @@ var IPNT=window.IPNT=(()=>{
     return busy;
   }
   const texto=e=>{const m=String(e?.errorMessage||e?.message||e||'');
-    if(/AADSTS65001|AADSTS90094|consent/i.test(m)) return 'Las cuentas institucionales del IPN aún no están disponibles: la aplicación está en proceso de autorización. Puedes usar una cuenta personal de Microsoft o tu cuenta de Google.';
+    if(/AADSTS65001|AADSTS90094|consent/i.test(m)) return 'Las cuentas institucionales del IPN aún no están disponibles: la aplicación está en proceso de autorización. Puedes usar una cuenta personal de Microsoft (Outlook o Hotmail).';
     if(/user_cancelled|cancel|access_denied/i.test(m)) return 'Inicio de sesión cancelado.';
     if(/popup_window_error/i.test(m)) return 'El navegador bloqueó la ventana de inicio de sesión. Permite las ventanas emergentes para este sitio.';
     return m.split('\n')[0].slice(0,220)};
@@ -514,12 +517,10 @@ var IPNT=window.IPNT=(()=>{
       const a=await p.entrar();if(!a)return;   // redirección en curso
       if(prov&&prov!==p) await prov.salir();
       prov=p;cuenta=a;ls.set('ipnt.prov',id);ls.set('ipnt.cuenta',a.username);
+      if(migEtapa()==='datos'){ls.set('ipnt.mig','fin');await GO.salir()}   // los datos de Google ya están aquí: se cierra la lectura
       window.dispatchEvent(new Event('ipnt-cuenta'));
       await sincronizar('login');
-    }catch(e){st.fase='error';st.error=texto(e);
-      if(id==='google'&&CFG.googlePrueba&&/cancelado|access_denied/i.test(st.error+String(e?.message)))
-        st.error='No se completó el inicio de sesión con Google. Durante la fase de prueba solo pueden acceder las cuentas registradas'+(CFG.contacto?`; para solicitar acceso, escribe a ${CFG.contacto}.`:'.');
-      pintar()}
+    }catch(e){st.fase='error';st.error=texto(e);pintar()}
   }
   async function salir(borrarLocal){
     borrarLocal=borrarLocal||ls.get('ipnt.publica')==='si';
@@ -548,6 +549,36 @@ var IPNT=window.IPNT=(()=>{
     location.reload();
   };
 
+  /* ---- migración desde Google (GOOG1): solo LEE el perfil de Drive; no escribe nada ---- */
+  const tx=k=>CFG.t?.['migracion.'+k]||'';
+  const migEtapa=()=>ls.get('ipnt.mig')||'';   // '' → paso 1 · 'datos' → pasos 1 y 2 hechos · 'fin' → terminado
+  const googleGuardado=()=>ls.get('ipnt.prov')==='google'||!!ls.get('ipnt.gacc');
+  const migDisponible=()=>!!CFG.googleSoloMigracion&&GO.disponible();
+  let migAbierto=false;
+  async function migrarLeer(){
+    const m=$i('ipnt-mig-msg'),nota=(t,c)=>{m.className='ipnt-state '+(c||'');m.textContent=t};
+    $i('ipnt-mig-1').disabled=true;
+    try{
+      await privacidad();
+      nota(tx('abriendo'));await GO.entrar();
+      nota(tx('leyendo'));const {doc}=await GO.bajar();
+      if(!doc){nota(tx('sin_perfil'),'bad');return}
+      fusionar(doc,false);   // gana lo más reciente; nada se borra aquí
+      ls.set('ipnt.mig','datos');
+      if(ls.get('ipnt.prov')==='google'){ls.del('ipnt.prov');ls.del('ipnt.cuenta')}
+      await GO.salir();   // solo revoca el permiso de lectura y olvida la cuenta de Google
+      nota(tx('traidos'),'ok');
+    }catch(e){nota(texto(e),'bad')}
+    finally{pintar()}
+  }
+  async function migrarMicrosoft(){
+    if(cuenta&&prov===MS){   // ya hay sesión de Microsoft: se sincroniza lo traído
+      await sincronizar('auto');
+      if(st.fase!=='error'&&st.fase!=='expirada'){ls.set('ipnt.mig','fin');await GO.salir()}
+      pintar();return}
+    await entrar('ms');
+  }
+
   /* ---- respaldo en archivo ---- */
   function descargar(){
     const d=documento(null), a=document.createElement('a');
@@ -572,20 +603,18 @@ var IPNT=window.IPNT=(()=>{
   function pintar(){
     const btn=$i('ipnt-open'), dl=$i('ipnt-dlg');if(!btn||!dl)return;
     const on=!!cuenta, nom=on?(cuenta.name||cuenta.username):'', nube=prov?.nube||'la nube';
-    btn.classList.toggle('on',on);btn.classList.toggle('warn',st.fase==='error'||st.fase==='expirada'||st.fase==='cambios');
+    btn.classList.toggle('on',on);btn.classList.toggle('warn',st.fase==='error'||st.fase==='expirada'||st.fase==='cambios'||(migDisponible()&&googleGuardado()&&migEtapa()!=='fin'));
     btn.querySelector('span').textContent=on?(nom.split(/\s+/)[0]||'Mi cuenta'):'Iniciar sesión';
     btn.title=on?`Sesión: ${cuenta.username}`:'Inicia sesión para guardar tus datos en tu nube';
     $i('ipnt-out').hidden=on;$i('ipnt-in').hidden=!on;
-    $i('ipnt-login').disabled=!MS.disponible()||st.fase==='login';$i('ipnt-glogin').disabled=!GO.disponible()||st.fase==='login';
-    $i('ipnt-glogin').hidden=!GO.disponible();$i('ipnt-gnote').hidden=!GO.disponible();
-    document.querySelectorAll('.ipnt-prueba:not(.ipnt-msprueba)').forEach(n=>n.hidden=!(GO.disponible()&&CFG.googlePrueba));
+    $i('ipnt-login').disabled=!MS.disponible()||st.fase==='login';
     document.querySelectorAll('.ipnt-msprueba').forEach(n=>n.hidden=!(MS.disponible()&&CFG.institucionalPendiente));
-    document.querySelectorAll('.ipnt-contacto').forEach(n=>{if(!n.firstChild&&CFG.contacto){const a=document.createElement('a');a.href='mailto:'+CFG.contacto;a.textContent=CFG.contacto;n.appendChild(a)}});
-    $i('ipnt-soon').hidden=MS.disponible()||GO.disponible();
+    $i('ipnt-soon').hidden=MS.disponible();
     if(on){$i('ipnt-who').textContent=nom+(cuenta.name?` · ${cuenta.username}`:'');$i('ipnt-where').textContent=nube}
+    pintarMigracion();
     const s=$i('ipnt-state'), f=st.fase;
     s.className='ipnt-state '+(f==='error'||f==='expirada'?'bad':f==='cambios'?'warn':f==='ok'?'ok':'');
-    s.innerHTML=f==='sync'?'Sincronizando…':f==='login'?`Abriendo el inicio de sesión de ${st.prov==='google'?'Google':'Microsoft'}…`:
+    s.innerHTML=f==='sync'?'Sincronizando…':f==='login'?'Abriendo el inicio de sesión de Microsoft…':
       f==='cambios'?'Se recibieron cambios de otro dispositivo. <button class="link" type="button" data-ipnt-reload>Recargar para verlos</button>':
       f==='error'||f==='expirada'?esc(st.error):on&&st.ultimo?`Guardado en tu ${nube} · `+hora(st.ultimo):on?'Conectado.':'';
     if(!on&&st.error&&f!=='sync'){s.className='ipnt-state bad';s.textContent=st.error}
@@ -593,18 +622,34 @@ var IPNT=window.IPNT=(()=>{
     $i('ipnt-mantener').checked=mantener;
     $i('ipnt-publica').checked=ls.get('ipnt.publica')==='si';
     $i('ipnt-relogin').hidden=f!=='expirada';
-    $i('ipnt-relogin').textContent=prov?.id==='google'?'Volver a conectar con Google':'Volver a iniciar sesión';
+    $i('ipnt-relogin').textContent='Volver a iniciar sesión';
+  }
+  function pintarMigracion(){
+    const raiz=$i('ipnt-mig');if(!raiz)return;
+    const et=migEtapa(),gs=googleGuardado(),ok=migDisponible(),fin=et==='fin'&&st.fase!=='error'&&st.fase!=='expirada';
+    $i('ipnt-mig-link').hidden=!ok||fin;
+    $i('ipnt-mig-panel').hidden=!(ok&&(migAbierto||(gs&&et!=='fin')||et==='datos'||fin));
+    $i('ipnt-mig-aviso').hidden=!(gs&&et!=='fin');
+    $i('ipnt-mig-pasos').hidden=fin;$i('ipnt-mig-fin').hidden=!fin;
+    const datos=et==='datos';
+    $i('ipnt-mig-p1').className=datos?'hecho':'ahora';$i('ipnt-mig-p2').className=datos?'hecho':'';$i('ipnt-mig-p3').className=datos?'ahora':'';
+    $i('ipnt-mig-1').disabled=datos||st.fase==='login';
+    $i('ipnt-mig-3').disabled=!datos||st.fase==='login'||st.fase==='sync';
+    $i('ipnt-mig-3').lastChild.textContent=cuenta&&prov===MS?tx('paso3_boton_sync'):tx('paso3_boton');
   }
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   function wire(){
     const dl=$i('ipnt-dlg'), btn=$i('ipnt-open');if(!dl||!btn)return;
     // las bibliotecas se cargan al abrir el diálogo: así el clic en «Continuar con…» puede abrir la ventana emergente
     const abrir=()=>{if(dl.showModal&&!dl.open)dl.showModal();else dl.setAttribute('open','');
-      if(MS.disponible())MS.listo().catch(()=>{});if(GO.disponible())GO.listo().catch(()=>{});pintar()};
+      if(MS.disponible())MS.listo().catch(()=>{});pintar()};
     const cerrar=()=>{if(dl.close)dl.close();else dl.removeAttribute('open')};
     btn.addEventListener('click',abrir);$i('ipnt-x').addEventListener('click',cerrar);dl.addEventListener('click',e=>{if(e.target===dl)cerrar()});
-    $i('ipnt-login').addEventListener('click',()=>entrar('ms'));$i('ipnt-glogin').addEventListener('click',()=>entrar('google'));
-    $i('ipnt-relogin').addEventListener('click',()=>entrar(prov?.id||ls.get('ipnt.prov')||'ms'));
+    $i('ipnt-login').addEventListener('click',()=>entrar('ms'));
+    $i('ipnt-relogin').addEventListener('click',()=>entrar('ms'));
+    $i('ipnt-mig-link').addEventListener('click',()=>{migAbierto=!migAbierto;pintar()});
+    $i('ipnt-mig-1').addEventListener('click',migrarLeer);$i('ipnt-mig-3').addEventListener('click',migrarMicrosoft);
+    $i('ipnt-mig-x').addEventListener('click',()=>{migAbierto=false;if(migEtapa()==='fin')ls.del('ipnt.mig');pintar()});
     $i('ipnt-sync').addEventListener('click',()=>sincronizar('volver'));
     $i('ipnt-logout').addEventListener('click',()=>salir(false));
     $i('ipnt-wipe').addEventListener('click',()=>{const c=$i('ipnt-wipe-ok');c.hidden=!c.hidden});
@@ -656,8 +701,8 @@ var IPNT=window.IPNT=(()=>{
         `<p class="saes-note">La versión para ${esc(u.siglas||'tu unidad')} se está preparando con alumnos de la unidad. Mientras tanto puedes explorar la de la ${esc((UN.find(x=>x.id===CFG.unidad)||{}).siglas||'')}.</p>`;
       $i('ipnt-h-yo').hidden=!cuenta;
       if(cuenta)$i('ipnt-h-yo').textContent=`Sesión iniciada: ${cuenta.name||cuenta.username}. Si ya tenías datos guardados, la página se actualizará sola; si no, elige tu unidad y programa académico.`;
-      $i('ipnt-h-ms').hidden=!MS.disponible();$i('ipnt-h-go').hidden=!GO.disponible();pintar();
-      $i('ipnt-h-login').hidden=!!cuenta||!(MS.disponible()||GO.disponible());
+      $i('ipnt-h-ms').hidden=!MS.disponible();pintar();
+      $i('ipnt-h-login').hidden=!!cuenta||!MS.disponible();
     };
     // Reabrir el selector reemplaza sus manejadores para evitar cambios duplicados.
     dl.onclick=async e=>{
@@ -672,7 +717,7 @@ var IPNT=window.IPNT=(()=>{
       if(b.hasAttribute('data-hola-x'))listo();
     };
     dl.oncancel=()=>ls.set(BKEY,'1');   // Esc: no se vuelve a mostrar
-    if(MS.disponible())MS.listo().catch(()=>{});if(GO.disponible())GO.listo().catch(()=>{});   // listas para el clic
+    if(MS.disponible())MS.listo().catch(()=>{});   // lista para el clic
     pintarH();
     if(dl.showModal)dl.showModal();else dl.setAttribute('open','');
   }

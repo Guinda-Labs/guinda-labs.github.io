@@ -3,7 +3,7 @@ window.IPNT_UNIDAD = window.SATE_UNIDAD;
 
 /* ---------- perfil IPN-tools: respaldo y sincronización con la cuenta institucional (tools/cuenta.py) ---------- */
 var IPNT=window.IPNT=(()=>{
-  const CFG={"clientId": "7e8e5a95-4337-4652-8b07-3450306cda8f", "tenant": "common", "googleClientId": "959269733-d3h3qm0dtqpshebnabum1jr2g0l6geoa.apps.googleusercontent.com", "unidades": [{"id": "upiita", "disponible": true, "url": "horarios-upiita.html", "siglas": "UPIITA", "nombre": "Unidad Profesional Interdisciplinaria en Ingenier\u00eda y Tecnolog\u00edas Avanzadas"}, {"id": "escom", "disponible": true, "url": "horarios-escom.html", "siglas": "ESCOM", "nombre": "Escuela Superior de C\u00f3mputo"}, {"id": "upibi", "disponible": true, "url": "horarios-upibi.html", "siglas": "UPIBI", "nombre": "Unidad Profesional Interdisciplinaria de Biotecnolog\u00eda"}], "googlePrueba": true, "contacto": "vacevess1900@alumno.ipn.mx", "institucionalPendiente": true, "version": "1.2.0", "unidad": window.SATE_UNIDAD, "msal": "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.30.0/lib/msal-browser.min.js", "sri": "sha384-RGxxfG5yRS8DLU7ZJ8OoLhbV/BsJFHyPuMVHrTLbpj3t5Z15LnviJmaznKY/a7LZ"}, FILE='perfil.ipnt.json', MS_SCOPES=['Files.ReadWrite.AppFolder'],
+  const CFG={"clientId": "7e8e5a95-4337-4652-8b07-3450306cda8f", "tenant": "common", "googleClientId": "959269733-d3h3qm0dtqpshebnabum1jr2g0l6geoa.apps.googleusercontent.com", "unidades": [{"id": "upiita", "disponible": true, "url": "horarios-upiita.html", "siglas": "UPIITA", "nombre": "Unidad Profesional Interdisciplinaria en Ingenier\u00eda y Tecnolog\u00edas Avanzadas"}, {"id": "escom", "disponible": true, "url": "horarios-escom.html", "siglas": "ESCOM", "nombre": "Escuela Superior de C\u00f3mputo"}, {"id": "upibi", "disponible": true, "url": "horarios-upibi.html", "siglas": "UPIBI", "nombre": "Unidad Profesional Interdisciplinaria de Biotecnolog\u00eda"}], "googleSoloMigracion": true, "t": {"migracion.enlace": "\u00bfGuardaste tus datos con Google? P\u00e1salos a Microsoft", "migracion.titulo": "Pasa tus datos de Google a Microsoft", "migracion.aviso_sesion": "Tu navegador recuerda una sesi\u00f3n de Google. Ya no sincronizamos con Google: pasa tus datos a Microsoft para seguir guard\u00e1ndolos en tu nube.", "migracion.paso1_titulo": "Trae tus datos de Google", "migracion.paso1_detalle": "Iniciar\u00e1s sesi\u00f3n con Google solo para leer tu perfil guardado. No escribimos nada en tu Drive.", "migracion.paso1_boton": "Traer mis datos de Google", "migracion.paso2_titulo": "Se guardan en este navegador", "migracion.paso2_detalle": "Tus datos quedan en este navegador, sin cambiar nada en Google.", "migracion.paso3_titulo": "Contin\u00faa con Microsoft", "migracion.paso3_detalle": "Inicia sesi\u00f3n con tu cuenta de Microsoft (Outlook, Hotmail o institucional) para guardarlos en tu OneDrive.", "migracion.paso3_boton": "Continuar con Microsoft", "migracion.paso3_boton_sync": "Sincronizar con mi OneDrive", "migracion.abriendo": "Abriendo el inicio de sesi\u00f3n de Google\u2026", "migracion.leyendo": "Leyendo tu perfil guardado\u2026", "migracion.sin_perfil": "No encontramos un perfil guardado con esa cuenta de Google.", "migracion.traidos": "Listo: tus datos est\u00e1n guardados en este navegador. Falta el paso 3.", "migracion.listo": "Listo: tus datos est\u00e1n en tu OneDrive. Ya no usaremos Google.", "migracion.recargar": "Recargar para verlos", "migracion.cerrar": "Cerrar aviso", "migracion.borrar_archivo": "No borramos nada de tu Google Drive. Si quieres eliminar el archivo: en drive.google.com abre Configuraci\u00f3n, luego Administrar aplicaciones, busca la aplicaci\u00f3n y elige \u00abEliminar datos ocultos de la app\u00bb."}, "institucionalPendiente": true, "version": "1.2.0", "unidad": window.SATE_UNIDAD, "msal": "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.30.0/lib/msal-browser.min.js", "sri": "sha384-RGxxfG5yRS8DLU7ZJ8OoLhbV/BsJFHyPuMVHrTLbpj3t5Z15LnviJmaznKY/a7LZ"}, FILE='perfil.ipnt.json', MS_SCOPES=['Files.ReadWrite.AppFolder'],
     GO_SCOPES='openid email profile https://www.googleapis.com/auth/drive.appdata';
   // qué se guarda: todo lo de Horarios (hu.) y Electivas (ue.), menos el estado de pantalla de cada dispositivo
   const SYNC=/^(hu\.|ue\.)|^saes\.alumno$|^perfil\.opciones$/, LOCAL=/^hu\.(?:[a-z]+\.)?(tab|per|tur|niv|view|mview|cview|mobnote|cupos|cuposContexto)$/;
@@ -164,8 +164,8 @@ var IPNT=window.IPNT=(()=>{
     async salir(){try{if(this.pca)await this.pca.clearCache(this.acc?{account:this.acc}:{})}catch(e){console.warn('SATE: no se pudo limpiar la caché de Microsoft',{error:e.name})}this.acc=null}
   };
 
-  // Google + Google Drive (espacio privado de la aplicación, appDataFolder: no aparece entre los archivos del alumno).
-  // Sin servidor, Google entrega tokens de 1 hora sin renovación automática: al vencer se pide «Volver a conectar».
+  // Google Drive SOLO PARA MIGRAR (GOOG1): lee el perfil que el alumno guardó antes en el espacio privado de la aplicación
+  // (appDataFolder). Esta interfaz solo lee: no escribe nada en Drive. Google ya no es un proveedor de sesión.
   const GO={id:'google',nube:'Google Drive',tc:null,fid:null,
     disponible:()=>!!CFG.googleClientId,
     async listo(){
@@ -183,13 +183,13 @@ var IPNT=window.IPNT=(()=>{
       await this.listo();
       const r=await this.pedir(ls.obj('ipnt.gacc',null)?'':'select_account');
       if(!google.accounts.oauth2.hasGrantedAllScopes(r,'https://www.googleapis.com/auth/drive.appdata'))
-        throw new Error('Para guardar tus datos, autoriza el acceso al espacio de la aplicación en Google Drive.');
+        throw new Error('Para traer tus datos, autoriza la lectura del espacio de la aplicación en Google Drive.');
       ls.put('ipnt.gtok',{v:r.access_token,exp:Date.now()+(+r.expires_in||3600)*1000-60000});
       const u=await (await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+r.access_token}})).json();
       const a={name:u.name||'',username:u.email||''};ls.put('ipnt.gacc',a);return a;
     },
     tok:async()=>{const t=ls.obj('ipnt.gtok',null);if(t&&t.exp>Date.now())return t.v;throw expirada()},
-    D:'https://www.googleapis.com/drive/v3/files', U:'https://www.googleapis.com/upload/drive/v3/files',
+    D:'https://www.googleapis.com/drive/v3/files',   // solo GET
     async buscar(){
       const q=encodeURIComponent(`name='${FILE}' and trashed=false`);
       const r=await con(this.tok,`${this.D}?spaces=appDataFolder&q=${q}&fields=files(id,version)&orderBy=modifiedTime%20desc&pageSize=1`);
@@ -204,27 +204,10 @@ var IPNT=window.IPNT=(()=>{
       if(!c.ok) throw new Error('Google Drive respondió '+c.status+' al leer tu perfil.');
       return {doc:validar(await c.json()),ver:f.version};
     },
-    async subir(d,ver){
-      const body=JSON.stringify(d);
-      if(!this.fid){
-        if(await this.buscar()) return null;   // otro dispositivo lo creó mientras tanto: se vuelve a fusionar
-        const b='ipnt'+Math.random().toString(36).slice(2), meta={name:FILE,parents:['appDataFolder'],mimeType:'application/json'};
-        const r=await con(this.tok,`${this.U}?uploadType=multipart&fields=id`,{method:'POST',headers:{'Content-Type':'multipart/related; boundary='+b},
-          body:`--${b}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(meta)}\r\n--${b}\r\nContent-Type: application/json\r\n\r\n${body}\r\n--${b}--`});
-        if(!r.ok) throw new Error('Google Drive respondió '+r.status+' al guardar tu perfil.');
-        this.fid=(await r.json()).id;return true;
-      }
-      // Drive no admite escritura condicional: se comprueba la versión justo antes de escribir
-      const m=await con(this.tok,`${this.D}/${this.fid}?fields=version`);
-      if(m.ok&&ver&&(await m.json()).version!==ver) return null;
-      const r=await con(this.tok,`${this.U}/${this.fid}?uploadType=media`,{method:'PATCH',headers:{'Content-Type':'application/json'},body});
-      if(!r.ok) throw new Error('Google Drive respondió '+r.status+' al guardar tu perfil.');
-      return true;
-    },
     async salir(){const t=ls.obj('ipnt.gtok',null);try{if(t&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(t.v,()=>{})}catch(e){}
       ls.del('ipnt.gtok');ls.del('ipnt.gacc');this.fid=null}
   };
-  const PROV={ms:MS,google:GO};
+  const PROV={ms:MS};   // Google no inicia sesión ni sincroniza: solo migra (ver «migración desde Google»)
 
   /* modo: 'login' (gana la nube y se recarga), 'abrir' y 'volver' (al abrir la página o regresar a la pestaña: se
      recarga si llegaron cambios de otro dispositivo), 'auto' (tras un cambio propio: solo se avisa) */
@@ -285,7 +268,7 @@ var IPNT=window.IPNT=(()=>{
     return busy;
   }
   const texto=e=>{const m=String(e?.errorMessage||e?.message||e||'');
-    if(/AADSTS65001|AADSTS90094|consent/i.test(m)) return 'Las cuentas institucionales del IPN aún no están disponibles: la aplicación está en proceso de autorización. Puedes usar una cuenta personal de Microsoft o tu cuenta de Google.';
+    if(/AADSTS65001|AADSTS90094|consent/i.test(m)) return 'Las cuentas institucionales del IPN aún no están disponibles: la aplicación está en proceso de autorización. Puedes usar una cuenta personal de Microsoft (Outlook o Hotmail).';
     if(/user_cancelled|cancel|access_denied/i.test(m)) return 'Inicio de sesión cancelado.';
     if(/popup_window_error/i.test(m)) return 'El navegador bloqueó la ventana de inicio de sesión. Permite las ventanas emergentes para este sitio.';
     return m.split('\n')[0].slice(0,220)};
@@ -298,12 +281,10 @@ var IPNT=window.IPNT=(()=>{
       const a=await p.entrar();if(!a)return;   // redirección en curso
       if(prov&&prov!==p) await prov.salir();
       prov=p;cuenta=a;ls.set('ipnt.prov',id);ls.set('ipnt.cuenta',a.username);
+      if(migEtapa()==='datos'){ls.set('ipnt.mig','fin');await GO.salir()}   // los datos de Google ya están aquí: se cierra la lectura
       window.dispatchEvent(new Event('ipnt-cuenta'));
       await sincronizar('login');
-    }catch(e){st.fase='error';st.error=texto(e);
-      if(id==='google'&&CFG.googlePrueba&&/cancelado|access_denied/i.test(st.error+String(e?.message)))
-        st.error='No se completó el inicio de sesión con Google. Durante la fase de prueba solo pueden acceder las cuentas registradas'+(CFG.contacto?`; para solicitar acceso, escribe a ${CFG.contacto}.`:'.');
-      pintar()}
+    }catch(e){st.fase='error';st.error=texto(e);pintar()}
   }
   async function salir(borrarLocal){
     borrarLocal=borrarLocal||ls.get('ipnt.publica')==='si';
@@ -332,6 +313,36 @@ var IPNT=window.IPNT=(()=>{
     location.reload();
   };
 
+  /* ---- migración desde Google (GOOG1): solo LEE el perfil de Drive; no escribe nada ---- */
+  const tx=k=>CFG.t?.['migracion.'+k]||'';
+  const migEtapa=()=>ls.get('ipnt.mig')||'';   // '' → paso 1 · 'datos' → pasos 1 y 2 hechos · 'fin' → terminado
+  const googleGuardado=()=>ls.get('ipnt.prov')==='google'||!!ls.get('ipnt.gacc');
+  const migDisponible=()=>!!CFG.googleSoloMigracion&&GO.disponible();
+  let migAbierto=false;
+  async function migrarLeer(){
+    const m=$i('ipnt-mig-msg'),nota=(t,c)=>{m.className='ipnt-state '+(c||'');m.textContent=t};
+    $i('ipnt-mig-1').disabled=true;
+    try{
+      await privacidad();
+      nota(tx('abriendo'));await GO.entrar();
+      nota(tx('leyendo'));const {doc}=await GO.bajar();
+      if(!doc){nota(tx('sin_perfil'),'bad');return}
+      fusionar(doc,false);   // gana lo más reciente; nada se borra aquí
+      ls.set('ipnt.mig','datos');
+      if(ls.get('ipnt.prov')==='google'){ls.del('ipnt.prov');ls.del('ipnt.cuenta')}
+      await GO.salir();   // solo revoca el permiso de lectura y olvida la cuenta de Google
+      nota(tx('traidos'),'ok');
+    }catch(e){nota(texto(e),'bad')}
+    finally{pintar()}
+  }
+  async function migrarMicrosoft(){
+    if(cuenta&&prov===MS){   // ya hay sesión de Microsoft: se sincroniza lo traído
+      await sincronizar('auto');
+      if(st.fase!=='error'&&st.fase!=='expirada'){ls.set('ipnt.mig','fin');await GO.salir()}
+      pintar();return}
+    await entrar('ms');
+  }
+
   /* ---- respaldo en archivo ---- */
   function descargar(){
     const d=documento(null), a=document.createElement('a');
@@ -356,20 +367,18 @@ var IPNT=window.IPNT=(()=>{
   function pintar(){
     const btn=$i('ipnt-open'), dl=$i('ipnt-dlg');if(!btn||!dl)return;
     const on=!!cuenta, nom=on?(cuenta.name||cuenta.username):'', nube=prov?.nube||'la nube';
-    btn.classList.toggle('on',on);btn.classList.toggle('warn',st.fase==='error'||st.fase==='expirada'||st.fase==='cambios');
+    btn.classList.toggle('on',on);btn.classList.toggle('warn',st.fase==='error'||st.fase==='expirada'||st.fase==='cambios'||(migDisponible()&&googleGuardado()&&migEtapa()!=='fin'));
     btn.querySelector('span').textContent=on?(nom.split(/\s+/)[0]||'Mi cuenta'):'Iniciar sesión';
     btn.title=on?`Sesión: ${cuenta.username}`:'Inicia sesión para guardar tus datos en tu nube';
     $i('ipnt-out').hidden=on;$i('ipnt-in').hidden=!on;
-    $i('ipnt-login').disabled=!MS.disponible()||st.fase==='login';$i('ipnt-glogin').disabled=!GO.disponible()||st.fase==='login';
-    $i('ipnt-glogin').hidden=!GO.disponible();$i('ipnt-gnote').hidden=!GO.disponible();
-    document.querySelectorAll('.ipnt-prueba:not(.ipnt-msprueba)').forEach(n=>n.hidden=!(GO.disponible()&&CFG.googlePrueba));
+    $i('ipnt-login').disabled=!MS.disponible()||st.fase==='login';
     document.querySelectorAll('.ipnt-msprueba').forEach(n=>n.hidden=!(MS.disponible()&&CFG.institucionalPendiente));
-    document.querySelectorAll('.ipnt-contacto').forEach(n=>{if(!n.firstChild&&CFG.contacto){const a=document.createElement('a');a.href='mailto:'+CFG.contacto;a.textContent=CFG.contacto;n.appendChild(a)}});
-    $i('ipnt-soon').hidden=MS.disponible()||GO.disponible();
+    $i('ipnt-soon').hidden=MS.disponible();
     if(on){$i('ipnt-who').textContent=nom+(cuenta.name?` · ${cuenta.username}`:'');$i('ipnt-where').textContent=nube}
+    pintarMigracion();
     const s=$i('ipnt-state'), f=st.fase;
     s.className='ipnt-state '+(f==='error'||f==='expirada'?'bad':f==='cambios'?'warn':f==='ok'?'ok':'');
-    s.innerHTML=f==='sync'?'Sincronizando…':f==='login'?`Abriendo el inicio de sesión de ${st.prov==='google'?'Google':'Microsoft'}…`:
+    s.innerHTML=f==='sync'?'Sincronizando…':f==='login'?'Abriendo el inicio de sesión de Microsoft…':
       f==='cambios'?'Se recibieron cambios de otro dispositivo. <button class="link" type="button" data-ipnt-reload>Recargar para verlos</button>':
       f==='error'||f==='expirada'?esc(st.error):on&&st.ultimo?`Guardado en tu ${nube} · `+hora(st.ultimo):on?'Conectado.':'';
     if(!on&&st.error&&f!=='sync'){s.className='ipnt-state bad';s.textContent=st.error}
@@ -377,18 +386,34 @@ var IPNT=window.IPNT=(()=>{
     $i('ipnt-mantener').checked=mantener;
     $i('ipnt-publica').checked=ls.get('ipnt.publica')==='si';
     $i('ipnt-relogin').hidden=f!=='expirada';
-    $i('ipnt-relogin').textContent=prov?.id==='google'?'Volver a conectar con Google':'Volver a iniciar sesión';
+    $i('ipnt-relogin').textContent='Volver a iniciar sesión';
+  }
+  function pintarMigracion(){
+    const raiz=$i('ipnt-mig');if(!raiz)return;
+    const et=migEtapa(),gs=googleGuardado(),ok=migDisponible(),fin=et==='fin'&&st.fase!=='error'&&st.fase!=='expirada';
+    $i('ipnt-mig-link').hidden=!ok||fin;
+    $i('ipnt-mig-panel').hidden=!(ok&&(migAbierto||(gs&&et!=='fin')||et==='datos'||fin));
+    $i('ipnt-mig-aviso').hidden=!(gs&&et!=='fin');
+    $i('ipnt-mig-pasos').hidden=fin;$i('ipnt-mig-fin').hidden=!fin;
+    const datos=et==='datos';
+    $i('ipnt-mig-p1').className=datos?'hecho':'ahora';$i('ipnt-mig-p2').className=datos?'hecho':'';$i('ipnt-mig-p3').className=datos?'ahora':'';
+    $i('ipnt-mig-1').disabled=datos||st.fase==='login';
+    $i('ipnt-mig-3').disabled=!datos||st.fase==='login'||st.fase==='sync';
+    $i('ipnt-mig-3').lastChild.textContent=cuenta&&prov===MS?tx('paso3_boton_sync'):tx('paso3_boton');
   }
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   function wire(){
     const dl=$i('ipnt-dlg'), btn=$i('ipnt-open');if(!dl||!btn)return;
     // las bibliotecas se cargan al abrir el diálogo: así el clic en «Continuar con…» puede abrir la ventana emergente
     const abrir=()=>{if(dl.showModal&&!dl.open)dl.showModal();else dl.setAttribute('open','');
-      if(MS.disponible())MS.listo().catch(()=>{});if(GO.disponible())GO.listo().catch(()=>{});pintar()};
+      if(MS.disponible())MS.listo().catch(()=>{});pintar()};
     const cerrar=()=>{if(dl.close)dl.close();else dl.removeAttribute('open')};
     btn.addEventListener('click',abrir);$i('ipnt-x').addEventListener('click',cerrar);dl.addEventListener('click',e=>{if(e.target===dl)cerrar()});
-    $i('ipnt-login').addEventListener('click',()=>entrar('ms'));$i('ipnt-glogin').addEventListener('click',()=>entrar('google'));
-    $i('ipnt-relogin').addEventListener('click',()=>entrar(prov?.id||ls.get('ipnt.prov')||'ms'));
+    $i('ipnt-login').addEventListener('click',()=>entrar('ms'));
+    $i('ipnt-relogin').addEventListener('click',()=>entrar('ms'));
+    $i('ipnt-mig-link').addEventListener('click',()=>{migAbierto=!migAbierto;pintar()});
+    $i('ipnt-mig-1').addEventListener('click',migrarLeer);$i('ipnt-mig-3').addEventListener('click',migrarMicrosoft);
+    $i('ipnt-mig-x').addEventListener('click',()=>{migAbierto=false;if(migEtapa()==='fin')ls.del('ipnt.mig');pintar()});
     $i('ipnt-sync').addEventListener('click',()=>sincronizar('volver'));
     $i('ipnt-logout').addEventListener('click',()=>salir(false));
     $i('ipnt-wipe').addEventListener('click',()=>{const c=$i('ipnt-wipe-ok');c.hidden=!c.hidden});
@@ -440,8 +465,8 @@ var IPNT=window.IPNT=(()=>{
         `<p class="saes-note">La versión para ${esc(u.siglas||'tu unidad')} se está preparando con alumnos de la unidad. Mientras tanto puedes explorar la de la ${esc((UN.find(x=>x.id===CFG.unidad)||{}).siglas||'')}.</p>`;
       $i('ipnt-h-yo').hidden=!cuenta;
       if(cuenta)$i('ipnt-h-yo').textContent=`Sesión iniciada: ${cuenta.name||cuenta.username}. Si ya tenías datos guardados, la página se actualizará sola; si no, elige tu unidad y programa académico.`;
-      $i('ipnt-h-ms').hidden=!MS.disponible();$i('ipnt-h-go').hidden=!GO.disponible();pintar();
-      $i('ipnt-h-login').hidden=!!cuenta||!(MS.disponible()||GO.disponible());
+      $i('ipnt-h-ms').hidden=!MS.disponible();pintar();
+      $i('ipnt-h-login').hidden=!!cuenta||!MS.disponible();
     };
     // Reabrir el selector reemplaza sus manejadores para evitar cambios duplicados.
     dl.onclick=async e=>{
@@ -456,7 +481,7 @@ var IPNT=window.IPNT=(()=>{
       if(b.hasAttribute('data-hola-x'))listo();
     };
     dl.oncancel=()=>ls.set(BKEY,'1');   // Esc: no se vuelve a mostrar
-    if(MS.disponible())MS.listo().catch(()=>{});if(GO.disponible())GO.listo().catch(()=>{});   // listas para el clic
+    if(MS.disponible())MS.listo().catch(()=>{});   // lista para el clic
     pintarH();
     if(dl.showModal)dl.showModal();else dl.setAttribute('open','');
   }
@@ -644,7 +669,7 @@ SATE.calendario={
     for (const m of materias.values()) {
       if (reproNombres.has(normal(m.nombre)) || reproNombres.has(normal(m.clave))) reprobadas.add(m.clave);
       m.estado = altas.has(m.clave) ? 'Acreditada' : desfasadas.has(m.clave) ? 'Desfasada según el SAES' : curso.has(m.clave) ? 'En curso' : reprobadas.has(m.clave) ? 'Reprobada' : 'Por cursar';
-      m.color = altas.has(m.clave) ? 'var(--ok)' : desfasadas.has(m.clave) ? 'var(--ipn-desfasada)' : curso.has(m.clave) ? 'var(--accent)' : reprobadas.has(m.clave) ? 'var(--ipn-reprobada)' : 'var(--line)';
+      m.color = altas.has(m.clave) ? 'var(--ipn-ok)' : desfasadas.has(m.clave) ? 'var(--ipn-desfasada)' : curso.has(m.clave) ? 'var(--ipn-acento)' : reprobadas.has(m.clave) ? 'var(--ipn-reprobada)' : 'var(--ipn-linea)';
       const grupo = porSemestre ? m.semestre == null ? 'Sin semestre informado' : 'Semestre '+m.semestre : m.periodo ? 'Periodo '+m.periodo : curso.has(m.clave) ? 'En curso' : 'Por cursar';
       if (!grupos.has(grupo)) grupos.set(grupo,[]);
       grupos.get(grupo).push(m);
@@ -734,10 +759,10 @@ SATE.calendario={
     const mini=representacion(d).mini;
     return '<div class="trayectoria-minimapa">'+(abrir?'<button type="button" data-abrir-mapa aria-label="Abrir mapa curricular">'+mini.svg+'</button>':mini.svg)+'<div class="mm-leg">'+mini.leyenda+'</div></div>';
   }
-  let vistaMapa='mapa', pendientes=false, zoom=null;
+  let vistaMapa=$('v-tray').clientWidth<640?'lista':'mapa', pendientes=false, zoom=null;
   function escalaMapa(L){
     const ancho=$('mapwrap').clientWidth||$('v-tray').clientWidth||1000;
-    return Math.max(ancho>720?.2:.6,(ancho-2)/L.w);
+    return Math.max(ancho>=640?.2:.6,(ancho-2)/L.w);
   }
   function cuadricula(d){
     const {L,ctx}=representacion(d);
@@ -770,7 +795,7 @@ SATE.calendario={
   const formas={ORD:'Ordinario',EXT:'Extraordinario',ETS:'ETS',REC:'Recurse',EQV:'Equivalencia',REV:'Revalidación',DIC:'Dictamen'};
   let simular=false, notas={}, metaPeriodos=4, metaPromedio=8.5;
   const secciones={};
-  const abierto=(id,inicial=true)=>(secciones[id]??(inicial&&$('sate-trayectoria').clientWidth>720))?' open':'';
+  const abierto=(id,inicial=true)=>(secciones[id]??(inicial&&$('sate-trayectoria').clientWidth>=640))?' open':'';
   function estadisticas(a,d){
     const mean=xs=>xs.length?xs.reduce((s,n)=>s+n,0)/xs.length:null;
     const nombres=new Map(d.materias.map(m=>[m.clave,m.nombre])), unicas=new Map();
@@ -832,7 +857,7 @@ SATE.calendario={
     $('sate-trayectoria').innerHTML='<h2>Mi trayectoria</h2><div id="sate-presente"><p class="trayectoria-resumen">'+esc(a.carrera_nombre||'')+(a.plan?' · Plan '+esc(a.plan):'')+' · '+(D.total>0&&numero(a.avance?.obtenidos)!=null?Math.round(a.avance.obtenidos/D.total*100)+' % de avance':'Avance sin informar')+'</p>'+minimapa(d,true)+
       '<div class="trayectoria-datos"><p>'+esc(desfase)+'</p><p>Promedio del SAES: '+dato(a.promedio)+'</p><p>Periodos cursados: '+dato(a.avance?.cursados)+' · Duración: '+dato(a.carga?.duracion)+' · Duración máxima: '+dato(a.carga?.duracion_max)+'</p><p>Carga mínima: '+dato(a.carga?.min)+' · Media: '+dato(a.carga?.media)+' · Máxima: '+dato(a.carga?.max)+'</p></div></div>'+aviso(d)+
       '<div class="kstats" id="kstats">'+(D.avisos.length?'<p class="st-note">'+D.avisos.map(esc).join(' ')+'</p>':'')+SateUI.indicadoresTrayectoria(D,{esc,fmtCr,info,SATE})+
-      '<div class="charts"><figure class="ch-wide"><figcaption><b>Tu camino en la carrera'+(simular?' · simulado':'')+'</b>'+SateUI.leyendaGrafica([['cuadro','var(--accent)','Acreditado'],['rayado','var(--accent)',simular?'Simulado':'En curso'],['cuadro','var(--line)','Te falta'],['marca','var(--accent)','Estimado a tu ritmo']],esc)+'</figcaption><div id="ch-camino">'+camino+'</div></figure></div>'+
+      '<div class="charts"><figure class="ch-wide"><figcaption><b>Tu camino en la carrera'+(simular?' · simulado':'')+'</b>'+SateUI.leyendaGrafica([['cuadro','var(--ipn-acento)','Acreditado'],['rayado','var(--ipn-acento)',simular?'Simulado':'En curso'],['cuadro','var(--ipn-linea)','Te falta'],['marca','var(--ipn-acento)','Estimado a tu ritmo']],esc)+'</figcaption><div id="ch-camino">'+camino+'</div></figure></div>'+
       '<details class="trayectoria-plegable" id="trayectoria-kardex"'+abierto('trayectoria-kardex')+'><summary>Tu kárdex por periodo<small>'+D.rows.length+' materias acreditadas</small></summary><div class="charts"><figure class="ch-wide"><figcaption>'+SateUI.leyendaGrafica([['grado','','Calificación'],['letra','E','Extraordinario'],['letra','T','ETS'],['letra','R','Recurse']],esc)+'</figcaption><div id="ch-kx">'+kardex+'</div></figure></div></details>'+escenario(D)+'</div>';
     if(D.avisos.length)console.debug('SATE genérico: cobertura de analítica',{unidad,materias:D.rows.length,periodos:D.porPer.length,avisos:D.avisos});
   }
