@@ -98,8 +98,8 @@
     if (id === 'calendario') await script('calendario.js');
     if (id === 'horarios' && cfg.cupos) { await script('cupos.js'); await script('cupos-vista.js'); }
     if (id === 'mapa' || id === 'horarios') await script(id + '.js');
-    if (id === 'guia') await script('temarios.js');
-    if (id === 'temarios') await Promise.all([script('../policore/lector.js'), script('temarios.js')]);
+    if (id === 'guia') await Promise.all([script('bibliotecas.js'), script('guia.js')]);
+    if (id === 'temarios') await Promise.all([script('bibliotecas.js'), script('temarios.js')]);
     if (id === 'tramites' && !cargas.has('tramites.json')) {
       cargas.set('tramites.json',json('tramites').then(d=>Object.assign(window.SATE_DATA,d)).catch(e=>{cargas.delete('tramites.json');throw e}));
     }
@@ -116,7 +116,7 @@
   // Los temarios son una vista con ruta propia (data/sate.json: vistas); sin datos en la unidad, esta carga no existe.
   function cargarTemarios() {
     if (!cfg.vistas?.some(v => v.id === 'temarios')) return null;
-    return temariosListos ||= Promise.all([script('../policore/lector.js'), script('temarios.js')])
+    return temariosListos ||= Promise.all([script('bibliotecas.js'), script('temarios.js')])
       .then(() => SATE.temarios.preparar()).catch(e => { temariosListos = null; console.debug('SATE: temarios no disponibles', e.message); });
   }
   function ir(id) { location.hash = '#/' + u + '/' + id; }
@@ -291,25 +291,31 @@
   // Medición interna: solo con ?medir en un servidor local (el archivo no se publica).
   const medicionLista = parametros.has('medir') && /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) ? script('medicion.js').catch(() => {}) : Promise.resolve();
   if (!u) { medicionLista.then(mostrarEntrada).catch(error); return; }
-  const siglasUnidad = document.createElement('span'); siglasUnidad.className = 'sate-unidad'; siglasUnidad.textContent = cfg.siglas;
-  document.getElementById('sate-titulo').replaceChildren(logoUnidad(u, cfg.nombre), texto('sate.siglas') + ' ', siglasUnidad);
+  // «SATE {unidad}»: la unidad es el botón subrayado (color de la unidad) que abre el cambio de unidad.
+  const botonUnidad = document.getElementById('b-unidad');
+  botonUnidad.textContent = cfg.siglas; botonUnidad.hidden = false;
+  botonUnidad.setAttribute('aria-label', cfg.siglas + '. ' + texto('sate.encabezado.unidad')); botonUnidad.title = texto('sate.encabezado.unidad');
+  document.getElementById('sate-titulo').replaceChildren(texto('sate.siglas') + ' ', botonUnidad);
   if (cfg.leyenda) {
     const ayuda = SateUI.ayuda('sate.leyenda.'+cfg.leyenda,{unidad:cfg.siglas});
     const boton = ayuda.querySelector('button');
     boton.textContent = texto('sate.encabezado.prueba');
-    boton.setAttribute('aria-label', texto('sate.encabezado.prueba'));
+    boton.setAttribute('aria-label', texto('sate.encabezado.prueba')); boton.dataset.corto = texto('sate.encabezado.prueba_corto');
     document.getElementById('sate-leyenda').appendChild(ayuda);
   }
-  const nombreUnidad = document.querySelector('.inst-name');
-  if (nombreUnidad) nombreUnidad.textContent = cfg.nombre;
+  // Logo de la unidad, hasta la derecha: el oficial de la unidad si lo hay; si no, el del catálogo SAES con su halo.
+  const ranura = document.getElementById('sate-logo-unidad');
+  // Nombre de la unidad a la izquierda de su logo, pequeño, hasta 2 líneas (dato de identidad, nunca un literal).
+  const nombreUnidad = document.getElementById('sate-unidad-nombre');
+  nombreUnidad.textContent = cfg.nombre; nombreUnidad.title = cfg.nombre;
   if (cfg.logo) {
     const enlace = document.createElement('a'); enlace.className = 'unit'; enlace.href = cfg.logo.enlace;
     for (const [tema, clase] of [['claro','logo-lt'],['oscuro','logo-dk']]) {
       const img = document.createElement('img'); img.className = clase; img.src = '../' + cfg.logo[tema];
       img.alt = cfg.logo.alt; img.width = 91; img.height = 72; enlace.appendChild(img);
     }
-    document.querySelector('.inst-in')?.appendChild(enlace);
-  }
+    ranura.appendChild(enlace);
+  } else ranura.appendChild(logoUnidad(u, cfg.nombre));
   function identidadSaes() {
     for (const a of document.querySelectorAll('#saes-dlg a')) {
       if (/^https?:\/\/saes\.[^/]+/.test(a.href||'') && a.protocol !== 'javascript:') {
