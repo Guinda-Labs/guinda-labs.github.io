@@ -15,7 +15,7 @@
       ]});
     });
   }
-  function leer(id){try{return JSON.parse(localStorage.getItem('hu.tramite.'+id)||'null')}catch{return null}}
+  function leer(id){try{return JSON.parse((window.IPNT?.almacen||localStorage).getItem('hu.tramite.'+id)||'null')}catch{return null}}
   const completados=new Map();
   function estado(borrador,aplicacion,ahora=Date.now()){
     if(aplicacion?.aplica===false)return {id:'no_aplica',motivo:aplicacion.motivo,accion:null};
@@ -137,12 +137,13 @@
       else if(def.alTerminar)acciones.appendChild(boton(tx('confirmar'),()=>{if(!m.campos.some(c=>m.validar(c))){m.listo=true;m.guardar();def.alTerminar(m.datos)}}));
       pantalla.appendChild(acciones);
       const aviso=el('p','');aviso.setAttribute('data-pdf-estado','');aviso.setAttribute('role','status');pantalla.appendChild(aviso);
-      if(def.generar){
+      // La vista previa y «Ver formato» solo en el último paso: antes se podía sacar un PDF casi vacío.
+      if(def.generar&&m.paso>=def.pasos.length){
         const lateral=el('aside',null,'tramite-preview'),iframe=el('iframe');iframe.title=tx('vista_previa');if(url)iframe.src=url;lateral.appendChild(iframe);layout.appendChild(lateral);
         const ver=boton(tx('ver_formato'),()=>{if(url)window.open(url,'_blank','noopener')});ver.className+=' tramite-ver';ver.setAttribute('data-ver-formato','');ver.disabled=!url;pantalla.appendChild(ver);
-        if(def.faltante){const falta=el('p','',  'tramite-falta');falta.setAttribute('data-pdf-falta','');falta.setAttribute('role','status');pantalla.appendChild(falta)}
         programar();
       }
+      if(def.generar&&def.faltante){const falta=el('p','',  'tramite-falta');falta.setAttribute('data-pdf-falta','');falta.setAttribute('role','status');pantalla.appendChild(falta)}
       box.appendChild(layout);if(def.generar)estadoFalta();
       if(def.volver){const pie=el('div',null,'tramite-pie');pie.appendChild(regreso('tramite-volver-pie'));box.appendChild(pie)}
     }
@@ -156,7 +157,7 @@
     try{IPNT.set('hu.tramite.datos',JSON.stringify({datos,confirmado:true,actualizado:Date.now()}))}
     catch(e){console.error('Ventanilla: identidad no guardada',{fase:'confirmación',error:e.name});throw e}
   }
-  function alumnoActual(){return window.SATE?.alumno?SATE.alumno():(()=>{try{return JSON.parse(localStorage.getItem('saes.alumno')||'null')}catch{return null}})()}
+  function alumnoActual(){return window.SATE?.alumno?SATE.alumno():(()=>{try{return JSON.parse((window.IPNT?.almacen||localStorage).getItem('saes.alumno')||'null')}catch{return null}})()}
   function formularioDatos(box,datos,campos,volver,{nombre=false}={}){
     const form=el('form',null,'tramite-datos'),controles={};form.noValidate=true;
     if(nombre)form.appendChild(el('h3','¿Así se escribe tu nombre?'));
@@ -167,6 +168,7 @@
       n.onblur=()=>{error.textContent=validarDatos(k,n.value,n.required);n.setAttribute('aria-invalid',String(!!error.textContent))};
       controles[k]=n;l.appendChild(el('span',tx('dato_'+k)));l.appendChild(n);l.appendChild(error);form.appendChild(l);
     }
+    form.appendChild(el('p',tx('apellidos_aviso'),'tramite-apellidos-aviso'));
     const acciones=el('div',null,'tramite-acciones');
     if(nombre)acciones.appendChild(boton('Corregir',()=>{for(const n of Object.values(controles))n.readOnly=false;controles.paterno.focus()}));
     const confirmar=el('button',nombre?'Sí, guardar':'Guardar','sate-btn');confirmar.type='submit';acciones.appendChild(confirmar);form.appendChild(acciones);
@@ -225,6 +227,17 @@
           finally{accion.disabled=false}
         });
         const aviso=el('p','');aviso.setAttribute('role','status');tarjeta.appendChild(accion);tarjeta.appendChild(aviso);
+        // Un trámite terminado se puede revisar (vuelve al asistente) o reiniciar; antes solo se podía descargar.
+        if(e.id==='listo'){
+          const fila=el('div',null,'tramite-acciones-extra');
+          fila.appendChild(boton(tx('corregir'),()=>SATE.ir('tramites/'+id)));
+          fila.appendChild(boton(tx('reiniciar'),()=>{
+            if(!confirm(tx('reiniciar_confirmar')))return;
+            const k='hu.tramite.'+id;try{IPNT.borrar?.(k);(IPNT.almacen||localStorage).removeItem(k)}catch(err){}
+            completados.delete(id);mostrarLista(box);
+          }));
+          tarjeta.appendChild(fila);
+        }
       }
       lista.appendChild(tarjeta);
     }box.appendChild(lista);

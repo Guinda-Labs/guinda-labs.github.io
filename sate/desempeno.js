@@ -1,7 +1,7 @@
 /* Render y controles propios de Desempeño; el motor académico permanece compartido. */
-const FORMA_COLOR={Ordinario:'--ok',Extraordinario:'--warn',ETS:'--ch-alert',Recurse:'--rel-pre',Equivalencia:'--muted',Revalidación:'--n4',Dictamen:'--n6','No identificada':'--line'};
-const LIB_PLOT=[['https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js','sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i'],
-  ['https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.17/dist/plot.umd.min.js','sha384-JUpn2GgRr0gxU0xOBd8D8P634jhRCwobtG8G2MMEkX1RnGJ7/FJNnuukpfT+H2w1']];
+const FORMA_COLOR={Ordinario:'--ipn-ok',Extraordinario:'--ipn-aviso',ETS:'--ch-alert',Recurse:'--rel-pre',Equivalencia:'--ipn-tenue',Revalidación:'--n4',Dictamen:'--n6','No identificada':'--ipn-linea'};
+const LIB_PLOT=[['../assets/vendor/d3-7.9.0.min.js','sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i'],
+  ['../assets/vendor/plot-0.6.17.min.js','sha384-JUpn2GgRr0gxU0xOBd8D8P634jhRCwobtG8G2MMEkX1RnGJ7/FJNnuukpfT+H2w1']];
 let PLOT_P=null;
 const cargarPlot=()=>window.Plot?Promise.resolve():PLOT_P||(PLOT_P=LIB_PLOT.reduce((p,[src,sri])=>p.then(()=>new Promise((ok,no)=>{
   const s=document.createElement('script');s.src=src;s.integrity=sri;s.crossOrigin='anonymous';s.onload=ok;s.onerror=()=>{
@@ -61,7 +61,7 @@ function promMetaHtml(M){
   if(M.k){const c=cur(), comb=pmCombinacion(M);
     per=`<div class="pm-fila"><div><span class="pm-t">Este periodo</span><span>${M.periodo>10?`No alcanzable este periodo: aun con 10 en tus ${M.k} materias inscritas llegarías a ${M.max.toFixed(2)}.`:`Necesitas promediar ${est(M.periodo)} en tus ${M.k} ${M.k===1?'materia inscrita':'materias inscritas'} para alcanzar ${(+store.get('promMeta.'+S.car,0)||0)?'tu meta':'esta meta'}.`}</span></div>${escala(M.periodo)}</div>`+
       (M.periodo<=10?`<p class="pm-sub">Prueba otras combinaciones: puedes subir unas y bajar otras mientras el promedio alcance lo necesario.</p>
-      <div class="pm-mats">${tr().enCurso.map(k=>`<label class="pm-mat"><span>${esc(pretty(c[k][0]))}</span><select data-pmcal="${k}" aria-label="Calificación de ${esc(pretty(c[k][0]))}">${[10,9,8,7,6].map(n=>`<option${comb[k]===n?' selected':''}>${n}</option>`).join('')}</select></label>`).join('')}</div>
+      <div class="pm-mats">${tr().enCurso.map(k=>`<label class="pm-mat"><span>${esc(pretty(c[k][0]))}</span><select data-pmcal="${esc(k)}" aria-label="Calificación de ${esc(pretty(c[k][0]))}">${[10,9,8,7,6].map(n=>`<option${comb[k]===n?' selected':''}>${n}</option>`).join('')}</select></label>`).join('')}</div>
       <div class="pm-res" id="pm-estado" aria-live="polite">${pmEstado(M)}</div>
       <div class="pm-acc"><button class="btn" type="button" id="prom-sim">Usar en la simulación</button><button class="link" type="button" id="pm-reset">Repartir de nuevo</button></div>`:'')}
   const car=M.R?`<div class="pm-fila"><div><span class="pm-t">Al terminar la carrera</span><span>Necesitas promediar ${est(M.carrera)} en las ${M.R} materias obligatorias que te faltan.</span></div>${escala(M.carrera)}</div>`:'';
@@ -118,15 +118,15 @@ function renderAnalisis(D){
 function renderSimulacion(){
   const c=cur();
     const ec=tr().enCurso, pr=tr().pendRep;$('#est-sim').hidden=!ec.length&&!pr.length;
-    const calSel=(k,attr,v,esc_=[10,9,8,7,6])=>`<select data-${attr}="${k}" aria-label="${esc(SATE.texto('sate.desempeno.calificacion'))}"${SIM.on?'':' disabled'}>${esc_.map(n=>`<option${+v===n?' selected':''}>${n}</option>`).join('')}</select>`;
+    const calSel=(k,attr,v,esc_=[10,9,8,7,6])=>`<select data-${attr}="${esc(k)}" aria-label="${esc(SATE.texto('sate.desempeno.calificacion'))}"${SIM.on?'':' disabled'}>${esc_.map(n=>`<option${+v===n?' selected':''}>${n}</option>`).join('')}</select>`;
     $('#est-sim').innerHTML=ec.length||pr.length?`<label class="tgl" title="${esc(SATE.texto('sate.desempeno.sim_aviso'))}"><input type="checkbox" id="sim-on"${SIM.on?' checked':''}><span class="tgl-ui" aria-hidden="true"></span><span>${esc(SATE.texto('sate.desempeno.simular'))}</span></label>`+(SIM.on&&(Object.keys(SIM.res).length||Object.keys(SIM.rec).length||Object.keys(SIMBLK).length)?`<button type="button" class="link sim-reset" id="sim-reset" title="${esc(SATE.texto('sate.desempeno.reiniciar_ayuda'))}">${esc(SATE.texto('sate.desempeno.reiniciar'))}</button>`:'')+
       `<span class="sim-hint">${SIM.on?SATE.texto('sate.desempeno.sim_efecto'):SATE.texto('sate.desempeno.sim_ayuda')}</span>`+
       `<div class="simrows${SIM.on?'':' off'}">`+
       ec.map(k=>{const r=SIM.res[k]||{},ok=r.ok!==false;return `<div class="simrow"><span class="sim-n">${esc(pretty(c[k][0]))}<small>${tr().encEqv?.includes(k)?SATE.texto('sate.desempeno.en_curso_eqv'):SATE.texto('sate.desempeno.en_curso')}</small></span>`+
-        `<div class="seg sm" role="group"><button type="button" data-simok="${k}" aria-pressed="${ok}"${SIM.on?'':' disabled'}>${esc(SATE.texto('sate.desempeno.aprobada'))}</button><button type="button" data-simko="${k}" aria-pressed="${!ok}"${SIM.on?'':' disabled'}>${esc(SATE.texto('sate.desempeno.reprobada'))}</button></div>`+
+        `<div class="seg sm" role="group"><button type="button" data-simok="${esc(k)}" aria-pressed="${ok}"${SIM.on?'':' disabled'}>${esc(SATE.texto('sate.desempeno.aprobada'))}</button><button type="button" data-simko="${esc(k)}" aria-pressed="${!ok}"${SIM.on?'':' disabled'}>${esc(SATE.texto('sate.desempeno.reprobada'))}</button></div>`+
         (ok?calSel(k,'simcal',r.cal??8):calSel(k,'simcalr',r.calR??5,[5,4,3,2,1,0])+`<span class="sim-x">${esc(SATE.texto('sate.desempeno.recursar'))}</span>`)+`</div>`}).join('')+
       pr.map(k=>{const r=SIM.rec[k]||{};return `<div class="simrow"><span class="sim-n">${esc(pretty(c[k][0]))}<small class="bad">${esc(SATE.texto('sate.desempeno.reprobada'))}</small></span>`+
-        `<select data-simrec="${k}" aria-label="${esc(SATE.texto('sate.desempeno.como_acredita'))}"${SIM.on?'':' disabled'}><option value="">${esc(SATE.texto('sate.desempeno.pendiente'))}</option>${['ETS','REC','EXT'].map(f=>`<option value="${f}"${r.forma===f?' selected':''}>${esc(SATE.texto('sate.desempeno.acreditada_por',{forma:FORMAS[f].toLowerCase()}))}</option>`).join('')}</select>`+
+        `<select data-simrec="${esc(k)}" aria-label="${esc(SATE.texto('sate.desempeno.como_acredita'))}"${SIM.on?'':' disabled'}><option value="">${esc(SATE.texto('sate.desempeno.pendiente'))}</option>${['ETS','REC','EXT'].map(f=>`<option value="${f}"${r.forma===f?' selected':''}>${esc(SATE.texto('sate.desempeno.acreditada_por',{forma:FORMAS[f].toLowerCase()}))}</option>`).join('')}</select>`+
         (r.forma?calSel(k,'simreccal',r.cal??7):'')+`</div>`}).join('')+`</div>`:'';
 
 }
@@ -144,10 +144,10 @@ async function renderStatsVista(){
   $('#sate-trayectoria').appendChild($('#desempeno-simulacion'));
   box.innerHTML=`${D.avisos.length?`<p class="st-note">${D.avisos.map(esc).join(' ')}</p>`:''}${SateUI.indicadoresTrayectoria(D,{esc,fmtCr,info,SATE})}
     <div class="charts">
-      <figure class="ch-wide"><figcaption><b>Tu camino en la carrera ${simTag('camino')}</b>${ley([['cuadro','var(--accent)','Acreditado'],['rayado','var(--accent)',Dc.simulado?'Simulado':'En curso'],['cuadro','var(--line)','Te falta'],['marca','var(--accent)','Estimado a tu ritmo'],...(totalPer!=null&&plazo.max&&totalPer>plazo.max?[['anillo','var(--ch-alert)','Rebasa el plazo']]:[])])}</figcaption><div id="ch-camino"></div></figure>
+      <figure class="ch-wide"><figcaption><b>Tu camino en la carrera ${simTag('camino')}</b>${ley([['cuadro','var(--ipn-acento)','Acreditado'],['rayado','var(--ipn-acento)',Dc.simulado?'Simulado':'En curso'],['cuadro','var(--ipn-linea)','Te falta'],['marca','var(--ipn-acento)','Estimado a tu ritmo'],...(totalPer!=null&&plazo.max&&totalPer>plazo.max?[['anillo','var(--ch-alert)','Rebasa el plazo']]:[])])}</figcaption><div id="ch-camino"></div></figure>
     </div>
     <details class="trayectoria-plegable" id="trayectoria-kardex"><summary>${esc(SATE.texto('sate.trayectoria.kardex'))}<small>${esc(SATE.texto('sate.trayectoria.kardex_resumen',{n:Dk.rows.length}))}</small></summary><div class="charts">
-      <figure class="ch-wide"><figcaption>${simTag('kardex')}${ley([['grado','','Calificación'],...[['E','Extraordinario'],['T','ETS'],['R','Recurse']].filter(([l])=>Dk.rows.some(r=>({EXT:'E',ETS:'T',REC:'R'})[r.codigo]===l)).map(([l,t])=>['letra',l,t]),...(Dk.rows.some(r=>r.sim)?[['simulada','var(--fg)','Simulada']]:[])])}</figcaption><div id="ch-kx"></div></figure>
+      <figure class="ch-wide"><figcaption>${simTag('kardex')}${ley([['grado','','Calificación'],...[['E','Extraordinario'],['T','ETS'],['R','Recurse']].filter(([l])=>Dk.rows.some(r=>({EXT:'E',ETS:'T',REC:'R'})[r.codigo]===l)).map(([l,t])=>['letra',l,t]),...(Dk.rows.some(r=>r.sim)?[['simulada','var(--ipn-texto)','Simulada']]:[])])}</figcaption><div id="ch-kx"></div></figure>
     </div></details>
     <div id="trayectoria-sim-slot"></div>
     <details class="trayectoria-plegable" id="trayectoria-escenario"><summary id="trayectoria-escenario-titulo">${esc(SATE.texto('sate.trayectoria.y_si'))}<small>${esc(SATE.texto('sate.trayectoria.y_si_resumen'))}</small></summary><div>
