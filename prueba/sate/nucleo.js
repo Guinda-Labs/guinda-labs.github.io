@@ -466,6 +466,14 @@ const planIds=()=>Object.keys(ws().plans).sort((a,b)=>a.length-b.length||a.local
 const planNum=id=>[...id].reduce((n,ch)=>n*26+LETRAS.indexOf(ch)+1,0);
 const nextPlan=()=>{let n=Math.max(0,...planIds().map(planNum))+1, id='';while(n>0){n--;id=LETRAS[n%26]+id;n=Math.floor(n/26)}return id};
 const save=()=>store.set('w.'+S.per,ws());
+// storage no se dispara en la pestaña que escribe; las otras recargan el mismo periodo.
+window.addEventListener('storage',e=>{
+  if(DEMO||!['actual','proximo'].some(p=>e.key===HU+'w.'+p))return;
+  const p=e.key.slice((HU+'w.').length),w=store.get('w.'+p,null);
+  if(!w?.plans?.[w.plan]||!Array.isArray(w.plans[w.plan].sel))return;
+  W[p]=w;
+  if(p===S.per&&typeof renderCal==='function'){renderPlans();renderOffer();renderCal()}
+});
 
 /* ---------- datos del SAES (v2): solo en este navegador ---------- */
 const SAES={
