@@ -6,7 +6,7 @@ var IPNT=window.IPNT=(()=>{
   const CFG={"clientId": "7e8e5a95-4337-4652-8b07-3450306cda8f", "tenant": "common", "googleClientId": "959269733-d3h3qm0dtqpshebnabum1jr2g0l6geoa.apps.googleusercontent.com", "unidades": [{"id": "upiita", "disponible": true, "url": "horarios-upiita.html", "siglas": "UPIITA", "nombre": "Unidad Profesional Interdisciplinaria en Ingenier\u00eda y Tecnolog\u00edas Avanzadas"}, {"id": "escom", "disponible": true, "url": "horarios-escom.html", "siglas": "ESCOM", "nombre": "Escuela Superior de C\u00f3mputo"}, {"id": "upibi", "disponible": true, "url": "horarios-upibi.html", "siglas": "UPIBI", "nombre": "Unidad Profesional Interdisciplinaria de Biotecnolog\u00eda"}], "googlePrueba": true, "contacto": "vacevess1900@alumno.ipn.mx", "institucionalPendiente": true, "version": "1.2.0", "unidad": window.SATE_UNIDAD, "msal": "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.30.0/lib/msal-browser.min.js", "sri": "sha384-RGxxfG5yRS8DLU7ZJ8OoLhbV/BsJFHyPuMVHrTLbpj3t5Z15LnviJmaznKY/a7LZ"}, FILE='perfil.ipnt.json', MS_SCOPES=['Files.ReadWrite.AppFolder'],
     GO_SCOPES='openid email profile https://www.googleapis.com/auth/drive.appdata';
   // qué se guarda: todo lo de Horarios (hu.) y Electivas (ue.), menos el estado de pantalla de cada dispositivo
-  const SYNC=/^(hu\.|ue\.)|^saes\.alumno$|^perfil\.opciones$/, LOCAL=/^hu\.(?:[a-z]+\.)?(tab|per|tur|niv|view|mview|cview|mobnote)$/;
+  const SYNC=/^(hu\.|ue\.)|^saes\.alumno$|^perfil\.opciones$/, LOCAL=/^hu\.(?:[a-z]+\.)?(tab|per|tur|niv|view|mview|cview|mobnote|cupos|cuposContexto)$/;
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}},
     del(k){try{localStorage.removeItem(k)}catch(e){}},keys(){try{return Object.keys(localStorage)}catch(e){return[]}},
     obj(k,d){try{return JSON.parse(localStorage.getItem(k)||'null')||d}catch(e){return d}},put(k,o){try{localStorage.setItem(k,JSON.stringify(o))}catch(e){}}};
@@ -27,8 +27,8 @@ var IPNT=window.IPNT=(()=>{
     return {ipnt:1,tipo:'perfil',app:'IPN-tools',version:CFG.version||'',unidad:CFG.unidad||'',guardado:new Date().toISOString(),claves,borrados};
   }
   function validar(d){
-    if(!d||typeof d!=='object'||d.tipo!=='perfil'||typeof d.claves!=='object') throw new Error('El archivo no es un perfil de IPN-tools.');
-    if(!(d.ipnt>=1)) throw new Error('El archivo no es un perfil de IPN-tools.');
+    if(!d||typeof d!=='object'||d.tipo!=='perfil'||typeof d.claves!=='object') throw new Error('El archivo no es un perfil de SATE.');
+    if(!(d.ipnt>=1)) throw new Error('El archivo no es un perfil de SATE.');
     if(d.ipnt>1) throw new Error('El perfil se guardó con una versión más nueva de la herramienta. Actualiza la página.');
     return d;
   }
@@ -65,6 +65,21 @@ var IPNT=window.IPNT=(()=>{
     s.onload=ok;s.onerror=()=>no(new Error('No se pudo cargar el inicio de sesión. Revisa tu conexión.'));document.head.appendChild(s)});
   const expirada=()=>{const e=new Error('Tu sesión expiró. Vuelve a conectar tu cuenta.');e.expirada=true;return e};
   async function con(tok,url,o={}){return fetch(url,{...o,headers:{...(o.headers||{}),Authorization:'Bearer '+await tok()}})}
+  // Archivo independiente del perfil: no contiene identidad ni trayectoria del alumno.
+  async function cupos(unidad,datos){
+    if(!cuenta||prov?.id!=='ms')return null;
+    if(!/^[a-z0-9]+$/.test(unidad))throw new Error('Unidad de cupos inválida.');
+    const url='https://graph.microsoft.com/v1.0/me/drive/special/approot:/cupos-'+unidad+'.json';
+    const o=datos?{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(datos)}:{};
+    const r=await con(MS.tok,datos?url+':/content':url,o);
+    if(!datos&&r.status===404)return null;
+    if(!r.ok)throw new Error('OneDrive respondió '+r.status+' al '+(datos?'guardar':'leer')+' cupos de '+unidad+'.');
+    if(datos)return datos;
+    // Igual que el perfil: la URL de descarga evita redirecciones CORS con Authorization.
+    const it=await r.json(),c=it['@microsoft.graph.downloadUrl']?await fetch(it['@microsoft.graph.downloadUrl']):await con(MS.tok,url+':/content');
+    if(!c.ok)throw new Error('OneDrive respondió '+c.status+' al descargar cupos de '+unidad+'.');
+    return await c.json();
+  }
 
   // Microsoft Entra ID + OneDrive (carpeta de la aplicación: Aplicaciones › IPN-tools)
   const MS={id:'ms',nube:'OneDrive',pca:null,acc:null,
@@ -218,6 +233,7 @@ var IPNT=window.IPNT=(()=>{
       }
       throw new Error('No se pudo guardar: otro dispositivo está escribiendo al mismo tiempo. Intenta de nuevo.');
     })().then(n=>{
+      window.dispatchEvent(new Event('ipnt-sincronizado'));
       st.fase='ok';st.ultimo=new Date().toISOString();ls.set('ipnt.last',st.ultimo);
       if(n>0){
         // la página lee sus datos al cargar: se recarga para mostrarlos (sin repetir en menos de 15 s, para no ciclar)
@@ -241,6 +257,7 @@ var IPNT=window.IPNT=(()=>{
       const a=await p.entrar();if(!a)return;   // redirección en curso
       if(prov&&prov!==p) await prov.salir();
       prov=p;cuenta=a;ls.set('ipnt.prov',id);ls.set('ipnt.cuenta',a.username);
+      window.dispatchEvent(new Event('ipnt-cuenta'));
       await sincronizar('login');
     }catch(e){st.fase='error';st.error=texto(e);
       if(id==='google'&&CFG.googlePrueba&&/cancelado|access_denied/i.test(st.error+String(e?.message)))
@@ -327,7 +344,7 @@ var IPNT=window.IPNT=(()=>{
     if(p&&p.disponible()) p.recuperar().then(a=>{
       if(!a){if(st.error)st.fase='error';pintar();return}
       const recien=!ls.get('ipnt.cuenta');   // regreso del inicio de sesión en la misma pestaña (Microsoft en teléfono)
-      prov=p;cuenta=a;ls.set('ipnt.prov',id);ls.set('ipnt.cuenta',a.username);pintar();sincronizar(recien?'login':'abrir');
+      prov=p;cuenta=a;ls.set('ipnt.prov',id);ls.set('ipnt.cuenta',a.username);window.dispatchEvent(new Event('ipnt-cuenta'));pintar();sincronizar(recien?'login':'abrir');
     }).catch(e=>{st.fase='error';st.error=texto(e);pintar()});
   }
   /* ---- bienvenida: primera visita (sin carrera, planes, marcas, actividades ni sesión en este navegador) ---- */
@@ -377,7 +394,7 @@ var IPNT=window.IPNT=(()=>{
     if(dl.showModal)dl.showModal();else dl.setAttribute('open','');
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);else setTimeout(wire,0);
-  return {bienvenida,diferencias,elegir,set,touch,borrar,documento,fusionar,validar,sincronizar,descargar,restaurar,get cuenta(){return cuenta},get proveedor(){return prov?.id||null}};
+  return {bienvenida,diferencias,elegir,set,touch,borrar,documento,fusionar,validar,sincronizar,descargar,restaurar,cupos,get cuenta(){return cuenta},get proveedor(){return prov?.id||null}};
 })();
 
 
@@ -401,7 +418,7 @@ const SAES={
     document.addEventListener('click',e=>{if(!e.target.closest?.('[data-saes-open]'))return;e.preventDefault();SAES.open()});
     dl.querySelector('#saes-x').addEventListener('click',()=>SAES.close());
     dl.addEventListener('click',e=>{if(e.target===dl)SAES.close()});   // clic fuera de la ventana
-    const take=async t=>{const d=SAES.parse(t);if(!d){msg.innerHTML='<span class="bad">El contenido no corresponde al Lector IPN-tools. Ejecuta el marcador en el SAES y selecciona «Copiar mis datos».</span>';return}
+    const take=async t=>{const d=SAES.parse(t);if(!d){msg.innerHTML='<span class="bad">El contenido no corresponde al marcador SATE. Ejecuta el marcador en el SAES y selecciona «Copiar mis datos».</span>';return}
       // Datos de otra unidad: se guardan y se abre el SATE de esa unidad (cualquier unidad tiene SATE).
       const suya=String(d.unidad||'upiita');
       if(suya!==SAES.U()&&/^[a-z0-9-]+$/.test(suya)){SAES.save(d);paste.value='';
@@ -455,7 +472,7 @@ const SAES={
   },
   status(d){
     const st=document.getElementById('saes-status'), btn=document.getElementById('saes-open');
-    if(btn){btn.classList.toggle('on',!!d);btn.querySelector('span').textContent=d?'Actualizar mis datos del SAES':'Usar mis datos del SAES';
+    if(btn){btn.classList.toggle('on',!!d);btn.querySelector('span').textContent='Traer mis datos del SAES';
       btn.title=d?'Datos del SAES cargados. Selecciona para actualizarlos o eliminarlos.':'Incorpora tu avance desde el SAES (opcional)'}
     if(!st)return;
     st.hidden=!d;document.getElementById('saes-steps').hidden=!!d;document.getElementById('saes-clear').hidden=!d;
@@ -633,7 +650,7 @@ SATE.calendario={
     if(conectado){$('saes-status').hidden=!hay;$('saes-steps').hidden=hay;$('saes-clear').hidden=!hay;
       $('saes-who').textContent=hay?(alumno.carrera_nombre||'')+' · leídos el '+fecha:'';}
   }
-  const aviso = d => '<p class="muted">Tu trayectoria con los datos del SAES.</p>'+(d.viejo&&alumno?'<p role="status">Actualiza tus datos con el Lector para ver los nombres de las materias.</p>':'');
+  const aviso = d => '<p class="muted">Tu trayectoria con los datos del SAES.</p>'+(d.viejo&&alumno?'<p role="status">Actualiza tus datos con el marcador SATE para ver los nombres de las materias.</p>':'');
   function representacion(d){
     const cols=Math.max(1,...d.grupos.map(([,ms])=>ms.length)), boxes=[],rows=[];
     d.grupos.forEach(([g,ms],i)=>{rows.push([g,32+i*76]);ms.forEach((m,j)=>boxes.push([150+j*138,10+i*76,128,56,m.clave]));});
@@ -661,10 +678,10 @@ SATE.calendario={
       '<svg width="'+L.w*sc+'" height="'+L.h*sc+'" viewBox="0 0 '+L.w+' '+L.h+'" aria-hidden="true">'+L.rows.map(([n,y],i)=>'<rect class="band" x="0" y="'+(i*76)+'" width="'+L.w+'" height="76"/><text class="rowlbl" x="12" y="'+y+'">'+esc(n)+'</text>').join('')+'</svg>'+
       L.boxes.map(([x,y,w,h,k])=>SateUI.cajaMateria(ctx,k,x,y,w,h,sc)).join('')+'</div>';
   }
-  function vacio() {return '<p>Usa el Lector desde el SAES de tu unidad y pega tus datos para ver tu trayectoria.</p><button class="btn primary" type="button" data-saes-open>Cargar datos del SAES</button>'}
+  function vacio() {return '<p>Usa el marcador SATE desde el SAES de tu unidad y pega tus datos para ver tu trayectoria.</p><button class="btn primary" type="button" data-saes-open>Traer mis datos del SAES</button>'}
   function mapa() {
     const d=datos(alumno);
-    if(!alumno||!d.materias.length){$('v-tray').innerHTML='<h2>Mapa curricular</h2>'+aviso(d)+(alumno?'<p>El SAES no informó materias. Actualiza tus datos con el Lector.</p>':vacio());return}
+    if(!alumno||!d.materias.length){$('v-tray').innerHTML='<h2>Mapa curricular</h2>'+aviso(d)+(alumno?'<p>El SAES no informó materias. Actualiza tus datos con el marcador SATE.</p>':vacio());return}
     const {mini}=representacion(d), mostrar=pendientes?{...d}:d;
     // Filtrar la representación, conservando el estado real y los grupos del SAES.
     if(pendientes){mostrar.materias=d.materias.filter(m=>m.estado!=='Acreditada');mostrar.grupos=d.grupos.map(([g,ms])=>[g,ms.filter(m=>m.estado!=='Acreditada')]).filter(([,ms])=>ms.length);}
@@ -742,7 +759,7 @@ SATE.calendario={
     const col=(t,rs)=>SateUI.fichasKardex(t,rs.length+' '+(rs.length===1?'materia':'materias')+' · promedio '+(rs.reduce((s,r)=>s+r.cal,0)/rs.length).toFixed(2)+(rs.every(r=>r.cr!=null)?' · '+fmtCr(rs.reduce((s,r)=>s+r.cr,0))+' cr':''),rs,esc);
     const eq=D.rows.filter(r=>r.eqv);
     const kardex='<div class="kx">'+(eq.length?col('Equivalencias',eq):'')+periodos.map(p=>col(p==null?'Sin periodo':perName(p),D.rows.filter(r=>!r.eqv&&r.per===p))).join('')+'</div>';
-    const desfase=(a.desfasadas_saes||[]).length?'Desfasadas según el SAES: '+(a.desfasadas_saes||[]).length:a.desfasadas_saes!=null?'El SAES no lista materias desfasadas.':'Desfase sin confirmar: actualiza el Estado General con el Lector.';
+    const desfase=(a.desfasadas_saes||[]).length?'Desfasadas según el SAES: '+(a.desfasadas_saes||[]).length:a.desfasadas_saes!=null?'El SAES no lista materias desfasadas.':'Desfase sin confirmar: actualiza el Estado General con el marcador SATE.';
     $('sate-trayectoria').innerHTML='<h2>Mi trayectoria</h2><div id="sate-presente"><p class="trayectoria-resumen">'+esc(a.carrera_nombre||'')+(a.plan?' · Plan '+esc(a.plan):'')+' · '+(D.total>0&&numero(a.avance?.obtenidos)!=null?Math.round(a.avance.obtenidos/D.total*100)+' % de avance':'Avance sin informar')+'</p>'+minimapa(d,true)+
       '<div class="trayectoria-datos"><p>'+esc(desfase)+'</p><p>Promedio del SAES: '+dato(a.promedio)+'</p><p>Periodos cursados: '+dato(a.avance?.cursados)+' · Duración: '+dato(a.carga?.duracion)+' · Duración máxima: '+dato(a.carga?.duracion_max)+'</p><p>Carga mínima: '+dato(a.carga?.min)+' · Media: '+dato(a.carga?.media)+' · Máxima: '+dato(a.carga?.max)+'</p></div></div>'+aviso(d)+
       '<div class="kstats" id="kstats">'+(D.avisos.length?'<p class="st-note">'+D.avisos.map(esc).join(' ')+'</p>':'')+SateUI.indicadoresTrayectoria(D,{esc,fmtCr,info,SATE})+

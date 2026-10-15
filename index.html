@@ -3,20 +3,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" href="assets/icono/favicon.ico">
-<title>IPN-tools · Herramientas de libre acceso para el alumnado del IPN</title>
+<title>GuindaLabs · Herramientas de libre acceso para el alumnado del IPN</title>
 <meta name="description" content="Arma tu horario y planea tu trayectoria escolar: mapa curricular, avance, metas y horario sin traslapes, con tus datos del SAES. UPIITA, ESCOM y UPIBI.">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="IPN-tools">
+<meta property="og:site_name" content="SATE">
 <meta property="og:locale" content="es_MX">
 <meta property="og:url" content="https://guinda-labs.github.io/">
-<meta property="og:title" content="IPN-tools · Herramientas de libre acceso para el alumnado del IPN">
+<meta property="og:title" content="GuindaLabs · Herramientas de libre acceso para el alumnado del IPN">
 <meta property="og:description" content="Arma tu horario y planea tu trayectoria escolar: mapa curricular, avance, metas y horario sin traslapes, con tus datos del SAES. UPIITA, ESCOM y UPIBI.">
 <meta property="og:image" content="https://guinda-labs.github.io/assets/icono/ipn-tools-og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="IPN-tools: arma tu horario y planea tu trayectoria">
+<meta property="og:image:alt" content="SATE: arma tu horario y planea tu trayectoria">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="IPN-tools · Herramientas de libre acceso para el alumnado del IPN">
+<meta name="twitter:title" content="GuindaLabs · Herramientas de libre acceso para el alumnado del IPN">
 <meta name="twitter:description" content="Arma tu horario y planea tu trayectoria escolar: mapa curricular, avance, metas y horario sin traslapes, con tus datos del SAES. UPIITA, ESCOM y UPIBI.">
 <meta name="twitter:image" content="https://guinda-labs.github.io/assets/icono/ipn-tools-og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -126,7 +126,7 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:v
 
 </style>
 <main>
-  <div class="brand"><img src="assets/icono/ipn-tools-icono-192.png" alt="Ícono de IPN-tools"><h1>IPN-tools</h1><button class="ipnt-btn" id="ipnt-open" type="button" aria-haspopup="dialog" title="Inicia sesión para guardar tus datos en tu nube">
+  <div class="brand"><img src="assets/icono/ipn-tools-icono-192.png" alt="Ícono de GuindaLabs"><h1>GuindaLabs</h1><button class="ipnt-btn" id="ipnt-open" type="button" aria-haspopup="dialog" title="Inicia sesión para guardar tus datos en tu nube">
 <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4s6.3 1.8 7.5 5.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Iniciar sesión</span></button>
 <dialog class="saes-dlg ipnt-dlg" id="ipnt-dlg" aria-labelledby="ipnt-h">
   <div class="dl-head"><h2 id="ipnt-h">Tu cuenta y tus datos</h2><button class="x" id="ipnt-x" type="button" aria-label="Cerrar">×</button></div>
@@ -153,7 +153,7 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:v
   <p class="saes-note" style="margin:0 0 8px">Descarga tus datos para guardarlos o pasarlos a otro navegador. Restaurar reemplaza los datos de este navegador por los del archivo.</p>
   <div class="row"><button class="btn" id="ipnt-down" type="button">Descargar respaldo</button><label class="btn ipnt-file">Restaurar desde archivo<input type="file" id="ipnt-file" accept=".json,application/json"></label></div>
   <p class="ipnt-state" id="ipnt-filemsg" aria-live="polite"></p>
-  <p class="saes-note" style="margin:14px 0 0">Tus datos se guardan en tu propia nube: en OneDrive, en la carpeta <b>Aplicaciones › IPN-tools</b>; en Google Drive, en un espacio privado de la aplicación que no aparece entre tus archivos. La herramienta solo tiene acceso a ese espacio. No hay servidor intermedio: nadie más puede consultarlos. <a href="privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a> · <a href="condiciones.html" target="_blank" rel="noopener">Condiciones de uso</a></p>
+  <p class="saes-note" style="margin:14px 0 0">Tus datos se guardan en tu propia nube: en OneDrive, en la <b>carpeta de la aplicación</b>; en Google Drive, en un espacio privado de la aplicación que no aparece entre tus archivos. La herramienta solo tiene acceso a ese espacio. No hay servidor intermedio: nadie más puede consultarlos. <a href="privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a> · <a href="condiciones.html" target="_blank" rel="noopener">Condiciones de uso</a></p>
 </dialog>
 <dialog class="saes-dlg ipnt-dlg" id="ipnt-conf" aria-labelledby="ipnt-conf-h">
   <div class="dl-head"><h2 id="ipnt-conf-h">Ya hay datos en tu cuenta</h2></div>
@@ -185,13 +185,13 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:v
   <h2>Elige tu unidad académica</h2>
   <p><a class="card" href="sate/index.html">Abrir SATE</a></p>
   <div class="unis" id="unis"></div>
-  <p style="margin-top:14px"><b>¿Tu unidad no aparece? Usa el Lector desde tu SAES.</b> Guarda el marcador desde <a href="sate/index.html" data-saes-open>SATE</a>, ejecútalo en tu sesión del SAES y abre SATE desde el resumen. Copia y pega tus datos para ver tu trayectoria.</p>
+  <p style="margin-top:14px"><b>¿Tu unidad no aparece? Usa el marcador SATE desde tu SAES.</b> Guarda el marcador desde <a href="sate/index.html" data-saes-open>SATE</a>, ejecútalo en tu sesión del SAES y abre SATE desde el resumen. Copia y pega tus datos para ver tu trayectoria.</p>
   <p style="margin-top:14px;font-size:.9rem"><a href="revision.html">Guía de revisión</a>: instructivo, perfil de demostración y casos de prueba.</p>
 
   <h2>Tus datos</h2>
-  <p>IPN-tools no tiene servidor ni base de datos: todo se procesa en tu navegador. Si quieres usar tus datos en varios dispositivos, puedes iniciar sesión con Microsoft o con Google. Tu información se guarda en tu propio OneDrive o Google Drive, en un espacio al que solo tiene acceso la aplicación.</p>
+  <p>GuindaLabs no tiene servidor ni base de datos: todo se procesa en tu navegador. Si quieres usar tus datos en varios dispositivos, puedes iniciar sesión con Microsoft o con Google. Tu información se guarda en tu propio OneDrive o Google Drive, en un espacio al que solo tiene acceso la aplicación.</p>
   <ul>
-    <li>Con Microsoft: acceso a la carpeta Aplicaciones › IPN-tools de tu OneDrive.</li>
+    <li>Con Microsoft: acceso a la carpeta de la aplicación de tu OneDrive.</li>
     <li>Con Google: acceso al espacio privado de la aplicación en tu Google Drive (no ve tus demás archivos).</li>
   </ul>
   <p>Consulta el <a href="privacidad.html">aviso de privacidad</a> y las <a href="condiciones.html">condiciones de uso</a>.</p>
@@ -205,7 +205,7 @@ var IPNT=window.IPNT=(()=>{
   const CFG={"clientId": "7e8e5a95-4337-4652-8b07-3450306cda8f", "tenant": "common", "googleClientId": "959269733-d3h3qm0dtqpshebnabum1jr2g0l6geoa.apps.googleusercontent.com", "unidades": [{"id": "upiita", "disponible": true, "url": "horarios-upiita.html", "siglas": "UPIITA", "nombre": "Unidad Profesional Interdisciplinaria en Ingenier\u00eda y Tecnolog\u00edas Avanzadas"}, {"id": "escom", "disponible": true, "url": "horarios-escom.html", "siglas": "ESCOM", "nombre": "Escuela Superior de C\u00f3mputo"}, {"id": "upibi", "disponible": true, "url": "horarios-upibi.html", "siglas": "UPIBI", "nombre": "Unidad Profesional Interdisciplinaria de Biotecnolog\u00eda"}], "googlePrueba": true, "contacto": "vacevess1900@alumno.ipn.mx", "institucionalPendiente": true, "version": "1.2.0", "unidad": "upiita", "msal": "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.30.0/lib/msal-browser.min.js", "sri": "sha384-RGxxfG5yRS8DLU7ZJ8OoLhbV/BsJFHyPuMVHrTLbpj3t5Z15LnviJmaznKY/a7LZ"}, FILE='perfil.ipnt.json', MS_SCOPES=['Files.ReadWrite.AppFolder'],
     GO_SCOPES='openid email profile https://www.googleapis.com/auth/drive.appdata';
   // qué se guarda: todo lo de Horarios (hu.) y Electivas (ue.), menos el estado de pantalla de cada dispositivo
-  const SYNC=/^(hu\.|ue\.)|^saes\.alumno$|^perfil\.opciones$/, LOCAL=/^hu\.(?:[a-z]+\.)?(tab|per|tur|niv|view|mview|cview|mobnote)$/;
+  const SYNC=/^(hu\.|ue\.)|^saes\.alumno$|^perfil\.opciones$/, LOCAL=/^hu\.(?:[a-z]+\.)?(tab|per|tur|niv|view|mview|cview|mobnote|cupos|cuposContexto)$/;
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}},
     del(k){try{localStorage.removeItem(k)}catch(e){}},keys(){try{return Object.keys(localStorage)}catch(e){return[]}},
     obj(k,d){try{return JSON.parse(localStorage.getItem(k)||'null')||d}catch(e){return d}},put(k,o){try{localStorage.setItem(k,JSON.stringify(o))}catch(e){}}};
@@ -226,8 +226,8 @@ var IPNT=window.IPNT=(()=>{
     return {ipnt:1,tipo:'perfil',app:'IPN-tools',version:CFG.version||'',unidad:CFG.unidad||'',guardado:new Date().toISOString(),claves,borrados};
   }
   function validar(d){
-    if(!d||typeof d!=='object'||d.tipo!=='perfil'||typeof d.claves!=='object') throw new Error('El archivo no es un perfil de IPN-tools.');
-    if(!(d.ipnt>=1)) throw new Error('El archivo no es un perfil de IPN-tools.');
+    if(!d||typeof d!=='object'||d.tipo!=='perfil'||typeof d.claves!=='object') throw new Error('El archivo no es un perfil de SATE.');
+    if(!(d.ipnt>=1)) throw new Error('El archivo no es un perfil de SATE.');
     if(d.ipnt>1) throw new Error('El perfil se guardó con una versión más nueva de la herramienta. Actualiza la página.');
     return d;
   }
@@ -264,6 +264,21 @@ var IPNT=window.IPNT=(()=>{
     s.onload=ok;s.onerror=()=>no(new Error('No se pudo cargar el inicio de sesión. Revisa tu conexión.'));document.head.appendChild(s)});
   const expirada=()=>{const e=new Error('Tu sesión expiró. Vuelve a conectar tu cuenta.');e.expirada=true;return e};
   async function con(tok,url,o={}){return fetch(url,{...o,headers:{...(o.headers||{}),Authorization:'Bearer '+await tok()}})}
+  // Archivo independiente del perfil: no contiene identidad ni trayectoria del alumno.
+  async function cupos(unidad,datos){
+    if(!cuenta||prov?.id!=='ms')return null;
+    if(!/^[a-z0-9]+$/.test(unidad))throw new Error('Unidad de cupos inválida.');
+    const url='https://graph.microsoft.com/v1.0/me/drive/special/approot:/cupos-'+unidad+'.json';
+    const o=datos?{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(datos)}:{};
+    const r=await con(MS.tok,datos?url+':/content':url,o);
+    if(!datos&&r.status===404)return null;
+    if(!r.ok)throw new Error('OneDrive respondió '+r.status+' al '+(datos?'guardar':'leer')+' cupos de '+unidad+'.');
+    if(datos)return datos;
+    // Igual que el perfil: la URL de descarga evita redirecciones CORS con Authorization.
+    const it=await r.json(),c=it['@microsoft.graph.downloadUrl']?await fetch(it['@microsoft.graph.downloadUrl']):await con(MS.tok,url+':/content');
+    if(!c.ok)throw new Error('OneDrive respondió '+c.status+' al descargar cupos de '+unidad+'.');
+    return await c.json();
+  }
 
   // Microsoft Entra ID + OneDrive (carpeta de la aplicación: Aplicaciones › IPN-tools)
   const MS={id:'ms',nube:'OneDrive',pca:null,acc:null,
@@ -417,6 +432,7 @@ var IPNT=window.IPNT=(()=>{
       }
       throw new Error('No se pudo guardar: otro dispositivo está escribiendo al mismo tiempo. Intenta de nuevo.');
     })().then(n=>{
+      window.dispatchEvent(new Event('ipnt-sincronizado'));
       st.fase='ok';st.ultimo=new Date().toISOString();ls.set('ipnt.last',st.ultimo);
       if(n>0){
         // la página lee sus datos al cargar: se recarga para mostrarlos (sin repetir en menos de 15 s, para no ciclar)
@@ -440,6 +456,7 @@ var IPNT=window.IPNT=(()=>{
       const a=await p.entrar();if(!a)return;   // redirección en curso
       if(prov&&prov!==p) await prov.salir();
       prov=p;cuenta=a;ls.set('ipnt.prov',id);ls.set('ipnt.cuenta',a.username);
+      window.dispatchEvent(new Event('ipnt-cuenta'));
       await sincronizar('login');
     }catch(e){st.fase='error';st.error=texto(e);
       if(id==='google'&&CFG.googlePrueba&&/cancelado|access_denied/i.test(st.error+String(e?.message)))
@@ -526,7 +543,7 @@ var IPNT=window.IPNT=(()=>{
     if(p&&p.disponible()) p.recuperar().then(a=>{
       if(!a){if(st.error)st.fase='error';pintar();return}
       const recien=!ls.get('ipnt.cuenta');   // regreso del inicio de sesión en la misma pestaña (Microsoft en teléfono)
-      prov=p;cuenta=a;ls.set('ipnt.prov',id);ls.set('ipnt.cuenta',a.username);pintar();sincronizar(recien?'login':'abrir');
+      prov=p;cuenta=a;ls.set('ipnt.prov',id);ls.set('ipnt.cuenta',a.username);window.dispatchEvent(new Event('ipnt-cuenta'));pintar();sincronizar(recien?'login':'abrir');
     }).catch(e=>{st.fase='error';st.error=texto(e);pintar()});
   }
   /* ---- bienvenida: primera visita (sin carrera, planes, marcas, actividades ni sesión en este navegador) ---- */
@@ -576,7 +593,7 @@ var IPNT=window.IPNT=(()=>{
     if(dl.showModal)dl.showModal();else dl.setAttribute('open','');
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);else setTimeout(wire,0);
-  return {bienvenida,diferencias,elegir,set,touch,borrar,documento,fusionar,validar,sincronizar,descargar,restaurar,get cuenta(){return cuenta},get proveedor(){return prov?.id||null}};
+  return {bienvenida,diferencias,elegir,set,touch,borrar,documento,fusionar,validar,sincronizar,descargar,restaurar,cupos,get cuenta(){return cuenta},get proveedor(){return prov?.id||null}};
 })();
 
 // Unidades académicas y sus herramientas: al elegir una se despliegan sus herramientas (se recuerda en este navegador)

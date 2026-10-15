@@ -46,7 +46,7 @@ var IPNT=window.IPNT=(()=>{
   const CFG={"clientId": "7e8e5a95-4337-4652-8b07-3450306cda8f", "tenant": "common", "googleClientId": "959269733-d3h3qm0dtqpshebnabum1jr2g0l6geoa.apps.googleusercontent.com", "unidades": [{"id": "upiita", "disponible": true, "url": "../horarios-upiita.html", "siglas": "UPIITA", "nombre": "Unidad Profesional Interdisciplinaria en Ingenier\u00eda y Tecnolog\u00edas Avanzadas"}, {"id": "escom", "disponible": true, "url": "../horarios-escom.html", "siglas": "ESCOM", "nombre": "Escuela Superior de C\u00f3mputo"}, {"id": "upibi", "disponible": true, "url": "../horarios-upibi.html", "siglas": "UPIBI", "nombre": "Unidad Profesional Interdisciplinaria de Biotecnolog\u00eda"}], "googlePrueba": true, "contacto": "vacevess1900@alumno.ipn.mx", "institucionalPendiente": true, "version": "1.2.0", "unidad": window.SATE_UNIDAD, "msal": "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.30.0/lib/msal-browser.min.js", "sri": "sha384-RGxxfG5yRS8DLU7ZJ8OoLhbV/BsJFHyPuMVHrTLbpj3t5Z15LnviJmaznKY/a7LZ"}, FILE='perfil.ipnt.json', MS_SCOPES=['Files.ReadWrite.AppFolder'],
     GO_SCOPES='openid email profile https://www.googleapis.com/auth/drive.appdata';
   // qué se guarda: todo lo de Horarios (hu.) y Electivas (ue.), menos el estado de pantalla de cada dispositivo
-  const SYNC=/^(hu\.|ue\.)|^saes\.alumno$|^perfil\.opciones$/, LOCAL=/^hu\.(?:[a-z]+\.)?(tab|per|tur|niv|view|mview|cview|mobnote)$/;
+  const SYNC=/^(hu\.|ue\.)|^saes\.alumno$|^perfil\.opciones$/, LOCAL=/^hu\.(?:[a-z]+\.)?(tab|per|tur|niv|view|mview|cview|mobnote|cupos|cuposContexto)$/;
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}},
     del(k){try{localStorage.removeItem(k)}catch(e){}},keys(){try{return Object.keys(localStorage)}catch(e){return[]}},
     obj(k,d){try{return JSON.parse(localStorage.getItem(k)||'null')||d}catch(e){return d}},put(k,o){try{localStorage.setItem(k,JSON.stringify(o))}catch(e){}}};
@@ -67,8 +67,8 @@ var IPNT=window.IPNT=(()=>{
     return {ipnt:1,tipo:'perfil',app:'IPN-tools',version:CFG.version||'',unidad:CFG.unidad||'',guardado:new Date().toISOString(),claves,borrados};
   }
   function validar(d){
-    if(!d||typeof d!=='object'||d.tipo!=='perfil'||typeof d.claves!=='object') throw new Error('El archivo no es un perfil de IPN-tools.');
-    if(!(d.ipnt>=1)) throw new Error('El archivo no es un perfil de IPN-tools.');
+    if(!d||typeof d!=='object'||d.tipo!=='perfil'||typeof d.claves!=='object') throw new Error('El archivo no es un perfil de SATE.');
+    if(!(d.ipnt>=1)) throw new Error('El archivo no es un perfil de SATE.');
     if(d.ipnt>1) throw new Error('El perfil se guardó con una versión más nueva de la herramienta. Actualiza la página.');
     return d;
   }
@@ -105,6 +105,21 @@ var IPNT=window.IPNT=(()=>{
     s.onload=ok;s.onerror=()=>no(new Error('No se pudo cargar el inicio de sesión. Revisa tu conexión.'));document.head.appendChild(s)});
   const expirada=()=>{const e=new Error('Tu sesión expiró. Vuelve a conectar tu cuenta.');e.expirada=true;return e};
   async function con(tok,url,o={}){return fetch(url,{...o,headers:{...(o.headers||{}),Authorization:'Bearer '+await tok()}})}
+  // Archivo independiente del perfil: no contiene identidad ni trayectoria del alumno.
+  async function cupos(unidad,datos){
+    if(!cuenta||prov?.id!=='ms')return null;
+    if(!/^[a-z0-9]+$/.test(unidad))throw new Error('Unidad de cupos inválida.');
+    const url='https://graph.microsoft.com/v1.0/me/drive/special/approot:/cupos-'+unidad+'.json';
+    const o=datos?{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(datos)}:{};
+    const r=await con(MS.tok,datos?url+':/content':url,o);
+    if(!datos&&r.status===404)return null;
+    if(!r.ok)throw new Error('OneDrive respondió '+r.status+' al '+(datos?'guardar':'leer')+' cupos de '+unidad+'.');
+    if(datos)return datos;
+    // Igual que el perfil: la URL de descarga evita redirecciones CORS con Authorization.
+    const it=await r.json(),c=it['@microsoft.graph.downloadUrl']?await fetch(it['@microsoft.graph.downloadUrl']):await con(MS.tok,url+':/content');
+    if(!c.ok)throw new Error('OneDrive respondió '+c.status+' al descargar cupos de '+unidad+'.');
+    return await c.json();
+  }
 
   // Microsoft Entra ID + OneDrive (carpeta de la aplicación: Aplicaciones › IPN-tools)
   const MS={id:'ms',nube:'OneDrive',pca:null,acc:null,
@@ -258,6 +273,7 @@ var IPNT=window.IPNT=(()=>{
       }
       throw new Error('No se pudo guardar: otro dispositivo está escribiendo al mismo tiempo. Intenta de nuevo.');
     })().then(n=>{
+      window.dispatchEvent(new Event('ipnt-sincronizado'));
       st.fase='ok';st.ultimo=new Date().toISOString();ls.set('ipnt.last',st.ultimo);
       if(n>0){
         // la página lee sus datos al cargar: se recarga para mostrarlos (sin repetir en menos de 15 s, para no ciclar)
@@ -281,6 +297,7 @@ var IPNT=window.IPNT=(()=>{
       const a=await p.entrar();if(!a)return;   // redirección en curso
       if(prov&&prov!==p) await prov.salir();
       prov=p;cuenta=a;ls.set('ipnt.prov',id);ls.set('ipnt.cuenta',a.username);
+      window.dispatchEvent(new Event('ipnt-cuenta'));
       await sincronizar('login');
     }catch(e){st.fase='error';st.error=texto(e);
       if(id==='google'&&CFG.googlePrueba&&/cancelado|access_denied/i.test(st.error+String(e?.message)))
@@ -367,7 +384,7 @@ var IPNT=window.IPNT=(()=>{
     if(p&&p.disponible()) p.recuperar().then(a=>{
       if(!a){if(st.error)st.fase='error';pintar();return}
       const recien=!ls.get('ipnt.cuenta');   // regreso del inicio de sesión en la misma pestaña (Microsoft en teléfono)
-      prov=p;cuenta=a;ls.set('ipnt.prov',id);ls.set('ipnt.cuenta',a.username);pintar();sincronizar(recien?'login':'abrir');
+      prov=p;cuenta=a;ls.set('ipnt.prov',id);ls.set('ipnt.cuenta',a.username);window.dispatchEvent(new Event('ipnt-cuenta'));pintar();sincronizar(recien?'login':'abrir');
     }).catch(e=>{st.fase='error';st.error=texto(e);pintar()});
   }
   /* ---- bienvenida: primera visita (sin carrera, planes, marcas, actividades ni sesión en este navegador) ---- */
@@ -417,7 +434,7 @@ var IPNT=window.IPNT=(()=>{
     if(dl.showModal)dl.showModal();else dl.setAttribute('open','');
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);else setTimeout(wire,0);
-  return {bienvenida,diferencias,elegir,set,touch,borrar,documento,fusionar,validar,sincronizar,descargar,restaurar,get cuenta(){return cuenta},get proveedor(){return prov?.id||null}};
+  return {bienvenida,diferencias,elegir,set,touch,borrar,documento,fusionar,validar,sincronizar,descargar,restaurar,cupos,get cuenta(){return cuenta},get proveedor(){return prov?.id||null}};
 })();
 
 // modo demostración: perfil ficticio solo en esta pestaña; no toca los datos reales ni la cuenta (enlace «…#demo»)
@@ -449,6 +466,14 @@ const planIds=()=>Object.keys(ws().plans).sort((a,b)=>a.length-b.length||a.local
 const planNum=id=>[...id].reduce((n,ch)=>n*26+LETRAS.indexOf(ch)+1,0);
 const nextPlan=()=>{let n=Math.max(0,...planIds().map(planNum))+1, id='';while(n>0){n--;id=LETRAS[n%26]+id;n=Math.floor(n/26)}return id};
 const save=()=>store.set('w.'+S.per,ws());
+// storage no se dispara en la pestaña que escribe; las otras recargan el mismo periodo.
+window.addEventListener('storage',e=>{
+  if(DEMO||!['actual','proximo'].some(p=>e.key===HU+'w.'+p))return;
+  const p=e.key.slice((HU+'w.').length),w=store.get('w.'+p,null);
+  if(!w?.plans?.[w.plan]||!Array.isArray(w.plans[w.plan].sel))return;
+  W[p]=w;
+  if(p===S.per&&typeof renderCal==='function'){renderPlans();renderOffer();renderCal()}
+});
 
 /* ---------- datos del SAES (v2): solo en este navegador ---------- */
 const SAES={
@@ -470,7 +495,7 @@ const SAES={
     document.addEventListener('click',e=>{if(!e.target.closest?.('[data-saes-open]'))return;e.preventDefault();SAES.open()});
     dl.querySelector('#saes-x').addEventListener('click',()=>SAES.close());
     dl.addEventListener('click',e=>{if(e.target===dl)SAES.close()});   // clic fuera de la ventana
-    const take=async t=>{const d=SAES.parse(t);if(!d){msg.innerHTML='<span class="bad">El contenido no corresponde al Lector IPN-tools. Ejecuta el marcador en el SAES y selecciona «Copiar mis datos».</span>';return}
+    const take=async t=>{const d=SAES.parse(t);if(!d){msg.innerHTML='<span class="bad">El contenido no corresponde al marcador SATE. Ejecuta el marcador en el SAES y selecciona «Copiar mis datos».</span>';return}
       // Datos de otra unidad: se guardan y se abre el SATE de esa unidad (cualquier unidad tiene SATE).
       const suya=String(d.unidad||'upiita');
       if(suya!==SAES.U()&&/^[a-z0-9-]+$/.test(suya)){SAES.save(d);paste.value='';
@@ -1273,9 +1298,9 @@ function simKardex(){
 // Sin el denominador oficial no es posible reconstruir el promedio del SAES desde sus acreditaciones.
 function promEstimado(){return ALUMNO?.promedio??null}
 /* Promedio oficial (el del SAES): promedio de todo lo que aparece en el kárdex, aprobadas y reprobadas.
-   Exacto: si el Lector trajo los renglones reprobados del kárdex (kardex_reprobadas) y su promedio junto con las aprobadas
+   Exacto: si el marcador SATE trajo los renglones reprobados del kárdex (kardex_reprobadas) y su promedio junto con las aprobadas
    coincide con el promedio oficial, se suman las materias simuladas (aprobadas con su calificación, reprobadas con
-   REPROB_CAL). Estimado: con datos de un Lector anterior se deduce cuántas reprobadas pesan suponiendo REPROB_CAL.
+   REPROB_CAL). Estimado: con datos de una versión anterior del marcador SATE se deduce cuántas reprobadas pesan suponiendo REPROB_CAL.
    Devuelve null si no se puede calcular. */
 const REPROB_CAL=5;
 function promOficialSim(){
@@ -1695,7 +1720,7 @@ $('#b-go').addEventListener('click',()=>{S.onlyWant=true;store.set('onlyWant',tr
 })();
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(SATE.modulos.mapa&&S.tab==='tray'&&ZOOM==null)renderMap()},150)});
 $('#foot-info').textContent=SATE.texto('sate.pie')+' ';
-{const b=document.createElement('button');b.type='button';b.className='enc-link';b.dataset.encuesta='';b.textContent='Dar mi opinión sobre IPN-tools';$('#foot').appendChild(b)}
+{const b=document.createElement('button');b.type='button';b.className='enc-link';b.dataset.encuesta='';b.textContent='Dar mi opinión sobre SATE';$('#foot').appendChild(b)}
 // contexto anónimo para la encuesta (tools/encuesta.py): sin nombre, boleta ni calificaciones
 window.ENCUESTA_CTX=()=>({carrera:S.car,demo:DEMO,conDatos:isPersonal(),elegidas:tr().want.length,enHorario:selected().length,
   lector:DEMO||!ALUMNO?'':ALUMNO.lector||'anterior',datosDias:ALUMNO?.leido&&!DEMO?Math.floor((Date.now()-new Date(ALUMNO.leido))/864e5):null});

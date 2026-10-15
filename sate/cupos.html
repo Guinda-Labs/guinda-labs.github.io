@@ -1,0 +1,9 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SATE</title>
+<script>
+// replace conserva opener, nombre de ventana y el retorno de autenticación.
+const destino=new URL('index.html',location.href),parametros=new URLSearchParams(location.search);
+for(const [k,v] of parametros)destino.searchParams.append(k,v);
+destino.searchParams.set('vista','cupos');
+const unidad=parametros.get('unidad');if(unidad)destino.searchParams.set('sateUnidad',unidad);
+destino.hash=location.hash;location.replace(destino.href);
+</script></html>
