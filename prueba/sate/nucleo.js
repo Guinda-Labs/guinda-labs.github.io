@@ -787,14 +787,22 @@ function desfaseLimpiarHorario(k){
     store.set('w.'+p,W[p]);
   }
 }
-function desfaseAcciones(k){
+function desfaseAcciones(k,resumida=false){
   const b=conPlan(()=>tr(),0);if(!b.adeudos.includes(k))return '';
   const tx=(s,v)=>SATE.texto('sate.planeacion.desfase_'+s,v), e=desfaseEleccion(k,b), siguiente=desfaseSiguiente(k,b);
   const aviso=!siguiente?'sin_plazo':planInicio()+1>b.failP[k]+2?'siguiente_desfase':'plazo';
-  return `<div class="sate-desfase"><p role="status">${esc(tx(e?'elegida':'pendiente',{opcion:e?tx(e):''}))}</p><p>${esc(tx(aviso,{periodo:perName(b.failP[k]==null?null:b.failP[k]+2)}))}</p><div class="sate-chips">`+
+  return `<div class="sate-desfase">${resumida?'':`<p role="status">${esc(tx(e?'elegida':'pendiente',{opcion:e?tx(e):''}))}</p><p>${esc(tx(aviso,{periodo:perName(b.failP[k]==null?null:b.failP[k]+2)}))}</p>`}<div class="sate-chips">`+
     ['actual','siguiente','ets'].map(o=>`<button type="button" class="sate-chip sate-chip--reemplazo" data-estado="${e===o?'ok':'aviso'}" data-desfase="${esc(k)}" data-opcion="${o}" aria-pressed="${e===o}"${o==='siguiente'&&!siguiente?' disabled':''}>${esc(tx(o))}</button>`).join('')+'</div></div>';
 }
-function desfaseAvisos(){const b=conPlan(()=>tr(),0);return b.adeudos.map(k=>`<section><b>${esc(pretty(cur()[k][0]))}</b>${desfaseAcciones(k)}</section>`).join('')}
+function desfaseAvisos(){
+  const b=conPlan(()=>tr(),0), tx=(s,v)=>SATE.texto('sate.planeacion.desfase_'+s,v), avisos=new Set();
+  if(b.adeudos.some(k=>!desfaseEleccion(k,b)))avisos.add(tx('pendiente'));
+  for(const k of b.adeudos){
+    const aviso=!desfaseSiguiente(k,b)?'sin_plazo':planInicio()+1>b.failP[k]+2?'siguiente_desfase':'plazo';
+    avisos.add(tx(aviso,{periodo:perName(b.failP[k]==null?null:b.failP[k]+2)}));
+  }
+  return [...avisos].map(a=>`<p>${esc(a)}</p>`).join('')+b.adeudos.map(k=>`<section><b>${esc(pretty(cur()[k][0]))}</b>${desfaseAcciones(k,true)}</section>`).join('');
+}
 /* "dd/mm/aaaa hh:mm:ss p. m." del SAES → ¿la cita (fin) ya pasó? */
 /* recordatorio para volver a usar el Lector: los datos son una copia del SAES y no se actualizan solos */
 function avisoActualizar(A){
@@ -1320,7 +1328,7 @@ function renderSide0(){
   $('#b-sugg').textContent=tx('agregar');$('#b-go').hidden=false;
   const periodoConocido=planInicio()!=null;
   etiqueta('#b-go',tx(periodoConocido?'horarios':'horarios_neutro',{periodo:planEtiqueta(0)}),tx('horarios_corto'));etiqueta('#b-none',tx(periodoConocido?'quitar_activo':'quitar_corto',{periodo:planEtiqueta(PLAN_PASO)}),tx('quitar_corto'));
-  if(PLAN_DOS_PERIODOS)etiqueta('#b-go',tx('horarios',{periodo:planEtiqueta(0)}),`Horarios de ${planEtiqueta(0)}`);
+  if(PLAN_DOS_PERIODOS)etiqueta('#b-go',tx(planInicio()==null?'horarios_neutro':'horarios',{periodo:planEtiqueta(0)}),`Horarios de ${planEtiqueta(0)}`);
   $('#plan-activo').hidden=$('#plan-leyenda').hidden=true;
   $('#plan-periodos').hidden=!PLAN_DOS_PERIODOS;$('#plan-vista-etiqueta').hidden=!PLAN_DOS_PERIODOS;
   $('#chosen').classList.toggle('un-periodo',!PLAN_DOS_PERIODOS);
@@ -1417,13 +1425,14 @@ function renderTop(){
   
   const cars=Object.entries(DATA.carreras).filter(([k])=>DATA.mapas[k]);
   if(!cars.some(([k])=>k===S.car)) S.car=cars[0][0];
-  $('#f-carrera').innerHTML=cars.map(([k,v])=>`<option value="${esc(k)}"${k===S.car?' selected':''}>${esc(v)}</option>`).join('');
+  $('#f-carrera').innerHTML=cars.map(([k,v])=>`<option value="${esc(k)}"${k===S.car?' selected':''}>${esc(v.toLocaleLowerCase('es-MX').replace(/\p{L}+/gu,(palabra,indice)=>indice>0&&/^(de|del|la|las|los|y|en|e)$/.test(palabra)?palabra:palabra[0].toLocaleUpperCase('es-MX')+palabra.slice(1)))}</option>`).join('');
   ajustarCarrera();
   const f=new Date(DATA.capturado).toLocaleString('es-MX',{dateStyle:'long',timeStyle:'short'});
   const n=new Set(classes().filter(c=>c[0]===S.car).map(c=>c[3])).size;
-  $('#notice').innerHTML=`<span>Captura del SAES: <b>${esc(f)}</b></span><span><b>${n}</b> grupos de esta carrera</span>`+
-    (!hasOffer('proximo')?'<span>El SAES aún no publica la oferta del próximo periodo; se muestra el periodo actual.</span>':S.per==='proximo'?'<span>La oferta del próximo periodo está en captura y puede estar incompleta.</span>':'')+
-    (n===0?'<span class="bad">Esta carrera no tiene grupos publicados en este periodo.</span>':'')+(DATA.salones?.fuente==='saes'?'<span>Salones según el SAES.</span>':S.per==='actual'&&DATA.salones?`<span>Salones según el horario por aula de la unidad (ciclo ${esc(DATA.salones.periodo)}).</span>`:'<span>Salones aún sin asignar para este periodo.</span>');
+  const nota=(clave,datos)=>SATE.texto('sate.horarios.'+clave,datos);
+  $('#notice').textContent=[nota('captura_fecha',{fecha:f}),nota('captura_grupos',{n}),
+    !hasOffer('proximo')?nota('captura_sin_proximo'):S.per==='proximo'?nota('captura_incompleta'):'',
+    n===0?nota('captura_sin_grupos'):'',DATA.salones?.fuente==='saes'?nota('captura_salones_saes'):S.per==='actual'&&DATA.salones?nota('captura_salones_aula',{periodo:DATA.salones.periodo}):nota('captura_sin_salones')].filter(Boolean).join(' · ');
 }
 /* Vista en lista (teléfono): materias por semestre propuesto con su estado y un botón para agregarlas */
 /* ---------- estadísticas del kárdex (solo con datos del SAES; se calculan en el navegador) ----------

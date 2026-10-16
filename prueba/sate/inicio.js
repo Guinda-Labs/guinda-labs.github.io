@@ -120,7 +120,7 @@
   function ir(id) { location.hash = '#/' + u + '/' + id; }
   function adaptarPestanas() {
     const contenedor = document.getElementById('sate-tabs'), navegacion = contenedor?.closest?.('.sate-navegacion');
-    const controles = navegacion?.querySelector('.sate-controles');
+    const controles = navegacion?.querySelector('.sate-controles') || document.querySelector?.('header.top>.sate-controles');
     // La navegación sigue funcionando en un contenedor sin medición responsiva.
     if (!navegacion || !controles) return;
     const medicion = document.createElement('div');
@@ -154,6 +154,11 @@
     function programar() { if (!pendiente) { pendiente = true; requestAnimationFrame(calcular); } }
     recalcularPestanas=programar;
     new ResizeObserver(programar).observe(navegacion);
+    // La bandeja puede envolver o cambiar con la selección: reservar su alto real.
+    const bandeja=document.querySelector?.('.plan-bandeja');
+    if(bandeja)new ResizeObserver(()=>{
+      document.documentElement.style.setProperty('--sate-plan-alto',Math.ceil(bandeja.getBoundingClientRect().height)+'px');
+    }).observe(bandeja);
     new MutationObserver(programar).observe(tabs, {childList:true,subtree:true,characterData:true});
     new MutationObserver(programar).observe(document.documentElement, {attributes:true,attributeFilter:['lang','class','style','data-pestanas']});
     if (document.fonts) { document.fonts.ready.then(programar); document.fonts.addEventListener('loadingdone',programar); }
@@ -265,15 +270,16 @@
   function invitarRecorrido() {
     const a=SATE.alumno?.();
     if(cuposReducida || !a || a.demo || !SateUI.recorridoOfrecer(leer))return;
-    const caja=document.getElementById('sate-avisos-globales');
+    const caja=document.querySelector('header.top');
     if(document.getElementById('sate-recorrido-invitacion'))return;
-    const aviso=SateUI.aviso({estado:'info',titulo:texto('sate.recorrido.boton'),cuerpo:texto('sate.recorrido.invitacion')});
+    const aviso=document.createElement('div');aviso.className='sate-recorrido-invitacion';
     aviso.id='sate-recorrido-invitacion';
     for(const [clave,acepta] of [['si',true],['ahora_no',false]]){
-      const b=document.createElement('button');b.type='button';b.className='sate-btn';b.textContent=texto('sate.recorrido.'+clave);
+      const b=document.createElement('button');b.type='button';b.className='sate-btn';b.textContent=acepta?texto('sate.recorrido.invitacion_breve'):'×';
+      if(!acepta)b.setAttribute('aria-label',texto('sate.recorrido.'+clave));
       b.onclick=()=>{SateUI.recorridoDecidir((k,v)=>IPNT.set(k,v),acepta);aviso.remove();if(acepta)iniciarRecorrido()};aviso.appendChild(b);
     }
-    // Fuera del resumen: sus repintados no deben borrar la invitación pendiente.
+    // Fuera del encabezado: los repintados de avisos conservan la decisión pendiente.
     caja.after(aviso);
   }
   window.SATE = {texto, modulos, error, script, identidadSaes, cargarTemarios, get actual(){return actual}, get almacen(){return api?.store}, pestana(id, m) { modulos[id] = m; }, ir, elegirUnidad, repintar, cargarOferta,
@@ -320,7 +326,10 @@
   if (cfg.leyenda) {
     const ayuda = SateUI.ayuda('sate.leyenda.'+cfg.leyenda,{unidad:cfg.siglas});
     const boton = ayuda.querySelector('button');
-    boton.textContent = texto('sate.encabezado.prueba');
+    // El texto largo se oculta en móvil sin cambiar la escala tipográfica.
+    const etiqueta = document.createElement('span');
+    etiqueta.textContent = texto('sate.encabezado.prueba');
+    boton.replaceChildren(etiqueta);
     boton.setAttribute('aria-label', texto('sate.encabezado.prueba')); boton.dataset.corto = texto('sate.encabezado.prueba_corto');
     document.getElementById('sate-leyenda').appendChild(ayuda);
   }
