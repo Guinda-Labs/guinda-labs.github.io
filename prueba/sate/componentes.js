@@ -179,10 +179,15 @@
   var globoAbierto = null;
   function cerrarGlobo() { if (globoAbierto) { globoAbierto(); globoAbierto = null; } }
   /* ayuda(clave, vars?) → elemento. Escritorio: globo (hover, foco, clic). Teléfono/táctil: modal pequeño. */
-  function ayuda(clave, vars) {
+  function ayuda(clave, vars, definicion) {
     vars = Object.fromEntries(Object.entries(vars || {}).map(([k,v]) => [k,String(v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))]));
     var env = el('span', { class: 'sate-ayuda' });
     var b = el('button', { type: 'button', class: 'sate-ayuda__btn', 'aria-label': traducir('componentes.ayuda.boton'), texto: 'ⓘ' });
+    if (definicion) {
+      b.textContent = definicion.texto;
+      b.setAttribute('aria-label', definicion.texto);
+      b.classList.add('sate-termino');
+    }
     var gid = id('globo');
     var g = el('span', { class: 'sate-globo', role: 'tooltip', id: gid, hidden: true });
     env.appendChild(b); env.appendChild(g);
@@ -199,7 +204,8 @@
     function mostrar() {
       if (!g.hidden) return;
       cerrarGlobo();
-      g.innerHTML = traducir(clave, vars);
+      if (definicion) g.textContent = definicion.definicion;
+      else g.innerHTML = traducir(clave, vars);
       g.hidden = false; b.setAttribute('aria-describedby', gid);
       colocar();
       globoAbierto = ocultar;
@@ -212,7 +218,7 @@
     env.addEventListener('focusout', function () { programar(); });
     env.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !g.hidden) { e.stopPropagation(); ocultar(); b.focus(); } });
     b.addEventListener('click', function () {
-      if (esMovil()) { modal(traducir('componentes.ayuda.titulo'), function () { return el('p', { html: traducir(clave, vars) }); }, { pequeno: true }); return; }
+      if (esMovil()) { modal(definicion ? definicion.titulo : traducir('componentes.ayuda.titulo'), function () { return definicion ? el('p', { texto: definicion.definicion }) : el('p', { html: traducir(clave, vars) }); }, { pequeno: true }); return; }
       if (g.hidden) { mostrar(); fijo = true; } else if (fijo) ocultar(); else fijo = true;
     });
     return env;
@@ -605,7 +611,25 @@ function leyendaGrafica(items,esc){
   return `<span class="ley">${items.map(([t,c,x])=>`<span><svg viewBox="0 0 22 14" width="22" height="14" aria-hidden="true" fill="none">${m(t,c)}</svg>${esc(x)}</span>`).join('')}</span>`;
 }
 
-  raiz.SateUI = { leyendaGrafica, indicadoresTrayectoria, fichasKardex, caminoTrayectoria, bandasMapa:rowBands, minimapaCurricular, cajaMateria, resalteCaja, cuadriculaHorario, usarTextos: usarTextos, usarAlmacen: usarAlmacen, chips: chips, recorteCalendario: recorteCalendario, aviso: aviso, avisos: avisos, modal: modal, cerrarModal: cerrar,
+  raiz.SateUI = { definicion: (texto, titulo, definicion) => ayuda('', {}, {texto, titulo, definicion}), leyendaGrafica, indicadoresTrayectoria, fichasKardex, caminoTrayectoria, bandasMapa:rowBands, minimapaCurricular, cajaMateria, resalteCaja, cuadriculaHorario, usarTextos: usarTextos, usarAlmacen: usarAlmacen, chips: chips, recorteCalendario: recorteCalendario, aviso: aviso, avisos: avisos, modal: modal, cerrarModal: cerrar,
     ayuda: ayuda, desplegable: desplegable, pestanas: pestanas, barraInferior: barraInferior,
     volver: volver, migas: migas, tarjetaNav: tarjetaNav, buscador: buscador, segmentado: segmentado, pregunta: pregunta, revelar: revelar };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+/* Preferencia independiente del perfil: no vuelve a preguntar al actualizar el SAES. */
+(function(raiz){
+  const clave='ipnt.recorrido.decision';
+  raiz.SateUI.recorridoOfrecer=leer=>leer(clave)==null;
+  raiz.SateUI.recorridoDecidir=(guardar,acepta)=>guardar(clave,acepta?'si':'ahora_no');
+  raiz.SateUI.recorridoTarjeta=function(salir){
+    const d=document.createElement('dialog');d.className='sate-recorrido';d.setAttribute('aria-labelledby','sate-recorrido-titulo');
+    const marco=document.createElement('div');marco.className='sate-recorrido__marco';marco.setAttribute('aria-hidden','true');
+    const tarjeta=document.createElement('section');tarjeta.className='sate-recorrido__tarjeta';
+    const titulo=document.createElement('h2');titulo.id='sate-recorrido-titulo';
+    const texto=document.createElement('p');texto.id='sate-recorrido-texto';texto.setAttribute('aria-live','polite');texto.setAttribute('aria-atomic','true');d.setAttribute('aria-describedby',texto.id);
+    // Fuera del body para no heredar el zoom de la interfaz en coordenadas del viewport.
+    const acciones=document.createElement('div');acciones.className='sate-recorrido__acciones';tarjeta.append(titulo,texto,acciones);d.append(marco,tarjeta);document.documentElement.appendChild(d);
+    d.addEventListener('cancel',e=>{e.preventDefault();salir()});
+    return {elemento:d,tarjeta,titulo,texto,acciones,marco};
+  };
 })(typeof window !== 'undefined' ? window : globalThis);
