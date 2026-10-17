@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T21:04:41.504099Z",
+  "cambio": "2026-10-17T21:10:58.455170Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -130,6 +130,46 @@
     "2MV10|SENSORES Y ACONDICIONADORES DE SEÑAL": {
       "url": "https://chat.whatsapp.com/FM31itGwTT8DQ0ZYtxJLMl",
       "desde": "2026-10-17T21:04:34.236Z",
+      "reemplazo": null
+    },
+    "3MM12|DISEÑO AVANZADO Y MANUFACTURA ASISTIDA POR COMPUTADORA": {
+      "url": "https://chat.whatsapp.com/Kisc6GlcVeo3BYn6ZG9PNw",
+      "desde": "2026-10-17T21:05:44.951Z",
+      "reemplazo": null
+    },
+    "3MM10|ECONOMIA Y LOGISTICA": {
+      "url": "https://chat.whatsapp.com/EWBIF6U1g7n9RG9gNvqo8t",
+      "desde": "2026-10-17T21:05:55.958Z",
+      "reemplazo": null
+    },
+    "3MM3|DISEÑO AVANZADO DE ELEMENTOS DE MAQUINAS": {
+      "url": "https://chat.whatsapp.com/IxXiyjrpyKoLi27RvOO2Ep",
+      "desde": "2026-10-17T21:07:01.011Z",
+      "reemplazo": null
+    },
+    "3MM10|AUTOMATIZACION DE LINEA DE PRODUCCION": {
+      "url": "https://chat.whatsapp.com/IHMNpL5lhhQAVKc3bNWjS5",
+      "desde": "2026-10-17T21:07:45.075Z",
+      "reemplazo": null
+    },
+    "3MM6|PROCESADOR DIGITAL DE SEÑALES": {
+      "url": "https://chat.whatsapp.com/EDJsrRGo7yDJhuOZVxytBH",
+      "desde": "2026-10-17T21:08:14.080Z",
+      "reemplazo": null
+    },
+    "3MV2|MODELADO Y SIMULACION DE SISTEMAS MECATRONICOS": {
+      "url": "https://chat.whatsapp.com/IdsYeCE5qNT3VgNRVvJpxZ",
+      "desde": "2026-10-17T21:09:22.840Z",
+      "reemplazo": null
+    },
+    "4MM7|PROTOCOLOS DE COMUNICACION INDUSTRIAL": {
+      "url": "https://chat.whatsapp.com/DP0UyheoT2b1s12nBjtkzH",
+      "desde": "2026-10-17T21:10:05.160Z",
+      "reemplazo": null
+    },
+    "3MV3|DISEÑO AVANZADO DE ELEMENTOS DE MAQUINAS": {
+      "url": "https://chat.whatsapp.com/K9V56i4JPgLCPh68OJcoJ9",
+      "desde": "2026-10-17T21:10:50.825Z",
       "reemplazo": null
     }
   }
