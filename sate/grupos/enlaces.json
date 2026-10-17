@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T20:21:57.717633Z",
+  "cambio": "2026-10-17T20:28:34.137336Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -110,6 +110,16 @@
     "3MV11|GRAFICACION EN 3D": {
       "url": "https://chat.whatsapp.com/I289BOR4xIE7NbYXORpZva",
       "desde": "2026-10-17T20:19:48.941Z",
+      "reemplazo": null
+    },
+    "3MM9|INGENIERIA AMBIENTAL": {
+      "url": "https://chat.whatsapp.com/J1pJ85rUtyKJpxQ4qCpzeF",
+      "desde": "2026-10-17T20:22:51.673Z",
+      "reemplazo": null
+    },
+    "2MV6|MICROPROCESADORES, MICROCONTROLADORES E INTERFAZ": {
+      "url": "https://chat.whatsapp.com/JyAZQcWBzdP0kt9CjRTsG3",
+      "desde": "2026-10-17T20:23:51.592Z",
       "reemplazo": null
     }
   }
