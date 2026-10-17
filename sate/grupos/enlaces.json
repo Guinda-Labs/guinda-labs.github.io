@@ -1,10 +1,20 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T10:16:14.363580Z",
+  "cambio": "2026-10-17T10:22:22.128967Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
       "desde": "2026-10-17T10:16:06.493Z",
+      "reemplazo": null
+    },
+    "2MM9|INGLES III": {
+      "url": "https://chat.whatsapp.com/C8qdvPndnHYF7yvaPPskRM",
+      "desde": "2026-10-17T10:18:23.572Z",
+      "reemplazo": null
+    },
+    "3MM8|INGENIERIA AMBIENTAL": {
+      "url": "https://chat.whatsapp.com/GxgYE47NvpzArSatsHFlzD",
+      "desde": "2026-10-17T10:21:27.231Z",
       "reemplazo": null
     }
   }
