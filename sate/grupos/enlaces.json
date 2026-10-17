@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T22:25:05.971264Z",
+  "cambio": "2026-10-17T22:31:54.338238Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -248,6 +248,11 @@
     "3MV8|INGENIERIA AMBIENTAL": {
       "url": "https://chat.whatsapp.com/FxLDkQvcz8NJ3St3RxSukU",
       "desde": "2026-10-17T22:23:31.097Z",
+      "reemplazo": null
+    },
+    "4MM8|INTEGRACION DE UN SISTEMA ROBOTICO": {
+      "url": "https://chat.whatsapp.com/KYIoKbD3jnO7xm7GftLZyb",
+      "desde": "2026-10-17T22:25:21.186Z",
       "reemplazo": null
     }
   }
