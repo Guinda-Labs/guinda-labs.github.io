@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T22:31:54.338238Z",
+  "cambio": "2026-10-17T22:38:02.429888Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -253,6 +253,36 @@
     "4MM8|INTEGRACION DE UN SISTEMA ROBOTICO": {
       "url": "https://chat.whatsapp.com/KYIoKbD3jnO7xm7GftLZyb",
       "desde": "2026-10-17T22:25:21.186Z",
+      "reemplazo": null
+    },
+    "2MM6|SIMULACION ELECTRONICA Y DISEÑO DE CIRCUITOS IMPRESOS": {
+      "url": "https://chat.whatsapp.com/ErtZoRh1jCrJk5SPqblEwN",
+      "desde": "2026-10-17T22:32:16.167Z",
+      "reemplazo": null
+    },
+    "2MM7|DISEÑO BASICO DE ELEMENTOS DE MAQUINAS": {
+      "url": "https://chat.whatsapp.com/FPmqNnapCilHtApiUdSfAK",
+      "desde": "2026-10-17T22:33:27.146Z",
+      "reemplazo": null
+    },
+    "2MM8|MECANICA DE FLUIDOS": {
+      "url": "https://chat.whatsapp.com/CBrmIMjPgmkK6rkDikfJwh",
+      "desde": "2026-10-17T22:34:45.094Z",
+      "reemplazo": null
+    },
+    "2MV3|ELECTRONICA ANALOGICA": {
+      "url": "https://chat.whatsapp.com/DKdvsWccarQ5KVlsIhn6Ul",
+      "desde": "2026-10-17T22:35:49.907Z",
+      "reemplazo": null
+    },
+    "3MV3|INSTRUMENTACION VIRTUAL": {
+      "url": "https://chat.whatsapp.com/KP2WElf2a0yK6c59wnR9by",
+      "desde": "2026-10-17T22:36:54.411Z",
+      "reemplazo": null
+    },
+    "4MV6|PROYECTOS DE INVERSION": {
+      "url": "https://chat.whatsapp.com/DLkISzFIDEpDSTKU26b6h9",
+      "desde": "2026-10-17T22:37:55.461Z",
       "reemplazo": null
     }
   }
