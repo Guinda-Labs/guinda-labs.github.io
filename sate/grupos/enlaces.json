@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T10:36:04.266426Z",
+  "cambio": "2026-10-17T10:42:16.575669Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -30,6 +30,11 @@
     "5MM4|TRABAJO TERMINAL I": {
       "url": "https://chat.whatsapp.com/KlVeNSW15w31gXcFQ9qj6s",
       "desde": "2026-10-17T10:35:57.355Z",
+      "reemplazo": null
+    },
+    "2MV12|SISTEMAS NEURODIFUSOS": {
+      "url": "https://chat.whatsapp.com/Cj5JOuTrNOXGxdcWQvZSRF",
+      "desde": "2026-10-17T10:39:02.669Z",
       "reemplazo": null
     }
   }
