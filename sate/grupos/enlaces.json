@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T21:10:58.455170Z",
+  "cambio": "2026-10-17T21:18:17.836188Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -170,6 +170,11 @@
     "3MV3|DISEÑO AVANZADO DE ELEMENTOS DE MAQUINAS": {
       "url": "https://chat.whatsapp.com/K9V56i4JPgLCPh68OJcoJ9",
       "desde": "2026-10-17T21:10:50.825Z",
+      "reemplazo": null
+    },
+    "4MV10|MERCADOTECNIA": {
+      "url": "https://chat.whatsapp.com/CP4RAyQkoKb7UYE2kbsgEE",
+      "desde": "2026-10-17T21:16:37.654Z",
       "reemplazo": null
     }
   }
