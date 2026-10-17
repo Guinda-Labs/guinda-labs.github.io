@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T10:22:22.128967Z",
+  "cambio": "2026-10-17T10:28:45.090593Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -15,6 +15,16 @@
     "3MM8|INGENIERIA AMBIENTAL": {
       "url": "https://chat.whatsapp.com/GxgYE47NvpzArSatsHFlzD",
       "desde": "2026-10-17T10:21:27.231Z",
+      "reemplazo": null
+    },
+    "4MV8|DISEÑO DE EQUIPO PARA MANEJO DE MATERIALES": {
+      "url": "https://chat.whatsapp.com/BdAZAe5X5uLH9HW5NabmzX",
+      "desde": "2026-10-17T10:23:48.750Z",
+      "reemplazo": null
+    },
+    "4MV2|ELECTRONICA DE POTENCIA": {
+      "url": "https://chat.whatsapp.com/E762dVPRrwwFWhn2B4V0Lb",
+      "desde": "2026-10-17T10:24:47.628Z",
       "reemplazo": null
     }
   }
