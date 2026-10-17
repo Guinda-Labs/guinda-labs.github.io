@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T21:18:17.836188Z",
+  "cambio": "2026-10-17T21:24:50.578933Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -175,6 +175,24 @@
     "4MV10|MERCADOTECNIA": {
       "url": "https://chat.whatsapp.com/CP4RAyQkoKb7UYE2kbsgEE",
       "desde": "2026-10-17T21:16:37.654Z",
+      "reemplazo": null
+    },
+    "4MV6|METODOLOGIA DE LA INVESTIGACION": {
+      "url": "https://chat.whatsapp.com/Ihc7EuaNEUCH3vrSj6yelz",
+      "desde": "2026-10-17T21:20:39.342Z",
+      "reemplazo": {
+        "motivo": "equivocado",
+        "fecha": "2026-10-17T21:20:39.342Z"
+      }
+    },
+    "4MV6|SISTEMAS DE VISION ARTIFICIAL": {
+      "url": "https://chat.whatsapp.com/E2fhYHGgNpe16h1RqnT4VY",
+      "desde": "2026-10-17T21:20:08.395Z",
+      "reemplazo": null
+    },
+    "4MV9|DISEÑO ERGONOMICO": {
+      "url": "https://chat.whatsapp.com/C1QchAKOAnV5s3gaR6LZXS",
+      "desde": "2026-10-17T21:21:51.253Z",
       "reemplazo": null
     }
   }
