@@ -5,8 +5,8 @@
   "enlaces_prueba": "/sate/grupos/enlaces-prueba.json",
   "zona": "America/Mexico_City",
   "horario": [
-    {"hasta": "2026-10-20T06:00:00Z", "cada_min": 5},
-    {"hasta": "2026-10-27T06:00:00Z", "cada_min": 60},
+    {"hasta": "2026-10-19T06:00:00Z", "cada_min": 5},
+    {"hasta": "2026-10-26T06:00:00Z", "cada_min": 60},
     {"hasta": null, "cada_min": 1440, "hora_utc": 12}
   ],
   "motivos": ["caido", "lleno", "equivocado", "otro"]
