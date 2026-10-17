@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T22:18:38.126278Z",
+  "cambio": "2026-10-17T22:25:05.971264Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -228,6 +228,26 @@
     "2MM12|SISTEMAS NEURODIFUSOS": {
       "url": "https://chat.whatsapp.com/JopRhUYu9kt64RsSCmjXDT",
       "desde": "2026-10-17T22:18:30.647Z",
+      "reemplazo": null
+    },
+    "3MM7|PROYECTO INTEGRADOR": {
+      "url": "https://chat.whatsapp.com/K5lHXj7LXkpBUgwXHXJxO1",
+      "desde": "2026-10-17T22:19:55.662Z",
+      "reemplazo": null
+    },
+    "3MV10|TOPICOS AVANZADOS DE SENSORES": {
+      "url": "https://chat.whatsapp.com/CqqFPjFo4Wg82riok8CkP1",
+      "desde": "2026-10-17T22:21:15.805Z",
+      "reemplazo": null
+    },
+    "3MV7|AUTOMATIZACION INDUSTRIAL": {
+      "url": "https://chat.whatsapp.com/JDckRxS8v7K5ic18VYhCfe",
+      "desde": "2026-10-17T22:22:22.399Z",
+      "reemplazo": null
+    },
+    "3MV8|INGENIERIA AMBIENTAL": {
+      "url": "https://chat.whatsapp.com/FxLDkQvcz8NJ3St3RxSukU",
+      "desde": "2026-10-17T22:23:31.097Z",
       "reemplazo": null
     }
   }
