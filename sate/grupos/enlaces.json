@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T13:50:11.835349Z",
+  "cambio": "2026-10-17T19:14:46.987890Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -50,6 +50,11 @@
     "5MM3|TRABAJO TERMINAL I": {
       "url": "https://chat.whatsapp.com/C0sjHPDaZBqCjwI9nSGT0g",
       "desde": "2026-10-17T13:45:52.262Z",
+      "reemplazo": null
+    },
+    "1BM7|BIOESTADISTICA": {
+      "url": "https://chat.whatsapp.com/KRkzC3XYdF2BuYl2gNht1x",
+      "desde": "2026-10-17T19:14:39.324Z",
       "reemplazo": null
     }
   }
