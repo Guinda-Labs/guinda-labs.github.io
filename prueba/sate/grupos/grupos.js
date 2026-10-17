@@ -80,7 +80,26 @@
     const plans = horario?.plans || {}, plan = elegido && plans[elegido] ? elegido : horario?.plan;
     return {plan, planes:Object.keys(plans), claves:Array.isArray(plans[plan]?.sel) ? [...new Set(plans[plan].sel)] : []};
   }
-  const funciones = {normalizarURL, proximaVerificacion, mezclar, normalizarBusqueda, leerHash, escribirHash, filtrar,
+  function aceptacionReglas(local, sesion, version = 'v1') {
+    const clave = ['grupos', 'reglas', version].join('.');
+    let aceptado = false;
+    return {
+      aceptada() {
+        if (aceptado) return true;
+        try { if (local().getItem(clave) === 'aceptado') return true; } catch (_) { /* Consultar el respaldo. */ }
+        try { return sesion().getItem(clave) === 'aceptado'; } catch (_) { return false; }
+      },
+      aceptar() {
+        aceptado = true;
+        try { local().setItem(clave, 'aceptado'); }
+        catch (_) {
+          // Si la persistencia está deshabilitada, recordar solo durante esta sesión.
+          try { sesion().setItem(clave, 'aceptado'); } catch (_) { /* Respaldo en memoria. */ }
+        }
+      }
+    };
+  }
+  const funciones = {aceptacionReglas, normalizarURL, proximaVerificacion, mezclar, normalizarBusqueda, leerHash, escribirHash, filtrar,
     periodoHorario, leerHorario, emparejarClave, seleccionHorario};
   if (typeof module !== 'undefined' && module.exports) module.exports = funciones;
   raiz.GruposFunciones = funciones;
@@ -94,10 +113,11 @@
     const nodo = document.createElement(tag);
     if (texto != null) nodo.textContent = texto;
     if (clase) nodo.className = clase;
+    else if (tag === 'label') nodo.className = 'tramite-campo';
     return nodo;
   }
   function boton(texto, accion) {
-    const b = elemento('button', texto); b.type = 'button'; b.addEventListener('click', accion); return b;
+    const b = elemento('button', texto, 'sate-btn'); b.type = 'button'; b.addEventListener('click', accion); return b;
   }
   function leer(clave, reserva) {
     try { return JSON.parse(localStorage.getItem(clave)) ?? reserva; } catch (_) { return reserva; }
@@ -107,6 +127,35 @@
   }
   const prueba = location.pathname.startsWith('/prueba/'), modo = prueba ? 'prueba' : '';
   const prefijo = 'ipnt.grupos.' + (prueba ? 'prueba.' : 'real.');
+  const guia = document.getElementById('guia'), abrirGuia = document.getElementById('abrir-guia');
+  const cerrarGuia = document.getElementById('cerrar-guia');
+  const reglas = document.getElementById('reglas'), tituloReglas = document.getElementById('reglas-titulo');
+  const aceptacion = aceptacionReglas(() => localStorage, () => sessionStorage);
+  let pendienteReglas;
+  function mostrarReglas() {
+    if (!reglas.open) reglas.showModal();
+    tituloReglas.focus();
+  }
+  // showModal mantiene el foco dentro del diálogo e inactiva el resto de la página.
+  function mostrarGuia(evento) {
+    evento.preventDefault(); guia.showModal(); document.getElementById('guia-titulo').focus();
+  }
+  abrirGuia.addEventListener('click', mostrarGuia);
+  cerrarGuia.addEventListener('click', () => guia.close());
+  guia.addEventListener('cancel', evento => { evento.preventDefault(); guia.close(); });
+  guia.addEventListener('close', () => (reglas.open ? tituloReglas : abrirGuia).focus());
+  document.getElementById('reglas-guia').addEventListener('click', mostrarGuia);
+  document.getElementById('abrir-reglas').addEventListener('click', evento => {
+    evento.preventDefault(); mostrarReglas();
+  });
+  reglas.addEventListener('cancel', evento => { if (!aceptacion.aceptada()) evento.preventDefault(); });
+  document.getElementById('aceptar-reglas').addEventListener('click', async () => {
+    aceptacion.aceptar(); reglas.close();
+    const continuar = pendienteReglas; pendienteReglas = null;
+    if (continuar) await continuar();
+    else abrirGuia.focus();
+  });
+  if (!aceptacion.aceptada()) mostrarReglas();
   let config, oferta, enlaces = {}, locales = {}, cambio;
   let ofertaSate, planElegido, conteoTus;
   const tusMaterias = document.getElementById('tus-materias');
@@ -214,7 +263,7 @@
     return t(error.message === 'pendiente' ? 'grupos.error.pendiente' : 'grupos.error.red');
   }
   function unirse(dato) {
-    const a = elemento('a', t('grupos.accion.unirse'), 'unirse');
+    const a = elemento('a', t('grupos.accion.unirse'), 'unirse sate-btn sate-btn--primario');
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('aria-hidden', 'true');
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -254,10 +303,11 @@
         }), boton(t('grupos.accion.reemplazar'), () => { menu.open = false; editar(true); }));
         acciones.append(menu);
         if (vigente.reemplazo) contenedor.append(elemento('small', t('grupos.estado.reemplazado', {fecha:relativo(vigente.reemplazo.fecha), motivo:t(motivos[vigente.reemplazo.motivo] || motivos.otro)})));
-      } else { const agregar = boton(t('grupos.accion.agregar'), () => editar(false)); agregar.className = 'texto-enlace'; acciones.append(agregar); }
+      } else { const agregar = boton(t('grupos.accion.agregar'), () => editar(false)); agregar.className = 'sate-enlace'; acciones.append(agregar); }
       if (resumen) contador(grupo, resumen);
     }
     async function editar(reemplazo) {
+      if (!aceptacion.aceptada()) { pendienteReglas = () => editar(reemplazo); mostrarReglas(); return; }
       if (contenedor.querySelector('.editor')) return;
       const editor = elemento('div', null, 'editor'), aviso = elemento('p');
       aviso.setAttribute('role', 'status'); aviso.setAttribute('aria-live', 'polite');
@@ -291,7 +341,7 @@
       }
       const trampaLabel = elemento('label', t('grupos.form.web'), 'trampa'), trampa = elemento('input');
       trampa.name = 'web'; trampa.tabIndex = -1; trampa.autocomplete = 'off'; trampaLabel.setAttribute('aria-hidden', 'true'); trampaLabel.append(trampa);
-      const enviar = elemento('button', t('grupos.accion.guardar')); enviar.type = 'submit'; enviar.disabled = true;
+      const enviar = elemento('button', t('grupos.accion.guardar'), 'sate-btn sate-btn--primario'); enviar.type = 'submit'; enviar.disabled = true;
       let ocupado = false;
       function validar() {
         const url = normalizarURL(entrada.value);
@@ -343,9 +393,23 @@
     guardar(prefijo + 'filtros', {...filtros, g:''});
   }
   function controles() {
+    const disponibles = oferta.casillas.filter(c => !filtros.c || c.carrera === filtros.c);
+    const niveles = [...new Set(disponibles.map(c => c.nivel))].sort((a,b) => a-b);
+    if (filtros.s && !niveles.includes(Number(filtros.s))) filtros.s = '';
+    document.getElementById('nivel-etiqueta').textContent = t(disponibles.some(c => oferta.semestrales.includes(c.carrera)) ? 'grupos.filtro.nivel_semestre' : 'grupos.filtro.nivel');
+    semestre.replaceChildren();
+    const todos = elemento('option', t('grupos.filtro.todos')); todos.value = ''; semestre.append(todos);
+    for (const nivel of niveles) {
+      const o = elemento('option', filtros.c ? etiquetaNivel(filtros.c, nivel) : String(nivel));
+      o.value = String(nivel); semestre.append(o);
+    }
     buscar.value = filtros.q; semestre.value = filtros.s; turno.value = filtros.t; sin.checked = filtros.sin;
     for (const b of carrera.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.carrera === filtros.c));
     document.getElementById('limpiar').hidden = !['c','s','t','q','sin'].some(k => filtros[k]);
+  }
+  function etiquetaNivel(carrera, n) {
+    return t(oferta.semestrales.includes(carrera) ? 'grupos.lista.semestre' : 'grupos.lista.nivel',
+      {n, ordinal:n === 1 || n === 3 ? 'er' : 'º'});
   }
   async function compartir(nombre) {
     const url = new URL(location.href); url.pathname = url.pathname.replace(/\/index\.html$/, '/');
@@ -356,6 +420,7 @@
     } catch (error) { if (error.name !== 'AbortError') notificar(t('grupos.error.compartir')); }
   }
   function renderizar(automatico = true) {
+    controles();
     lista.replaceChildren(); const grupos = new Map();
     for (const c of filtrar(oferta.casillas, enlaces, filtros)) {
       if (!grupos.has(c.grupo)) grupos.set(c.grupo, []);
@@ -382,7 +447,7 @@
         renderizar(false); sincronizar();
         [...lista.querySelectorAll('button.grupo')].find(n => n.dataset.grupo === nombre)?.focus();
       });
-      b.className = 'grupo'; b.dataset.grupo = nombre;
+      b.className = 'grupo sate-btn'; b.dataset.grupo = nombre;
       b.id = 'grupo-' + nombre; b.setAttribute('aria-controls', 'panel-' + nombre);
       b.setAttribute('aria-expanded', String(abierto === nombre));
       b.append(elemento('strong', nombre), elemento('span', '', 'contador')); grid.append(b);
@@ -390,17 +455,36 @@
         const panel = elemento('div', null, 'grupos-panel'); panel.id = 'panel-' + nombre;
         panel.setAttribute('role', 'region'); panel.setAttribute('aria-labelledby', b.id);
         const cabecera = elemento('div', null, 'renglon');
-        const compartirBoton = boton(t('grupos.accion.compartir'), () => compartir(nombre)); compartirBoton.className = 'texto-enlace';
+        const compartirBoton = boton(t('grupos.accion.compartir'), () => compartir(nombre)); compartirBoton.className = 'sate-enlace';
         cabecera.append(elemento('h3', nombre), compartirBoton); panel.append(cabecera);
         for (const c of casillas) panel.append(fila(c, oferta.casillas.filter(f => f.grupo === nombre), b));
         grid.append(panel);
       }
     }
     if (grupos.has(ultimo)) agregar(ultimo, grupos.get(ultimo), seccion('tu', t('grupos.lista.tu')));
-    for (const [nombre, casillas] of [...grupos].sort((a,b) => a[1][0].nivel - b[1][0].nivel || a[0].localeCompare(b[0], 'es', {numeric:true}))) {
-      if (nombre === ultimo) continue;
-      const nivel = casillas[0].nivel;
-      agregar(nombre, casillas, seccion(nivel, t('grupos.lista.semestre_' + nivel)));
+    for (const id of Object.keys(oferta.carreras)) {
+      const deCarrera = [...grupos].filter(([, casillas]) => casillas[0].carrera === id);
+      if (!deCarrera.some(([nombre]) => nombre !== ultimo)) continue;
+      const s = elemento('section', null, 'grupos-seccion grupos-carrera'); s.dataset.carrera = id;
+      if (!filtros.c) {
+        const cabecera = elemento('div', null, 'renglon');
+        cabecera.append(elemento('h2', oferta.carreras[id]), elemento('span',
+          t(deCarrera.length === 1 ? 'grupos.lista.grupo_uno' : 'grupos.lista.grupo_varios', {n:deCarrera.length}), 'tenue'));
+        s.append(cabecera);
+      }
+      lista.append(s);
+      const filas = new Map();
+      for (const [nombre, casillas] of deCarrera.sort((a,b) => a[1][0].nivel - b[1][0].nivel || a[0].localeCompare(b[0], 'es', {numeric:true}))) {
+        if (nombre === ultimo) continue;
+        const nivel = casillas[0].nivel;
+        if (!filas.has(nivel)) {
+          const fila = elemento('div', null, 'grupos-nivel'), grid = elemento('div', null, 'grupos-cuadricula');
+          fila.dataset.nivel = String(nivel);
+          fila.append(elemento('h3', etiquetaNivel(id, nivel), 'grupos-nivel-etiqueta'), grid);
+          s.append(fila); filas.set(nivel, grid);
+        }
+        agregar(nombre, casillas, filas.get(nivel));
+      }
     }
     controles(); actualizarConteos();
   }
@@ -424,13 +508,10 @@
         abierto = ''; renderizar(); sincronizar();
       }
       for (const id of ['', ...Object.keys(oferta.carreras)]) {
-        const b = boton('', () => { filtros.c = id; cambiar(); }); b.dataset.carrera = id;
+        const b = boton('', () => { filtros.c = id; cambiar(); }); b.className = 'chip'; b.dataset.carrera = id;
         b.append(elemento('span', t(id ? 'grupos.carrera.' + id.toLowerCase() : 'grupos.filtro.todas'), 'carrera-larga'),
           elemento('span', t(id ? 'grupos.carrera_corta.' + id.toLowerCase() : 'grupos.filtro.todas'), 'carrera-corta'));
         carrera.append(b);
-      }
-      for (const nivel of [...new Set(oferta.casillas.map(c => c.nivel))].sort((a,b) => a-b)) {
-        const o = elemento('option', String(nivel)); o.value = String(nivel); semestre.append(o);
       }
       function restaurar() {
         filtros = leerHash(location.hash || escribirHash(leer(prefijo + 'filtros', {})));
@@ -459,5 +540,7 @@
       }
     } catch (error) { notificar(t('grupos.error.datos')); console.warn('[grupos]', {accion:'cargar', error:error.name}); }
   }
+  // En teléfono la barra de pestañas se desplaza: muestra la pestaña actual.
+  try { document.querySelector('.sate-pestana[aria-current="page"]')?.scrollIntoView({block:'nearest', inline:'center'}); } catch (_) {}
   iniciar();
 })(typeof globalThis !== 'undefined' ? globalThis : this);
