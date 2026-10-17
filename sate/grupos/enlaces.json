@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T20:28:34.137336Z",
+  "cambio": "2026-10-17T20:35:30.133743Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -120,6 +120,11 @@
     "2MV6|MICROPROCESADORES, MICROCONTROLADORES E INTERFAZ": {
       "url": "https://chat.whatsapp.com/JyAZQcWBzdP0kt9CjRTsG3",
       "desde": "2026-10-17T20:23:51.592Z",
+      "reemplazo": null
+    },
+    "2MV9|NEUMATICA E HIDRAULICA": {
+      "url": "https://chat.whatsapp.com/CdQKVykxcAeFbHKGD9l4pr",
+      "desde": "2026-10-17T20:30:45.092Z",
       "reemplazo": null
     }
   }
