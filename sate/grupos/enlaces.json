@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T20:01:10.374684Z",
+  "cambio": "2026-10-17T20:07:52.935307Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -60,6 +60,21 @@
     "2MM11|SENSORES Y ACONDICIONADORES DE SEÑAL": {
       "url": "https://chat.whatsapp.com/GxRHIsBiq22FM5pqVvXYNI",
       "desde": "2026-10-17T20:01:02.101Z",
+      "reemplazo": null
+    },
+    "2MM10|MAQUINAS ELECTRICAS": {
+      "url": "https://chat.whatsapp.com/K3dUWwUE8kvAn3SqLvhRxb",
+      "desde": "2026-10-17T20:04:02.420Z",
+      "reemplazo": null
+    },
+    "4MM2|ELECTRONICA DE POTENCIA": {
+      "url": "https://chat.whatsapp.com/IPSgmoBS2UC8i5eZ6FFf51",
+      "desde": "2026-10-17T20:05:24.315Z",
+      "reemplazo": null
+    },
+    "2MM11|NEUMATICA E HIDRAULICA": {
+      "url": "https://chat.whatsapp.com/CFfuP7LrLi32X0mJprRs29",
+      "desde": "2026-10-17T20:06:20.931Z",
       "reemplazo": null
     }
   }
