@@ -646,7 +646,7 @@ const SAES={
     const indicador=document.getElementById('sate-saes-indicador'), usando=!!d&&!d.demo;
     if(btn){const clave='sate.encabezado.'+(usando?'actualizar':'cargar');
       btn.querySelector('.sate-texto-largo').textContent=SATE.texto(clave);
-      btn.querySelector('.sate-texto-corto').textContent=SATE.texto(clave+'_corto')}
+      btn.querySelector('.sate-texto-corto').textContent=SATE.texto(clave+'_corto');btn.setAttribute('aria-label',SATE.texto(clave))}
     if(indicador){
       const hora=usando?new Date(d.leido).toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',hour12:false}):'';
       const texto=SATE.texto(usando?'sate.cupos.alumno_actualizado':'sate.encabezado.sin_datos',{hora});
@@ -1432,7 +1432,7 @@ function renderTop(){
   const nota=(clave,datos)=>SATE.texto('sate.horarios.'+clave,datos);
   $('#notice').textContent=[nota('captura_fecha',{fecha:f}),nota('captura_grupos',{n}),
     !hasOffer('proximo')?nota('captura_sin_proximo'):S.per==='proximo'?nota('captura_incompleta'):'',
-    n===0?nota('captura_sin_grupos'):'',DATA.salones?.fuente==='saes'?nota('captura_salones_saes'):S.per==='actual'&&DATA.salones?nota('captura_salones_aula',{periodo:DATA.salones.periodo}):nota('captura_sin_salones')].filter(Boolean).join(' · ');
+    n===0?nota('captura_sin_grupos'):'',DATA.salones?.fuente==='saes'?nota('captura_salones_saes'):(DATA.salones?.periodos?.[S.per]||(S.per==='actual'&&DATA.salones))?nota('captura_salones_aula',{periodo:(DATA.salones.periodos?.[S.per]||DATA.salones).periodo}):nota('captura_sin_salones')].filter(Boolean).join(' · ');
 }
 /* Vista en lista (teléfono): materias por semestre propuesto con su estado y un botón para agregarlas */
 /* ---------- estadísticas del kárdex (solo con datos del SAES; se calculan en el navegador) ----------
