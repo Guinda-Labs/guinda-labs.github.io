@@ -1,5 +1,11 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T08:35:48.284047Z",
-  "enlaces": {}
+  "cambio": "2026-10-17T10:16:14.363580Z",
+  "enlaces": {
+    "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
+      "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
+      "desde": "2026-10-17T10:16:06.493Z",
+      "reemplazo": null
+    }
+  }
 }
