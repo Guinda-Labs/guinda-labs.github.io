@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T10:42:16.575669Z",
+  "cambio": "2026-10-17T13:43:35.984585Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -35,6 +35,11 @@
     "2MV12|SISTEMAS NEURODIFUSOS": {
       "url": "https://chat.whatsapp.com/Cj5JOuTrNOXGxdcWQvZSRF",
       "desde": "2026-10-17T10:39:02.669Z",
+      "reemplazo": null
+    },
+    "4MM6|CONTROL DE SISTEMAS MECATRONICOS": {
+      "url": "https://chat.whatsapp.com/DLSSuFvGSsT9vByeJQT8JI",
+      "desde": "2026-10-17T13:43:28.887Z",
       "reemplazo": null
     }
   }
