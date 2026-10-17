@@ -149,6 +149,16 @@
   }
 
   /* ---------- Tarjeta de aviso ---------- */
+  /* R2-PER: HTML compartido para las vistas que construyen renglones de materias. */
+  function avisoMateria(o) {
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    return `<aside class="sate-aviso-materia" data-materia="${esc(o.clave)}" aria-label="${esc(o.nombre)}">
+      <p class="sate-aviso-materia__cab"><strong>${esc(o.nombre)}</strong><span>${esc(o.estado)}</span></p>
+      <p class="sate-aviso-materia__motivo">${esc(o.motivo)}</p>
+      ${o.eleccion?`<p class="sate-aviso-materia__eleccion" role="status">${esc(o.eleccion)}</p>`:''}
+      <div class="sate-chips">${o.acciones.map(a=>`<button type="button" class="sate-chip sate-chip--reemplazo" data-estado="${a.elegida?'ok':'aviso'}" data-desfase="${esc(o.clave)}" data-opcion="${esc(a.opcion)}" aria-pressed="${!!a.elegida}">${esc(a.texto)}</button>`).join('')}</div>
+    </aside>`;
+  }
   /* aviso({estado, titulo, cuerpo, accion:{texto, onclick|href}, descartable}) */
   function aviso(o) {
     var e = estado(o.estado);
@@ -177,13 +187,14 @@
 
   /* ---------- Ayuda ⓘ ---------- */
   var globoAbierto = null;
-  function cerrarGlobo() { if (globoAbierto) { globoAbierto(); globoAbierto = null; } }
+  function cerrarGlobo(foco) { if (globoAbierto) globoAbierto(foco); }
   /* ayuda(clave, vars?) → elemento. Escritorio: globo (hover, foco, clic). Teléfono/táctil: modal pequeño. */
   function ayuda(clave, vars, definicion) {
     vars = Object.fromEntries(Object.entries(vars || {}).map(([k,v]) => [k,String(v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))]));
     var env = el('span', { class: 'sate-ayuda' });
     var b = el('button', { type: 'button', class: 'sate-ayuda__btn', 'aria-label': traducir('componentes.ayuda.boton'), texto: 'ⓘ' });
     if (definicion) {
+      env.classList.add('sate-ayuda--termino');
       b.textContent = definicion.texto;
       b.setAttribute('aria-label', definicion.texto);
       b.classList.add('sate-termino');
@@ -191,41 +202,50 @@
     var gid = id('globo');
     var g = el('span', { class: 'sate-globo', role: 'tooltip', id: gid, hidden: true });
     env.appendChild(b); env.appendChild(g);
-    var fijo = false, t = null;
+    var fijo = false, devolviendoFoco = false, t = null;
     function colocar() {
       var r = b.getBoundingClientRect(), w = Math.min(320, raiz.innerWidth - 16);
       g.style.width = w + 'px';
-      var x = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, raiz.innerWidth - w - 8));
+      w = g.getBoundingClientRect().width;
+      var x = Math.max(8, Math.min(r.left, raiz.innerWidth - w - 8));
       g.style.left = x + 'px';
-      g.style.top = (r.bottom + 6) + 'px';
       var alto = g.offsetHeight;
-      if (r.bottom + 6 + alto > raiz.innerHeight && r.top - 6 - alto > 0) g.style.top = (r.top - 6 - alto) + 'px';
+      var y = r.bottom + 6;
+      if (y + alto > raiz.innerHeight - 8) y = r.top - 6 - alto;
+      g.style.top = Math.max(8, Math.min(y, raiz.innerHeight - alto - 8)) + 'px';
     }
     function mostrar() {
       if (!g.hidden) return;
       cerrarGlobo();
       if (definicion) g.textContent = definicion.definicion;
       else g.innerHTML = traducir(clave, vars);
+      // Las coordenadas pertenecen al viewport, fuera de ancestros transformados o recortados.
+      (b.closest('dialog[open]') || document.body).appendChild(g);
       g.hidden = false; b.setAttribute('aria-describedby', gid);
       colocar();
       globoAbierto = ocultar;
     }
-    function ocultar() { g.hidden = true; fijo = false; b.removeAttribute('aria-describedby'); if (globoAbierto === ocultar) globoAbierto = null; }
-    function programar() { clearTimeout(t); t = setTimeout(function () { if (!fijo && !env.contains(document.activeElement)) ocultar(); }, 160); }
-    env.addEventListener('mouseenter', function () { if (!esMovil()) { clearTimeout(t); mostrar(); } });
+    function ocultar(foco) { clearTimeout(t); g.hidden = true; fijo = false; b.removeAttribute('aria-describedby'); env.appendChild(g); if (globoAbierto === ocultar) globoAbierto = null; if (foco) { devolviendoFoco = true; b.focus(); devolviendoFoco = false; } }
+    function programar() { clearTimeout(t); t = setTimeout(function () { if (!fijo && !env.contains(document.activeElement) && !g.contains(document.activeElement)) ocultar(); }, 160); }
+    env.addEventListener('mouseenter', function () { if (!esMovil()) { clearTimeout(t); t = setTimeout(mostrar, 120); } });
     env.addEventListener('mouseleave', function () { if (!esMovil()) programar(); });
-    env.addEventListener('focusin', function () { if (!esMovil()) { clearTimeout(t); mostrar(); } });
+    env.addEventListener('focusin', function () { if (!esMovil() && !devolviendoFoco) { clearTimeout(t); mostrar(); } });
     env.addEventListener('focusout', function () { programar(); });
-    env.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !g.hidden) { e.stopPropagation(); ocultar(); b.focus(); } });
+    g.addEventListener('mouseenter', function () { clearTimeout(t); });
+    g.addEventListener('mouseleave', programar);
+    g.addEventListener('focusin', function () { clearTimeout(t); });
+    g.addEventListener('focusout', programar);
+    env.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !g.hidden) { e.stopPropagation(); ocultar(true); } });
     b.addEventListener('click', function () {
       if (esMovil()) { modal(definicion ? definicion.titulo : traducir('componentes.ayuda.titulo'), function () { return definicion ? el('p', { texto: definicion.definicion }) : el('p', { html: traducir(clave, vars) }); }, { pequeno: true }); return; }
       if (g.hidden) { mostrar(); fijo = true; } else if (fijo) ocultar(); else fijo = true;
     });
     return env;
   }
-  document.addEventListener('click', function (e) { if (globoAbierto && !(e.target.closest && e.target.closest('.sate-ayuda'))) cerrarGlobo(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && globoAbierto) cerrarGlobo(); });
+  document.addEventListener('click', function (e) { if (globoAbierto && !(e.target.closest && e.target.closest('.sate-ayuda,.sate-globo'))) cerrarGlobo(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && globoAbierto) { e.stopPropagation(); cerrarGlobo(true); } });
   raiz.addEventListener('scroll', function () { cerrarGlobo(); }, true);
+  raiz.addEventListener('resize', function () { cerrarGlobo(); });
 
   /* ---------- Desplegable recordado ---------- */
   /* desplegable({clave, titulo, contenido, ayuda:'clave', abierto}) ; el estado se guarda en ipnt.ui.desp.<clave> */
@@ -473,8 +493,12 @@ function minimapaCurricular(ctx,L,FILL,op={}){
     svg+=`<circle data-estado="${st}" cx="${cx}" cy="${cy}" r="${r}" fill="${colores[st]}"/>`;
   });
   svg+='</svg>';
-  // leyenda en dos filas centradas: avance (acreditadas, en curso, por cursar) y alertas (reprobadas, desfasadas)
-  const pastilla=st=>`<span><i style="background:${colores[st]}"></i>${esc(SATE.texto('sate.minimapa.'+st,{n:cnt[st]}))}</span>`;
+  // El número se separa después de traducir para conservar los plurales del catálogo.
+  const pastilla=st=>{
+    const texto=SATE.texto('sate.minimapa.'+st,{n:cnt[st]}),numero=String(cnt[st]);
+    const conteo=texto.startsWith(numero)?`<b class="mm-numero">${esc(numero)}</b> ${esc(texto.slice(numero.length).trim())}`:esc(texto);
+    return `<span><i style="background:${colores[st]}"></i>${conteo}</span>`;
+  };
   const leyenda=[['done','curso','pend'],['fail','late']].map(fila=>fila.filter(st=>st in cnt)).filter(f=>f.length)
     .map(f=>`<div class="mm-fila">${f.map(pastilla).join('')}</div>`).join('');
   return {svg,leyenda,cnt};
@@ -517,17 +541,24 @@ function cuadriculaHorario(all,op){
   all=all.filter(c=>!c.own||!c.oculto);
   const maxDay=Math.max(4,...all.flatMap(c=>slots(c).map(b=>b[0])));
   const days=S.weekend?7:maxDay+1;
-  // bloques de 1:30 alineados a las 7:00 (si algo empieza antes, se agregan bloques completos hacia arriba)
-  const first=Math.min(START,...all.flatMap(c=>slots(c).map(b=>b[1])));
-  const lo=START-Math.ceil((START-first)/BLOCK)*BLOCK;
-  const hi=Math.max(14*60+30,...all.flatMap(c=>slots(c).map(b=>b[2])));
-  const end=lo+Math.ceil((hi-lo)/BLOCK)*BLOCK, h=(end-lo)/SLOT*SLOTPX;
+  const horas=all.flatMap(c=>slots(c)), minimo=5*BLOCK;
+  const first=horas.length?Math.min(...horas.map(b=>b[1])):START;
+  const last=horas.length?Math.max(...horas.map(b=>b[2])):START+minimo;
+  // El mínimo conserva el alto del estado vacío; el margen y el centro siguen a lo elegido, incluso de noche.
+  const span=horas.length?Math.min(1440,Math.max(minimo,Math.ceil((last-first+2*BLOCK)/BLOCK)*BLOCK)):minimo;
+  const lo=horas.length?Math.max(0,Math.min(1440-span,Math.floor((first+last-span)/2/SLOT)*SLOT)):START;
+  const end=lo+span, h=span/SLOT*SLOTPX;
   const cal=$('#cal');cal.style.setProperty('--days',days);cal.style.setProperty('--slot',SLOTPX+'px');
   let html='<div class="dh"></div>'+DAYS.slice(0,days).map(d=>`<div class="dh">${d}</div>`).join('');
   html+=`<div class="hours" style="height:${h}px">`;
   for(let m=lo;m<end;m+=BLOCK) html+=`<div style="top:${(m-lo)/SLOT*SLOTPX}px">${hm(m)}</div>`;
   html+='</div>';
   const items=lanes(all.flatMap(c=>slots(c).map(([d,a,b])=>({c,d,a,b,ghost:c===ghost}))));
+  // Una columna conserva espacio para la insignia incluso cuando hay grupos traslapados.
+  const solapes=Math.max(1,...items.map(b=>b.n));
+  const anchoCarril=Array(solapes).fill('var(--ipn-horario-columna)').join(' + ');
+  cal.style.setProperty('--ipn-horario-solapes',solapes);
+  cal.style.setProperty('--ipn-horario-columna-min',`calc(${anchoCarril})`);
   for(let d=0;d<days;d++){
     html+=`<div class="day" style="height:${h}px">`;
     if(!soloLectura)for(let m=lo;m<end;m+=BLOCK){const on=S.gap&&S.gap.d===d&&S.gap.a===m;
@@ -535,12 +566,19 @@ function cuadriculaHorario(all,op){
     items.filter(b=>b.d===d).forEach(b=>{
       const top=(b.a-lo)/SLOT*SLOTPX, ht=(b.b-b.a)/SLOT*SLOTPX-2, w=100/b.n, pos=`top:${top}px;height:${ht}px;left:calc(${b.lane*w}% + 2px);width:calc(${w}% - 4px)`;
       if(b.c.own) html+=`<div class="blk own${b.clash?' clash':''}"${b.c.tipo?` data-tipo="${esc(b.c.tipo)}"`:""}${!soloLectura&&b.c.i!=null?` data-own="${b.c.i}" tabindex="0" role="button" aria-label="${esc(txH('semana_abrir_bloque',{nombre:b.c.n}))}"`:''} style="${pos}" title="${esc(b.c.n)} · ${hm(b.a)}–${hm(b.b)}"><b>${esc(b.c.n)}</b><span class="t">${hm(b.a)}</span></div>`;
-      else html+=`<div class="blk${b.clash?' clash':''}${b.ghost?' ghost':''}" style="--h:${hue(b.c)};${pos}"${soloLectura?'':` data-k="${esc(keyOf(b.c))}"`} title="${esc(b.c[3])} · ${esc(name(b.c))} · ${esc(profs(b.c))} · ${hm(b.a)}–${hm(b.b)}${roomAt(b.c,b.d,b.a)?' · '+esc(roomAt(b.c,b.d,b.a)):''}"><b>${esc(name(b.c))}</b><span class="t">${esc(b.c[3])} · ${hm(b.a)}${roomAt(b.c,b.d,b.a)?' · '+esc(roomAt(b.c,b.d,b.a)):''}</span></div>`;
-      if(insignia&&!b.c.own)html=html.replace(/<\/div>$/,insignia(b.c)+'</div>');
+      else {const cupo=insignia?insignia(b.c):'';
+        html+=`<div class="blk${b.clash?' clash':''}${b.ghost?' ghost':''}${cupo?' blk-cupo':''}" style="--h:${hue(b.c)};${pos}"${soloLectura?'':` data-k="${esc(keyOf(b.c))}"`} title="${esc(b.c[3])} · ${esc(name(b.c))} · ${esc(profs(b.c))} · ${hm(b.a)}–${hm(b.b)}${roomAt(b.c,b.d,b.a)?' · '+esc(roomAt(b.c,b.d,b.a)):''}">${cupo}<span class="horario-contenido"><b>${esc(name(b.c))}</b><span class="t">${esc(b.c[3])} · ${hm(b.a)}${roomAt(b.c,b.d,b.a)?' · '+esc(roomAt(b.c,b.d,b.a)):''}</span></span></div>`;
+      }
     });
     html+='</div>';
   }
   cal.innerHTML=html;
+  if(cal.dataset){
+    const rango=lo+'|'+end,anterior=cal.dataset.horarioRango;cal.dataset.horarioRango=rango;
+    // La transición solo afecta la opacidad; las celdas mantienen las coordenadas de sus horas.
+    if(anterior&&anterior!==rango&&raiz.matchMedia?.('(prefers-reduced-motion:no-preference)').matches)
+      cal.animate?.([{opacity:.65},{opacity:1}],{duration:180,easing:'ease-out'});
+  }
   return items;
 }
 
@@ -614,7 +652,7 @@ function leyendaGrafica(items,esc){
   return `<span class="ley">${items.map(([t,c,x])=>`<span><svg viewBox="0 0 22 14" width="22" height="14" aria-hidden="true" fill="none">${m(t,c)}</svg>${esc(x)}</span>`).join('')}</span>`;
 }
 
-  raiz.SateUI = { definicion: (texto, titulo, definicion) => ayuda('', {}, {texto, titulo, definicion}), leyendaGrafica, indicadoresTrayectoria, fichasKardex, caminoTrayectoria, bandasMapa:rowBands, minimapaCurricular, cajaMateria, resalteCaja, cuadriculaHorario, usarTextos: usarTextos, usarAlmacen: usarAlmacen, chips: chips, recorteCalendario: recorteCalendario, aviso: aviso, avisos: avisos, modal: modal, cerrarModal: cerrar,
+  raiz.SateUI = { avisoMateria, definicion: (texto, titulo, definicion) => ayuda('', {}, {texto, titulo, definicion}), leyendaGrafica, indicadoresTrayectoria, fichasKardex, caminoTrayectoria, bandasMapa:rowBands, minimapaCurricular, cajaMateria, resalteCaja, cuadriculaHorario, usarTextos: usarTextos, usarAlmacen: usarAlmacen, chips: chips, recorteCalendario: recorteCalendario, aviso: aviso, avisos: avisos, modal: modal, cerrarModal: cerrar,
     ayuda: ayuda, desplegable: desplegable, pestanas: pestanas, barraInferior: barraInferior,
     volver: volver, migas: migas, tarjetaNav: tarjetaNav, buscador: buscador, segmentado: segmentado, pregunta: pregunta, revelar: revelar };
 })(typeof window !== 'undefined' ? window : globalThis);
