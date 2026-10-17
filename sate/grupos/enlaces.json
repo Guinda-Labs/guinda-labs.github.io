@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T20:15:26.428687Z",
+  "cambio": "2026-10-17T20:21:57.717633Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -95,6 +95,21 @@
     "3MV4|DISEÑO AVANZADO DE ELEMENTOS DE MAQUINAS": {
       "url": "https://chat.whatsapp.com/HSIJUK0lHReE8WdQ2TvV72",
       "desde": "2026-10-17T20:13:13.093Z",
+      "reemplazo": null
+    },
+    "4MV4|INGENIERIA ASISTIDA POR COMPUTADORA": {
+      "url": "https://chat.whatsapp.com/GK7ky3WPCwt88fLEFXvDxa",
+      "desde": "2026-10-17T20:17:09.059Z",
+      "reemplazo": null
+    },
+    "4MM3|INGENIERIA ASISTIDA POR COMPUTADORA": {
+      "url": "https://chat.whatsapp.com/J4ntcmo58yUEfaUKt8G9qP",
+      "desde": "2026-10-17T20:17:12.315Z",
+      "reemplazo": null
+    },
+    "3MV11|GRAFICACION EN 3D": {
+      "url": "https://chat.whatsapp.com/I289BOR4xIE7NbYXORpZva",
+      "desde": "2026-10-17T20:19:48.941Z",
       "reemplazo": null
     }
   }
