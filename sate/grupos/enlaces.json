@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-18T01:17:53.413696Z",
+  "cambio": "2026-10-18T03:45:23.869396Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -333,6 +333,11 @@
     "5MV1|CONTROL DE MAQUINAS ELECTRICAS": {
       "url": "https://chat.whatsapp.com/HJoQiumxNzNF9GnY7HnoQ2",
       "desde": "2026-10-18T01:11:41.694Z",
+      "reemplazo": null
+    },
+    "4MV9|CONTROL DE SISTEMAS ROBOTICOS": {
+      "url": "https://chat.whatsapp.com/D6G5IrYzpsOK1QItchaawX",
+      "desde": "2026-10-18T03:45:16.769Z",
       "reemplazo": null
     }
   }
