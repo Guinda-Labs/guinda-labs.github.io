@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-18T03:45:23.869396Z",
+  "cambio": "2026-10-18T06:10:28.424311Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -338,6 +338,11 @@
     "4MV9|CONTROL DE SISTEMAS ROBOTICOS": {
       "url": "https://chat.whatsapp.com/D6G5IrYzpsOK1QItchaawX",
       "desde": "2026-10-18T03:45:16.769Z",
+      "reemplazo": null
+    },
+    "2MM8|MICROPROCESADORES, MICROCONTROLADORES E INTERFAZ": {
+      "url": "https://chat.whatsapp.com/KW3LxmhFxDy0OQNznCg87S",
+      "desde": "2026-10-18T06:10:19.783Z",
       "reemplazo": null
     }
   }
