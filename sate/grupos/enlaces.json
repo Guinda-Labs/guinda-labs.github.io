@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-18T06:10:28.424311Z",
+  "cambio": "2026-10-18T15:02:26.485651Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -343,6 +343,11 @@
     "2MM8|MICROPROCESADORES, MICROCONTROLADORES E INTERFAZ": {
       "url": "https://chat.whatsapp.com/KW3LxmhFxDy0OQNznCg87S",
       "desde": "2026-10-18T06:10:19.783Z",
+      "reemplazo": null
+    },
+    "3BM2|ELECTRONICA DIGITAL": {
+      "url": "https://chat.whatsapp.com/FTiBKmqodjr3KBsCY7Sz3K",
+      "desde": "2026-10-18T15:02:18.641Z",
       "reemplazo": null
     }
   }
