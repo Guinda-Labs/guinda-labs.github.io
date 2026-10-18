@@ -4,6 +4,7 @@
   function leer(){(async function () {
 var TOOL = 'https://guinda-labs.github.io/horarios-upiita.html';
 var resultado = window.IPNTSateResultado;
+if (typeof resultadoSate === 'function') resultado = resultadoSate;
 var UM = location.hostname.match(/(?:^|\.)saes\.([a-z0-9-]+)\.ipn\.mx$/i);
 if (!UM) {
 resultado(null, TOOL, '');
@@ -206,7 +207,7 @@ acreditadas: acred,
 creditos_materias: creditosMaterias,
 kardex_reprobadas: kxRep,
 agenda: agenda,
-lector: 'ee7fda3'
+lector: '99b185c'
 };
 resultado(data, TOOL, SIG);
 } catch (e) {
