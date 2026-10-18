@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-17T23:57:42.163328Z",
+  "cambio": "2026-10-18T00:04:08.212375Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -288,6 +288,26 @@
     "2MV3|OSCILACIONES Y OPTICA": {
       "url": "https://chat.whatsapp.com/K9jv9v72gf2E9pAtKeJM5w",
       "desde": "2026-10-17T23:57:33.125Z",
+      "reemplazo": null
+    },
+    "3MM8|AUTOMATIZACION INDUSTRIAL": {
+      "url": "https://chat.whatsapp.com/H2m8D1HSvUL7Ohdu7jzmtY",
+      "desde": "2026-10-17T23:59:23.345Z",
+      "reemplazo": null
+    },
+    "4MM5|CONTROL DE SISTEMAS MECATRONICOS": {
+      "url": "https://chat.whatsapp.com/D8Fc271lgbbGclbzHmnFgj",
+      "desde": "2026-10-18T00:00:22.121Z",
+      "reemplazo": null
+    },
+    "4MV11|PROCESOS AVANZADOS DE MANUFACTURA": {
+      "url": "https://chat.whatsapp.com/Fhwhge4kzG85cI1ElHcHb5",
+      "desde": "2026-10-18T00:01:10.122Z",
+      "reemplazo": null
+    },
+    "5MM7|TRABAJO TERMINAL II": {
+      "url": "https://chat.whatsapp.com/K43VQL6O9Ru6WwBS6lrOIv",
+      "desde": "2026-10-18T00:02:14.761Z",
       "reemplazo": null
     }
   }
