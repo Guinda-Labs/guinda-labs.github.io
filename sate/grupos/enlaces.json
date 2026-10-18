@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-18T15:02:26.485651Z",
+  "cambio": "2026-10-18T15:11:37.491175Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -348,6 +348,11 @@
     "3BM2|ELECTRONICA DIGITAL": {
       "url": "https://chat.whatsapp.com/FTiBKmqodjr3KBsCY7Sz3K",
       "desde": "2026-10-18T15:02:18.641Z",
+      "reemplazo": null
+    },
+    "3BM2|BIOMAGNETISMO": {
+      "url": "https://chat.whatsapp.com/LQsugEUdXN66GEKHeJEV9b",
+      "desde": "2026-10-18T15:11:28.577Z",
       "reemplazo": null
     }
   }
