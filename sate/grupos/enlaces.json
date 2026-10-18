@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-18T01:04:20.628743Z",
+  "cambio": "2026-10-18T01:11:31.638278Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -313,6 +313,21 @@
     "3MM11|TOPICOS AVANZADOS DE SENSORES": {
       "url": "https://chat.whatsapp.com/CI1RkOyq88wErjd44lMQtF",
       "desde": "2026-10-18T01:04:12.489Z",
+      "reemplazo": null
+    },
+    "2MV9|DISPOSITIVOS LOGICOS PROGRAMABLES": {
+      "url": "https://chat.whatsapp.com/CFBRQ0vXyYF73AYqVIyPd2",
+      "desde": "2026-10-18T01:05:13.944Z",
+      "reemplazo": null
+    },
+    "4MV6|CONTROL DE SISTEMAS MECATRONICOS": {
+      "url": "https://chat.whatsapp.com/KtWBgFV8peU1x5mCLiUML9",
+      "desde": "2026-10-18T01:06:33.174Z",
+      "reemplazo": null
+    },
+    "4MM6|PROYECTOS DE INVERSION": {
+      "url": "https://chat.whatsapp.com/Lx8fGr40D4B1KEFhExmigw",
+      "desde": "2026-10-18T01:10:05.384Z",
       "reemplazo": null
     }
   }
