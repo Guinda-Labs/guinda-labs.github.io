@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T12:41:25.638891Z",
+  "cambio": "2026-10-19T12:52:40.286917Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -508,6 +508,11 @@
     "4BM3|NORMATIVIDAD Y GESTION TECNOLOGICA": {
       "url": "https://chat.whatsapp.com/F8nWh9xxMCJLK7q7M0Pq9c",
       "desde": "2026-10-19T12:41:16.587Z",
+      "reemplazo": null
+    },
+    "3BM5|INSTRUMENTACION BIOMEDICA": {
+      "url": "https://chat.whatsapp.com/DpJMjJUjxvY1yCv2Bzirnd",
+      "desde": "2026-10-19T12:52:31.296Z",
       "reemplazo": null
     }
   }
