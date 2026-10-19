@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T18:38:26.822589Z",
+  "cambio": "2026-10-19T19:40:42.096542Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -598,6 +598,11 @@
     "2MM11|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/EwwQYvtrH3mEzQdhfqvtJe",
       "desde": "2026-10-19T18:38:16.348Z",
+      "reemplazo": null
+    },
+    "4BV3|NORMATIVIDAD Y GESTION TECNOLOGICA": {
+      "url": "https://chat.whatsapp.com/CCVmgv72YtsAcFyvdgNjxy",
+      "desde": "2026-10-19T19:40:32.152Z",
       "reemplazo": null
     }
   }
