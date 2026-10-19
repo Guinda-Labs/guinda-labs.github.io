@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-18T22:42:38.129165Z",
+  "cambio": "2026-10-19T00:06:17.560816Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -373,6 +373,11 @@
     "4MV7|METODOLOGIA DE LA INVESTIGACION": {
       "url": "https://chat.whatsapp.com/KJ5ckXfqONXBBcYRurFTnI",
       "desde": "2026-10-18T22:38:25.777Z",
+      "reemplazo": null
+    },
+    "3BM1|DISPOSITIVOS ELECTRONICOS": {
+      "url": "https://chat.whatsapp.com/KATjj6nIiaN9nEVMX3J4XU",
+      "desde": "2026-10-19T00:06:09.483Z",
       "reemplazo": null
     }
   }
