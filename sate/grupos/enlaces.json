@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T17:16:54.245975Z",
+  "cambio": "2026-10-19T18:38:26.822589Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -593,6 +593,11 @@
     "5MV6|TRABAJO TERMINAL II": {
       "url": "https://chat.whatsapp.com/IdlVnHZl9pe0HCnva2uxi3",
       "desde": "2026-10-19T17:16:44.144Z",
+      "reemplazo": null
+    },
+    "2MM11|DISPOSITIVOS LOGICOS PROGRAMABLES": {
+      "url": "https://chat.whatsapp.com/EwwQYvtrH3mEzQdhfqvtJe",
+      "desde": "2026-10-19T18:38:16.348Z",
       "reemplazo": null
     }
   }
