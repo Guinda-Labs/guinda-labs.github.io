@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T00:13:13.327886Z",
+  "cambio": "2026-10-19T00:19:35.257346Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -398,6 +398,21 @@
     "3BV1|INGLES III": {
       "url": "https://chat.whatsapp.com/BXzXydq2p1IL1VLFin0GKC",
       "desde": "2026-10-19T00:13:06.380Z",
+      "reemplazo": null
+    },
+    "5BM3|TRABAJO TERMINAL I": {
+      "url": "https://chat.whatsapp.com/L7YHwAjXHWA4QYfUWDXVF3",
+      "desde": "2026-10-19T00:15:05.115Z",
+      "reemplazo": null
+    },
+    "4BM1|DISPOSITIVOS PROGRAMABLES": {
+      "url": "https://chat.whatsapp.com/HlDs3cAKjymCSQL4mitPdo",
+      "desde": "2026-10-19T00:16:14.184Z",
+      "reemplazo": null
+    },
+    "5BM4|TRABAJO TERMINAL II": {
+      "url": "https://chat.whatsapp.com/ISLU7ODQxJ219Ajw5bOp4v",
+      "desde": "2026-10-19T00:17:37.364Z",
       "reemplazo": null
     }
   }
