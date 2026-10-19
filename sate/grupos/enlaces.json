@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T15:22:11.234628Z",
+  "cambio": "2026-10-19T15:30:36.427787Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -548,6 +548,11 @@
     "4MM6|SISTEMAS DE VISION ARTIFICIAL": {
       "url": "https://chat.whatsapp.com/KFFBpWxBVtq5L3iSAtXlli",
       "desde": "2026-10-19T15:22:02.774Z",
+      "reemplazo": null
+    },
+    "3MV7|INGENIERIA AMBIENTAL": {
+      "url": "https://chat.whatsapp.com/DgeSV8OOrvd073cXJHGsBS",
+      "desde": "2026-10-19T15:30:27.829Z",
       "reemplazo": null
     }
   }
