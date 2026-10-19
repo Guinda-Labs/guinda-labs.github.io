@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T13:38:11.917580Z",
+  "cambio": "2026-10-19T14:23:14.962244Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -523,6 +523,11 @@
     "5EM1|EFICIENCIA ENERGÉTICA": {
       "url": "https://chat.whatsapp.com/DRUUcElf3xL7AD2T2a6x4V",
       "desde": "2026-10-19T13:38:03.324Z",
+      "reemplazo": null
+    },
+    "2MM5|ELECTRONICA ANALOGICA": {
+      "url": "https://chat.whatsapp.com/JQOYGQbQ3Eh3jSXjVc7T8l",
+      "desde": "2026-10-19T14:23:05.090Z",
       "reemplazo": null
     }
   }
