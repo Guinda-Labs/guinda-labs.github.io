@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T12:52:40.286917Z",
+  "cambio": "2026-10-19T13:06:19.404514Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -513,6 +513,11 @@
     "3BM5|INSTRUMENTACION BIOMEDICA": {
       "url": "https://chat.whatsapp.com/DpJMjJUjxvY1yCv2Bzirnd",
       "desde": "2026-10-19T12:52:31.296Z",
+      "reemplazo": null
+    },
+    "4BV2|MANUFACTURA DE ELEMENTOS BIOMIMETICOS": {
+      "url": "https://chat.whatsapp.com/DluFth9zCCoB3vPoTNpXXd",
+      "desde": "2026-10-19T13:06:10.732Z",
       "reemplazo": null
     }
   }
