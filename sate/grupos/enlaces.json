@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T00:25:52.721811Z",
+  "cambio": "2026-10-19T00:31:59.182133Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -418,6 +418,11 @@
     "4BM4|INSTRUMENTACION BIOTECNOLOGICA": {
       "url": "https://chat.whatsapp.com/BQp9YbLJL5eC9KbqCGAA0Y",
       "desde": "2026-10-19T00:25:08.590Z",
+      "reemplazo": null
+    },
+    "5BM2|BIOROBOTICA": {
+      "url": "https://chat.whatsapp.com/H0tRHp9Cz8TCuFhiLfgvuF",
+      "desde": "2026-10-19T00:26:45.649Z",
       "reemplazo": null
     }
   }
