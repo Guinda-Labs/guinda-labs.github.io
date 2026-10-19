@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T16:01:34.991708Z",
+  "cambio": "2026-10-19T16:07:58.472560Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -558,6 +558,26 @@
     "2MV4|ELECTRONICA ANALOGICA": {
       "url": "https://chat.whatsapp.com/BYk8Ydw0tg3K54GhRWiTfL",
       "desde": "2026-10-19T16:01:24.838Z",
+      "reemplazo": null
+    },
+    "3MM3|INSTRUMENTACION VIRTUAL": {
+      "url": "https://chat.whatsapp.com/L9zHxYOZf4XKpVfuywyXaM",
+      "desde": "2026-10-19T16:02:58.568Z",
+      "reemplazo": null
+    },
+    "4MM6|METODOLOGIA DE LA INVESTIGACION": {
+      "url": "https://chat.whatsapp.com/FOYgiSIHoS2KgZVPZavDP0",
+      "desde": "2026-10-19T16:04:05.278Z",
+      "reemplazo": null
+    },
+    "1MV10|CIRCUITOS ELECTRICOS AVANZADOS": {
+      "url": "https://chat.whatsapp.com/GuceinlVSpT9zGWKXwXGwn",
+      "desde": "2026-10-19T16:06:05.402Z",
+      "reemplazo": null
+    },
+    "3MM4|DISEÑO AVANZADO DE ELEMENTOS DE MAQUINAS": {
+      "url": "https://chat.whatsapp.com/HyxgqyRoqmy9fbvzFeMqIX",
+      "desde": "2026-10-19T16:07:08.053Z",
       "reemplazo": null
     }
   }
