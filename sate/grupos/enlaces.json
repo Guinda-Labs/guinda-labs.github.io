@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T16:07:58.472560Z",
+  "cambio": "2026-10-19T16:14:41.863260Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -578,6 +578,16 @@
     "3MM4|DISEÑO AVANZADO DE ELEMENTOS DE MAQUINAS": {
       "url": "https://chat.whatsapp.com/HyxgqyRoqmy9fbvzFeMqIX",
       "desde": "2026-10-19T16:07:08.053Z",
+      "reemplazo": null
+    },
+    "4MM8|PROYECTO DE SISTEMAS EMBEBIDOS": {
+      "url": "https://chat.whatsapp.com/HZF4FG2BmpZJS1fOe2VcYt",
+      "desde": "2026-10-19T16:08:44.220Z",
+      "reemplazo": null
+    },
+    "4MV7|SISTEMAS DE VISION ARTIFICIAL": {
+      "url": "https://chat.whatsapp.com/KnkURPx2ne7G52KVoUAwT8",
+      "desde": "2026-10-19T16:09:49.101Z",
       "reemplazo": null
     }
   }
