@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T06:02:07.379593Z",
+  "cambio": "2026-10-19T06:08:29.111094Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -488,6 +488,11 @@
     "3MV5|PROYECTO INTEGRADOR": {
       "url": "https://chat.whatsapp.com/GEDaYYzpRyoDRhIfSTWOq5",
       "desde": "2026-10-19T06:02:00.241Z",
+      "reemplazo": null
+    },
+    "4MM1|ELECTRONICA DE POTENCIA": {
+      "url": "https://chat.whatsapp.com/G3Vvt9DQOAGHmCSnxfeuWx",
+      "desde": "2026-10-19T06:05:14.200Z",
       "reemplazo": null
     }
   }
