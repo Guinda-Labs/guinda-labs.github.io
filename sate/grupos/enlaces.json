@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T02:23:08.171915Z",
+  "cambio": "2026-10-19T02:53:36.764050Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -448,6 +448,11 @@
     "1MM7|PROCESO DE MANUFACTURA": {
       "url": "https://chat.whatsapp.com/BXHLwXZVAmCGkc1oLO32CG",
       "desde": "2026-10-19T02:21:03.218Z",
+      "reemplazo": null
+    },
+    "2MM7|CIRCUITOS LOGICOS": {
+      "url": "https://chat.whatsapp.com/Ibdt6IpErse4BNny2Tw42u",
+      "desde": "2026-10-19T02:53:27.743Z",
       "reemplazo": null
     }
   }
