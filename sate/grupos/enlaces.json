@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T00:06:17.560816Z",
+  "cambio": "2026-10-19T00:13:13.327886Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -378,6 +378,26 @@
     "3BM1|DISPOSITIVOS ELECTRONICOS": {
       "url": "https://chat.whatsapp.com/KATjj6nIiaN9nEVMX3J4XU",
       "desde": "2026-10-19T00:06:09.483Z",
+      "reemplazo": null
+    },
+    "4BM2|MANUFACTURA DE ELEMENTOS BIOMIMETICOS": {
+      "url": "https://chat.whatsapp.com/EsuXMuiFZCFDAhsVQGqAtJ",
+      "desde": "2026-10-19T00:11:24.035Z",
+      "reemplazo": null
+    },
+    "4BV5|TELEMETRIA MEDICA": {
+      "url": "https://chat.whatsapp.com/KxZgvpdgF341VFbKTL4y7f",
+      "desde": "2026-10-19T00:11:36.023Z",
+      "reemplazo": null
+    },
+    "4BM2|MODELADO Y CONTROL DE SISTEMAS BIONICOS": {
+      "url": "https://chat.whatsapp.com/JS3ZHGzw3FG9PwylTWWTh1",
+      "desde": "2026-10-19T00:12:05.592Z",
+      "reemplazo": null
+    },
+    "3BV1|INGLES III": {
+      "url": "https://chat.whatsapp.com/BXzXydq2p1IL1VLFin0GKC",
+      "desde": "2026-10-19T00:13:06.380Z",
       "reemplazo": null
     }
   }
