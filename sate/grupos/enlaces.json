@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T05:55:01.223793Z",
+  "cambio": "2026-10-19T06:02:07.379593Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -483,6 +483,11 @@
     "2MM8|CIRCUITOS LOGICOS": {
       "url": "https://chat.whatsapp.com/IAYyBX4OcllBi35NMmUlUn",
       "desde": "2026-10-19T05:54:53.016Z",
+      "reemplazo": null
+    },
+    "3MV5|PROYECTO INTEGRADOR": {
+      "url": "https://chat.whatsapp.com/GEDaYYzpRyoDRhIfSTWOq5",
+      "desde": "2026-10-19T06:02:00.241Z",
       "reemplazo": null
     }
   }
