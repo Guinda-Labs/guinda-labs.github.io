@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T02:53:36.764050Z",
+  "cambio": "2026-10-19T02:59:43.390279Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -453,6 +453,16 @@
     "2MM7|CIRCUITOS LOGICOS": {
       "url": "https://chat.whatsapp.com/Ibdt6IpErse4BNny2Tw42u",
       "desde": "2026-10-19T02:53:27.743Z",
+      "reemplazo": null
+    },
+    "3MM7|PROCESADOR DIGITAL DE SEÑALES": {
+      "url": "https://chat.whatsapp.com/IiVmazRtaNq34eDi8UqYGT",
+      "desde": "2026-10-19T02:55:20.916Z",
+      "reemplazo": null
+    },
+    "3MV11|TOPICOS AVANZADOS DE ELECTRONICA": {
+      "url": "https://chat.whatsapp.com/KzPNm4DnarqCqTukZlE1qm",
+      "desde": "2026-10-19T02:56:30.848Z",
       "reemplazo": null
     }
   }
