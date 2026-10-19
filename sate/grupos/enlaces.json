@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T05:31:05.272152Z",
+  "cambio": "2026-10-19T05:38:40.823452Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -473,6 +473,11 @@
     "3MV5|PROCESADOR DIGITAL DE SEÑALES": {
       "url": "https://chat.whatsapp.com/KHCgEFDhWp2JkbG3WCe97i",
       "desde": "2026-10-19T05:30:57.595Z",
+      "reemplazo": null
+    },
+    "4MM5|SISTEMAS DE VISION ARTIFICIAL": {
+      "url": "https://chat.whatsapp.com/D2UCTNNhJiFDUIOPJt9XZ3",
+      "desde": "2026-10-19T05:33:33.819Z",
       "reemplazo": null
     }
   }
