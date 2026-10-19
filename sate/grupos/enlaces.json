@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T16:14:41.863260Z",
+  "cambio": "2026-10-19T17:16:54.245975Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -588,6 +588,11 @@
     "4MV7|SISTEMAS DE VISION ARTIFICIAL": {
       "url": "https://chat.whatsapp.com/KnkURPx2ne7G52KVoUAwT8",
       "desde": "2026-10-19T16:09:49.101Z",
+      "reemplazo": null
+    },
+    "5MV6|TRABAJO TERMINAL II": {
+      "url": "https://chat.whatsapp.com/IdlVnHZl9pe0HCnva2uxi3",
+      "desde": "2026-10-19T17:16:44.144Z",
       "reemplazo": null
     }
   }
