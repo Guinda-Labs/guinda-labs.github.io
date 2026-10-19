@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T06:28:15.667838Z",
+  "cambio": "2026-10-19T06:34:33.344719Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -498,6 +498,11 @@
     "2MV7|TEORIA ELECTROMAGNETICA": {
       "url": "https://chat.whatsapp.com/C0lZ2SC4f3kBBsDqiYc9BJ",
       "desde": "2026-10-19T06:28:06.126Z",
+      "reemplazo": null
+    },
+    "4MM4|INGENIERIA ASISTIDA POR COMPUTADORA": {
+      "url": "https://chat.whatsapp.com/I1N6V5iVdiz6XY0Hd7iCGJ",
+      "desde": "2026-10-19T06:30:38.930Z",
       "reemplazo": null
     }
   }
