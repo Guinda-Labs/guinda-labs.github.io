@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T04:47:46.460743Z",
+  "cambio": "2026-10-19T05:31:05.272152Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -468,6 +468,11 @@
     "5MM8|TRABAJO TERMINAL II": {
       "url": "https://chat.whatsapp.com/Fst0BNn0T0E2U5CxHqW6CW",
       "desde": "2026-10-19T04:47:36.406Z",
+      "reemplazo": null
+    },
+    "3MV5|PROCESADOR DIGITAL DE SEÑALES": {
+      "url": "https://chat.whatsapp.com/KHCgEFDhWp2JkbG3WCe97i",
+      "desde": "2026-10-19T05:30:57.595Z",
       "reemplazo": null
     }
   }
