@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T00:45:52.090036Z",
+  "cambio": "2026-10-19T02:17:01.216121Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -438,6 +438,11 @@
     "3BM3|BIOMATERIALES": {
       "url": "https://chat.whatsapp.com/GEO9hIFtjOx3wvzTXqopdP",
       "desde": "2026-10-19T00:41:47.133Z",
+      "reemplazo": null
+    },
+    "1MM7|CIRCUITOS ELECTRICOS": {
+      "url": "https://chat.whatsapp.com/IOd7808l9EmETEYJ9EWsCV",
+      "desde": "2026-10-19T02:16:51.078Z",
       "reemplazo": null
     }
   }
