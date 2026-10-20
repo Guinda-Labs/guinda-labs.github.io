@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-19T20:53:10.038641Z",
+  "cambio": "2026-10-20T01:36:26.196377Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -613,6 +613,11 @@
     "1MM8|ELECTRICIDAD Y MAGNETISMO": {
       "url": "https://chat.whatsapp.com/CRZOocN1gXVDw3gVU6BucK",
       "desde": "2026-10-19T20:52:59.608Z",
+      "reemplazo": null
+    },
+    "1MV5|CALCULO VECTORIAL": {
+      "url": "https://chat.whatsapp.com/EwamYfkvHmb8StyAWBTcPr",
+      "desde": "2026-10-20T01:36:16.851Z",
       "reemplazo": null
     }
   }
