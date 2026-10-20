@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-20T02:35:12.987103Z",
+  "cambio": "2026-10-20T15:48:57.861284Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -623,6 +623,11 @@
     "1BV3|ANATOMIA": {
       "url": "https://chat.whatsapp.com/Fql5pcubgai2zxSdGLorvE",
       "desde": "2026-10-20T02:35:04.490Z",
+      "reemplazo": null
+    },
+    "4EM1|FENÓMENOS DE TRANSPORTES": {
+      "url": "https://chat.whatsapp.com/LrQcR1DkVje55jLTHPsQSB",
+      "desde": "2026-10-20T15:48:48.863Z",
       "reemplazo": null
     }
   }
