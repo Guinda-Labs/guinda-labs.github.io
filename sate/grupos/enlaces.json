@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-20T01:36:26.196377Z",
+  "cambio": "2026-10-20T02:35:12.987103Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -618,6 +618,11 @@
     "1MV5|CALCULO VECTORIAL": {
       "url": "https://chat.whatsapp.com/EwamYfkvHmb8StyAWBTcPr",
       "desde": "2026-10-20T01:36:16.851Z",
+      "reemplazo": null
+    },
+    "1BV3|ANATOMIA": {
+      "url": "https://chat.whatsapp.com/Fql5pcubgai2zxSdGLorvE",
+      "desde": "2026-10-20T02:35:04.490Z",
       "reemplazo": null
     }
   }
