@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-20T18:37:39.770131Z",
+  "cambio": "2026-10-20T19:33:21.456231Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -643,6 +643,11 @@
     "4MM9|VISION ARTIFICIAL APLICADA": {
       "url": "https://chat.whatsapp.com/FEGQPSB24LB64J1NvdE4bP",
       "desde": "2026-10-20T18:31:48.953Z",
+      "reemplazo": null
+    },
+    "2MM7|TEORIA ELECTROMAGNETICA": {
+      "url": "https://chat.whatsapp.com/CbxiXxbGPBuFjCJRjyOHlf",
+      "desde": "2026-10-20T19:33:11.589Z",
       "reemplazo": null
     }
   }
