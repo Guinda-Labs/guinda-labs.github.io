@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-20T15:48:57.861284Z",
+  "cambio": "2026-10-20T16:07:49.793602Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -628,6 +628,11 @@
     "4EM1|FENÓMENOS DE TRANSPORTES": {
       "url": "https://chat.whatsapp.com/LrQcR1DkVje55jLTHPsQSB",
       "desde": "2026-10-20T15:48:48.863Z",
+      "reemplazo": null
+    },
+    "2TM5|TELEFONIA": {
+      "url": "https://chat.whatsapp.com/HkLDGojwrdGCmfJB7veQIg",
+      "desde": "2026-10-20T16:07:42.312Z",
       "reemplazo": null
     }
   }
