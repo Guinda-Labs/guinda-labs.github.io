@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-20T20:02:34.606105Z",
+  "cambio": "2026-10-20T20:28:29.239948Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -653,6 +653,11 @@
     "3MM4|FINANZAS E INGENIERIA ECONOMICA": {
       "url": "https://chat.whatsapp.com/FVXQT4DLqn7BPHuUpxWhU3",
       "desde": "2026-10-20T20:02:26.838Z",
+      "reemplazo": null
+    },
+    "5BV1|METODOLOGIA DE LA INVESTIGACION": {
+      "url": "https://chat.whatsapp.com/LgiHVbAH2my31hSBGsggrn",
+      "desde": "2026-10-20T20:28:20.668Z",
       "reemplazo": null
     }
   }
