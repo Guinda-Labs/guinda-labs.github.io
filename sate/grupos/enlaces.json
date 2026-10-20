@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-20T19:33:21.456231Z",
+  "cambio": "2026-10-20T20:02:34.606105Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -648,6 +648,11 @@
     "2MM7|TEORIA ELECTROMAGNETICA": {
       "url": "https://chat.whatsapp.com/CbxiXxbGPBuFjCJRjyOHlf",
       "desde": "2026-10-20T19:33:11.589Z",
+      "reemplazo": null
+    },
+    "3MM4|FINANZAS E INGENIERIA ECONOMICA": {
+      "url": "https://chat.whatsapp.com/FVXQT4DLqn7BPHuUpxWhU3",
+      "desde": "2026-10-20T20:02:26.838Z",
       "reemplazo": null
     }
   }
