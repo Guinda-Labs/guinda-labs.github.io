@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-21T12:57:56.306232Z",
+  "cambio": "2026-10-21T20:37:01.656047Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -678,6 +678,11 @@
     "1MM9|CIRCUITOS ELECTRICOS AVANZADOS": {
       "url": "https://chat.whatsapp.com/FmRFPq1ZkiFIFZEALj9VVK",
       "desde": "2026-10-21T12:57:46.924Z",
+      "reemplazo": null
+    },
+    "2MV13|LIDERAZGO Y EMPRENDEDORES": {
+      "url": "https://chat.whatsapp.com/FmQ9ebrxzOx2JaGqsOrejg",
+      "desde": "2026-10-21T20:36:52.765Z",
       "reemplazo": null
     }
   }
