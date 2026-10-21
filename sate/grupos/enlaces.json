@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-20T23:23:15.213562Z",
+  "cambio": "2026-10-21T01:20:40.690286Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -663,6 +663,11 @@
     "2TM4|COMUNICACIONES DIGITALES": {
       "url": "https://chat.whatsapp.com/Brh2ql8lcLCC5UdH9v1vWg",
       "desde": "2026-10-20T23:23:07.511Z",
+      "reemplazo": null
+    },
+    "6EM1|COMBUSTIBLES FÓSILES": {
+      "url": "https://chat.whatsapp.com/FwjDLGtJAez4rV4S3ZX2dD",
+      "desde": "2026-10-21T01:20:32.171Z",
       "reemplazo": null
     }
   }
