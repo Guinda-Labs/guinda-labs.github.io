@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-21T04:09:58.310143Z",
+  "cambio": "2026-10-21T12:57:56.306232Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -673,6 +673,11 @@
     "4MV9|CONTROL DE PROCESOS INDUSTRIALES": {
       "url": "https://chat.whatsapp.com/IcUgwTEO9Q4JYdDj31X21Y",
       "desde": "2026-10-21T04:09:49.797Z",
+      "reemplazo": null
+    },
+    "1MM9|CIRCUITOS ELECTRICOS AVANZADOS": {
+      "url": "https://chat.whatsapp.com/FmRFPq1ZkiFIFZEALj9VVK",
+      "desde": "2026-10-21T12:57:46.924Z",
       "reemplazo": null
     }
   }
