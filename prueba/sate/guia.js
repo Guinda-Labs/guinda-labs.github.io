@@ -145,7 +145,7 @@
   const BASE = (document.currentScript && document.currentScript.src || '').replace(/[^\/]*$/, '');
   const unidad = () => raiz.SATE_UNIDAD;
   const cfg = () => SATE_CONFIG.unidades[unidad()] || {};
-  const E = { datos: new Map(), reglamentos: new Map() };
+  const E = { datos: new Map(), reglamentos: new Map(), partes: new WeakMap() };
   function h(etiqueta, atributos, hijos) {
     const n = document.createElement(etiqueta);
     for (const k in atributos || {}) {
@@ -178,10 +178,10 @@
   }
   function cargarReglamento(doc) {
     if (!/^[\w-]+$/.test(doc)) return Promise.reject(new Error('Documento inválido: ' + doc));
-    if (!E.reglamentos.has(doc)) E.reglamentos.set(doc, fetch('datos/reglamentos/' + doc + '.json').then(r => {
+    if (!E.reglamentos.has(doc)) E.reglamentos.set(doc, (SATE.json ? SATE.json('datos/reglamentos/' + doc + '.json') : fetch('datos/reglamentos/' + doc + '.json').then(r => {
       if (!r.ok) throw new Error('Reglamento ' + doc + ': HTTP ' + r.status);
       return r.json();
-    }).catch(e => { E.reglamentos.delete(doc); throw e; }));
+    })).catch(e => { E.reglamentos.delete(doc); throw e; }));
     return E.reglamentos.get(doc);
   }
   function botonArticulo(doc, n, texto) {
@@ -330,34 +330,50 @@
   /* ---------- apartado de preguntas ---------- */
   function apartadoPreguntas(raizGuia, d, apartado, abrirId) {
     const todas = d.preguntas.filter(p => p.apartado === apartado);
+    const etapas = (d.etapas || []).filter(e => todas.some(p => p.etapa === e.id));
     const cab = cabecera([...migasBase(), { texto: tituloApartado(apartado) }], tituloApartado(apartado), t('sate.guia.' + apartado + '_intro'));
-    const lista = h('ul', { 'class': 'sate-preguntas' });
+    let etapa = todas.find(p => p.id === abrirId)?.etapa || etapas[0]?.id, elegido = abrirId;
+    const pista = h('ol', { 'class': 'guia-etapas' });
+    const panel = h('div', { 'class': 'guia-panel' });
     const resumen = h('p', { 'class': 'guia-resumen', role: 'status', 'aria-live': 'polite' });
-    const items = new Map();
-    const buscar = SateUI.buscador({ etiqueta: t('sate.guia.buscar_apartado_etiqueta'), marcador: t('sate.guia.buscar_apartado_marcador'), id: 'guia-qa', alCambiar: filtrar });
-    function ruta(id) { try { history.replaceState(null, '', raiz.location.pathname + raiz.location.search + rutaGuia(apartado, id)); } catch (e) {} }
-    for (const p of todas) {
-      const det = SateUI.pregunta({ id: 'p-' + p.id, titulo: p.pregunta, cuerpo: () => respuesta(d, p),
-        alAbrir: () => ruta(p.id) });
-      det.addEventListener('toggle', () => { if (!det.open && raiz.location.hash === rutaGuia(apartado, p.id)) ruta(); });
-      const li = h('li', {}, [det]);
-      items.set(p.id, { li, det, p });
-      lista.appendChild(li);
+    const buscar = SateUI.buscador({ etiqueta: t('sate.guia.buscar_apartado_etiqueta'), marcador: t('sate.guia.buscar_apartado_marcador'), id: 'guia-qa', alCambiar: () => { elegido = null; pintar(); } });
+    function pintar() {
+      const consulta = terminos(buscar.entrada.value).length;
+      const visibles = consulta ? buscarPreguntas(todas, buscar.entrada.value) : todas.filter(p => !etapas.length || p.etapa === etapa);
+      const ancho = raiz.matchMedia('(min-width:900px)').matches;
+      if (!visibles.some(p => p.id === elegido)) elegido = ancho ? visibles[0]?.id : null;
+      pista.replaceChildren(...etapas.map((e, i) => {
+        const b = h('button', { type: 'button', 'aria-current': e.id === etapa && !consulta ? 'step' : null, 'aria-label': t(e.titulo), title: t(e.titulo) }, [h('span', { 'class': 'guia-etapa-num', texto: String((d.etapas || []).indexOf(e) + 1) }), h('span', { 'class': 'guia-etapa-nombre', texto: t(e.titulo) })]);
+        b.addEventListener('click', () => { etapa = e.id; elegido = null; buscar.entrada.value = ''; pintar(); pista.querySelector('[aria-current]')?.focus({ preventScroll: true }); });
+        return h('li', {}, [b]);
+      }));
+      const lista = h('ul', { 'class': 'guia-preguntas-etapa' });
+      const detalle = h('div', { 'class': 'guia-detalle' });
+      for (const p of visibles) {
+        const activo = elegido === p.id;
+        const b = h('button', { type: 'button', 'class': 'guia-elegir', 'data-pregunta': p.id, 'aria-expanded': String(activo), 'aria-controls': 'respuesta-' + p.id, texto: p.pregunta });
+        b.addEventListener('click', () => {
+          elegido = activo && !ancho ? null : p.id;
+          history.replaceState(null, '', rutaGuia(apartado, elegido));
+          pintar();
+          panel.querySelector('[data-pregunta="' + p.id + '"]')?.focus({ preventScroll: true });
+        });
+        const li = h('li', {}, [b]);
+        if (activo) {
+          const contenido = h('article', { id: 'respuesta-' + p.id, 'class': 'guia-detalle' }, [h('h3', { texto: p.pregunta }), respuesta(d, p)]);
+          (ancho ? detalle : li).appendChild(contenido);
+        } else li.appendChild(h('div', { id: 'respuesta-' + p.id, hidden: true }));
+        lista.appendChild(li);
+      }
+      panel.replaceChildren(h('section', {}, [h('h3', { texto: consulta ? t('sate.guia.buscar_apartado_etiqueta') : t(etapas.find(e => e.id === etapa)?.titulo || 'sate.guia.buscar_apartado_etiqueta') }), lista]), detalle);
+      resumen.textContent = t(visibles.length ? 'sate.guia.resultados_preguntas' : 'sate.guia.sin_resultados_preguntas', { n: visibles.length });
     }
-    function filtrar() {
-      const q = buscar.entrada.value, coinciden = terminos(q).length ? new Set(buscarPreguntas(todas, q).map(p => p.id)) : null;
-      for (const { li, p } of items.values()) li.hidden = !!coinciden && !coinciden.has(p.id);
-      const n = coinciden ? coinciden.size : todas.length;
-      resumen.textContent = n ? t('sate.guia.resultados_preguntas', { n }) : t('sate.guia.sin_resultados_preguntas');
-    }
-    filtrar();
-    raizGuia.append(cab.nodo, h('div', { 'class': 'guia-apartado' }, [
-      h('div', { 'class': 'guia-buscar' }, [h('label', { 'for': 'guia-qa', texto: t('sate.guia.buscar_apartado_etiqueta') }), buscar.raiz]), resumen, lista]));
-    if (abrirId) {
-      const x = items.get(abrirId);
-      if (x) { x.det.open = true; return { titulo: cab.titulo, destino: x.det }; }
-      raizGuia.querySelector('.guia-apartado').prepend(h('p', { 'class': 'tmr-nota', role: 'status', texto: t('sate.guia.no_encontrada') }));
-    }
+    const cambio = () => pintar();
+    const mq = raiz.matchMedia('(min-width:900px)');
+    mq.addEventListener?.('change', cambio);
+    limpiarLector = () => mq.removeEventListener?.('change', cambio);
+    raizGuia.append(cab.nodo, h('div', { 'class': 'guia-apartado' }, [buscar.raiz, resumen, pista, panel]));
+    pintar();
     return { titulo: cab.titulo };
   }
 
@@ -426,7 +442,7 @@
     const indice = h('details', { 'class': 'rgl-indice', open: true }, [h('summary', { 'class': 'rgl-resumen' }, [h('span', { texto: t('sate.guia.rgl_indice') }), resumen]), cuerpoIndice]);
     const texto = h('article', { 'class': 'rgl-texto', 'aria-label': reg.titulo });
     const riel = h('aside', { 'class': 'rgl-riel', 'aria-label': t('sate.guia.rgl_contexto') });
-    const rejilla = h('div', { 'class': 'rgl' }, [indice, texto, riel]);
+    const rejilla = SateUI.lector(indice, texto, riel);
     const estrecho = () => pantallaChica() || (rejilla.clientWidth > 0 && rejilla.clientWidth <= 672);
     if (fuenteDoc || avisoOcr) cab.nodo.appendChild(h('div', { 'class': 'rgl-datos' }, [fuenteDoc, avisoOcr]));
     const mapa = mapaReglamento(reg);
@@ -452,7 +468,8 @@
       return h('li', { 'class': clase, 'data-ancla': anclaDe }, [enlaceAncla('rgl-marca', anclaDe, marca, { 'aria-label': etiqueta }), h('div', {}, contenido)]);
     }
     function cuerpoArticulo(a) {
-      const p = partesArticulo(a), nodos = [];
+      if (!E.partes.has(a)) E.partes.set(a, partesArticulo(a));
+      const p = E.partes.get(a), nodos = [];
       if (p.intro) nodos.push(h('p', { texto: p.intro }));
       if (p.definiciones) nodos.push(h('dl', { 'class': 'rgl-definiciones' }, p.definiciones.map(x => h('div', {}, [h('dt', { texto: x.termino }), h('dd', { texto: x.texto })]))));
       if (p.fracciones.length) nodos.push(h('ol', { 'class': 'rgl-fracciones' }, p.fracciones.map(f => fila('rgl-fr', f.fr + '.', anclaArticulo(a.n, f.fr), t('sate.guia.rgl_enlace_fraccion', { fr: f.fr }), [
@@ -501,7 +518,19 @@
         else tramo.removeAttribute('aria-current');
       }
     }
-    const secciones = new Map();
+    const secciones = new Map(), pendientes = new Map();
+    const inicial = leerAncla(ancla || ''), centro = posicion.get(inicial?.n) ?? 0;
+    function completar(clave) {
+      const pendiente = pendientes.get(clave);
+      if (!pendiente) return;
+      pendientes.delete(clave);
+      pendiente();
+    }
+    function vecindad(clave) {
+      const i = posicion.get(clave);
+      if (i == null) { completar(clave); return; }
+      for (let j = Math.max(0, i - 2); j <= Math.min(articulos.length - 1, i + 3); j++) completar(articulos[j].n);
+    }
     let ubicacionAnterior = [], contenedores = [texto];
     for (const a of articulos) {
       const ubicacion = a.ubicacion || [];
@@ -520,7 +549,11 @@
         () => { estado.textContent = t('sate.guia.rgl_copiado'); },
         () => { estado.textContent = t('sate.guia.rgl_copiar_error'); }));
       const seccion = h('section', { 'class': 'rgl-articulo', id: 'rgl-' + anc, 'data-articulo': a.n }, [
-        h('header', { 'class': 'rgl-cab' }, [h('h4', {}, [enlaceAncla('rgl-cita', anc, t('sate.guia.articulo_rotulo', { n: a.n }))]), copiarArticulo, estado]), cuerpoArticulo(a)]);
+        h('header', { 'class': 'rgl-cab' }, [h('h4', {}, [enlaceAncla('rgl-cita', anc, t('sate.guia.articulo_rotulo', { n: a.n }))]), copiarArticulo, estado])]);
+      // Reservar altura evita que los títulos posteriores colapsen mientras llega su texto.
+      seccion.style.minHeight = Math.max(110, Math.ceil((a.texto || '').length / 80) * 24 + 64) + 'px';
+      pendientes.set(a.n, () => { seccion.appendChild(cuerpoArticulo(a)); seccion.style.minHeight = ''; });
+      if (Math.abs(posicion.get(a.n) - centro) <= 3) completar(a.n);
       contenedores[contenedores.length - 1].appendChild(seccion);
       secciones.set(a.n, seccion);
       ubicacionAnterior = ubicacion;
@@ -533,15 +566,19 @@
       secciones.set('transitorios', seccion);
     }
     // Muestra el artículo o la fracción de un ancla; sin ancla válida, el primer artículo. Devuelve el nodo de la fracción, si hay.
+    let anclaFijada = null;
     function ir(anclaDestino, empujar) {
       const p = leerAncla(anclaDestino);
       const clave = anclaDestino === 'transitorios' && transitorios.length ? 'transitorios' : p && posicion.has(p.n) ? p.n : articulos.length ? articulos[0].n : 'transitorios';
       const cambio = clave !== actual;
+      vecindad(clave);
       if (cambio) pintar(clave);
       const final = p && clave === p.n && p.fr ? anclaArticulo(p.n, p.fr, p.inciso) : clave === 'transitorios' ? 'transitorios' : anclaArticulo(clave);
       const fr = final.includes('.') ? Array.from(texto.querySelectorAll('li[data-ancla]')).find(x => x.getAttribute('data-ancla') === final) : null;
       for (const x of texto.querySelectorAll('.rgl-activa')) x.classList.remove('rgl-activa');
       if (fr) fr.classList.add('rgl-activa');
+      // La hidratación incremental conserva el destino de ruta aunque el lector visible cambie.
+      anclaFijada = secciones.get(clave) || null;
       enlaceActual = rutaReglamento(doc, fr ? final : clave === 'transitorios' ? clave : anclaArticulo(clave));
       if (empujar) {
         try { history[cambio ? 'pushState' : 'replaceState'](null, '', enlaceActual); } catch (e) { /* sin historial */ }
@@ -567,22 +604,24 @@
       if (rielEnIndice && riel.parentNode !== cuerpoIndice) cuerpoIndice.insertBefore(riel, arbolNav);
       else if (!rielEnIndice && riel.parentNode !== rejilla) rejilla.appendChild(riel);
       // Los nombres oficiales ocupan varias líneas: cada encabezado se fija debajo de sus ancestros reales.
-      function colocar(contenedor, tope) {
-        for (const grupo of contenedor.children) {
-          if (!grupo.classList.contains('rgl-seccion')) continue;
-          const cabecera = grupo.firstChild;
-          cabecera.style.top = tope + 'px';
-          colocar(grupo, tope + (cabecera.offsetHeight || 48));
-        }
+      const base = chico ? indice.querySelector('summary').offsetHeight || 48 : 0;
+      const alturas = new Map(Array.from(texto.querySelectorAll('.rgl-encabezado'), n => [n, n.offsetHeight || 48]));
+      const cambios = [];
+      for (const [cab, alto] of alturas) {
+        let tope = base;
+        for (let padre = cab.parentNode.parentNode; padre && padre !== texto; padre = padre.parentNode)
+          if (padre.classList.contains('rgl-seccion')) tope += alturas.get(padre.firstChild) || 48;
+        cambios.push([cab, 'top', tope + 'px']);
       }
-      colocar(texto, chico ? indice.querySelector('summary').offsetHeight || 48 : 0);
       for (const seccion of secciones.values()) {
-        let tope = chico ? indice.querySelector('summary').offsetHeight || 48 : 0;
+        let tope = base;
         for (let padre = seccion.parentNode; padre && padre !== texto; padre = padre.parentNode) {
-          if (padre.classList.contains('rgl-seccion')) tope += padre.firstChild.offsetHeight || 48;
+          if (padre.classList.contains('rgl-seccion')) tope += alturas.get(padre.firstChild) || 48;
         }
-        seccion.style.scrollMarginTop = (tope + 16) + 'px';
+        cambios.push([seccion, 'scrollMarginTop', (tope + 16) + 'px']);
       }
+      // Leer toda la geometría antes de escribir estilos: un layout por ajuste.
+      for (const [n, propiedad, valor] of cambios) if (n.style[propiedad] !== valor) n.style[propiedad] = valor;
     };
     if (consulta?.addEventListener) consulta.addEventListener('change', ajustar);
     ajustar();
@@ -594,26 +633,52 @@
       if (cuadro) return;
       cuadro = raiz.requestAnimationFrame(() => {
         cuadro = 0;
-        let visible = null;
-        for (const [n, seccion] of secciones) {
-          if (seccion.getBoundingClientRect().top > (parseFloat(seccion.style.scrollMarginTop) || 180)) break;
-          visible = n;
-        }
-        if (visible && visible !== actual) pintar(visible);
+        const visible = SateUI.lectorVisible(secciones);
+        if (visible) { vecindad(visible); if (visible !== actual) pintar(visible); }
       });
     };
     raiz.addEventListener('scroll', seguir, { passive: true });
-    limpiarLector = () => { if (consulta?.removeEventListener) consulta.removeEventListener('change', ajustar); observador?.disconnect(); raiz.removeEventListener('resize', ajustar); raiz.removeEventListener('scroll', seguir); raiz.cancelAnimationFrame(cuadro); };
+    const soltarAncla = () => { anclaFijada = null; };
+    raiz.addEventListener('wheel', soltarAncla, { passive: true });
+    raiz.addEventListener('touchstart', soltarAncla, { passive: true });
+    raiz.addEventListener('pointerdown', soltarAncla, { passive: true });
+    const soltarAnclaTeclado = e => { if (['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(e.key)) soltarAncla(); };
+    raiz.addEventListener('keydown', soltarAnclaTeclado);
+    let detenido = false, tarea;
+    const enReposo = fn => raiz.requestIdleCallback ? raiz.requestIdleCallback(fn, {timeout:1000}) : raiz.setTimeout(fn, 50);
+    function sinSalto(fn) {
+      const anclaVista = anclaFijada || secciones.get(actual), antes = anclaVista?.getBoundingClientRect().top;
+      fn();
+      if (antes != null && raiz.scrollBy) {
+        const diferencia = anclaVista.getBoundingClientRect().top - antes;
+        if (diferencia) raiz.scrollBy(0, diferencia);
+      }
+    }
+    const completarTodo = () => { for (const clave of pendientes.keys()) completar(clave); };
+    const continuar = () => {
+      if (detenido) return;
+      // Lotes pequeños también en el respaldo, para ceder a navegación y scroll.
+      sinSalto(() => { for (const clave of Array.from(pendientes.keys()).slice(0, 6)) completar(clave); });
+      if (pendientes.size) tarea = enReposo(continuar);
+    };
+    const interseccion = raiz.IntersectionObserver ? new raiz.IntersectionObserver(entradas => {
+      sinSalto(() => { for (const e of entradas) if (e.isIntersecting) vecindad(e.target.getAttribute('data-articulo')); });
+    }, {rootMargin:'800px'}) : null;
+    for (const n of secciones.values()) interseccion?.observe(n);
+    raiz.addEventListener('beforeprint', completarTodo);
+    tarea = enReposo(continuar);
+    limpiarLector = () => { detenido = true; if (raiz.cancelIdleCallback) raiz.cancelIdleCallback(tarea); else raiz.clearTimeout(tarea); interseccion?.disconnect(); raiz.removeEventListener('beforeprint', completarTodo); if (consulta?.removeEventListener) consulta.removeEventListener('change', ajustar); observador?.disconnect(); raiz.removeEventListener('resize', ajustar); raiz.removeEventListener('scroll', seguir); raiz.removeEventListener('wheel', soltarAncla); raiz.removeEventListener('touchstart', soltarAncla); raiz.removeEventListener('pointerdown', soltarAncla); raiz.removeEventListener('keydown', soltarAnclaTeclado); raiz.cancelAnimationFrame(cuadro); };
     const fr = ir(ancla && ancla !== 'texto' ? ancla : '', false);
     const destino = ancla && ancla !== 'texto' ? fr || secciones.get(actual) : null;
-    if (destino) SateUI.revelar(destino);
+    // Salto inmediato: un desplazamiento suave largo lo interrumpe el dibujo por partes y no llega al artículo.
+    if (destino) { destino.scrollIntoView({ block: 'start' }); SateUI.revelar(destino); }
     return { titulo: cab.titulo, enDocumento: !!destino };
   }
   async function apartadoReglamentos(raizGuia, d, doc, ancla, vigente) {
     if (doc) {
       const reg = await cargarReglamento(doc);
       if (!vigente()) return {};
-      return montarReglamento(raizGuia, d, reg, doc, ancla);
+      return raiz.SateMedicion ? raiz.SateMedicion.render('reglamento ' + doc, () => montarReglamento(raizGuia, d, reg, doc, ancla)) : montarReglamento(raizGuia, d, reg, doc, ancla);
     }
     const cab = cabecera([...migasBase(), { texto: tituloApartado('reglamentos') }], tituloApartado('reglamentos'), t('sate.guia.reglamentos_intro'));
     const indice = await cargarReglamento('indice');
@@ -691,25 +756,122 @@
     return { titulo: cab.titulo };
   }
   function apartadoAcudir(raizGuia, d, abrirId) {
+    const tx = k => t('sate.guia.r10.' + k);
     const cab = cabecera([...migasBase(), { texto: tituloApartado('acudir') }], tituloApartado('acudir'), t('sate.guia.acudir_intro'));
-    const items = new Map();
-    const lista = h('ul', { 'class': 'guia-lista-acudir' }, d.acudir.map(a => {
-      const f = fuente(d, a.fuente, t);
-      // Las marcas pueden contener abreviaturas (art.); la oración se corta solo fuera de ellas.
-      const oracion = a.para.match(/^(?:\[\[[\s\S]*?\]\]|[^.!?])*[.!?](?=\s|$)/);
-      const inicio = oracion ? oracion[0] : a.para, resto = a.para.slice(inicio.length);
-      const li = h('li', { id: 'acudir-' + a.id }, [h('h3', { texto: a.nombre }), h('p', {}, enLinea(inicio, d)),
-        h('details', {}, [h('summary', { texto: t('sate.guia.funciones_manual') }), resto ? h('p', {}, enLinea(resto, d)) : null,
-          f ? h('small', {}, [enlaceExterno('', f.url, f.texto)]) : null])]);
-      items.set(a.id, li);
-      return li;
-    }));
-    const grupos = ['unidad', 'ipn'].map(ambito => {
-      const elementos = d.acudir.filter(a => (a.ambito || 'unidad') === ambito).map(a => items.get(a.id));
-      return elementos.length ? h('section', {}, [h('h3', { texto: t('sate.guia.acudir_' + ambito) }), h('ul', { 'class': 'guia-lista-acudir' }, elementos)]) : null;
-    });
-    raizGuia.append(cab.nodo, h('div', { 'class': 'guia-apartado' }, grupos));
-    return { titulo: cab.titulo, destino: abrirId ? items.get(abrirId) : null };
+    const instancias = new Map(d.acudir.map(a => [a.id, a]));
+    const nodos = [], org = d.organigrama;
+    function agregar(nombre, padre, colegiado) {
+      const existente = d.acudir.find(a => a.nombre === nombre);
+      const id = existente?.id || org?.ids?.[nombre] || 'org-' + nodos.length;
+      const a = existente || { id, nombre, ambito: 'unidad', para: '', fuente: { doc: org.documento } };
+      instancias.set(id, a);
+      nodos.push({ id, padre, colegiado });
+      return id;
+    }
+    if (org) {
+      const r = agregar(org.raiz.nombre, null);
+      for (const nombre of org.raiz.colegiados || []) agregar(nombre, r, true);
+      for (const nombre of org.raiz.apoyo || []) { const id = agregar(nombre, r); nodos.find(n => n.id === id).apoyo = true; }
+      for (const area of org.raiz.areas || []) {
+        const id = agregar(area.nombre, r);
+        for (const nombre of area.dependencias || []) agregar(nombre, id);
+        for (const nombre of area.colegiados || []) agregar(nombre, id, true);
+      }
+    }
+    for (const a of d.estructuraCentral || []) {
+      instancias.set(a.id, { ...a, nombre: a.nombreClave ? t(a.nombreClave) : a.nombre, para: a.paraClave ? t(a.paraClave) : a.para });
+      nodos.push({ id: a.id, padre: a.depende || null });
+    }
+    // Las relaciones adicionales se declaran en datos; no se deducen de los nombres.
+    for (const a of d.acudir) {
+      const padre = a.depende || null;
+      const nodo = nodos.find(n => n.id === a.id);
+      if (!nodo) nodos.push({ id: a.id, padre });
+      else if (padre) nodo.padre = padre;
+    }
+    let vista = 'directorio', ambito = '', elegido = abrirId || d.acudir[0]?.id;
+    const abiertos = new Set();
+    const cuerpo = h('div', { 'class': 'guia-directorio' });
+    const barra = h('div', { 'class': 'guia-controles' });
+    const filtros = h('div', { 'class': 'guia-controles' });
+    const resumen = h('p', { role: 'status', 'aria-live': 'polite', 'class': 'guia-resumen' });
+    const buscar = SateUI.buscador({ etiqueta: tx('necesidad'), marcador: tx('necesidad'), id: 'guia-necesidad', alCambiar: pintar });
+    function seleccionar(a) {
+      elegido = a.id;
+      history.replaceState(null, '', rutaGuia('acudir', a.id));
+      if (raiz.matchMedia('(max-width:899px)').matches) SateUI.modal(a.nombre, ficha(a));
+      else pintar();
+    }
+    function ficha(a) {
+      const f = fuente(d, a.fuente, t), padre = nodos.find(n => n.id === a.id)?.padre;
+      const rel = d.preguntas.filter(p => (p.acudir || []).includes(a.id));
+      const campo = (titulo, contenido) => h('div', {}, [h('dt', { texto: titulo }), h('dd', {}, contenido)]);
+      return h('article', { 'class': 'guia-ficha' }, [h('small', { texto: t('sate.guia.acudir_' + (a.ambito || 'unidad')) }), a.pendiente ? h('strong', { texto: tx('confirmar') }) : null, h('h3', { texto: a.nombre }),
+        h('dl', {}, [campo(tx('atiende'), [h('p', {}, enLinea(a.para || tx('sin_descripcion'), d)), ...(a.necesidades || []).map(n => h('p', { texto: t(n.texto) + (n.pendiente ? ' · ' + tx('confirmar') : '') }))]),
+          campo(tx('depende'), [instancias.get(padre)?.nombre || tx('confirmar')]),
+          campo(tx('contacto'), enLinea(a.contacto || tx('confirmar'), d)),
+          campo(t('sate.guia.fuentes_titulo', { n: f ? 1 : 0 }), [f ? enlaceExterno('', f.url, f.texto) : tx('confirmar'), a.ambito !== 'ipn' && org ? h('p', { texto: tx('fuente_estructura') }) : null]),
+          rel.length ? campo(tx('relacionadas'), [h('ul', {}, rel.map(p => h('li', {}, [h('a', { href: rutaGuia(p.apartado, p.id), texto: p.pregunta })])))]) : null])]);
+    }
+    function pintar() {
+      const ts = terminos(buscar.entrada.value);
+      const preguntas = ts.length ? buscarPreguntas(d.preguntas, buscar.entrada.value) : [];
+      const resultados = [...instancias.values()].filter(a => (vista === 'jerarquia' || a.para) && (!ambito || (a.ambito || 'unidad') === ambito) && (!ts.length || ts.every(w => norm([a.nombre, a.para, ...(a.palabras || []), ...(a.necesidades || []).flatMap(n => [t(n.texto), ...(n.palabras || [])])].join(' ')).includes(w)) || preguntas.some(p => (p.acudir || []).includes(a.id))));
+      const ids = new Set(resultados.map(a => a.id));
+      resultados.sort((a, b) => Number(a.ambito === 'ipn') - Number(b.ambito === 'ipn'));
+      if (!instancias.has(elegido) || vista === 'directorio' && !ids.has(elegido)) elegido = resultados[0]?.id;
+      barra.replaceChildren(...['directorio', 'jerarquia'].map(v => {
+        const b = h('button', { type: 'button', 'aria-pressed': String(vista === v), texto: tx(v) });
+        b.addEventListener('click', () => { if (v === 'jerarquia' && vista !== v) elegido = nodos.find(n => !n.padre && instancias.get(n.id).ambito !== 'ipn')?.id; vista = v; pintar(); barra.querySelector('[aria-pressed="true"]')?.focus({ preventScroll: true }); }); return b;
+      }));
+      filtros.replaceChildren(...['', 'unidad', 'ipn'].map(v => {
+        const b = h('button', { type: 'button', 'aria-pressed': String(ambito === v), texto: v ? t('sate.guia.acudir_' + v) : tx('todo') });
+        b.addEventListener('click', () => { ambito = v; pintar(); filtros.querySelector('[aria-pressed="true"]')?.focus({ preventScroll: true }); }); return b;
+      }));
+      function boton(a) {
+        const b = h('button', { type: 'button', 'class': 'guia-elegir', 'data-instancia': a.id, 'aria-current': elegido === a.id ? 'true' : null, texto: a.nombre });
+        b.addEventListener('click', () => {
+          seleccionar(a);
+          if (raiz.matchMedia('(min-width:900px)').matches) cuerpo.querySelector('[data-instancia="' + a.id + '"]')?.focus({ preventScroll: true });
+        }); return b;
+      }
+      function nodo(n) {
+        const hijos = nodos.filter(x => x.padre === n.id);
+        const a = instancias.get(n.id);
+        if (ambito && (a.ambito || 'unidad') !== ambito) return null;
+        const rama = hijos.map(nodo).filter(Boolean);
+        const b = boton(a);
+        if (ts.length && ids.has(n.id)) b.classList.add('guia-coincide');
+        const caja = h('span', { 'class': 'guia-nodo' + (ts.length && !ids.has(n.id) ? ' guia-nodo--tenue' : '') }, [b,
+          n.colegiado || n.apoyo ? h('small', { texto: tx(n.colegiado ? 'colegiado' : 'apoyo') }) : null]);
+        if (!rama.length) return h('li', {}, [caja]);
+        const resumenRama = h('summary', {}, [caja, h('small', { texto: tx('dependencias').replace('{n}', String(hijos.length)) })]);
+        resumenRama.addEventListener('click', e => {
+          if (e.target === b) return;
+          elegido = a.id;
+          for (const actual of cuerpo.querySelectorAll('[data-instancia]')) actual.removeAttribute('aria-current');
+          b.setAttribute('aria-current', 'true');
+          if (raiz.matchMedia('(max-width:899px)').matches) SateUI.modal(a.nombre, ficha(a));
+          else cuerpo.querySelector('.guia-ficha-panel')?.replaceChildren(ficha(a));
+        });
+        const det = h('details', { open: ts.length > 0 || abiertos.has(n.id) || n.padre === null }, [resumenRama, h('ul', {}, rama)]);
+        det.addEventListener('toggle', () => { if (det.open) abiertos.add(n.id); else abiertos.delete(n.id); });
+        return h('li', {}, [det]);
+      }
+      function fila(a) {
+        // La ficha conserva el texto completo; el resumen de la lista nunca corta una marca.
+        const primera = a.para.match(/^(?:\[\[[\s\S]*?\]\]|[^.!?;])*[.!?;](?=\s|$)/)?.[0] || a.para;
+        return h('li', {}, [boton(a), h('small', { texto: t('sate.guia.acudir_' + (a.ambito || 'unidad')) }), h('p', {}, enLinea(primera, d))]);
+      }
+      const lista = vista === 'directorio' ? h('ul', { 'class': 'guia-directorio-lista' }, resultados.filter(a => a.para).map(fila)) : h('div', { 'class': 'guia-arbol' }, [...['unidad', 'ipn'].filter(v => !ambito || ambito === v).map(v => h('section', {}, [h('h3', { texto: t('sate.guia.acudir_' + v) }), h('ul', {}, nodos.filter(n => !n.padre && (instancias.get(n.id).ambito || 'unidad') === v).map(nodo))])), org ? h('p', { 'class': 'guia-arbol-fuente', texto: tx('fuente_estructura') }) : null]);
+      const a = instancias.get(elegido);
+      cuerpo.replaceChildren(lista, h('aside', { 'class': 'guia-ficha-panel' }, a ? [ficha(a)] : []));
+      resumen.textContent = t(resultados.length ? 'sate.guia.detalle_instancias' : 'sate.guia.sin_resultados_preguntas', { n: resultados.length });
+    }
+    raizGuia.append(cab.nodo, h('div', { 'class': 'guia-apartado' }, [h('div', { 'class': 'guia-barra' }, [buscar.raiz, barra]), filtros, resumen, cuerpo]));
+    pintar();
+    if (abrirId && instancias.has(abrirId) && raiz.matchMedia('(max-width:899px)').matches) seleccionar(instancias.get(abrirId));
+    return { titulo: cab.titulo };
   }
 
   /* ---------- pestaña ---------- */
