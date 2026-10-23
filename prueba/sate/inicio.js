@@ -334,13 +334,22 @@
       if(!cfg.pestanas.includes(activa))activa=api.personal()?'trayectoria':'mapa';
       const items = cfg.pestanas.map(id => ({id,grupo:cfg.grupos.findIndex(g=>g.includes(id)),texto:texto('sate.pestana.'+id+'.titulo'),corto:texto('sate.pestana.'+id+'.corto')}));
       for(const v of cfg.vistas||[])if(v.externa&&v.habilitada!==false&&!oculta(v.id))items.push({id:v.id,href:v.href,texto:texto('sate.pestana.'+v.id+'.titulo'),corto:texto('sate.pestana.'+v.id+'.corto')});
-      tabs = SateUI.pestanas({items,activa,alCambiar:id=>{if(!seleccionProgramada && actual && actual.pestana!==id)ir(id)}});
+      tabs = SateUI.pestanas({items,activa,alCambiar:id=>{if(!seleccionProgramada && SateRutas.requiereRaiz(actual,id))ir(id)}});
       document.getElementById('sate-tabs').replaceChildren();
       document.getElementById('sate-tabs').appendChild(tabs);
       for (const id of cfg.pestanas) tabs.querySelector('[data-id="'+id+'"]').setAttribute('aria-controls',id==='guia'?'sate-guia':id==='horarios'?'v-hor':id==='tramites'?'sate-tramites':id==='trayectoria'?'sate-trayectoria':id==='calendario'?'sate-calendario':'v-tray');
       barra?.remove?.();
       barra = SateUI.barraInferior({items:items.map(it=>({id:it.id,href:it.href,grupo:it.grupo,texto:it.corto,titulo:it.texto})),activa,alElegir:ir});
       document.body.appendChild(barra);
+      const selectorPlan=document.getElementById('plan-periodos'), etiquetaPlan=document.getElementById('plan-vista-etiqueta'), anclaPlan=document.getElementById('plan-periodos-ancla');
+      if(selectorPlan&&anclaPlan?.after){
+        const botonMapa=barra.querySelector?.('[data-id="mapa"]');
+        if(activa==='mapa'&&botonMapa){
+          const envoltura=document.createElement('div');envoltura.className='sate-barra__plan';envoltura.setAttribute('aria-label',texto('sate.planeacion.periodos'));
+          if(etiquetaPlan)envoltura.appendChild(etiquetaPlan);
+          envoltura.appendChild(selectorPlan);barra.insertBefore(envoltura,botonMapa.nextSibling);
+        }else{const destino=etiquetaPlan?.after?etiquetaPlan:anclaPlan;if(etiquetaPlan?.after)anclaPlan.after(etiquetaPlan);destino.after(selectorPlan)}
+      }
       for (const nav of [tabs, barra]) for (const evento of ['pointerover','focusin']) nav.addEventListener?.(evento, e => {
         const id = e.target.closest?.('[data-id]')?.dataset.id;
         if (cfg.pestanas.includes(id)) precarga.precargar(id);

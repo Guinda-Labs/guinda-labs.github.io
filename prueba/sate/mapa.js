@@ -126,7 +126,7 @@ function renderMap0(){
   bands.forEach(([n,y,a,b],i)=>{tops.push(acc);acc+=(b-a)*kOf(i)});
   const bandOf=y=>{for(let i=0;i<bands.length;i++)if(y<bands[i][3])return i;return bands.length-1};
   const Y=y=>{if(!bands.length||y<=bands[0][2])return y;const i=bandOf(y);const [,,a,b]=bands[i];return y>=b&&i===bands.length-1?tops[i]+(b-a)*kOf(i)+(y-b):tops[i]+(y-a)*kOf(i)};
-  const H=Y(L.h);
+  const H=Y(bands.length?bands[bands.length-1][3]:L.h);
   let svg=`<svg width="${L.w*sc}" height="${H*sc}" viewBox="0 0 ${L.w} ${H}" aria-hidden="true"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--edge)"/></marker><marker id="ahh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ipn-acento)"/></marker><marker id="ahpre" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--rel-pre)"/></marker><marker id="ahpost" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--rel-post)"/></marker></defs>`;
   /* escala del mapa */
   bands.forEach(([n,y,a,b],i)=>{const k=kOf(i);if(!k)return;if(i%2===0)svg+=`<rect class="band" x="0" y="${Y(a)}" width="${L.w}" height="${(b-a)*k}"/>`;svg+=`<text class="rowlbl" x="12" y="${Y(y)+6*k}" font-size="${18*Math.max(k,.7)}">${n}</text>`});
@@ -234,3 +234,21 @@ function resaltarMapa(){
 }
 // agrupa los eventos del cursor y del teclado en un solo cuadro de animación
 function pedirResalte(){if(!RESALTE_RAF)RESALTE_RAF=requestAnimationFrame(resaltarMapa)}
+
+/* Actualiza solo el estado de planeación de las cajas cuyo marcado cambió. */
+function actualizarMapaPlan(){
+  const ix=indiceMapa(), want=planElegidas(), done=new Set(tr().done), req=new Set([...ancestors(want)].filter(k=>!want.has(k)&&!done.has(k)));
+  for(const n of ix.cajas){
+    const k=n.dataset.box;if(!k)continue;
+    const paso=planAsignado(k), clases=['want','plan-1','plan-2','plan-otra','req'];
+    const debe=new Set([...(paso!=null?['want',`plan-${paso+1}`,PLAN_DOS_PERIODOS&&paso!==S.planPaso?'plan-otra':'']:[]),...(paso==null&&req.has(k)?['req']:[])]);
+    for(const cl of clases)if(n.classList.contains(cl)!==debe.has(cl)){if(debe.has(cl))n.classList.add(cl);else n.classList.remove(cl)}
+    const pressed=paso===S.planPaso;if(n.getAttribute('aria-pressed')!==String(pressed))n.setAttribute('aria-pressed',String(pressed));
+    let marca=n.querySelector('.plan-marca');
+    if(PLAN_DOS_PERIODOS&&paso!=null){if(!marca){marca=document.createElement('span');marca.className='plan-marca';marca.setAttribute('aria-hidden','true');n.appendChild(marca)}marca.textContent=(paso===0&&S.planPaso===1?'en ':'')+planEtiqueta(paso)}
+    else if(marca)marca.remove();
+    const titulo=n.getAttribute('title')||'', etiqueta=paso==null?'':` · ${SATE.texto('sate.planeacion.periodo_elegido',{marca:paso+1,periodo:planEtiqueta(paso)})}`, label=titulo+etiqueta;
+    if(n.getAttribute('aria-label')!==label)n.setAttribute('aria-label',label);
+  }
+  renderInsp();
+}
