@@ -1,4 +1,4 @@
-document.getElementById('v-hor').innerHTML="\n    <div hidden><p id=\"cupos-ayuda\"></p><a id=\"cupos-instalar\" class=\"saes-bm\" href=\"javascript:(function(){var s=document.createElement(&#x27;script&#x27;);s.src=&#x27;https://guinda-labs.github.io/prueba/sate.js?v=&#x27;+Date.now();document.head.appendChild(s)})()\" draggable=\"true\" onclick=\"event.preventDefault()\"></a></div>\n    <div class=\"est-eqv\" id=\"est-eqv\" hidden></div>\n    <div id=\"hor-desfase\"></div>\n    <section class=\"filters\" id=\"filters\" aria-label=\"Filtros\">\n      <div class=\"field\"><span>Turno</span><div class=\"chips\" id=\"f-turno\"></div></div>\n      <div class=\"field\"><span>Nivel</span><div class=\"chips\" id=\"f-nivel\"></div></div>\n      <div class=\"field search\">\n        <span id=\"q-lbl\">Buscar</span>\n        <input id=\"f-q\" type=\"search\" role=\"combobox\" aria-autocomplete=\"list\" aria-expanded=\"false\" aria-controls=\"ac\" aria-labelledby=\"q-lbl\" placeholder=\"Materia, clave, profesor o grupo\" autocomplete=\"off\">\n        <ul class=\"ac\" id=\"ac\" role=\"listbox\" hidden></ul>\n      </div>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-want\"> <span id=\"f-want-l\">Solo las elegidas en el Mapa curricular</span></label>\n      <details id=\"f-more\"><summary id=\"f-more-title\" data-htexto=\"mas_filtros\">Más filtros</summary><div class=\"more-filters\">\n      <div class=\"field\"><span>Ver por</span><div class=\"seg\" role=\"group\" aria-label=\"Agrupar oferta\">\n        <button data-view=\"materia\">Materia</button><button data-view=\"grupo\">Grupo</button>\n      </div></div>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-hide\"> Ocultar las marcadas como No</label>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-done\" checked> <span data-htexto=\"ocultar_acreditadas\">Ocultar las ya acreditadas</span></label>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-cupo\"> <span data-htexto=\"solo_cupo\">Solo con cupo</span></label><small id=\"f-cupo-ayuda\" aria-live=\"polite\"></small>\n      <label class=\"check\" title=\"Muestra los grupos de la carrera compatibles con el horario actual\"><input type=\"checkbox\" id=\"f-fit\"> Solo lo que cabe en mi horario</label>\n      <div class=\"field\"><span>En la escuela</span><div class=\"trange\"><input type=\"time\" id=\"g-from\" step=\"1800\" aria-label=\"Llegar desde\"><span>a</span><input type=\"time\" id=\"g-to\" step=\"1800\" aria-label=\"Salir a más tardar\"></div></div>\n      <label class=\"field\"><span>Excluir profesores</span><input type=\"text\" id=\"g-avoid\" list=\"proflist\" autocomplete=\"off\"></label>\n      <button type=\"button\" class=\"btn\" id=\"b-reset\" title=\"Regresa a su valor inicial los filtros de la oferta, los profesores excluidos, el horario en la escuela y las preferencias del generador, y quita las marcas «Sí / Quizá / No». No borra tus horarios.\">Restablecer filtros</button>\n      </div></details>\n      <div class=\"active\" id=\"active\"></div>\n    </section>\n\n    <button type=\"button\" class=\"btn horario-flotante\" id=\"b-horario\" data-htexto=\"horario_ver\" aria-haspopup=\"dialog\">Ver horario</button>\n    <div class=\"hlayout\">\n      <section aria-labelledby=\"h-offer\">\n        <details class=\"box2\" id=\"mi-semana\" hidden>\n          <summary id=\"semana-resumen\" data-htexto=\"semana_titulo\"></summary>\n          <p data-htexto=\"semana_subtitulo\"></p>\n          <p data-htexto=\"semana_privacidad\"></p>\n          <div id=\"semana-campos\">\n            <div id=\"semana-principales\" class=\"semana-campos\"></div>\n            <div id=\"semana-form\"></div>\n            <details id=\"semana-opciones\">\n              <summary data-htexto=\"semana_mas_opciones\"></summary>\n              <div id=\"semana-secundarios\" class=\"semana-campos\"></div>\n            </details>\n          </div>\n          <div id=\"semana-bloques\"></div>\n          <div id=\"semana-presupuesto\" aria-live=\"polite\"></div>\n          <div class=\"ownrow\"><button type=\"button\" class=\"btn\" id=\"semana-borrar\" data-htexto=\"semana_borrar\"></button><span id=\"semana-borrar-ayuda\"></span></div>\n        </details>\n        <details class=\"box2\" id=\"gen\" style=\"margin-bottom:var(--ipn-esp-3)\">\n          <summary>Generar horarios automáticamente</summary>\n          <p style=\"font-size:var(--ipn-tamano-s);margin:var(--ipn-esp-2) 0 0\">Genera combinaciones sin traslapes con los grupos de las materias seleccionadas. Prioriza los grupos marcados con «Sí» y los profesores indicados; omite los marcados con «No», los profesores excluidos y los grupos fuera del horario definido en los filtros.</p>\n          <div class=\"genrow\">\n            <div class=\"field\"><span>Turno preferido</span><div class=\"seg\" role=\"group\" aria-label=\"Turno preferido\">\n              <button aria-pressed=\"true\" data-gt=\"*\">Cualquiera</button><button aria-pressed=\"false\" data-gt=\"M\">Matutino</button><button aria-pressed=\"false\" data-gt=\"V\">Vespertino</button>\n            </div></div>\n            <label class=\"field\"><span>Priorizar profesor</span><input type=\"text\" id=\"g-pref\" list=\"proflist\" autocomplete=\"off\"></label>\n            <datalist id=\"proflist\"></datalist>\n            <label class=\"check\" title=\"Prioriza horarios con menos tiempo libre entre clases y menos días en la escuela\"><input type=\"checkbox\" id=\"g-compact\" checked> Menos tiempo libre entre clases</label>\n            <label class=\"check\"><input type=\"checkbox\" id=\"cupos-omitir\" disabled aria-describedby=\"cupos-omitir-ayuda\"><span id=\"cupos-omitir-texto\"></span></label>\n            <small id=\"cupos-omitir-ayuda\" class=\"cupos-antigua\"></small>\n            <button class=\"btn primary\" id=\"b-gen\">Generar</button>\n            <button class=\"btn\" type=\"button\" id=\"b-gen-clear\" data-htexto=\"generador_borrar\" hidden>Borrar opciones generadas</button>\n          </div>\n          <div class=\"gtime\">\n            <div class=\"field\"><span>Días a la semana</span><div class=\"seg\" role=\"group\" aria-label=\"Días a la semana en la escuela\" id=\"g-days\">\n              <button type=\"button\" aria-pressed=\"true\" data-gdays=\"\">Sin límite</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"3\">3</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"4\">4</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"5\">5</button></div></div>\n            <div class=\"field\"><span>Base para generar</span><div class=\"seg\" role=\"group\" aria-label=\"Base para generar\" id=\"g-src\">\n              <button type=\"button\" aria-pressed=\"true\" data-gsrc=\"\" title=\"Usa las materias y grupos que muestra la oferta con los filtros actuales\">Filtros de la oferta</button><button type=\"button\" aria-pressed=\"false\" data-gsrc=\"todo\" title=\"Usa todas las materias elegidas y todos sus grupos, sin los filtros de la oferta (se respetan las marcas «No» y los profesores excluidos)\">Todas las elegidas</button></div></div>\n            <div class=\"field\"><span>Materias por horario</span><div class=\"seg\" role=\"group\" aria-label=\"Materias por horario\" id=\"g-n\">\n              <button type=\"button\" aria-pressed=\"false\" data-gn=\"auto\" title=\"El generador elige cuántas y cuáles materias, buscando la carga media y un horario saludable: permanencia razonable, espacio para comer y sin bloques largos sin descanso\">Automático</button><button type=\"button\" aria-pressed=\"true\" data-gn=\"\">Todas</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"3\">3</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"4\">4</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"5\">5</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"6\">6</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"7\">7</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"8\">8</button></div></div>\n            <div class=\"field\"><span>Descansos</span><div class=\"gbreaks\" id=\"gbreaks\"></div></div>\n          </div>\n          <div class=\"active\" id=\"gprefs\" style=\"padding-top:var(--ipn-esp-2)\"></div>\n          <p id=\"gen-status\" role=\"status\" aria-live=\"polite\"></p>\n          <div class=\"genres\" id=\"genres\"></div>\n        </details>\n        <details class=\"box2\" id=\"equiv\" style=\"margin-bottom:var(--ipn-esp-3)\" hidden>\n          <summary>Ver equivalencias con otras carreras de tu unidad académica</summary>\n          <div id=\"equiv-body\"></div>\n        </details>\n        <div class=\"colhead\"><h2 id=\"h-offer\">Oferta</h2><span class=\"count\" id=\"offer-count\"></span></div>\n        <div class=\"cupos-cabecera\"><span id=\"cupos-estado\" role=\"status\"></span><button class=\"btn sate-cupos-consultar\" type=\"button\" data-cupos-ayuda><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M4 4h16v16H4zM4 10h16M10 10v10\"/></svg><span data-cupos-etiqueta></span></button></div>\n        <div class=\"offer\" id=\"offer\"></div>\n      </section>\n      <section class=\"planner\" aria-labelledby=\"h-plan\">\n        <div class=\"cupos-cabecera\"><span id=\"cupos-estado-horario\"></span><button class=\"btn sate-cupos-consultar\" type=\"button\" data-cupos-ayuda><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M4 4h16v16H4zM4 10h16M10 10v10\"/></svg><span data-cupos-etiqueta></span></button></div>\n        <p id=\"cupos-llenos\" hidden><span id=\"cupos-llenos-texto\"></span> <button class=\"link\" type=\"button\" id=\"cupos-alternativas\"></button></p>\n        <div class=\"colhead\"><h2 id=\"h-plan\">Mi horario</h2>\n          <div class=\"actions\">\n            <div class=\"seg calview\" role=\"group\" aria-label=\"Vista del horario\"><button type=\"button\" data-cview=\"semana\">Semana</button><button type=\"button\" data-cview=\"dia\">Por día</button></div>\n            <label class=\"check\"><input type=\"checkbox\" id=\"f-weekend\"> Mostrar fin de semana</label>\n            <button class=\"btn\" id=\"b-export\" type=\"button\" aria-haspopup=\"dialog\">Exportar horario</button>\n            <button class=\"btn\" id=\"b-saeshor\" hidden title=\"Carga en la versión seleccionada el horario inscrito según el SAES\">Traer horario inscrito (SAES)</button>\n            <button class=\"btn\" id=\"b-clear\">Vaciar</button>\n          </div>\n        </div>\n        <p class=\"muted\" id=\"exp-msg\" aria-live=\"polite\" style=\"margin:0 0 var(--ipn-esp-2);font-size:var(--ipn-tamano-s);min-height:1.3em\"></p>\n        <div class=\"plans\" id=\"plans\" role=\"group\" aria-label=\"Versiones de horario\"></div>\n        <div class=\"calwrap\"><div class=\"cal\" id=\"cal\"></div></div>\n        <div class=\"agenda\" id=\"agenda\" hidden></div>\n        <div class=\"summary\">\n          <div class=\"stats\" id=\"stats\"></div>\n          <div class=\"load\" id=\"load\"></div>\n          <p id=\"cupos-alerta\" hidden><button type=\"button\" class=\"link\" data-cupos-riesgos></button></p>\n          <div id=\"cupos-resultado\"><p id=\"cupos-cambio\" role=\"status\" aria-live=\"polite\"></p><button type=\"button\" class=\"btn\" id=\"cupos-deshacer\" data-cupos-deshacer hidden></button></div>\n          <div class=\"sel\" id=\"sel\"></div>\n          <div id=\"cupos-opciones\"></div>\n          <div class=\"aviso-deshacer\" id=\"own-deshacer\" role=\"status\" aria-live=\"polite\" hidden><span id=\"own-deshacer-txt\"></span> <button type=\"button\" class=\"link\" id=\"own-deshacer-b\" data-htexto=\"semana_deshacer\"></button></div>\n          <details class=\"box2\" id=\"ownform\">\n            <summary>Agregar actividad extracurricular</summary>\n            <form class=\"ownrow\" id=\"own-f\">\n              <label class=\"field\"><span>Nombre</span><input type=\"text\" id=\"own-n\" placeholder=\"Inglés CELEX\" required></label>\n              <div class=\"field\"><span>Días</span><div class=\"daypick\" id=\"own-d\"></div></div>\n              <label class=\"field\"><span>De</span><input type=\"time\" id=\"own-a\" value=\"09:00\" step=\"1800\" required></label>\n              <label class=\"field\"><span>A</span><input type=\"time\" id=\"own-b\" value=\"12:00\" step=\"1800\" required></label>\n              <button class=\"btn primary\" type=\"submit\">Agregar</button>\n            </form>\n          </details>\n          <textarea class=\"copy\" id=\"copybox\" readonly hidden></textarea>\n        </div>\n      </section>\n    </div>\n    <dialog class=\"horario-compacto\" id=\"horario-compacto\" aria-labelledby=\"horario-compacto-titulo\">\n      <div class=\"dl-head\"><h2 id=\"horario-compacto-titulo\" data-htexto=\"horario_ver\">Ver horario</h2><button class=\"btn\" type=\"button\" id=\"horario-compacto-cerrar\" data-htexto=\"horario_cerrar\">Cerrar</button></div>\n      <div id=\"horario-compacto-cuerpo\"></div>\n    </dialog>\n  ";
+document.getElementById('v-hor').innerHTML="\n    <div hidden><p id=\"cupos-ayuda\"></p><a id=\"cupos-instalar\" class=\"saes-bm\" href=\"javascript:(function(){var s=document.createElement(&#x27;script&#x27;);s.src=&#x27;https://guinda-labs.github.io/prueba/sate.js?v=&#x27;+Date.now();document.head.appendChild(s)})()\" draggable=\"true\" onclick=\"event.preventDefault()\"></a></div>\n    <div class=\"est-eqv\" id=\"est-eqv\" hidden></div>\n    <div id=\"hor-desfase\"></div>\n    <section class=\"filters\" id=\"filters\" aria-label=\"Filtros\">\n      <div class=\"field\"><span>Turno</span><div class=\"chips\" id=\"f-turno\"></div></div>\n      <div class=\"field\"><span>Nivel</span><div class=\"chips\" id=\"f-nivel\"></div></div>\n      <div class=\"field search\">\n        <span id=\"q-lbl\">Buscar</span>\n        <input id=\"f-q\" type=\"search\" role=\"combobox\" aria-autocomplete=\"list\" aria-expanded=\"false\" aria-controls=\"ac\" aria-labelledby=\"q-lbl\" placeholder=\"Materia, clave, profesor o grupo\" autocomplete=\"off\">\n        <ul class=\"ac\" id=\"ac\" role=\"listbox\" hidden></ul>\n      </div>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-want\"> <span id=\"f-want-l\">Solo las elegidas en el Mapa curricular</span></label>\n      <details id=\"f-more\"><summary id=\"f-more-title\" data-htexto=\"mas_filtros\">Más filtros</summary><div class=\"more-filters\">\n      <div class=\"field\"><span>Ver por</span><div class=\"seg\" role=\"group\" aria-label=\"Agrupar oferta\">\n        <button data-view=\"materia\">Materia</button><button data-view=\"grupo\">Grupo</button>\n      </div></div>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-hide\"> Ocultar las marcadas como No</label>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-done\" checked> <span data-htexto=\"ocultar_acreditadas\">Ocultar las ya acreditadas</span></label>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-cupo\"> <span data-htexto=\"solo_cupo\">Solo con cupo</span></label><small id=\"f-cupo-ayuda\" aria-live=\"polite\"></small>\n      <label class=\"check\" title=\"Muestra los grupos de la carrera compatibles con el horario actual\"><input type=\"checkbox\" id=\"f-fit\"> Solo lo que cabe en mi horario</label>\n      <div class=\"field\" id=\"g-window\"><div class=\"trange\"><label class=\"field\"><span data-htexto=\"d_entrada\"></span><select id=\"g-from\" aria-label=\"Llegar desde\"></select></label><label class=\"field\"><span data-htexto=\"d_salida\"></span><select id=\"g-to\" aria-label=\"Salir a más tardar\"></select></label></div></div>\n      <label class=\"field\"><span>Excluir profesores</span><input type=\"text\" id=\"g-avoid\" list=\"proflist\" autocomplete=\"off\"></label>\n      <button type=\"button\" class=\"btn\" id=\"b-reset\" title=\"Regresa a su valor inicial los filtros de la oferta, los profesores excluidos, el horario en la escuela y las preferencias del generador, y quita las marcas «Sí / Quizá / No». No borra tus horarios.\">Restablecer filtros</button>\n      </div></details>\n      <div class=\"active\" id=\"active\"></div>\n    </section>\n\n    <button type=\"button\" class=\"btn horario-flotante\" id=\"b-horario\" data-htexto=\"horario_ver\" aria-haspopup=\"dialog\">Ver horario</button>\n    <div class=\"hlayout\">\n      <section aria-labelledby=\"h-offer\">\n        <details class=\"box2\" id=\"mi-semana\" hidden>\n          <summary id=\"semana-resumen\" data-htexto=\"semana_titulo\"></summary>\n          <p data-htexto=\"semana_subtitulo\"></p>\n          <p data-htexto=\"semana_privacidad\"></p>\n          <div id=\"semana-campos\">\n            <div id=\"semana-principales\" class=\"semana-campos\"></div>\n            <div id=\"semana-form\"></div>\n            <details id=\"semana-opciones\">\n              <summary data-htexto=\"semana_mas_opciones\"></summary>\n              <div id=\"semana-secundarios\" class=\"semana-campos\"></div>\n            </details>\n          </div>\n          <div id=\"semana-bloques\"></div>\n          <div id=\"semana-presupuesto\" aria-live=\"polite\"></div>\n          <div class=\"ownrow\"><button type=\"button\" class=\"btn\" id=\"semana-borrar\" data-htexto=\"semana_borrar\"></button><span id=\"semana-borrar-ayuda\"></span></div>\n        </details>\n        <details class=\"box2\" id=\"gen\" style=\"margin-bottom:var(--ipn-esp-3)\">\n          <summary>Generar horarios automáticamente</summary>\n          <p style=\"font-size:var(--ipn-tamano-s);margin:var(--ipn-esp-2) 0 0\">Genera combinaciones sin traslapes con los grupos de las materias seleccionadas. Prioriza los grupos marcados con «Sí» y los profesores indicados; omite los marcados con «No», los profesores excluidos y los grupos fuera del horario definido en los filtros.</p>\n          <div class=\"genrow\">\n            <div class=\"field\"><span>Turno preferido</span><div class=\"seg\" role=\"group\" aria-label=\"Turno preferido\">\n              <button aria-pressed=\"true\" data-gt=\"*\">Cualquiera</button><button aria-pressed=\"false\" data-gt=\"M\">Matutino</button><button aria-pressed=\"false\" data-gt=\"V\">Vespertino</button>\n            </div></div>\n            <label class=\"field\"><span>Priorizar profesor</span><input type=\"text\" id=\"g-pref\" list=\"proflist\" autocomplete=\"off\"></label>\n            <datalist id=\"proflist\"></datalist>\n            <label class=\"check\" title=\"Prioriza horarios con menos tiempo libre entre clases y menos días en la escuela\"><input type=\"checkbox\" id=\"g-compact\" checked> Menos tiempo libre entre clases</label>\n            <label class=\"check\"><input type=\"checkbox\" id=\"cupos-omitir\" disabled aria-describedby=\"cupos-omitir-ayuda\"><span id=\"cupos-omitir-texto\"></span></label>\n            <small id=\"cupos-omitir-ayuda\" class=\"cupos-antigua\"></small>\n            <button class=\"btn primary\" id=\"b-gen\">Generar</button>\n            <button class=\"btn\" type=\"button\" id=\"b-gen-clear\" data-htexto=\"generador_borrar\" hidden>Borrar opciones generadas</button>\n          </div>\n          <div class=\"gtime\">\n            <div class=\"field\"><span>Días a la semana</span><div class=\"seg\" role=\"group\" aria-label=\"Días a la semana en la escuela\" id=\"g-days\">\n              <button type=\"button\" aria-pressed=\"true\" data-gdays=\"\">Sin límite</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"3\">3</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"4\">4</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"5\">5</button></div></div>\n            <div class=\"field\"><span>Base para generar</span><div class=\"seg\" role=\"group\" aria-label=\"Base para generar\" id=\"g-src\">\n              <button type=\"button\" aria-pressed=\"true\" data-gsrc=\"\" title=\"Usa las materias y grupos que muestra la oferta con los filtros actuales\">Filtros de la oferta</button><button type=\"button\" aria-pressed=\"false\" data-gsrc=\"todo\" title=\"Usa todas las materias elegidas y todos sus grupos, sin los filtros de la oferta (se respetan las marcas «No» y los profesores excluidos)\">Todas las elegidas</button></div></div>\n            <div class=\"field\"><span>Materias por horario</span><div class=\"seg\" role=\"group\" aria-label=\"Materias por horario\" id=\"g-n\">\n              <button type=\"button\" aria-pressed=\"false\" data-gn=\"auto\" title=\"El generador elige cuántas y cuáles materias, buscando la carga media y un horario saludable: permanencia razonable, espacio para comer y sin bloques largos sin descanso\">Automático</button><button type=\"button\" aria-pressed=\"true\" data-gn=\"\">Todas</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"3\">3</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"4\">4</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"5\">5</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"6\">6</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"7\">7</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"8\">8</button></div></div>\n            <div class=\"field\"><span>Descansos</span><div class=\"gbreaks\" id=\"gbreaks\"></div></div>\n          </div>\n          <div class=\"active\" id=\"gprefs\" style=\"padding-top:var(--ipn-esp-2)\"></div>\n          <p id=\"gen-status\" role=\"status\" aria-live=\"polite\"></p>\n          <div class=\"genres\" id=\"genres\"></div>\n        </details>\n        <details class=\"box2\" id=\"equiv\" style=\"margin-bottom:var(--ipn-esp-3)\" hidden>\n          <summary>Ver equivalencias con otras carreras de tu unidad académica</summary>\n          <div id=\"equiv-body\"></div>\n        </details>\n        <div class=\"colhead\"><h2 id=\"h-offer\">Oferta</h2><span class=\"count\" id=\"offer-count\"></span></div>\n        <div class=\"cupos-cabecera\"><span id=\"cupos-estado\" role=\"status\"></span><button class=\"btn sate-cupos-consultar\" type=\"button\" data-cupos-ayuda><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M4 4h16v16H4zM4 10h16M10 10v10\"/></svg><span data-cupos-etiqueta></span></button></div>\n        <div class=\"offer\" id=\"offer\"></div>\n      </section>\n      <section class=\"planner\" aria-labelledby=\"h-plan\">\n        <div class=\"cupos-cabecera\"><span id=\"cupos-estado-horario\"></span><button class=\"btn sate-cupos-consultar\" type=\"button\" data-cupos-ayuda><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M4 4h16v16H4zM4 10h16M10 10v10\"/></svg><span data-cupos-etiqueta></span></button></div>\n        <p id=\"cupos-llenos\" hidden><span id=\"cupos-llenos-texto\"></span> <button class=\"link\" type=\"button\" id=\"cupos-alternativas\"></button></p>\n        <div class=\"colhead\"><h2 id=\"h-plan\">Mi horario</h2>\n          <div class=\"actions\">\n            <button class=\"btn\" id=\"b-propuestas\" type=\"button\" aria-haspopup=\"dialog\" data-htexto=\"d_propuestas\"></button>\n            <div class=\"seg calview\" role=\"group\" aria-label=\"Vista del horario\"><button type=\"button\" data-cview=\"semana\">Semana</button><button type=\"button\" data-cview=\"dia\">Por día</button></div>\n            <label class=\"check\"><input type=\"checkbox\" id=\"f-weekend\"> Mostrar fin de semana</label>\n            <button class=\"btn\" id=\"b-export\" type=\"button\" aria-haspopup=\"dialog\">Exportar horario</button>\n            <button class=\"btn\" id=\"b-saeshor\" hidden title=\"Carga en la versión seleccionada el horario inscrito según el SAES\">Traer horario inscrito (SAES)</button>\n            <button class=\"btn\" id=\"b-clear\">Vaciar</button>\n          </div>\n        </div>\n        <p class=\"muted\" id=\"exp-msg\" aria-live=\"polite\" style=\"margin:0 0 var(--ipn-esp-2);font-size:var(--ipn-tamano-s);min-height:1.3em\"></p>\n        <div class=\"plans\" id=\"plans\" role=\"group\" aria-label=\"Versiones de horario\"></div>\n        <div class=\"calwrap\"><div class=\"cal\" id=\"cal\"></div></div>\n        <div class=\"agenda\" id=\"agenda\" hidden></div>\n        <div class=\"summary\">\n          <div class=\"stats\" id=\"stats\"></div>\n          <div class=\"load\" id=\"load\"></div>\n          <p id=\"cupos-alerta\" hidden><button type=\"button\" class=\"link\" data-cupos-riesgos></button></p>\n          <div id=\"cupos-resultado\"><p id=\"cupos-cambio\" role=\"status\" aria-live=\"polite\"></p><button type=\"button\" class=\"btn\" id=\"cupos-deshacer\" data-cupos-deshacer hidden></button></div>\n          <div class=\"sel\" id=\"sel\"></div>\n          <div id=\"cupos-opciones\"></div>\n          <div class=\"aviso-deshacer\" id=\"own-deshacer\" role=\"status\" aria-live=\"polite\" hidden><span id=\"own-deshacer-txt\"></span> <button type=\"button\" class=\"link\" id=\"own-deshacer-b\" data-htexto=\"semana_deshacer\"></button></div>\n          <details class=\"box2\" id=\"ownform\">\n            <summary>Agregar actividad extracurricular</summary>\n            <form class=\"ownrow\" id=\"own-f\">\n              <label class=\"field\"><span>Nombre</span><input type=\"text\" id=\"own-n\" placeholder=\"Inglés CELEX\" required></label>\n              <div class=\"field\"><span>Días</span><div class=\"daypick\" id=\"own-d\"></div></div>\n              <label class=\"field\"><span>De</span><select id=\"own-a\" required></select></label>\n              <label class=\"field\"><span>A</span><select id=\"own-b\" required></select></label>\n              <button class=\"btn primary\" type=\"submit\">Agregar</button>\n            </form>\n          </details>\n          <textarea class=\"copy\" id=\"copybox\" readonly hidden></textarea>\n        </div>\n      </section>\n    </div>\n    <dialog class=\"horario-compacto\" id=\"horario-compacto\" aria-labelledby=\"horario-compacto-titulo\">\n      <div class=\"dl-head\"><h2 id=\"horario-compacto-titulo\" data-htexto=\"horario_ver\">Ver horario</h2><button class=\"btn\" type=\"button\" id=\"horario-compacto-cerrar\" data-htexto=\"horario_cerrar\">Cerrar</button></div>\n      <div id=\"horario-compacto-cuerpo\"></div>\n    </dialog>\n  ";
 const txH=(clave,vars)=>SATE.texto('sate.horarios.'+clave,vars);
 // Prueba privada: no modifica los controles existentes si está apagada.
 const FILTROS_D=(()=>{const url=globalThis.SATE_CONFIG?.pruebaFiltrosD||globalThis.location?.hash?.includes('#filtros-d');try{return url||localStorage.getItem('sate.prueba.filtrosD')==='1'}catch{return !!url}})();
@@ -21,20 +21,40 @@ function montarFiltrosD(){
   $('#cupos-omitir').closest('label').hidden=true;
   $('#cupos-omitir-ayuda').hidden=true;
   $('#h-offer').parentElement.appendChild($('[data-view]').closest('.field'));
-  $('.planner').appendChild($('#gen'));
-  const salida=document.createElement('label');salida.className='field';
-  const titulo=document.createElement('span');titulo.textContent=txH('d_salida');salida.append(titulo,$('#g-to'));
-  filtros.insertBefore(salida,$('#f-more'));
+  filtros.insertBefore($('#g-window'),$('#f-more'));
   const panel=document.createElement('dialog');panel.className='filtros-d-panel';panel.setAttribute('aria-label',txH('mas_filtros'));
   const cerrar=document.createElement('button');cerrar.type='button';cerrar.className='btn';cerrar.textContent=txH('d_cerrar');
-  panel.append(cerrar,mas);$('#v-hor').appendChild(panel);
+  const cab=document.createElement('header');cab.className='tramite-encabezado';
+  const titulo=document.createElement('h2');titulo.textContent=txH('d_filtros');
+  cerrar.textContent='×';cerrar.setAttribute('aria-label',txH('d_cerrar'));
+  cab.append(titulo,cerrar);panel.append(cab,mas);$('#v-hor').appendChild(panel);
+  const resumen=document.createElement('p');resumen.id='d-panel-resumen';resumen.setAttribute('role','status');
+  panel.insertBefore(resumen,mas);
+  const grupo=(clave,elementos)=>{
+    const seccion=document.createElement('section'),titulo=document.createElement('h3');
+    titulo.textContent=txH(clave);seccion.appendChild(titulo);
+    for(const el of elementos)seccion.appendChild(el);
+    mas.appendChild(seccion);
+  };
+  const cupo=document.createElement('div');cupo.className='d-cupo';cupo.append($('#f-cupo').closest('label'),$('#f-cupo-ayuda'));
+  grupo('d_que',[$('#f-nivel').closest('.field'),$('#f-done').closest('label'),cupo]);
+  const horas=document.createElement('div');horas.className='trange';
+  for(const [id,k] of [['d-from','d_entrada'],['d-to','d_salida']]){
+    const campo=document.createElement('label');campo.className='field';
+    campo.innerHTML=`<span>${esc(txH(k))}</span><select id="${id}" aria-label="${esc(txH(k))}"></select>`;horas.appendChild(campo);
+  }
+  grupo('d_cuando',[horas,$('#f-fit').closest('label')]);
+  grupo('d_quien',[$('#g-avoid').closest('.field')]);
+  for(const [id,k] of [['#d-from','a'],['#d-to','b']])$(id).addEventListener('change',e=>{GT[k]=e.target.value;renderGTime();gtChanged()});
   $('#f-more-title').addEventListener('click',e=>{e.preventDefault();panel.showModal();cerrar.focus()});
   cerrar.addEventListener('click',()=>{panel.close();$('#f-more-title').focus()});
   panel.addEventListener('cancel',()=>$('#f-more-title').focus());
   const limpiar=document.createElement('button');limpiar.type='button';limpiar.className='link';limpiar.textContent=txH('d_limpiar');
-  impacto.prepend(limpiar);
+  const activos=document.createElement('div');activos.className='active';
+  panel.insertBefore(activos,mas);activos.append(resumen,limpiar);
   limpiar.addEventListener('click',()=>{
-    Object.assign(S,{tur:'*',niv:'*',q:'',chips:[],onlyWant:false,hideDone:false,soloCupo:false,fit:false,gap:null});
+    Object.assign(S,{tur:'*',niv:'*',q:'',chips:[],onlyWant:false,hideDone:false,soloCupo:false,fit:false,gap:null,gavoid:[]});
+    store.set('excl',[]);
     Object.assign(GT,{a:'',b:''});gtSave();$('#f-q').value='';
     for(const k of ['tur','niv','onlyWant','hideDone','soloCupo'])store.set(k,S[k]);
     renderHFilters();renderGTime();renderOffer();
@@ -50,7 +70,9 @@ function montarFiltrosD(){
     $('#f-q').value=S.q;renderHFilters();renderGTime();renderOffer();
   };
   $('#d-activos').addEventListener('click',quitar);
+  resumen.addEventListener('click',quitar);
   const oferta=$('#offer');oferta.addEventListener('click',quitar);
+  if(typeof renderGTime==='function')renderGTime();
 }
 function ocultosFiltrosD(list){
   const visibles=new Set(list.map(keyOf)),grupos=new Map();
@@ -103,6 +125,7 @@ function renderFiltrosD(){
   if(!FILTROS_D)return;
   montarFiltrosD();
   const reglas=reglasFiltrosD();
+  $('#d-panel-resumen').textContent=reglas.join(' · ')||txH('d_sin_filtros');
   $('#f-want-l').textContent=txH('d_mis_materias');
   $('#d-cuenta').textContent=txH('d_cuenta',{n:filtered().length,total:classes().filter(c=>c[0]===S.car).length});
   $('#d-reglas').innerHTML=(reglas.length?reglas:[txH('d_sin_filtros')]).map(r=>`<li>${esc(r)}</li>`).join('');
@@ -114,6 +137,7 @@ function renderFiltrosD(){
   $('#d-reglas').innerHTML+=generador.map(r=>`<li>${esc(r)}</li>`).join('');
   const claves=[...(S.onlyWant?['onlyWant']:[]),...(S.tur!=='*'?['tur']:[]),...(S.niv!=='*'?['niv']:[]),...(S.q.trim()?['q']:[]),...S.chips.map((_,i)=>'chip:'+i),...(S.soloCupo?['soloCupo']:[]),...(S.fit?['fit']:[]),...(S.hideDone&&isPersonal()?['hideDone']:[]),...(GT.a?['a']:[]),...(GT.b?['b']:[]),...S.gavoid.map((_,i)=>'prof:'+i),...Object.entries(ws().marks).filter(([,m])=>m.s==='no').map(([k])=>'no:'+k),...(S.gap?['gap']:[])];
   $('#d-activos').innerHTML=reglas.map((r,i)=>`<span class="chip">${esc(r)}<button type="button" data-d-quitar="${esc(claves[i])}" aria-label="${esc(txH('quitar_filtro',{nombre:r}))}">×</button></span>`).join('');
+  $('#d-panel-resumen').innerHTML=$('#d-activos').innerHTML||esc(txH('d_sin_filtros'));
 }
 if(typeof CUPOS!=='undefined')CUPOS.montar();
 $('#offer').addEventListener('click',e=>{
@@ -147,8 +171,8 @@ for(const [id,list] of [['#g-pref','gpref'],['#g-avoid','gavoid']]){
 }
 // horario en la escuela y descansos (se vuelven a generar las opciones si ya había resultados)
 const gtChanged=()=>{gtSave();renderOffer();if(S.gen||generacion)iniciarGeneracion()};
-$('#g-from').addEventListener('change',e=>{GT.a=e.target.value;gtChanged()});
-$('#g-to').addEventListener('change',e=>{GT.b=e.target.value;gtChanged()});
+$('#g-from').addEventListener('change',e=>{GT.a=e.target.value;renderGTime();gtChanged()});
+$('#g-to').addEventListener('change',e=>{GT.b=e.target.value;renderGTime();gtChanged()});
 $('#b-reset').addEventListener('click',()=>{
   Object.assign(S,{tur:'*',niv:'*',q:'',chips:[],hide:false,hideDone:true,soloCupo:false,fit:false,gap:null,onlyWant:true,gavoid:[],gt:'*',gpref:[],gen:null});S.expand=new Set();
   ws().marks={};save();   // también quita las marcas «Sí / Quizá / No» (y sus notas) del periodo consultado
@@ -275,6 +299,7 @@ function renderHFilters(){
   $('#f-nivel').innerHTML=[['*',txH('todos')],...nivs.map(n=>[n,n])].map(([v,l])=>`<button class="chip" data-niv="${esc(v)}" aria-pressed="${v===S.niv}">${esc(l)}</button>`).join('');
   $('#proflist').innerHTML=[...new Set(mine.flatMap(c=>c[5]))].map(i=>`<option value="${esc(DATA.prof[i])}">`).join('');
   renderActive();renderGPrefs();
+  renderGTime();
 }
 function renderMasFiltros(){
   if(typeof renderFiltrosD==='function')renderFiltrosD();
@@ -313,6 +338,82 @@ const isExcl=c=>{const ex=S.gavoid.map(norm);return ex.length>0&&c[5].some(i=>ex
 const outWin=c=>{const ga=tmin(GT.a),gb=tmin(GT.b);return c[6].some(([d,a,b])=>(ga!=null&&a<ga)||(gb!=null&&b>gb))};
 // Las elegidas encabezan la oferta; después vienen los adeudos y el desfase.
 const prio=k=>{if(tr().want.includes(k))return 0;if(!isPersonal()||!cur()[k])return 2;const st=statusOf(k);return st.startsWith('late')||st.startsWith('fail')?1:2};
+/* ---------- propuestas y actividades en una sola ventana ---------- */
+let ventanaPropuestas=null,indicePropuesta=0,compararPropuesta=false;
+function montarPropuestas(){
+  const deposito=document.createElement('div');deposito.id='d-propuestas-deposito';deposito.hidden=true;
+  $('#v-hor').appendChild(deposito);deposito.appendChild($('#gen'));deposito.appendChild($('#ownform'));deposito.appendChild($('#mi-semana'));
+  $('#b-propuestas').addEventListener('click',abrirPropuestas);
+}
+function abrirPropuestas(){
+  const cuerpo=document.createElement('div');cuerpo.className='hor-propuestas';
+  cuerpo.innerHTML=`<div class="sate-segmentado" role="tablist"><button type="button" role="tab" id="d-tab-generar" aria-controls="gen" aria-selected="true">${esc(txH('d_generar'))}</button><button type="button" role="tab" id="d-tab-actividades" aria-controls="ownform" aria-selected="false">${esc(txH('d_actividades'))}</button></div>`;
+  // El cuerpo debe estar conectado antes de mover controles consultados por id.
+  ventanaPropuestas=SateUI.modal(txH('d_propuestas'),cuerpo,{amplio:true,alCerrar:()=>{
+    cancelarGeneracion();$('#d-propuestas-deposito').append($('#gen'),$('#ownform'),$('#mi-semana'));ventanaPropuestas.elemento.classList.remove('hor-propuestas-modal');ventanaPropuestas=null;renderCal();
+  }});
+  cuerpo.append($('#gen'),$('#ownform'),$('#mi-semana'));
+  for(const id of ['#gen','#ownform']){$(id).open=true;$(id).setAttribute('role','tabpanel')}
+  $('#gen').hidden=false;$('#ownform').hidden=true;$('#mi-semana').hidden=true;$('#mi-semana').open=true;
+  if(!$('#d-preview')){
+    const rejilla=document.createElement('div');rejilla.className='hor-propuestas-rejilla';
+    const previa=document.createElement('section');previa.className='hor-propuesta-previa';
+    previa.innerHTML=`<div class="actions"><button type="button" class="btn" data-paso="-1" aria-label="${esc(txH('d_anterior'))}">←</button><strong id="d-propuesta-n" role="status"></strong><button type="button" class="btn" data-paso="1" aria-label="${esc(txH('d_siguiente'))}">→</button><button type="button" class="btn" id="d-comparar" aria-pressed="false">${esc(txH('d_comparar'))}</button></div><p id="d-diferencias" role="status"></p><div class="calwrap"><div class="cal" id="d-preview"></div></div><div class="actions"><button type="button" class="btn primary" id="d-usar">${esc(txH('d_usar'))}</button><button type="button" class="btn" id="d-usar-nueva">${esc(txH('d_nueva'))}</button></div>`;
+    const lateral=document.createElement('aside');lateral.className='hor-propuestas-opciones';
+    const opciones=document.createElement('details');opciones.id='d-opciones';opciones.open=true;
+    const resumen=document.createElement('summary');resumen.id='d-opciones-resumen';resumen.textContent=txH('d_editar_opciones');opciones.appendChild(resumen);
+    const generar=$('#b-gen'),estado=$('#gen-status'),lista=$('#genres');
+    for(const n of [...$('#gen').children])if(!n.matches('summary,#genres,#gen-status'))opciones.appendChild(n);
+    opciones.appendChild(generar);lateral.append(opciones,estado,lista);
+    rejilla.append(lateral,previa);$('#gen').appendChild(rejilla);
+  }
+  const tab=actividad=>{
+    $('#gen').hidden=actividad;$('#ownform').hidden=!actividad;$('#mi-semana').hidden=!actividad||!SEMANA_ACTIVA;
+    $('#d-tab-generar').setAttribute('aria-selected',String(!actividad));$('#d-tab-actividades').setAttribute('aria-selected',String(actividad));
+  };
+  cuerpo.addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b)return;
+    if(b.id==='d-tab-generar'||b.id==='d-tab-actividades')tab(b.id==='d-tab-actividades');
+    if(b.dataset.paso){indicePropuesta+=Number(b.dataset.paso);renderPropuesta()}
+    if(b.dataset.propuesta!==undefined){indicePropuesta=Number(b.dataset.propuesta);renderPropuesta()}
+    if(b.id==='d-comparar'){compararPropuesta=!compararPropuesta;renderPropuesta()}
+    if(b.id==='d-usar'||b.id==='d-usar-nueva'||b.dataset.useg!==undefined){
+      e.stopPropagation();aplicarPropuesta(b.id==='d-usar-nueva'||b.dataset.to==='+',b.dataset.useg);
+    }
+  });
+  cuerpo.addEventListener('keydown',e=>{
+    if(!['ArrowLeft','ArrowRight'].includes(e.key)||e.target.closest('input,select,textarea,[role="tablist"]'))return;
+    e.preventDefault();indicePropuesta+=e.key==='ArrowRight'?1:-1;renderPropuesta();
+  });
+  ventanaPropuestas.elemento.classList.add('hor-propuestas-modal');renderGen();renderPropuesta();
+}
+function aplicarPropuesta(nueva,indice){
+  const r=S.gen?.top?.[indice===undefined?indicePropuesta:Number(indice)];if(!r)return;
+  const to=nueva?nextPlan():ws().plan;
+  if(nueva)ws().plans[to]={sel:[],own:JSON.parse(JSON.stringify(plan().own))};
+  ws().plans[to].sel=r.cs.map(keyOf);ws().plan=to;refresh();ventanaPropuestas?.cerrar();
+}
+function renderPropuesta(){
+  const previa=$('#d-preview');if(!previa)return;
+  const top=S.gen?.top||[];indicePropuesta=top.length?(indicePropuesta+top.length)%top.length:0;
+  const r=top[indicePropuesta],actual=selected(),cs=r?.cs||actual;
+  for(const b of $('#genres').querySelectorAll('[data-propuesta]'))b.setAttribute('aria-pressed',String(Number(b.dataset.propuesta)===indicePropuesta));
+  $('#d-propuesta-n').textContent=r?txH('d_propuesta_numero',{n:indicePropuesta+1,total:top.length}):txH('d_sin_propuestas');
+  $('#d-usar').hidden=$('#d-usar-nueva').hidden=!r;
+  $('#d-comparar').setAttribute('aria-pressed',String(compararPropuesta));
+  const claves=new Set(cs.map(keyOf)),anteriores=new Set(actual.map(keyOf));
+  const nuevos=cs.filter(c=>!anteriores.has(keyOf(c))),quitados=actual.filter(c=>!claves.has(keyOf(c)));
+  $('#d-diferencias').textContent=compararPropuesta&&r?txH('d_diferencias',{n:nuevos.length,m:quitados.length}):'';
+  SateUI.cuadriculaHorario([...cs,...ownAsClasses(),...(compararPropuesta?quitados:[])],{S,slots,START,BLOCK,SLOT,SLOTPX,$:()=>previa,DAYS,hm,esc,txH,hue,keyOf,name,profs,roomAt,soloLectura:true});
+  if(compararPropuesta){
+    // El contorno distingue grupos agregados; el rayado distingue los retirados.
+    for(const bloque of previa.querySelectorAll('.blk')){
+      const contenido=bloque.textContent;
+      if(nuevos.some(c=>contenido.includes(c[3])&&contenido.includes(name(c))))bloque.classList.add('d-agregado');
+      if(quitados.some(c=>contenido.includes(c[3])&&contenido.includes(name(c))))bloque.classList.add('d-retirado');
+    }
+  }
+}
 /* ---------- generador de horarios ---------- */
 /* horario en la escuela y descansos: preferencias del alumno para el generador (se guardan en este navegador) */
 const GT=Object.assign({a:'',b:'',breaks:[],days:'',n:'',src:''},store.get('gtime',{}));
@@ -329,7 +430,7 @@ function montarSemana(){
   $('#mi-semana').hidden=false;
   const principales=['ida','vuelta','antes','dias'];
   for(const [id,campos] of [['principales',semanaCampos.filter(c=>principales.includes(c[0]))],['secundarios',semanaCampos.filter(c=>!principales.includes(c[0]))]]){
-    $(`#semana-${id}`).innerHTML=campos.map(([k,t,max])=>`<label class="field"><span>${esc(txH(`semana_${SEMANA_ETQ[k]||k}`))}</span><input id="semana-${esc(k)}" data-semana="${esc(k)}" type="${t}"${max?` min="${k==='dias'?1:0}" max="${max}" step="${k==='dias'?'1':'0.5'}"`:''} value="${esc(MS[k]??'')}"></label>`).join('');
+    $(`#semana-${id}`).innerHTML=campos.map(([k,t,max])=>`<label class="field"><span>${esc(txH(`semana_${SEMANA_ETQ[k]||k}`))}</span>${t==='time'?`<select id="semana-${esc(k)}" data-semana="${esc(k)}">${opcionesHoras(MS[k]||'')}</select>`:`<input id="semana-${esc(k)}" data-semana="${esc(k)}" type="${t}"${max?` min="${k==='dias'?1:0}" max="${max}" step="${k==='dias'?'1':'0.5'}"`:''} value="${esc(MS[k]??'')}">`}</label>`).join('');
   }
   // Se mueve el formulario existente: conserva días, calendario y persistencia por versión.
   $('#semana-form').appendChild($('#ownform'));
@@ -451,17 +552,19 @@ function deshacerPropia(){
 }
 function confirmarEliminarPropia(i){
   const o=plan().own[i];if(!o)return;
+  if(typeof ventanaPropuestas!=='undefined')ventanaPropuestas?.cerrar();
   SateUI.modal(txH('semana_eliminar'),txH('semana_confirmar_eliminar',{nombre:o.n}),{pequeno:true,acciones:[
     {texto:txH('semana_eliminar'),primaria:true,onclick:()=>eliminarPropia(i)},{texto:txH('semana_cancelar')}]});
 }
 function abrirFichaPropia(i){
   const o=plan().own[i];if(!o||o.saes)return;
+  if(typeof ventanaPropuestas!=='undefined')ventanaPropuestas?.cerrar();
   let dias=[...(o.d||[])];const solo=!!o.oculto,conHoras=solo&&o.hs!=null;
   const f=document.createElement('form');f.className='semana-ficha';
   f.innerHTML=`<label class="field"><span>${esc(txH('semana_nombre'))}</span><input type="text" id="ficha-n" required></label>`+
     (SEMANA_ACTIVA?`<label class="field"><span>${esc(txH('semana_tipo'))}</span><select id="ficha-tipo"><option value="trabajo">${esc(txH('semana_trabajo_bloque'))}</option><option value="otras">${esc(txH('semana_otras'))}</option></select></label>`:'')+
     `<div class="field"><span>${esc(txH('semana_dias_ficha'))}</span><div class="daypick" id="ficha-dias"></div></div>`+
-    `<label class="field"><span>${esc(txH('semana_de'))}</span><input type="time" id="ficha-a" step="1800"></label><label class="field"><span>${esc(txH('semana_a'))}</span><input type="time" id="ficha-b" step="1800"></label>`+
+    `<label class="field"><span>${esc(txH('semana_de'))}</span><select id="ficha-a">${opcionesHoras(hm(o.a),false)}</select></label><label class="field"><span>${esc(txH('semana_a'))}</span><select id="ficha-b">${opcionesHoras(hm(o.b),false)}</select></label>`+
     (SEMANA_ACTIVA?`<label class="check"><input type="checkbox" id="ficha-mostrar"> ${esc(txH('semana_mostrar'))}</label><label class="field"><span>${esc(txH('semana_horas_semana'))}</span><input type="number" id="ficha-hs" min="0" max="168" step="0.5"></label>`:'')+
     `<p class="err" id="ficha-err" role="alert"></p>`;
   const q=s=>f.querySelector(s),pintar=()=>{q('#ficha-dias').innerHTML=DAYS.map((d,k)=>`<button type="button" class="chip" data-fd="${esc(k)}" aria-pressed="${dias.includes(k)}">${d}</button>`).join('')};
@@ -512,12 +615,23 @@ function renderSemana(){
   presupuesto.innerHTML=`<p id="semana-presupuesto-titulo">${esc(txH('semana_presupuesto'))}</p><div class="semana-barra" role="img" aria-label="${esc(descripcion)}">${partes.map(([k,v],i)=>`<span class="semana-parte semana-parte-${i}" style="width:${v/168*100}%"></span>`).join('')}</div><p>${esc(descripcion)}</p>${avisos.map(t=>`<p>${esc(t)}</p>`).join('')}`;
   $('#semana-presupuesto-titulo').appendChild(SateUI.ayuda('sate.horarios.semana_supuestos'));
 }
+function opcionesHoras(valor='',libre=true){
+  const minutos=new Set(classes().filter(c=>c[0]===S.car).flatMap(c=>c[6].flatMap(([,a,b])=>[a,b])));
+  // Conserva límites guardados aunque cambie la oferta del periodo.
+  if(valor)minutos.add(toMin(valor));
+  return (libre?`<option value="">${esc(txH('d_sin_limite'))}</option>`:'')+[...minutos].filter(Number.isFinite).sort((a,b)=>a-b).map(m=>{
+    const v=hm(m);return `<option value="${v}"${v===valor?' selected':''}>${Math.floor(m/60)}:${String(m%60).padStart(2,'0')}</option>`;
+  }).join('');
+}
 function renderGTime(){
-  $('#g-from').value=GT.a;$('#g-to').value=GT.b;
+  for(const [id,v] of [['#g-from',GT.a],['#g-to',GT.b],['#d-from',GT.a],['#d-to',GT.b]]){
+    const el=$(id);if(el){el.innerHTML=opcionesHoras(v);el.value=v}
+  }
+  for(const id of ['#own-a','#own-b']){const el=$(id),v=el.value||'';el.innerHTML=opcionesHoras(v,false);if(v)el.value=v}
   document.querySelectorAll('[data-gdays]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gdays===String(GT.days||''))));
   document.querySelectorAll('[data-gsrc]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gsrc===String(GT.src||''))));
   document.querySelectorAll('[data-gn]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gn===String(GT.n||''))));
-  $('#gbreaks').innerHTML=GT.breaks.map((b,i)=>`<div class="gbrk" data-brk="${i}"><label class="field"><span>${esc(txH('descanso_duracion'))}</span><select data-f="d" aria-label="${esc(txH('descanso_duracion'))}">${[30,60,90,120].map(m=>`<option value="${m}"${+b.d===m?' selected':''}>${({30:txH('minutos_30'),60:txH('hora_1'),90:txH('hora_media'),120:txH('horas_2')})[m]}</option>`).join('')}</select></label><div class="gbrk-horas"><label class="field"><span>${esc(txH('desde'))}</span><input type="time" step="1800" data-f="a" value="${esc(b.a)}" aria-label="${esc(txH('desde'))}"></label><label class="field"><span>${esc(txH('hasta'))}</span><input type="time" step="1800" data-f="b" value="${esc(b.b)}" aria-label="${esc(txH('hasta'))}"></label></div><span class="brkdays" role="group" aria-label="${esc(txH('descanso_dias'))}"><button type="button" class="chip" data-bday="all" aria-pressed="${!(b.days||[]).length}">${esc(txH('todos_dias'))}</button>${DAYS.slice(0,6).map((n,d)=>`<button type="button" class="chip" data-bday="${d}" aria-pressed="${(b.days||[]).includes(d)}">${n}</button>`).join('')}</span><button type="button" class="x" data-unbrk="${i}" aria-label="${esc(txH('quitar_descanso'))}">×</button></div>`).join('')+
+  $('#gbreaks').innerHTML=GT.breaks.map((b,i)=>`<div class="gbrk" data-brk="${i}"><label class="field"><span>${esc(txH('descanso_duracion'))}</span><select data-f="d" aria-label="${esc(txH('descanso_duracion'))}">${[30,60,90,120].map(m=>`<option value="${m}"${+b.d===m?' selected':''}>${({30:txH('minutos_30'),60:txH('hora_1'),90:txH('hora_media'),120:txH('horas_2')})[m]}</option>`).join('')}</select></label><div class="gbrk-horas"><label class="field"><span>${esc(txH('desde'))}</span><select data-f="a" aria-label="${esc(txH('desde'))}">${opcionesHoras(b.a,false)}</select></label><label class="field"><span>${esc(txH('hasta'))}</span><select data-f="b" aria-label="${esc(txH('hasta'))}">${opcionesHoras(b.b,false)}</select></label></div><span class="brkdays" role="group" aria-label="${esc(txH('descanso_dias'))}"><button type="button" class="chip" data-bday="all" aria-pressed="${!(b.days||[]).length}">${esc(txH('todos_dias'))}</button>${DAYS.slice(0,6).map((n,d)=>`<button type="button" class="chip" data-bday="${d}" aria-pressed="${(b.days||[]).includes(d)}">${n}</button>`).join('')}</span><button type="button" class="x" data-unbrk="${i}" aria-label="${esc(txH('quitar_descanso'))}">×</button></div>`).join('')+
     `<button type="button" class="link" id="b-addbrk">${esc(txH('agregar_descanso'))}</button>`;
 }
 // ¿cada día con clases deja un hueco de al menos d minutos dentro de [a,b]?
@@ -721,22 +835,28 @@ function* generateBank(subj,N,{marks,pscore,oq,run}){
 }
 function renderGen(){
   const g=S.gen;
+  if($('#d-opciones')&&g?.top?.length){
+    $('#d-opciones').open=false;
+    $('#d-opciones-resumen').textContent=txH('d_opciones_resumen',{n:g.top[0].cs.length,dias:GT.days?txH('cantidad_dias',{n:GT.days}):txH('d_dias_sin_limite')});
+  }
+  if(typeof ventanaPropuestas!=='undefined'&&ventanaPropuestas)renderPropuesta();
   $('#b-gen-clear').hidden=!g?.top?.length;
   if(!g){$('#genres').innerHTML='';return}
   if(g.msg){$('#genres').innerHTML=`<p class="empty">${esc(g.msg)}</p>`;return}
   const dmsg=g.bank?.auto?`<p class="gdays-msg">${txH('generador_auto',{n:g.bank.M,meta:fmtCr(g.bank.meta),tope:g.bank.tope!=null?txH('generador_tope',{n:fmtCr(g.bank.tope)}):''})}</p>${g.bank.relajado?`<p class="gdays-msg warn">${esc(txH('generador_relajado'))}</p>`:''}${g.top.length&&g.bank.best<g.bank.meta-4.5?`<p class="gdays-msg warn">${txH('generador_carga_menor',{n:fmtCr(g.bank.best)})}</p>`:''}`:g.bank?`<p class="gdays-msg">${txH('generador_numero',{n:g.bank.N,total:g.bank.M,tope:g.bank.tope!=null?txH('generador_carga_tope',{n:fmtCr(g.bank.tope)}):''})}</p>`:g.minDays!=null?`<p class="gdays-msg${g.maxD&&g.minDays>g.maxD?' warn':''}">${txH('generador_dias',{n:g.minDays})}${g.maxD&&g.minDays>g.maxD?' '+esc(txH('generador_dias_imposible',{n:g.maxD})):g.maxD?' '+esc(txH('generador_dias_posible',{n:g.maxD})):''}</p>`:'';
   const oex=g.optExceso?Object.entries(g.optExceso).map(([v,x])=>x.libre<=0?txH('optativas_cubiertas',{n:x.total,nivel:v}):txH('optativas_libres',{n:x.libre,nivel:v,elegidas:x.n})):[];
-  const oexMsg=oex.length?`<p class="gdays-msg warn">${esc(txH('optativas_aviso',{detalle:oex.join('; ')}))}</p>`:'';
   const none=g.subj.filter(s=>!s.opts.length).map(s=>s.k), mustNone=g.subj.filter(s=>s.must&&!s.opts.length).map(s=>s.k);
   const must=g.subj.filter(s=>s.must&&s.opts.length).map(s=>s.k);
   const omsg=(mustNone.length?`<p class="gdays-msg warn">${txH('obligatoria_sin_grupos',{nombre:mustNone.map(k=>esc(pretty(cur()[k][0]))).join(', ')})}</p>`:'')+
     (must.length?`<p class="gdays-msg">${txH('obligatoria_incluida',{nombre:must.map(k=>esc(pretty(cur()[k][0]))).join(', ')})}</p>`:'');
-  if(!g.top.length){$('#genres').innerHTML=dmsg+omsg+oexMsg+`<p class="empty">${esc(txH(g.trunc?'generador_limite':'generador_sin_resultados'))}</p>`;return}
-  $('#genres').innerHTML=dmsg+omsg+oexMsg+
+  const avisos=dmsg||omsg||oex.length?`<details class="sate-aviso"><summary>${esc(txH(oex.length?'d_optativas_aviso':'d_generacion_aviso'))}</summary>${dmsg}${omsg}${oex.length?`<p>${esc(txH('optativas_aviso',{detalle:oex.join('; ')}))}</p>`:''}</details>`:'';
+  if(!g.top.length){$('#genres').innerHTML=avisos+`<p class="empty">${esc(txH(g.trunc?'generador_limite':'generador_sin_resultados'))}</p>`;return}
+  $('#genres').innerHTML=avisos+
     (none.length?`<small class="warn">${esc(txH('sin_grupos',{nombre:none.map(k=>cur()[k]?.[0]||k).join(', ')}))}</small>`:'')+
     g.top.map((r,i)=>{const cr=r.cs.reduce((s,c)=>s+c[7],0);
-      return `<div class="gen"><div><b>${esc(txH('opcion',{n:i+1}))}</b> · ${esc(txH('cantidad_materias',{n:r.cs.length}))} · ${fmtCr(cr)} créditos · ${esc(txH('cantidad_dias',{n:r.days.length}))}: ${r.days.map(d=>DAYS[d]).join(' ')}${r.q?' · '+esc(txH('jornada_comida',{n:(r.q.span/60).toFixed(1).replace('.0','')})):''}${r.miss.length?` · <span class="warn">${esc(txH('sin_materias',{n:r.miss.length,nombre:r.miss.map(k=>pretty(cur()[k]?.[0]||k)).join(', ')}))}</span>`:''}<div class="ls">${r.cs.map(c=>`<span class="grp">${c[3]}</span> ${esc(pretty(name(c)))}`).join(' · ')}</div></div>
-        <div class="acts"><button class="btn" data-useg="${i}" data-to="${ws().plan}">${esc(txH('usar',{version:ws().plan}))}</button><button class="btn" data-useg="${i}" data-to="+">${esc(txH('usar_nuevo'))}</button><button class="btn" data-peekg="${i}">${esc(txH('ver'))}</button></div></div>`}).join('')+
+      const huecos=r.days.some(d=>{const bloques=r.cs.flatMap(c=>c[6].filter(b=>b[0]===d)).sort((a,b)=>a[1]-b[1]);return bloques.some((b,j)=>j>0&&b[1]>Math.max(...bloques.slice(0,j).map(x=>x[2])))});
+      return `<div class="gen"><div><button type="button" class="link" data-propuesta="${i}">${esc(txH('d_opcion_fila',{n:i+1,cr:fmtCr(cr),dias:r.days.length,huecos:huecos?txH('d_con_huecos'):txH('d_sin_huecos')}))}</button><details><summary>${esc(txH('cantidad_materias',{n:r.cs.length}))}</summary><ul>${r.cs.map(c=>`<li><span class="grp">${esc(c[3])}</span> ${esc(pretty(name(c)))}</li>`).join('')}</ul>${r.miss.length?`<p class="warn">${esc(txH('sin_materias',{n:r.miss.length,nombre:r.miss.map(k=>pretty(cur()[k]?.[0]||k)).join(', ')}))}</p>`:''}</details></div>
+        <div class="acts"><button class="btn" data-useg="${i}" data-to="${ws().plan}">${esc(txH('usar',{version:ws().plan}))}</button><button class="btn" data-useg="${i}" data-to="+">${esc(txH('usar_nuevo'))}</button><button class="btn" data-propuesta="${i}">${esc(txH('ver'))}</button></div></div>`}).join('')+
     (g.trunc?`<small>${esc(txH(g.bank?'busqueda_prioridad':'busqueda_limitada'))}</small>`:'');
 }
 
@@ -793,7 +913,7 @@ function loadInscrito(){
   // periodo de la oferta con más coincidencias (grupo + clave)
   const per=['proximo','actual'].filter(hasOffer).sort((a,b)=>H.filter(h=>find(b,h[0],h[1])).length-H.filter(h=>find(a,h[0],h[1])).length)[0]||S.per;
   if(per!==S.per){S.per=per;store.set('per',per)}
-  const pl=plan();pl.sel=[];pl.own=pl.own.filter(o=>!o.saes);let sinOferta=0;
+  const pl=plan();pl.inscrita=true;pl.sel=[];pl.own=pl.own.filter(o=>!o.saes);let sinOferta=0;
   H.forEach(([g,k,n,pf,ses])=>{const c=find(per,g,k);if(c){pl.sel.push(keyOf(c));return}
     // sin coincidencia en la oferta capturada: se agrega con las horas del SAES
     sinOferta++;const by={};ses.forEach(([d,a,b])=>{(by[a+'-'+b]=by[a+'-'+b]||{a,b,d:[]}).d.push(d)});
@@ -802,6 +922,8 @@ function loadInscrito(){
   $('#exp-msg').textContent=txH('inscrito_cargado',{version:ws().plan,periodo:txH(per==='proximo'?'periodo_proximo':'periodo_actual')})+
     (sinOferta?' '+txH('inscrito_sin_oferta',{n:sinOferta}):'');
 }
+// El periodo actual ya está inscrito; en otros periodos solo la versión cargada desde SAES.
+window.SateHorarioInscrito=()=>S.per==='actual'||!!plan().inscrita;
 function renderPlans(){
   $('#b-saeshor').hidden=!(isPersonal()&&ALUMNO.horario_inscrito?.length);
   const ids=planIds();
@@ -851,7 +973,10 @@ function renderCal(){
     if(ci.ret)$('#load .load-note').appendChild(SateUI.ayuda('sate.horarios.carga_ayuda',{ret:fmtCr(ci.ret),nuevos:fmtCr(ci.nuevos),libre:fmtCr(ci.libre),tope:fmtCr(ci.tope)}));
   }else $('#load').innerHTML='';
   $('#sel').hidden=!both.length;
-  $('#sel').innerHTML=sel.map(c=>`<div class="sel-item${window.SateCuposVista?.riesgo(c)?' cupos-riesgo':''}"><div class="sel-row"><span class="sw" style="--h:${hue(c)}"></span><span class="grp">${esc(c[3])}</span><span class="sel-materia"><span class="sel-nombre">${esc(pretty(name(c)))}</span><small class="sel-prof" title="${esc(profs(c))}">${esc(profs(c))}</small></span><span class="sel-meta"><span class="cr">${esc(textoCreditos(c[8],c[7]))}</span>${typeof CUPOS!=='undefined'?CUPOS.insignia(c):''}${ayudaCreditos(c[8])}<button class="x" data-toggle="${esc(keyOf(c))}" aria-label="${esc(txH('quitar',{nombre:name(c)}))}">×</button></span></div>${window.SateCuposVista?.avisoCarga(c)||''}${window.SateCuposVista?.sugerencias(c)||''}</div>`).join('')+
+  const inscrito=window.SateHorarioInscrito?.()||false;
+  const cabeceraCupos=$('.planner .cupos-cabecera');if(cabeceraCupos)cabeceraCupos.hidden=inscrito;
+  const alertaCupos=$('#cupos-alerta');if(alertaCupos)alertaCupos.hidden=inscrito||!window.SateCuposVista?.riesgo||!sel.some(c=>window.SateCuposVista.riesgo(c));
+  $('#sel').innerHTML=sel.map(c=>`<div class="sel-item${!inscrito&&window.SateCuposVista?.riesgo(c)?' cupos-riesgo':''}"><div class="sel-row"><span class="sw" style="--h:${hue(c)}"></span><span class="grp">${esc(c[3])}</span><span class="sel-materia"><span class="sel-nombre">${esc(pretty(name(c)))}</span><small class="sel-prof" title="${esc(profs(c))}">${esc(profs(c))}</small></span><span class="sel-meta"><span class="cr">${esc(textoCreditos(c[8],c[7]))}</span>${!inscrito&&typeof CUPOS!=='undefined'?CUPOS.insignia(c):''}${ayudaCreditos(c[8])}<button class="x" data-toggle="${esc(keyOf(c))}" aria-label="${esc(txH('quitar',{nombre:name(c)}))}">×</button></span></div>${!inscrito?window.SateCuposVista?.avisoCarga(c)||'':''}${!inscrito?window.SateCuposVista?.sugerencias(c)||'':''}</div>`).join('')+
     own.map(o=>{const r=plan().own[o.i];return `<div class="sel-item"><div class="sel-row"><span class="sw own"></span><span class="grp">${esc(txH('extra'))}</span><span class="sel-materia"><span class="sel-nombre">${esc(o.n)}</span><small class="sel-prof">${r.d.map(d=>DAYS[d]).join(' ')} ${hm(r.a)}–${hm(r.b)}</small></span><span class="sel-meta"><button class="x" data-unown="${o.i}" aria-label="${esc(txH('quitar',{nombre:o.n}))}">×</button></span></div></div>`}).join('');
   montarAyudasCreditos();
   window.SateCuposVista?.pintar();
@@ -863,7 +988,7 @@ function renderOwnForm(){$('#own-d').innerHTML=DAYS.map((d,i)=>`<button type="bu
    escala final. La respuesta es proporcional y amplificada (exponente GAIN): un pellizco amplio acerca mucho más que
    uno pequeño. Usa el mismo ZOOM que los botones +/−; desplazar con un dedo sigue siendo nativo. */
 
-SATE.pestana('horarios',{montar(){montarSemana();drawCals();renderGTime();SATE.cargarTemarios?.()?.then(()=>{if(SATE.actual?.pestana==='horarios')renderHor()})},mostrar(){renderHor()},ocultar(){cancelarGeneracion();if($('#horario-compacto').open)$('#horario-compacto').close();S.hover=null}});
+SATE.pestana('horarios',{montar(){montarSemana();montarPropuestas();drawCals();renderGTime();SATE.cargarTemarios?.()?.then(()=>{if(SATE.actual?.pestana==='horarios')renderHor()})},mostrar(){renderHor()},ocultar(){cancelarGeneracion();if($('#horario-compacto').open)$('#horario-compacto').close();S.hover=null}});
 
 $('#b-export').addEventListener('click', async () => {
   try { await SATE.script('exportacion.js'); abrirExportacion(); }

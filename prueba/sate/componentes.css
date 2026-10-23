@@ -73,21 +73,29 @@
 .tramite-encabezado{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--ipn-esp-2)}
 .tramite-encabezado h2{margin:0;min-width:0;line-height:1.25}
 .tramite-encabezado .tramite-regreso{margin-left:auto}
-.tramite-miniatura{position:relative;box-sizing:border-box;display:block;width:min(100%,12rem);aspect-ratio:612/792;overflow:hidden;margin-top:var(--ipn-esp-2);border:1px solid var(--ipn-linea);background:var(--ipn-superficie);color:var(--ipn-texto);font-size:var(--ipn-tamano-xs);line-height:1.35;container-type:inline-size}
-.tramite-miniatura-marca{display:block;color:var(--ipn-acento);font-weight:600}
+.tramite-citas{display:flex;flex-wrap:wrap;gap:var(--ipn-esp-2);align-items:center}
+.tramite-cita{position:relative;min-height:var(--ipn-control-alto);font:inherit;color:var(--ipn-acento);background:transparent;border:0;text-decoration:underline;text-underline-offset:var(--ipn-esp-1);padding:var(--ipn-esp-1);cursor:pointer;white-space:nowrap}
+#sate-tramites .tramite-cita{white-space:nowrap;overflow-wrap:normal}
+.tramite-cita:focus-visible{outline:2px solid var(--ipn-acento);outline-offset:2px}
+.tramite-miniatura{position:relative;box-sizing:border-box;display:block;width:min(100%,12rem);margin-top:var(--ipn-esp-2);border:1px solid var(--ipn-linea);background:var(--ipn-superficie);color:var(--ipn-texto);font-size:var(--ipn-tamano-xs);line-height:1.5;aspect-ratio:612/792;overflow:hidden}
 .tramite-fila-boton .tramite-miniatura{grid-column:1/-1;margin-top:0}
-.tramite-miniatura-hoja{position:absolute;inset:0 auto auto 0;width:calc(100cqw * 4);height:calc(100cqw * 4 * 792 / 612);transform:scale(.25);transform-origin:top left;font-size:var(--ipn-tamano-xs)}
-.tramite-miniatura-cab{display:flex;justify-content:space-between;align-items:center;margin:var(--ipn-esp-7);border-bottom:1px solid var(--ipn-linea);padding-bottom:var(--ipn-esp-4)}
-.tramite-miniatura-hoja h4{margin:var(--ipn-esp-7);text-align:center;font-size:var(--ipn-tamano-m)}
-.tramite-miniatura-campo{position:absolute;display:grid;border:1px solid var(--ipn-linea);box-sizing:border-box;min-height:var(--ipn-esp-6)}
+/* Zoom conserva el alto del flujo, incluso con valores largos o una tabla completa. */
+.tramite-miniatura-hoja{position:relative;isolation:isolate;box-sizing:border-box;display:grid;align-content:start;gap:var(--ipn-esp-5);width:400%;height:400%;padding:var(--ipn-esp-7);transform:scale(.25);transform-origin:0 0;font-size:var(--ipn-tamano-xs)}
+.tramite-miniatura-hoja>*{min-width:0;overflow-wrap:anywhere}
+.tramite-miniatura-cab{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--ipn-esp-3);align-items:center;border-bottom:1px solid var(--ipn-linea);padding-bottom:var(--ipn-esp-4)}
+.tramite-miniatura-cab>span{text-align:center}
+.tramite-miniatura-hoja h4{margin:0;text-align:center;font-size:var(--ipn-tamano-m)}
+.tramite-miniatura-campos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--ipn-esp-3)}
+.tramite-miniatura-campo{display:grid;align-content:start;gap:var(--ipn-esp-1);min-width:0;padding:var(--ipn-esp-2);border:1px solid var(--ipn-linea);box-sizing:border-box}
 .tramite-miniatura-campo small{font-size:var(--ipn-tamano-xs);color:var(--ipn-tenue)}
-.tramite-miniatura-campo span{padding:var(--ipn-esp-1);font-family:var(--ipn-fuente-mono);overflow-wrap:anywhere}
-.tramite-miniatura-firma{position:absolute;inset:88% 25% auto;display:grid;text-align:center;border-top:1px solid var(--ipn-linea)}
-.tramite-miniatura-tabla{position:absolute;left:7.68%;top:60%;width:84%;border:1px solid var(--ipn-linea)}
-.tramite-miniatura-tabla>div{display:grid;grid-template-columns:315fr 64fr 117fr;border-bottom:1px solid var(--ipn-linea)}
-.tramite-miniatura-tabla span{border-right:1px solid var(--ipn-linea);min-height:var(--ipn-esp-4);font-size:var(--ipn-tamano-xs)}
-.tramite-miniatura-marca{position:absolute;bottom:var(--ipn-esp-2);right:var(--ipn-esp-2);z-index:1;font-size:var(--ipn-tamano-xs)}
+.tramite-miniatura-campo span{font-family:var(--ipn-fuente-mono);overflow-wrap:anywhere;white-space:pre-wrap}
+.tramite-miniatura-firma{display:grid;justify-self:center;max-width:100%;margin-top:var(--ipn-esp-7);padding-top:var(--ipn-esp-3);text-align:center;border-top:1px solid var(--ipn-linea)}
+.tramite-miniatura-tabla{border:1px solid var(--ipn-linea)}
+.tramite-miniatura-tabla>div{display:grid;grid-template-columns:minmax(0,315fr) minmax(0,64fr) minmax(0,117fr);border-bottom:1px solid var(--ipn-linea)}
+.tramite-miniatura-tabla span{min-width:0;overflow-wrap:anywhere;padding:var(--ipn-esp-1);border-right:1px solid var(--ipn-linea);min-height:var(--ipn-esp-4);font-size:var(--ipn-tamano-xs)}
+.tramite-miniatura-marca{position:absolute;inset:50% auto auto 50%;z-index:-1;pointer-events:none;transform:translate(-50%,-50%) rotate(-30deg);opacity:.1;color:var(--ipn-acento);font-size:var(--ipn-tamano-xl);font-weight:600;white-space:nowrap}
 .tramite-miniatura[role=button]{cursor:pointer}
+.tramite-miniatura--ampliada{width:100%;margin:0}
 .tramite-miniatura:focus-visible{outline:2px solid var(--ipn-acento);outline-offset:2px}
 .tramite-pie{display:flex;justify-content:flex-start;margin-top:var(--ipn-esp-5);padding-top:var(--ipn-esp-3);border-top:1px solid var(--ipn-borde-control)}
 .tramite-falta{margin-block:var(--ipn-esp-2);color:var(--ipn-tenue)}
@@ -524,7 +532,7 @@ button.sate-chip{cursor:pointer}
 
 .sate-segmentado{box-sizing:border-box;display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:var(--ipn-esp-1);max-width:100%;padding:var(--ipn-esp-1);border:1px solid var(--ipn-borde-control);border-radius:var(--ipn-radio);background:var(--ipn-hundido)}
 .sate-segmentado button{min-width:0;min-height:var(--ipn-control-alto);padding:0 var(--ipn-esp-4);border:0;border-radius:var(--ipn-radio);background:transparent;color:var(--ipn-tenue);font-family:var(--ipn-fuente-texto);font-size:var(--ipn-tamano-s);cursor:pointer;overflow-wrap:anywhere}
-.sate-segmentado button[aria-pressed=true]{background:var(--ipn-acento);color:var(--ipn-sobre-acento);font-weight:600}
+.sate-segmentado button[aria-pressed=true],.sate-segmentado button[aria-selected=true]{background:var(--ipn-acento-suave);color:var(--ipn-acento);box-shadow:inset 0 0 0 1.5px var(--ipn-acento);font-weight:600}   /* igual que .seg: un solo estilo de segmento activo en SATE */
 .sate-segmentado button{overflow-wrap:normal;word-break:normal;hyphens:none}
 .sate-segmentado__corto{display:none}
 @media(max-width:559.98px){.sate-segmentado button:has(.sate-segmentado__corto){padding-inline:var(--ipn-esp-2);font-size:var(--ipn-tamano-s)}.sate-segmentado__largo{display:none}.sate-segmentado__corto{display:inline}}   /* etiqueta corta cuando no cabe la completa: nunca se parte una palabra */
@@ -598,6 +606,8 @@ button.sate-chip{cursor:pointer}
 /* barra inferior: teléfono y contenedores donde tampoco caben los textos cortos */
 .sate-barra{display:none;position:fixed;left:var(--ipn-esp-2);right:var(--ipn-esp-2);bottom:var(--ipn-esp-2);z-index:40;box-sizing:border-box;min-height:calc(64px + env(safe-area-inset-bottom,0px));gap:var(--ipn-esp-1);padding:var(--ipn-esp-2);padding-bottom:calc(var(--ipn-esp-2) + env(safe-area-inset-bottom,0px));border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio);background:var(--ipn-hundido);box-shadow:inset 0 1px 3px var(--ipn-linea);font-family:var(--ipn-fuente-texto)}
 .sate-barra__btn{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--ipn-esp-1);flex:1;min-width:0;min-height:var(--ipn-control-alto);border:0;border-radius:var(--ipn-radio);background:none;color:var(--ipn-tenue);font-size:var(--ipn-tamano-xs);cursor:pointer;padding:var(--ipn-esp-1) var(--ipn-esp-1) var(--ipn-esp-3);transition:background var(--ipn-duracion-rapida)}
+.mapa-solo-consulta{visibility:hidden;pointer-events:none}
+.seg button[data-mapa-curso]{white-space:nowrap}
 .sate-barra__plan{display:flex;flex:none;align-items:center}
 .sate-barra__plan #plan-periodos{gap:var(--ipn-esp-1)}
 .sate-barra__plan #plan-periodos button{min-width:0;min-height:var(--ipn-control-alto);padding-inline:var(--ipn-esp-1);font-size:var(--ipn-tamano-xs)}
@@ -996,7 +1006,18 @@ body.sate-flotante #v-tray{padding-bottom:calc(var(--sate-plan-alto,var(--ipn-es
 }
 /* R2-HOR: cupos reservados dentro del bloque y columnas legibles con traslapes. */
 .cal:has(>.day){--ipn-horario-columna:calc(var(--ipn-esp-8) + var(--ipn-esp-6));grid-template-columns:calc(var(--ipn-esp-6) + var(--ipn-esp-5)) repeat(var(--days),minmax(var(--ipn-horario-columna-min,var(--ipn-horario-columna)),1fr));min-width:max-content}
-.cal .blk .horario-contenido{display:block;min-width:0;min-height:0;overflow:hidden;flex:1 1 100%;overflow-wrap:anywhere}
+.cal .blk .horario-contenido{display:block;min-width:0;min-height:0;overflow:hidden;flex:1 1 100%;overflow-wrap:normal;word-break:normal;hyphens:none}
+.cal .blk b{overflow-wrap:normal;word-break:normal;hyphens:none;text-overflow:ellipsis}
+.hor-propuestas-opciones{min-width:0}
+.hor-propuestas-opciones .genrow,.hor-propuestas-opciones .gtime{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--ipn-esp-3)}
+.hor-propuestas-opciones summary{min-height:var(--ipn-control-alto);cursor:pointer}
+.hor-propuestas-opciones #b-gen{width:100%;margin-top:var(--ipn-esp-3)}
+.hor-propuestas .calwrap{overflow:visible}
+.hor-propuestas .cal:has(>.day){min-width:0;grid-template-columns:var(--ipn-esp-7) repeat(var(--days),minmax(0,1fr))}
+.hor-propuestas .gen>div{min-width:0;width:100%}
+.hor-propuestas .gen [data-propuesta]{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:var(--ipn-tamano-s);text-align:left}
+.hor-propuestas .gen .acts{display:none}
+#d-panel-resumen{display:flex;flex-wrap:wrap;gap:var(--ipn-esp-2)}
 .cal .blk.blk-cupo{display:grid;grid-template-rows:auto minmax(0,1fr);align-content:stretch;align-items:start;gap:var(--ipn-esp-1);padding-block:0}
 .cal .blk-cupo>.cupos-insignia{max-width:100%;justify-self:start;white-space:nowrap;line-height:1.2;padding:0 var(--ipn-esp-1);margin:0;box-sizing:border-box}
 .cal .blk-cupo>.horario-contenido{max-height:100%}
@@ -1067,7 +1088,8 @@ body.sate-flotante #v-tray{padding-bottom:calc(var(--sate-plan-alto,var(--ipn-es
 .kx-promedios .kpi[hidden]{display:none}
 
 /* Ventanilla: tarjetas de trámite como rectángulos contiguos en rejilla (líneas de 1 px compartidas) */
-.tramite-rejilla{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,17rem),1fr));gap:1px;margin-top:var(--ipn-esp-4);background:var(--ipn-linea);border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio);overflow:hidden}
+.tramite-rejilla{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin-top:var(--ipn-esp-4);background:var(--ipn-linea);border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio);overflow:hidden}
+@media(max-width:639px){.tramite-rejilla{grid-template-columns:minmax(0,1fr)}}
 .tramite-rejilla .tramite-fila{border:0;display:flex}
 .tramite-rejilla .sate-btn.tramite-fila-boton{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:var(--ipn-esp-1);border:0;border-radius:0;background:var(--ipn-superficie);padding:var(--ipn-esp-4)}
 .tramite-rejilla .sate-btn.tramite-fila-boton:hover{background:var(--ipn-hundido)}
