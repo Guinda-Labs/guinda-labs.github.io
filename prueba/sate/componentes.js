@@ -74,6 +74,7 @@
     dlg.querySelector('.sate-modal__x').setAttribute('aria-label', traducir('componentes.cerrar'));
     dlg.classList.toggle('sate-modal--pequeno', !!op.pequeno);
     dlg.classList.toggle('sate-modal--amplio', !!op.amplio);
+    dlg.classList.toggle('sate-modal--lectura', !!op.lectura);
     var cuerpo = dlg.querySelector('.sate-modal__cuerpo');
     cuerpo.textContent = '';
     var c = typeof contenido === 'function' ? contenido() : contenido;
@@ -659,6 +660,14 @@ function leyendaGrafica(items,esc){
   raiz.SateUI = { avisoMateria, definicion: (texto, titulo, definicion) => ayuda('', {}, {texto, titulo, definicion}), leyendaGrafica, indicadoresTrayectoria, fichasKardex, caminoTrayectoria, bandasMapa:rowBands, minimapaCurricular, cajaMateria, resalteCaja, cuadriculaHorario, usarTextos: usarTextos, usarAlmacen: usarAlmacen, chips: chips, recorteCalendario: recorteCalendario, aviso: aviso, avisos: avisos, modal: modal, cerrarModal: cerrar,
     ayuda: ayuda, desplegable: desplegable, pestanas: pestanas, barraInferior: barraInferior,
     volver: volver, migas: migas, tarjetaNav: tarjetaNav, buscador: buscador, segmentado: segmentado, pregunta: pregunta, revelar: revelar };
+  // Solo se aplica a una transcripción: nunca al contenedor que mezcla orientación y fuentes.
+  raiz.SateUI.oficial = function (nodo, documento) {
+    if (!nodo || !documento) return nodo;
+    const origen = nodo.getAttribute('data-oficial') || documento;
+    nodo.setAttribute('data-oficial', origen);
+    for (const hijo of nodo.children || []) raiz.SateUI.oficial(hijo, origen);
+    return nodo;
+  };
 })(typeof window !== 'undefined' ? window : globalThis);
 
 /* Preferencia independiente del perfil: no vuelve a preguntar al actualizar el SAES. */

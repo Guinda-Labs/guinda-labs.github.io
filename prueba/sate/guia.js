@@ -23,7 +23,7 @@
   // Apartados que una unidad puede mostrar: con datos de la Guía o con su vista propia (programas); `pronto` aún no tiene contenido.
   function apartadosDisponibles(guia, unidad) {
     const vistas = (unidad && unidad.vistas || []).map(v => v.id);
-    return (guia || []).filter(a => !a.pronto && (a.vista ? vistas.includes(a.vista) : !!(unidad && unidad.guiaDatos)));
+    return (guia || []).filter(a => !a.pronto && (!a.capacidad || !!unidad?.[a.capacidad]) && (a.vista ? vistas.includes(a.vista) : !!(unidad && unidad.guiaDatos)));
   }
   // Fuente de una respuesta: {texto, url}. `documentos` se declara una vez y las preguntas lo citan por id.
   function fuente(datos, f, t) {
@@ -145,7 +145,7 @@
   const BASE = (document.currentScript && document.currentScript.src || '').replace(/[^\/]*$/, '');
   const unidad = () => raiz.SATE_UNIDAD;
   const cfg = () => SATE_CONFIG.unidades[unidad()] || {};
-  const E = { datos: new Map(), reglamentos: new Map(), partes: new WeakMap() };
+  const E = { datos: new Map(), reglamentos: new Map(), partes: new WeakMap(), nombres: new Map() };
   function h(etiqueta, atributos, hijos) {
     const n = document.createElement(etiqueta);
     for (const k in atributos || {}) {
@@ -154,6 +154,8 @@
       if (k === 'texto') n.textContent = v; else n.setAttribute(k, v === true ? '' : v);
     }
     for (const x of hijos || []) if (x) n.appendChild(typeof x === 'string' ? document.createTextNode(x) : x);
+    const origen = atributos?.['data-oficial'] || (typeof atributos?.texto === 'string' && E.nombres.get(atributos.texto));
+    if (origen) SateUI.oficial(n, origen);
     return n;
   }
   function cargarCss() {
@@ -172,7 +174,12 @@
     const promesa = (SATE.json ? SATE.json('datos/' + u + '/guia.json') : fetch('datos/' + u + '/guia.json').then(r => {
       if (!r.ok) throw new Error('datos/' + unidad() + '/guia.json: HTTP ' + r.status);
       return r.json();
-    })).catch(e => { E.datos.delete(u); throw e; });
+    })).then(d => {
+      E.nombres.clear();
+      for (const a of d.acudir || []) if (a.nombre && a.fuente?.doc && !a.pendiente) E.nombres.set(a.nombre, a.fuente.doc);
+      for (const [id, doc] of Object.entries(d.documentos || {})) E.nombres.set(doc.titulo, id);
+      return d;
+    }).catch(e => { E.datos.delete(u); throw e; });
     E.datos.set(u, promesa);
     return promesa;
   }
@@ -181,7 +188,11 @@
     if (!E.reglamentos.has(doc)) E.reglamentos.set(doc, (SATE.json ? SATE.json('datos/reglamentos/' + doc + '.json') : fetch('datos/reglamentos/' + doc + '.json').then(r => {
       if (!r.ok) throw new Error('Reglamento ' + doc + ': HTTP ' + r.status);
       return r.json();
-    })).catch(e => { E.reglamentos.delete(doc); throw e; }));
+    })).then(reg => {
+      if (reg.titulo) E.nombres.set(reg.titulo, doc);
+      for (const a of reg.articulos || []) for (const titulo of a.ubicacion || []) E.nombres.set(titulo, doc);
+      return reg;
+    }).catch(e => { E.reglamentos.delete(doc); throw e; }));
     return E.reglamentos.get(doc);
   }
   function botonArticulo(doc, n, texto) {
@@ -211,11 +222,9 @@
       console.warn('SATE: artículo no disponible', { doc, n, mensaje: e.message });
     }
     const a = !reg?.sin_texto && reg?.articulos?.find(x => String(x.n) === String(n));
-    const inicioFracciones = a?.fracciones?.length ? a.texto.indexOf(a.fracciones[0].fr + '. ' + a.fracciones[0].texto) : -1;
     const cuerpo = h('div', { 'class': 'guia-articulo' }, a ? [
       h('p', { texto: (a.ubicacion || []).join(' · ') }),
-      h('div', { 'class': 'pc-lector pc-oficial' }, [h('p', { texto: inicioFracciones >= 0 ? a.texto.slice(0, inicioFracciones) : a.texto }),
-        a.fracciones?.length ? h('ol', { 'class': 'rgl-fracciones' }, a.fracciones.map(f => h('li', { 'class': 'rgl-fr' }, [h('span', { 'class': 'rgl-marca', texto: f.fr + '.' }), ' ', h('div', { texto: f.texto })]))) : null])
+      h('div', { 'class': 'pc-lector pc-oficial', 'data-oficial': doc }, [h('p', { 'class': 'guia-articulo-literal', texto: a.texto })])
     ] : [h('p', { role: 'status', texto: t(error ? 'sate.guia.error_articulo' : 'sate.guia.sin_articulo') })]);
     if (a && reg.ocr) cuerpo.appendChild(h('p', { 'class': 'guia-aviso-ocr', texto: t('sate.guia.aviso_ocr') }));
     const leer = h('a', { href: rutaReglamento(doc, 'art-' + n), texto: t('sate.guia.leer_reglamento') });
@@ -223,7 +232,7 @@
     cuerpo.appendChild(leer);
     const url = reg?.url || meta.url;
     if (url) cuerpo.appendChild(enlaceExterno('', url, t('sate.guia.pdf_oficial')));
-    return SateUI.modal(t('sate.guia.articulo_titulo', { n, reglamento: reg?.titulo || meta.titulo || doc }), cuerpo);
+    return SateUI.modal(t('sate.guia.articulo_titulo', { n, reglamento: reg?.titulo || meta.titulo || doc }), cuerpo, {lectura:true});
   };
   const apartados = () => apartadosDisponibles(SATE_CONFIG.guia, cfg());
   const infoApartado = id => (SATE_CONFIG.guia || []).find(a => a.id === id);
@@ -242,6 +251,7 @@
   }
   const conteo = (apartado, d) => {
     const a = infoApartado(apartado);
+    if (a.datos === 'actividades') return t('sate.guia.actividades_detalle');
     if (a.datos === 'documentos') return t('sate.guia.detalle_documentos', { n: Object.values(d.documentos).filter(x => x.reglamento).length });
     if (a.datos === 'acudir') return t('sate.guia.detalle_instancias', { n: d.acudir.length });
     return t('sate.guia.detalle_preguntas', { n: d.preguntas.filter(p => p.apartado === apartado).length });
@@ -396,7 +406,7 @@
       // Sin articulado (código, lineamientos escaneados): el texto corrido, sin índice.
       const lineas = !d.documentos[doc]?.soloPdf && !reg.sin_texto && reg.texto ? String(reg.texto).split(/\n+/).filter(Boolean) : [];
       raizGuia.append(cab.nodo, h('div', { 'class': 'guia-apartado' }, [avisoOcr, lineas.length
-        ? h('div', { 'class': 'rgl-cuerpo pc-lector pc-oficial', 'data-ancla': 'texto' }, lineas.map(x => h('p', { texto: x })))
+        ? h('div', { 'class': 'rgl-cuerpo pc-lector pc-oficial', 'data-oficial': doc, 'data-ancla': 'texto' }, lineas.map(x => h('p', { texto: x })))
         : h('p', { role: 'status', texto: t('sate.guia.sin_articulo') }), fuenteDoc]));
       return { titulo: cab.titulo };
     }
@@ -475,7 +485,7 @@
       if (p.fracciones.length) nodos.push(h('ol', { 'class': 'rgl-fracciones' }, p.fracciones.map(f => fila('rgl-fr', f.fr + '.', anclaArticulo(a.n, f.fr), t('sate.guia.rgl_enlace_fraccion', { fr: f.fr }), [
         h('p', { texto: f.texto }),
         f.incisos.length ? h('ol', { 'class': 'rgl-incisos' }, f.incisos.map(x => fila('rgl-inc', x.inciso + ')', anclaArticulo(a.n, f.fr, x.inciso), t('sate.guia.rgl_enlace_inciso', { inciso: x.inciso }), [h('p', { texto: x.texto })]))) : null]))));
-      return h('div', { 'class': 'rgl-cuerpo pc-lector pc-oficial' }, nodos);
+      return h('div', { 'class': 'rgl-cuerpo pc-lector pc-oficial', 'data-oficial': doc }, nodos);
     }
     function pintarRiel(a) {
       const rel = a ? relacionesArticulo(d, doc, a.n, tramites) : { preguntas: [], tramites: [] };
@@ -559,7 +569,7 @@
     }
     if (transitorios.length) {
       const seccion = h('section', { 'class': 'rgl-articulo', id: 'rgl-transitorios', 'data-articulo': 'transitorios' }, [
-        h('h3', { texto: t('sate.guia.transitorios') }), h('div', { 'class': 'rgl-cuerpo pc-lector pc-oficial' },
+        h('h3', { texto: t('sate.guia.transitorios') }), h('div', { 'class': 'rgl-cuerpo pc-lector pc-oficial', 'data-oficial': doc },
           transitorios.map(x => h('p', { texto: x.n + '. ' + x.texto })))]);
       texto.appendChild(seccion);
       secciones.set('transitorios', seccion);
@@ -805,9 +815,17 @@
       const f = fuente(d, a.fuente, t), padre = nodos.find(n => n.id === a.id)?.padre;
       const rel = d.preguntas.filter(p => (p.acudir || []).includes(a.id));
       const campo = (titulo, contenido) => h('div', {}, [h('dt', { texto: titulo }), h('dd', {}, contenido)]);
+      const cita = ref => {
+        const s = fuente(d, ref, t);
+        return s ? enlaceExterno('', s.url + (ref.pagina ? '#page=' + ref.pagina : ''), s.texto) : null;
+      };
       return h('article', { 'class': 'guia-ficha' }, [h('small', { texto: t('sate.guia.acudir_' + (a.ambito || 'unidad')) }), a.pendiente ? h('strong', { texto: tx('confirmar') }) : null, h('h3', { texto: a.nombre }),
-        h('dl', {}, [campo(tx('atiende'), [h('p', {}, enLinea(a.para || tx('sin_descripcion'), d)), ...(a.necesidades || []).map(n => h('p', { texto: t(n.texto) + (n.pendiente ? ' · ' + tx('confirmar') : '') }))]),
-          campo(tx('depende'), [instancias.get(padre)?.nombre || tx('confirmar')]),
+        h('dl', {}, [campo(a.orientacion ? tx('orientacion_propia') : tx('atiende'), [h('p', {}, enLinea(a.orientacion?.texto || a.para || tx('sin_descripcion'), d)),
+          ...(a.necesidades || []).map(n => h('p', { texto: t(n.texto) + (n.pendiente ? ' · ' + tx('confirmar') : '') }))]),
+          a.objetivo ? campo(tx(a.objetivo.alcance === 'unidad' ? 'objetivo_unidad' : 'objetivo_oficial'), [h('blockquote', { 'class': 'pc-lector pc-oficial', 'data-oficial': a.objetivo.fuente.doc, texto: a.objetivo.texto }), cita(a.objetivo.fuente)]) : null,
+          a.funciones?.length ? campo(t('sate.guia.funciones_manual'), [h('ul', { 'class': 'guia-funciones pc-lector pc-oficial', 'data-oficial': a.funciones[0].fuente.doc }, a.funciones.map(x => h('li', { 'data-oficial': x.fuente.doc }, [h('p', { texto: x.texto }), cita(x.fuente)])))]) : null,
+          campo(tx('depende'), [instancias.get(padre)?.nombre || a.dependenciaTexto || tx('confirmar'), a.fuenteDependencia ? cita(a.fuenteDependencia) : null]),
+          a.procedimientos ? campo(tx('procedimientos'), [h('ul', { 'class': 'guia-procedimientos' }, a.procedimientos.map(x => h('li', {}, [h('strong', { 'data-oficial': x.fuente.doc, texto: x.nombre }), h('p', { texto: x.participacion }), cita(x.fuente)]))), h('p', { texto: a.procedimientosNota })]) : null,
           campo(tx('contacto'), enLinea(a.contacto || tx('confirmar'), d)),
           campo(t('sate.guia.fuentes_titulo', { n: f ? 1 : 0 }), [f ? enlaceExterno('', f.url, f.texto) : tx('confirmar'), a.ambito !== 'ipn' && org ? h('p', { texto: tx('fuente_estructura') }) : null]),
           rel.length ? campo(tx('relacionadas'), [h('ul', {}, rel.map(p => h('li', {}, [h('a', { href: rutaGuia(p.apartado, p.id), texto: p.pregunta })])))]) : null])]);
@@ -815,7 +833,7 @@
     function pintar() {
       const ts = terminos(buscar.entrada.value);
       const preguntas = ts.length ? buscarPreguntas(d.preguntas, buscar.entrada.value) : [];
-      const resultados = [...instancias.values()].filter(a => (vista === 'jerarquia' || a.para) && (!ambito || (a.ambito || 'unidad') === ambito) && (!ts.length || ts.every(w => norm([a.nombre, a.para, ...(a.palabras || []), ...(a.necesidades || []).flatMap(n => [t(n.texto), ...(n.palabras || [])])].join(' ')).includes(w)) || preguntas.some(p => (p.acudir || []).includes(a.id))));
+      const resultados = [...instancias.values()].filter(a => (vista === 'jerarquia' || a.para) && (!ambito || (a.ambito || 'unidad') === ambito) && (!ts.length || ts.every(w => norm([a.nombre, a.para, ...(a.funciones || []).map(x => x.texto), ...(a.procedimientos || []).map(x => x.nombre), ...(a.palabras || []), ...(a.necesidades || []).flatMap(n => [t(n.texto), ...(n.palabras || [])])].join(' ')).includes(w)) || preguntas.some(p => (p.acudir || []).includes(a.id))));
       const ids = new Set(resultados.map(a => a.id));
       resultados.sort((a, b) => Number(a.ambito === 'ipn') - Number(b.ambito === 'ipn'));
       if (!instancias.has(elegido) || vista === 'directorio' && !ids.has(elegido)) elegido = resultados[0]?.id;
@@ -873,6 +891,39 @@
     return { titulo: cab.titulo };
   }
 
+  function apartadoActividades(raizGuia, d) {
+    const cab = cabecera([...migasBase(), { texto: tituloApartado('actividades') }], tituloApartado('actividades'), t('sate.guia.actividades_descripcion'));
+    const contenido = d.actividades;
+    const filtros = h('div', { 'class': 'sate-chips sate-filtro-recursos', role: 'group', 'aria-label': t('sate.guia.actividades_filtrar') });
+    const lista = h('div', { 'class': 'sate-rejilla-recursos' });
+    const estado = h('p', { 'class': 'sate-sr', role: 'status', 'aria-live': 'polite' });
+    let categoria = '';
+    const tarjetas = contenido.elementos.map(a => {
+      const campos = ['requisitos', 'inscripcion', 'donde'].filter(k => a[k]);
+      return { categoria: a.categoria, nodo: h('article', { 'class': 'sate-recurso' }, [
+        h('small', { texto: t('sate.guia.actividades_' + a.categoria) }), h('h3', { texto: a.nombre }), h('p', { texto: a.ofrece }),
+        campos.length ? h('dl', {}, campos.flatMap(k => [h('dt', { texto: t('sate.guia.actividades_' + k) }), h('dd', { texto: a[k] })])) : null,
+        enlaceExterno('sate-recurso__enlace', a.url, t('sate.guia.actividades_sitio')),
+        h('small', { texto: t('sate.guia.actividades_consulta', { fecha: fechaRevision(a.consulta) }) })
+      ]) };
+    });
+    function pintar() {
+      const visibles = tarjetas.filter(a => !categoria || a.categoria === categoria);
+      lista.replaceChildren(...visibles.map(a => a.nodo));
+      for (const b of filtros.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.getAttribute('data-categoria') === categoria));
+      estado.textContent = t('sate.guia.actividades_resultados', { n: visibles.length });
+    }
+    for (const id of ['', ...contenido.categorias]) {
+      const b = h('button', { 'class': 'sate-chip', type: 'button', 'data-categoria': id, texto: t('sate.guia.actividades_' + (id || 'todas')) });
+      b.addEventListener('click', () => { categoria = id; pintar(); });
+      filtros.appendChild(b);
+    }
+    raizGuia.appendChild(cab.nodo);
+    raizGuia.appendChild(h('section', { 'class': 'guia-apartado' }, [filtros, estado, lista]));
+    pintar();
+    return { titulo: cab.titulo };
+  }
+
   /* ---------- pestaña ---------- */
   let token = 0;
   async function mostrar(r) {
@@ -888,7 +939,7 @@
         const d = await datos();
         const a = infoApartado(apartado);
         if (mi !== token) return;
-        const x = apartado === 'glosario' ? apartadoGlosario(raizGuia, d) : a.datos === 'faq' ? apartadoPreguntas(raizGuia, d, apartado, id) : a.datos === 'documentos' ? await apartadoReglamentos(raizGuia, d, id, ancla, () => mi === token) : apartadoAcudir(raizGuia, d, id);
+        const x = apartado === 'glosario' ? apartadoGlosario(raizGuia, d) : a.datos === 'actividades' ? apartadoActividades(raizGuia, d) : a.datos === 'faq' ? apartadoPreguntas(raizGuia, d, apartado, id) : a.datos === 'documentos' ? await apartadoReglamentos(raizGuia, d, id, ancla, () => mi === token) : apartadoAcudir(raizGuia, d, id);
         foco = x.titulo;
         if (mi === token && x.enDocumento) return;
         if (mi === token && x.destino) { SateUI.revelar(x.destino); return; }

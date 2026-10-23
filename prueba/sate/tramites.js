@@ -3,6 +3,19 @@
   const tx=(k,v)=>SATE.texto('sate.ventanilla.'+k,v);
   const el=(tag,texto,clase)=>{const n=document.createElement(tag);if(texto!=null)n.textContent=texto;if(clase)n.className=clase;return n};
   const boton=(texto,accion)=>{const b=el('button',texto,'sate-btn');b.type='button';b.onclick=accion;return b};
+  // Las referencias pertenecen a la clave del texto, no a patrones sobre su redacción.
+  function citas(nodo,clave){
+    for(const [doc,n] of SATE_CONFIG.citasVentanilla?.[clave]||[]){
+      const b=boton(tx('consultar_articulo',{n,doc:doc.toUpperCase()}),async()=>{
+        try{await SATE.articulo(doc,n)}catch(e){
+          console.error('Ventanilla: no se pudo abrir la cita',{clave,doc,n,error:e.message});
+          SateUI.modal(tx('cita_error'),tx('cita_reintentar'));
+        }
+      });
+      b.setAttribute('aria-haspopup','dialog');nodo.appendChild(b);
+    }
+    return nodo;
+  }
   function bajar(bytes,archivo){
     const u=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'})),a=el('a');
     a.href=u;a.download=archivo;a.click();setTimeout(()=>URL.revokeObjectURL(u),30000);
@@ -33,7 +46,7 @@
     const marca=el('span',ejemplo?tx('ejemplo'):tx('miniatura_lleno'),'tramite-miniatura-marca');nodo.appendChild(marca);
     const hoja=el('div',null,'tramite-miniatura-hoja');nodo.appendChild(hoja);
     const unidad=SATE_CONFIG.unidades[SATE_UNIDAD];
-    const cab=el('header',null,'tramite-miniatura-cab');cab.appendChild(el('b','IPN'));cab.appendChild(el('span',tx('miniatura_instituto')));cab.appendChild(el('b',unidad.siglas||SATE_UNIDAD.toUpperCase()));hoja.appendChild(cab);
+    const cab=el('header',null,'tramite-miniatura-cab');cab.appendChild(el('b','IPN'));const instituto=el('span',tx('miniatura_instituto'));instituto.setAttribute('data-oficial','lo');cab.appendChild(instituto);cab.appendChild(el('b',unidad.siglas||SATE_UNIDAD.toUpperCase()));hoja.appendChild(cab);
     const formato=['baja_temporal','baja_definitiva','dictamen','electivas'].includes(def.id);
     hoja.appendChild(el('h4',formato?tx('miniatura_titulo_'+(def.id==='dictamen'?(datos.tipo==='externo'?'dictamen_externo':'dictamen'):def.id)):def.titulo));
     const identidad=ejemplo?{}:leer('datos')?.datos||{};
@@ -341,6 +354,6 @@
       mostrarLista(box);return;
     }mostrarLista(box);
   }
-  raiz.SateTramites={estado,separarNombre,modelo,asistente,misDatos,datosInline,confirmarSaes,prellenar,validarDatos,mostrarLista,registrar:(def,id)=>definiciones.set(id||def.id,def)};
+  raiz.SateTramites={citas,estado,separarNombre,modelo,asistente,misDatos,datosInline,confirmarSaes,prellenar,validarDatos,mostrarLista,registrar:(def,id)=>definiciones.set(id||def.id,def)};
   SATE.pestana('tramites',{mostrar,ocultar(){activo?.destruir();activo=null}});
 })(globalThis);
