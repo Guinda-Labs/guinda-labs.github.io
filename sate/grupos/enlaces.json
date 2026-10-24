@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-22T00:41:00.561132Z",
+  "cambio": "2026-10-24T06:49:48.140207Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -688,6 +688,11 @@
     "2MV6|DISEÑO BASICO DE ELEMENTOS DE MAQUINAS": {
       "url": "https://chat.whatsapp.com/FWzaHXdyOV0B01zevT8vq1",
       "desde": "2026-10-22T00:40:52.649Z",
+      "reemplazo": null
+    },
+    "3MM2|ETICA PARA EL EJERCICIO PROFESIONAL": {
+      "url": "https://chat.whatsapp.com/EIJkYQiKM9A0mSAaWAJfTr",
+      "desde": "2026-10-24T06:49:40.332Z",
       "reemplazo": null
     }
   }
