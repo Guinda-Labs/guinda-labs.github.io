@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-24T06:49:48.140207Z",
+  "cambio": "2026-10-26T21:37:06.114851Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -693,6 +693,11 @@
     "3MM2|ETICA PARA EL EJERCICIO PROFESIONAL": {
       "url": "https://chat.whatsapp.com/EIJkYQiKM9A0mSAaWAJfTr",
       "desde": "2026-10-24T06:49:40.332Z",
+      "reemplazo": null
+    },
+    "2MV7|MECANICA DE FLUIDOS": {
+      "url": "https://chat.whatsapp.com/IVcOub0jWLP0Vr6TJ9Islf",
+      "desde": "2026-10-26T21:36:57.874Z",
       "reemplazo": null
     }
   }
