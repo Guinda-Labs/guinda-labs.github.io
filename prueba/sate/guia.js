@@ -34,6 +34,23 @@
       return {p, peso: (intencion?.pregunta === p.id ? 100 : aciertos.length < Math.ceil(ts.length * .75) ? 0 : aciertos.length * 3 + ts.filter(w => titulo.includes(w)).length)};
     }).filter(x => x.peso > 0).sort((a,b) => b.peso-a.peso).map(x => x.p);
   }
+  function respuestaDirecta(d, q) {
+    const o = d.orientacion || {}, ts = [...new Set(palabrasConsulta(q,o).filter(w => !['es','son'].includes(w)))];
+    if (!ts.length) return {definiciones:[], pregunta:null};
+    const definiciones = Object.entries(d.glosario || {}).filter(([,g]) => {
+      const titulo = terminos(g.termino);
+      return ts.every(w => titulo.includes(w));
+    }).map(([id,g]) => ({id,...g}));
+    if (definiciones.length) return {definiciones, pregunta:null};
+    const intencion = (o.intenciones || []).find(i => i.terminos.every(w => ts.includes(w)) && ts.every(w => i.terminos.includes(w)));
+    const candidatos = (d.preguntas || []).map(p => {
+      const titulo = palabrasConsulta(p.pregunta,o), texto = palabrasConsulta(textoVisibleIndice(textoDe(p)),o);
+      const aciertos = ts.filter(w => texto.includes(w)).length, cabecera = ts.filter(w => titulo.includes(w)).length;
+      const peso = intencion && intencion.pregunta === p.id ? 100 : aciertos === ts.length && cabecera >= Math.ceil(ts.length * .75) ? aciertos * 3 + cabecera * 4 : 0;
+      return {p,peso};
+    }).filter(x => x.peso >= 7).sort((a,b) => b.peso-a.peso);
+    return {definiciones:[], pregunta:candidatos[0]?.p || null};
+  }
   function aplicaPregunta(p, s, o) {
     if (!s) return false;
     const regla = o?.aplicabilidad?.[p.id];
@@ -163,6 +180,28 @@
     const d = frs.length ? null : dividirDefiniciones(texto);
     return d ? { intro: d.intro, definiciones: d.definiciones, fracciones: [] } : { intro: texto, definiciones: null, fracciones: [] };
   }
+  // Parte solo saltos de párrafo existentes y marcadores al inicio de oración; conserva todo el texto.
+  function bloquesNormativos(texto) {
+    const salida = [];
+    const parrafos=String(texto || '').split(/(\n\s*\n+)/);
+    for (let i=0;i<parrafos.length;i+=2) {
+      const parrafo=parrafos[i], separador=parrafos[i+1]||'';
+      const re = /(^\s*|(?<=[.!?;:])\s+)([IVXLCDM]+[.)]|[a-z]\))(\s+)/g;
+      let pos = 0, inicioTexto = 0, marca = '', m;
+      while ((m = re.exec(parrafo))) {
+        const inicio = m.index + m[1].length;
+        if (marca) salida.push({ marca, texto: parrafo.slice(inicioTexto, inicio) });
+        else if (inicio > pos) salida.push({ marca: '', texto: parrafo.slice(pos, inicio) });
+        marca = m[2] + m[3];
+        inicioTexto = re.lastIndex;
+        pos = re.lastIndex;
+      }
+      if (pos === 0) salida.push({ marca: '', texto: parrafo });
+      else salida.push({ marca, texto: parrafo.slice(inicioTexto) });
+      if(separador)salida[salida.length-1].texto+=separador;
+    }
+    return salida;
+  }
   // Artículos que contienen todas las palabras (o cuyo número empieza como lo escrito); primero el número exacto.
   function buscarArticulos(reg, q, maximo) {
     const ts = terminos(q), num = norm(q).trim();
@@ -192,7 +231,7 @@
     const preguntas = (d && citasPorArticulo(d).get(doc + ':' + n)) || [], disponibles = tramitesUnidad || [];
     return { preguntas, tramites: [...new Set(preguntas.map(p => p.ventanilla).filter(v => v && disponibles.includes(v)))] };
   }
-  raiz.SateGuia = { articuloEnGeometria, norm, terminos, buscarPreguntas, apartadosDisponibles, fuente, enlace, marcas, anclaArticulo, leerAncla, arbolReglamento, partesArticulo, dividirDefiniciones, buscarArticulos, relacionesArticulo, mapaReglamento };
+  raiz.SateGuia = { articuloEnGeometria, norm, terminos, buscarPreguntas, apartadosDisponibles, fuente, enlace, marcas, anclaArticulo, leerAncla, arbolReglamento, partesArticulo, bloquesNormativos, dividirDefiniciones, buscarArticulos, relacionesArticulo, mapaReglamento };
   const nombreMateria = nombre => { const s=String(nombre).toLocaleLowerCase('es'); return s.charAt(0).toLocaleUpperCase('es')+s.slice(1); };
   const textoVisibleIndice = texto => String(texto || '').replace(/\[\[(?:a|g):[\w-]+(?::[\w -]+)?\|([^\]]+)\]\]/g, '$1');
   function puntuarIndice(e, ts, q, orientacion, intencion) {
@@ -227,7 +266,7 @@
   }
   Object.assign(raiz.SateGuia, {buscarIndice, fragmento, textoVisibleIndice, expandirIndice, resaltar, partesResaltado, agruparReglamentos, nivelesReglamento});
   const motivoInicial = s => s?.fis?.some(f=>f.veces>=2)?'recursamiento':s?.nDes?'antiguas':s?.adeudos?.length?'ordinario':'';
-  Object.assign(raiz.SateGuia, {palabrasConsulta, buscarSoluciones, aplicaPregunta, rutaPersonal, resolverRuta, nombreMateria, motivoInicial});
+  Object.assign(raiz.SateGuia, {palabrasConsulta, buscarSoluciones, respuestaDirecta, aplicaPregunta, rutaPersonal, resolverRuta, nombreMateria, motivoInicial});
 
   const etiquetasInv = ['favor','contra','requisito','plazo'];
   // Recalcula contra los nodos actuales: partir un párrafo o envolver una referencia no desplaza la anotación.
@@ -314,6 +353,7 @@
     return rangos;
   }
   function resaltar(texto, q) {
+    texto = textoVisibleIndice(texto);
     const nodos = [], rangos = partesResaltado(texto,q);
     let pos = 0;
     for (const [inicio,fin] of rangos) {
@@ -323,11 +363,19 @@
     if (pos < texto.length) nodos.push(document.createTextNode(texto.slice(pos)));
     return nodos;
   }
-  function agruparReglamentos(resultados) {
+  function agruparReglamentos(resultados, q = '', orientacion = {}) {
     const grupos = new Map();
+    const ts = palabrasConsulta(q,orientacion);
     for (const e of resultados) { if (!grupos.has(e.doc)) grupos.set(e.doc, []); grupos.get(e.doc).push(e); }
-    return [...grupos].map(([doc, entradas]) => ({doc, entradas, titulo:entradas[0].titulo}))
-      .sort((a,b) => Math.max(...b.entradas.map(e=>e._pesoBusqueda||0)) - Math.max(...a.entradas.map(e=>e._pesoBusqueda||0)) || b.entradas.length-a.entradas.length);
+    return [...grupos].map(([doc, entradas]) => {
+      const articulos = entradas.filter(e => /\/art-|\/texto(?:\?|$)/.test(e.ruta || '') && ts.every(w => palabrasConsulta(e.texto,orientacion).join(' ').includes(w)));
+      const porArticulo = new Map();
+      for(const e of articulos){const clave=e.ruta.split('?')[0].split('/art-')[1]?.split('.')[0] || 'texto';if(!porArticulo.has(clave))porArticulo.set(clave,e);}
+      return {doc, entradas:articulos.length ? [...porArticulo.values()] : entradas, titulo:entradas[0].titulo,
+        articulos:porArticulo.size};
+    }).sort((a,b) => Number(b.articulos > 0)-Number(a.articulos > 0) ||
+      (a.articulos && b.articulos ? Number(b.doc === 'rge')-Number(a.doc === 'rge') : 0) ||
+      b.articulos-a.articulos || Math.max(...b.entradas.map(e=>e._pesoBusqueda||0))-Math.max(...a.entradas.map(e=>e._pesoBusqueda||0)) || b.entradas.length-a.entradas.length);
   }
   function nivelesReglamento(reg) {
     const ubicaciones = (reg?.articulos || []).flatMap(a => a.ubicacion || []);
@@ -390,8 +438,8 @@
           for (const e of resultados) if (e.carrera) {
             const k = norm(e.titulo), cs = nombres.get(k) || new Set(); cs.add(e.carrera); nombres.set(k, cs);
           }
-          const fila = (e, agrupada = false) => h('li', {}, [
-            ...(agrupada && e.doc ? [] : [h('a', {href:e.ruta}, resaltar(e.titulo,q))]),
+          const fila = (e, agrupada = false) => h('li', {'class':'guia-resultado'}, [
+            h('a', {href:e.ruta}, resaltar(agrupada && e.doc ? e.migas.filter(m=>/^Art\. /.test(m)).join(' · ') + (/\/art-[^.]+\./.test(e.ruta) ? bt('fraccion',{fr:e.migas.at(-1)}) : '') || e.titulo : e.titulo,q)),
             ...(e.carrera ? [h('strong', {'class':'guia-carrera', texto:e.carreraNombre}), ...(nombres.get(norm(e.titulo))?.size > 1 ? [h('small', {texto:bt('homonima')})] : [])] : []),
             h('small', {texto:(agrupada && e.doc ? e.migas.filter((m,i) => !(i === 0 && norm(m) === norm(e.titulo))) : e.migas).join(' › ')}),
             h('p', {'data-oficial':e.oficial}, resaltar(fragmento(e.texto,q),q))
@@ -408,11 +456,12 @@
             h('ul', {}, es.map(fila))
           ]));
           if (fuente === 'reglamentos') {
-            const docs = agruparReglamentos(resultados);
+            const docs = agruparReglamentos(resultados,q,manifiesto.orientacion);
+            grupo.querySelector('h3').textContent=bt(fuente)+' · '+docs.length;
             grupo.appendChild(h('div', {'class':'guia-reglamentos-resultados'}, docs.map(g => h('section', {'class':'guia-reglamento-resultado'}, [
-              h('header', {}, [h('strong', {'class':'guia-sello', texto:selloReglamento(g.titulo,g.doc)}), h('h4', {texto:g.titulo,'data-oficial':g.doc}), h('small',{texto:bt('coincidencias_reglamento',{n:g.entradas.length})})]),
-              h('ul', {}, g.entradas.slice(0,2).map(e => fila(e,true))),
-              h('a', {href:rutaReglamento(g.doc)+'?q='+encodeURIComponent(q), texto:bt('ver_reglamento_acotado',{n:g.entradas.length})})
+              h('header', {}, [h('strong', {'class':'guia-sello', texto:selloReglamento(g.titulo,g.doc)}), h('h4', {texto:g.titulo,'data-oficial':g.doc}), h('small',{texto:g.articulos ? bt('articulos_reglamento',{n:g.articulos}) : bt('solo_titulo')})]),
+              ...(g.articulos ? [h('ul', {}, g.entradas.slice(0,2).map(e => fila(e,true)))] : []),
+              h('a', {href:rutaReglamento(g.doc)+'?q='+encodeURIComponent(q), texto:g.articulos ? bt('ver_reglamento_acotado',{n:g.articulos}) : bt('abrir_reglamento')})
             ]))));
             lista.appendChild(grupo);
             continue;
@@ -508,7 +557,7 @@
   }
   function envolverReferencias(nodo, doc, a) {
     const refs = (E.enlaces || []).filter(r => r.doc === doc && r.articulo === String(a.n));
-    for (const p of nodo.querySelectorAll('p,dt,dd')) {
+    for (const p of nodo.querySelectorAll('p,dt,dd,.rgl-renglon__texto')) {
       const texto = p.textContent, partes = []; let inicio = 0;
       const origen = a.texto.indexOf(texto);
       const ocurrencias = refs.map(r => ({r, i:Array.from(a.texto).slice(0,r.inicio).join('').length-origen}))
@@ -542,14 +591,20 @@
     });
   }
   function cuerpoArticulo(a, doc, fila, literal = false) {
-    if(literal) return h('div', {'class':'pc-lector pc-oficial', 'data-oficial':doc}, [h('p', {'class':'guia-articulo-literal', texto:a.texto})]);
+    const textoEnBloques = texto => bloquesNormativos(texto).map(x => x.marca
+      ? h('div', {'class':'rgl-renglon rgl-renglon--marcado '+(/[IVXLCDM]/.test(x.marca[0])?'rgl-renglon--fraccion':'rgl-renglon--inciso'), 'data-oficial':doc}, [
+        h('span', {'class':'rgl-renglon__marca', 'data-oficial':doc, texto:x.marca}),
+        h('span', {'class':'rgl-renglon__texto', 'data-oficial':doc, texto:x.texto})
+      ])
+      : h('p', {'class':'guia-articulo-literal', 'data-oficial':doc, texto:x.texto}));
+    if(literal) return h('div', {'class':'pc-lector pc-oficial', 'data-oficial':doc}, textoEnBloques(a.texto));
     if (!E.partes.has(a)) E.partes.set(a, partesArticulo(a));
     const p = E.partes.get(a), nodos = [];
-    if (p.intro) nodos.push(h('p', { texto: p.intro }));
+    if (p.intro) nodos.push(...textoEnBloques(p.intro));
     if (p.definiciones) nodos.push(h('dl', { 'class': 'rgl-definiciones' }, p.definiciones.map(x => h('div', {}, [h('dt', { texto: x.termino }), h('dd', { texto: x.texto })]))));
     if (p.fracciones.length) nodos.push(h('ol', { 'class': 'rgl-fracciones' }, p.fracciones.map(f => fila('rgl-fr', f.fr + '.', anclaArticulo(a.n, f.fr), t('sate.guia.rgl_enlace_fraccion', { fr: f.fr }), [
-      h('p', { texto: f.texto }),
-      f.incisos.length ? h('ol', { 'class': 'rgl-incisos' }, f.incisos.map(x => fila('rgl-inc', x.inciso + ')', anclaArticulo(a.n, f.fr, x.inciso), t('sate.guia.rgl_enlace_inciso', { inciso: x.inciso }), [h('p', { texto: x.texto })]))) : null]))));
+      ...textoEnBloques(f.texto),
+      f.incisos.length ? h('ol', { 'class': 'rgl-incisos' }, f.incisos.map(x => fila('rgl-inc', x.inciso + ')', anclaArticulo(a.n, f.fr, x.inciso), t('sate.guia.rgl_enlace_inciso', { inciso: x.inciso }), textoEnBloques(x.texto)))) : null]))));
     const cuerpo = h('div', { 'class': 'rgl-cuerpo pc-lector pc-oficial', 'data-oficial': doc }, nodos);
     cuerpo.querySelectorAll('.rgl-fr').forEach((n,i) => {
       n.setAttribute('data-fraccion-pos',i+1);
@@ -579,8 +634,8 @@
     if (a) {
       const literal = cuerpo.querySelector('.guia-articulo-literal');
       const f = a.fracciones?.find(f => f.fr === fr), i = f ? a.texto.indexOf(f.texto) : -1;
+      envolverReferencias(cuerpo,doc,a);
       if (i >= 0) literal.replaceChildren(h('span', {'class':'guia-cita-atenuada', texto:a.texto.slice(0,i)}), h('mark', {texto:a.texto.slice(i,i+f.texto.length)}), h('span', {'class':'guia-cita-atenuada', texto:a.texto.slice(i+f.texto.length)}));
-      else envolverReferencias(cuerpo,doc,a);
       SateUI.oficial(literal,doc);
     }
     if (a && reg.ocr) cuerpo.appendChild(h('p', { 'class': 'guia-aviso-ocr', texto: t('sate.guia.aviso_ocr') }));
@@ -671,7 +726,42 @@
   // Portada aprobada (maqueta R15): título, buscador global con ejemplos en voz de alumno, chips y respuesta directa arriba de los grupos.
   function buscadorSoluciones(d, s, destino) {
     const directa=h('div',{'class':'guia-respuesta-directa'});
-    const pintarDirecta=q=>{const ps=terminos(q).length?buscarSoluciones(d,q):[];directa.replaceChildren(...(ps.length?[tarjetaSolucion(d,ps[0],s,'respuesta_directa')]:[]));};
+    let versionDirecta=0;
+    const pintarDirecta=async q=>{
+      const mi=++versionDirecta, u=unidad(), r=respuestaDirecta(d,q);
+      directa.replaceChildren();
+      if (!r.definiciones.length) {
+        if(r.pregunta)directa.appendChild(tarjetaSolucion(d,r.pregunta,s,'respuesta_directa'));
+        return;
+      }
+      try {
+        const secciones=await Promise.all(r.definiciones.map(async g=>{
+          const citas=await Promise.all((g.definicionFuentes || [g.fuente]).filter(Boolean).map(async f=>{
+            const reg=await cargarReglamento(f.doc);
+            return (f.arts || []).flatMap(n=>{
+              const a=reg.articulos?.find(a=>String(a.n)===String(n));
+              if(!a)return [];
+              const p=partesArticulo(a), rotulo=t('sate.guia.fuente_articulo',{documento:reg.titulo,articulo:n});
+              const cita=(texto,fr)=>{
+                const b=h('button',{type:'button','class':'sate-enlace-reglamento',texto:rotulo+(fr?bt('fraccion',{fr}):'')});
+                b.addEventListener('click',()=>SATE.articulo(f.doc,n,fr));
+                return h('div',{},[h('blockquote',{'data-oficial':f.doc,texto}),b]);
+              };
+              if(!a.fracciones?.length)return [cita(a.texto)];
+              const completa=h('details',{'class':'guia-definicion-fracciones'},[
+                h('summary',{texto:tx('fracciones_completas',{n:a.fracciones.length})}),
+                h('div',{},a.fracciones.map(fr=>cita(fr.texto,fr.fr)))
+              ]);
+              return [cita(p.intro),completa];
+            });
+          }));
+          const areas=(d.acudir || []).filter(a=>(g.acudir || [g.id]).includes(a.id));
+          return h('section',{},[h('h4',{texto:g.termino}),h('p',{texto:g.definicion}),...citas.flat(),
+            ...areas.map(a=>h('a',{href:rutaGuia('acudir',a.id)},[t('sate.guia.a_quien')+' · ',h('span',{'data-oficial':a.fuente?.doc,texto:a.nombre})]))]);
+        }));
+        if(mi===versionDirecta && u===unidad() && directa.isConnected!==false)directa.appendChild(h('article',{'class':'guia-definicion'},[h('small',{'class':'guia-rotulo',texto:tx('respuesta_directa')}),h('h3',{texto:bt('que_es')}),...secciones]));
+      } catch(e) { console.warn('SATE: definición directa no disponible',{unidad:u,consulta:q,mensaje:e.message}); }
+    };
     let entrada=null;
     const chips=h('div',{'class':'guia-chips guia-sugerencias'});
     const sugerencias=s?.adeudos?.length?['reprobe el recurse','ets','baja temporal','servicio social','ingles titulacion']:['baja temporal','servicio social','ingles titulacion','becas','ets'];
@@ -979,17 +1069,28 @@
     const cuerpoIndice = h('div', { 'class': 'rgl-indice__cuerpo' }, [salto, arbolNav]);
     const resumen = h('span', { 'class': 'rgl-resumen__actual' });
     const contextoActual = h('span', {'class':'rgl-contexto__actual'});
+    const resultadosContexto = h('ul', {'class':'rgl-busqueda-contexto__resultados', hidden:true, 'aria-live':'polite'});
+    const entradaContexto = h('input', {type:'search', autocomplete:'off', 'aria-label':t('sate.guia.rgl_buscar_etiqueta'), placeholder:t('sate.guia.rgl_buscar_marcador'), 'aria-expanded':'false'});
+    const busquedaContexto = h('div', {'class':'rgl-busqueda-contexto'}, [entradaContexto,resultadosContexto]);
+    entradaContexto.addEventListener('input',()=>{
+      const q=entradaContexto.value.trim(), encontrados=buscarArticulos(reg,q,10);
+      resultadosContexto.replaceChildren(...encontrados.map(a=>h('li',{},[h('a',{href:rutaReglamento(doc,anclaArticulo(a.n)), 'data-ancla':anclaArticulo(a.n)},[
+        h('strong',{texto:t('sate.guia.rgl_art_corto',{n:a.n})}),h('span',{texto:fragmento(a.texto,q)})
+      ])])));
+      if(q && !encontrados.length)resultadosContexto.appendChild(h('li',{class:'guia-vacio',texto:t('sate.guia.rgl_resultados',{n:0})}));
+      resultadosContexto.hidden=!q;entradaContexto.setAttribute('aria-expanded',String(!!q));
+    });
     const contexto = h('nav', {'class':'rgl-contexto', 'aria-label':reg.titulo}, [
-      h('div', {}, [h('strong', {texto:selloReglamento(reg.titulo,doc) + ' · ' + reg.titulo}), contextoActual]),
-      h('details', {}, [h('summary', {texto:t('sate.guia.rgl_buscar_etiqueta')}), buscadorIndice({fuente:'reglamentos',doc,nombre:reg.titulo})]),
-      h('a', {href:rutaGuia('reglamentos'), texto:bt('cambiar')})
+      h('div', {'class':'rgl-contexto__titulo'}, [h('strong', {texto:selloReglamento(reg.titulo,doc) + ' · ' + reg.titulo}), contextoActual]),
+      busquedaContexto,
+      h('a', {'class':'rgl-contexto__cambiar',href:rutaGuia('reglamentos'), texto:bt('cambiar')})
     ]);
     const indice = h('details', { 'class': 'rgl-indice', open: true }, [h('summary', { 'class': 'rgl-resumen' }, [h('span', { texto: t('sate.guia.rgl_indice') }), resumen]), cuerpoIndice]);
     const texto = h('article', { 'class': 'rgl-texto', 'aria-label': reg.titulo });
     const riel = h('aside', { 'class': 'rgl-riel', 'aria-label': t('sate.guia.rgl_contexto') });
     const rejilla = SateUI.lector(indice, texto, riel);
-    const investigacion = h('details',{'class':'rgl-investigacion',open:!pantallaChica()},[h('summary',{texto:ti('panel')})]);
-    const invCuerpo=h('div',{'class':'rgl-investigacion__cuerpo'}), invContexto=h('button',{type:'button','class':'rgl-investigacion__contexto','aria-expanded':String(investigacion.open)});
+    const investigacion = h('details',{'class':'rgl-investigacion',id:'rgl-investigacion',open:!pantallaChica()},[h('summary',{texto:ti('panel')})]);
+    const invCuerpo=h('div',{'class':'rgl-investigacion__cuerpo'}), invContexto=h('button',{type:'button','class':'rgl-investigacion__contexto','aria-controls':'rgl-investigacion','aria-expanded':String(investigacion.open),texto:ti('boton')+' (0)'});
     invContexto.addEventListener('click',()=>{investigacion.open=!investigacion.open;invContexto.setAttribute('aria-expanded',String(investigacion.open));});
     investigacion.addEventListener('toggle',()=>invContexto.setAttribute('aria-expanded',String(investigacion.open)));
     investigacion.appendChild(invCuerpo); contexto.appendChild(invContexto);
@@ -998,7 +1099,7 @@
       estadoMarcadoresInv();
       const v=leerInvestigaciones(), p=investigacionCompartida || v.proyectos[v.activa], solo=!!investigacionCompartida;
       invCuerpo.replaceChildren();
-      invContexto.textContent=p ? ti('contexto',{nombre:p.nombre,n:new Set(p.marcadores.map(m=>m.doc+':'+m.n)).size}) : ti('panel');
+      invContexto.textContent=ti('boton')+' ('+new Set(p?.marcadores.map(m=>m.doc+':'+m.n)||[]).size+')';
       const error=e=>{console.warn('SATE investigación',{mensaje:e.message}); invCuerpo.appendChild(h('p',{role:'alert',texto:ti('error')}));};
       const accion=(k,fn)=>invCuerpo.appendChild(botonInv(k,()=>Promise.resolve().then(fn).catch(error)));
       accion('nueva',()=>{const nombre=raiz.prompt(ti('nombre')); if(!nombre?.trim())return; v.proyectos.push(validarInvestigacion({formato:'sate-investigacion',version:1,nombre,proposito:'estudio',autor:'',etiquetas:[],marcadores:[]})); v.activa=v.proyectos.length-1; investigacionCompartida=null; guardarInvestigaciones(v); pintarInvestigacion();});
@@ -1092,8 +1193,7 @@
       if (rel.tramites.length) bloques.push(h('section', {}, [h('h4', { texto: t('sate.guia.rgl_tramites') }), h('ul', {}, rel.tramites.map(id => h('li', {}, [h('a', { href: '#/' + unidad() + '/tramites/' + id, texto: t('sate.tramite.' + id + '.titulo') })])))]));
       if (rel.preguntas.length) bloques.push(h('section', {}, [h('h4', { texto: t('sate.guia.rgl_preguntas') }), h('ul', {}, rel.preguntas.map(p => h('li', {}, [h('a', { href: rutaGuia(p.apartado, p.id), texto: p.pregunta })])))]));
       // El riel no se oculta: si cambiara la rejilla al desplazarse, el índice y el texto saltarían.
-      riel.replaceChildren(h('h3', { texto: t('sate.guia.rgl_contexto') }), ...(bloques.length ? bloques : [h('p', { 'class': 'rgl-riel-vacio', texto: t('sate.guia.rgl_sin_citas') })]));
-      riel.appendChild(investigacion);
+      riel.replaceChildren(investigacion, h('h3', { texto: t('sate.guia.rgl_contexto') }), ...(bloques.length ? bloques : [h('p', { 'class': 'rgl-riel-vacio', texto: t('sate.guia.rgl_sin_citas') })]));
     }
     function marcarIndice(clave) {
       for (const [n, a] of enlaces) { if (n === clave) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); }
@@ -1360,7 +1460,8 @@
       h('a', { href: x.soloPdf || indice.find(i => i.id === x.id)?.sin_texto ? x.url : rutaGuia('reglamentos', x.id), 'class': 'rgl-libro' }, [
         h('strong', { 'class': 'rgl-siglas', texto: x.siglas || x.titulo.split(/\s+/).filter(p => /^[A-ZÁÉÍÓÚÑ]/.test(p) && !/^(IPN|Instituto|Politécnico|Nacional)$/.test(p)).map(p => p[0]).join('') }),
         h('h4', { texto: x.titulo }), h('small', { texto: x.gaceta }),
-        h('span', { texto: indice.find(i => i.id === x.id)?.articulos ? t('sate.guia.numero_articulos', { n: indice.find(i => i.id === x.id).articulos }) : t(x.soloPdf || indice.find(i => i.id === x.id)?.sin_texto ? 'sate.guia.rgl_solo_pdf' : 'sate.guia.rgl_texto_completo') })])])));
+        h('span', { texto: indice.find(i => i.id === x.id)?.articulos ? t('sate.guia.numero_articulos', { n: indice.find(i => i.id === x.id).articulos }) : t(x.soloPdf || indice.find(i => i.id === x.id)?.sin_texto ? 'sate.guia.rgl_solo_pdf' : 'sate.guia.rgl_texto_completo') }),
+        x.soloPdf ? h('small', {'class':'rgl-libro__nota',texto:t('sate.guia.rgl_solo_pdf_nota')}) : null])])));
     const resultados = h('ul', { 'class': 'guia-resultados', hidden: true, 'aria-live': 'polite' });
     const pintarResultados = q => {
       const encontrados = registros.flatMap(reg => buscarArticulos(reg, q, 4).map(a => ({ reg, a }))).slice(0, 12);
