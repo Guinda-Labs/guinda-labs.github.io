@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-27T03:28:06.498512Z",
+  "cambio": "2026-10-27T16:14:24.729493Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -708,6 +708,11 @@
     "5BV1|BIOELECTRONICA": {
       "url": "https://chat.whatsapp.com/BarsqJNI3iw2a2UKOvDzMH",
       "desde": "2026-10-27T03:27:58.157Z",
+      "reemplazo": null
+    },
+    "3MM4|INSTRUMENTACION VIRTUAL": {
+      "url": "https://chat.whatsapp.com/Cn8rMZUhc3U7ycn85P82Fg",
+      "desde": "2026-10-27T16:14:14.144Z",
       "reemplazo": null
     }
   }
