@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-26T21:37:06.114851Z",
+  "cambio": "2026-10-27T03:06:42.726218Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -698,6 +698,11 @@
     "2MV7|MECANICA DE FLUIDOS": {
       "url": "https://chat.whatsapp.com/IVcOub0jWLP0Vr6TJ9Islf",
       "desde": "2026-10-26T21:36:57.874Z",
+      "reemplazo": null
+    },
+    "2MM10|SENSORES Y ACONDICIONADORES DE SEÑAL": {
+      "url": "https://chat.whatsapp.com/H4ltHmovK9XJaGRbDtxa4p",
+      "desde": "2026-10-27T03:06:34.103Z",
       "reemplazo": null
     }
   }
