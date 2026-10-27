@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-27T16:14:24.729493Z",
+  "cambio": "2026-10-27T22:00:25.644000Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -713,6 +713,11 @@
     "3MM4|INSTRUMENTACION VIRTUAL": {
       "url": "https://chat.whatsapp.com/Cn8rMZUhc3U7ycn85P82Fg",
       "desde": "2026-10-27T16:14:14.144Z",
+      "reemplazo": null
+    },
+    "3BV3|TEORIA DEL CONTROL": {
+      "url": "https://chat.whatsapp.com/KULaYG1j7XU5MiXyw0b4sU",
+      "desde": "2026-10-27T22:00:15.234Z",
       "reemplazo": null
     }
   }
