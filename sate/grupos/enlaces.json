@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-27T03:06:42.726218Z",
+  "cambio": "2026-10-27T03:28:06.498512Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -703,6 +703,11 @@
     "2MM10|SENSORES Y ACONDICIONADORES DE SEÑAL": {
       "url": "https://chat.whatsapp.com/H4ltHmovK9XJaGRbDtxa4p",
       "desde": "2026-10-27T03:06:34.103Z",
+      "reemplazo": null
+    },
+    "5BV1|BIOELECTRONICA": {
+      "url": "https://chat.whatsapp.com/BarsqJNI3iw2a2UKOvDzMH",
+      "desde": "2026-10-27T03:27:58.157Z",
       "reemplazo": null
     }
   }
