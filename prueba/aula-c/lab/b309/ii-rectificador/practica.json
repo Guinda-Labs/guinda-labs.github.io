@@ -1,0 +1,36 @@
+{
+  "id": "ii-rectificador",
+  "unit": "II",
+  "title": "Rectificación y rizo capacitivo",
+  "package": "b309-analogica-potencia",
+  "analysis": {
+    "dt": 2e-05,
+    "stop": 1,
+    "start": 1,
+    "end": 10000
+  },
+  "expected": {
+    "full_v": [
+      10.6556,
+      0.5
+    ],
+    "full_ripple": [
+      0.0888,
+      0.025
+    ],
+    "half_v": [
+      11.2562,
+      0.5
+    ],
+    "half_ripple": [
+      0.1876,
+      0.04
+    ]
+  },
+  "probes": [
+    "VAC:0",
+    "RL:0"
+  ],
+  "variants": [],
+  "board": true
+}

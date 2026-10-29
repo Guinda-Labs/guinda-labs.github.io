@@ -1,0 +1,36 @@
+{
+  "id": "iii-emisor-comun",
+  "unit": "III",
+  "title": "Emisor común con divisor y RE desviada",
+  "package": "b309-analogica-potencia",
+  "analysis": {
+    "dt": 2e-06,
+    "stop": 0.01,
+    "start": 1,
+    "end": 100000
+  },
+  "expected": {
+    "gain": [
+      91.64,
+      8
+    ],
+    "vce": [
+      7.7828,
+      0.3
+    ],
+    "zin": [
+      1588,
+      160
+    ],
+    "zout": [
+      2200,
+      5
+    ]
+  },
+  "probes": [
+    "V2:0",
+    "RL:0"
+  ],
+  "variants": [],
+  "board": true
+}

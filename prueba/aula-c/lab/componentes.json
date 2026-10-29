@@ -1,0 +1,518 @@
+{
+  "components": [
+    {
+      "id": "LM358",
+      "name": "LM358",
+      "package": {
+        "id": "DIP-8-300",
+        "name": "DIP-8-300",
+        "art": "dip",
+        "drawing": {
+          "pitchMm": 2.54,
+          "count": 8,
+          "width": 3,
+          "widthInches": 0.3
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "2",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "3",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 4,
+            "name": "4",
+            "x": 3,
+            "y": 0
+          },
+          {
+            "number": 5,
+            "name": "5",
+            "x": 3,
+            "y": 3
+          },
+          {
+            "number": 6,
+            "name": "6",
+            "x": 2,
+            "y": 3
+          },
+          {
+            "number": 7,
+            "name": "7",
+            "x": 1,
+            "y": 3
+          },
+          {
+            "number": 8,
+            "name": "8",
+            "x": 0,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C: macromodelo educativo propio, CC0-1.0. Dos opamps, ganancia 100k.\n.subckt AULAC_LM358 OUT1 INM1 INP1 VEE INP2 INM2 OUT2 VCC\nRIN1 INP1 INM1 100meg\nRIN2 INP2 INM2 100meg\nB1 OUT1 VEE V={max(0,min(V(VCC,VEE)-1.5,100000*V(INP1,INM1)))}\nB2 OUT2 VEE V={max(0,min(V(VCC,VEE)-1.5,100000*V(INP2,INM2)))}\n.ends AULAC_LM358"
+      },
+      "mapping": {
+        "1": "OUT1",
+        "2": "INM1",
+        "3": "INP1",
+        "4": "VEE",
+        "5": "INP2",
+        "6": "INM2",
+        "7": "OUT2",
+        "8": "VCC"
+      },
+      "parameters": {},
+      "manufacturer": "",
+      "datasheet": "",
+      "notes": "Modelo simplificado propio: dos amplificadores sin dinámica ni corriente de alimentación realista."
+    },
+    {
+      "id": "NE555",
+      "name": "NE555 · modelo simplificado",
+      "package": {
+        "id": "DIP-8-300",
+        "name": "DIP-8-300",
+        "art": "dip",
+        "drawing": {
+          "pitchMm": 2.54,
+          "count": 8,
+          "width": 3,
+          "widthInches": 0.3
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "2",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "3",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 4,
+            "name": "4",
+            "x": 3,
+            "y": 0
+          },
+          {
+            "number": 5,
+            "name": "5",
+            "x": 3,
+            "y": 3
+          },
+          {
+            "number": 6,
+            "name": "6",
+            "x": 2,
+            "y": 3
+          },
+          {
+            "number": 7,
+            "name": "7",
+            "x": 1,
+            "y": 3
+          },
+          {
+            "number": 8,
+            "name": "8",
+            "x": 0,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C: modelo simplificado propio CC0-1.0, comparador sin memoria.\n.subckt AULAC_NE555 GND TRIG OUT RESET CTRL THRESH DISCH VCC\nRCTRL VCC CTRL 5k\nRCTRLG CTRL GND 10k\nBOUT OUT GND V={V(RESET,GND)<0.7?0:(V(TRIG,GND)<V(VCC,GND)/3?V(VCC,GND):(V(THRESH,GND)>2*V(VCC,GND)/3?0:V(VCC,GND)/2))}\nRDIS DISCH GND 100meg\n.ends AULAC_NE555"
+      },
+      "mapping": {
+        "1": "GND",
+        "2": "TRIG",
+        "3": "OUT",
+        "4": "RESET",
+        "5": "CTRL",
+        "6": "THRESH",
+        "7": "DISCH",
+        "8": "VCC"
+      },
+      "parameters": {},
+      "notes": "Modelo simplificado: comparador sin latch, no apto para verificar temporizadores ni astables.",
+      "manufacturer": "",
+      "datasheet": ""
+    },
+    {
+      "id": "N2N2222",
+      "name": "2N2222",
+      "package": {
+        "id": "TO-92",
+        "name": "TO-92",
+        "art": "to92",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "2",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "3",
+            "x": 2,
+            "y": 0
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": ".model AULAC_2N2222 NPN(IS=1e-14 BF=100 VAF=100)"
+      },
+      "mapping": {
+        "1": "E",
+        "2": "B",
+        "3": "C"
+      },
+      "parameters": {},
+      "manufacturer": "",
+      "datasheet": "",
+      "notes": "Aproximación educativa propia. Pinout E-B-C elegido; verificar fabricante antes de montar hardware."
+    },
+    {
+      "id": "D1N4007",
+      "name": "1N4007",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "2",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": ".model AULAC_1N4007 D(IS=5n N=1.8 RS=0.05 BV=1000 IBV=5u)"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "K"
+      },
+      "parameters": {},
+      "manufacturer": "",
+      "datasheet": "",
+      "notes": "Aproximación educativa propia, sin recuperación inversa."
+    },
+    {
+      "id": "POT",
+      "name": "Potenciómetro",
+      "package": {
+        "id": "pot-3",
+        "name": "pot-3",
+        "art": "pot",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "Cursor",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "B",
+            "x": 2,
+            "y": 0
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0\n.subckt AULAC_POT A W B params: R=10000 POS=0.5\nR1 A W {R*POS+1m}\nR2 W B {R*(1-POS)+1m}\n.ends AULAC_POT"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "W",
+        "3": "B"
+      },
+      "parameters": {
+        "R": 10000,
+        "POS": 0.5
+      },
+      "notes": "Modelo resistivo educativo propio CC0-1.0.",
+      "manufacturer": "",
+      "datasheet": ""
+    },
+    {
+      "id": "BUTTON",
+      "name": "Botón táctil",
+      "package": {
+        "id": "button-4",
+        "name": "button-4",
+        "art": "button",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "A2",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "B1",
+            "x": 0,
+            "y": 3
+          },
+          {
+            "number": 4,
+            "name": "B2",
+            "x": 2,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0\n.subckt AULAC_BUTTON A1 A2 B1 B2 params: STATE=0\nR1 A1 A2 1m\nR2 B1 B2 1m\nR3 A1 B1 {STATE>0.5?0.01:1e12}\n.ends AULAC_BUTTON"
+      },
+      "mapping": {
+        "1": "A1",
+        "2": "A2",
+        "3": "B1",
+        "4": "B2"
+      },
+      "parameters": {
+        "STATE": 0
+      },
+      "notes": "Modelo resistivo educativo propio CC0-1.0.",
+      "manufacturer": "",
+      "datasheet": ""
+    },
+    {
+      "id": "SWITCH",
+      "name": "Interruptor",
+      "package": {
+        "id": "switch-3",
+        "name": "switch-3",
+        "art": "switch",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "Común",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "B",
+            "x": 2,
+            "y": 0
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0\n.subckt AULAC_SWITCH A COM B params: STATE=0\nR1 A COM {STATE>0.5?1e12:0.01}\nR2 B COM {STATE>0.5?0.01:1e12}\n.ends AULAC_SWITCH"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "COM",
+        "3": "B"
+      },
+      "parameters": {
+        "STATE": 0
+      },
+      "notes": "Modelo resistivo educativo propio CC0-1.0.",
+      "manufacturer": "",
+      "datasheet": ""
+    }
+  ],
+  "presets": [
+    {
+      "id": "R",
+      "name": "Resistencia",
+      "preset": {
+        "type": "R"
+      }
+    },
+    {
+      "id": "C",
+      "name": "Capacitor",
+      "preset": {
+        "type": "C"
+      }
+    },
+    {
+      "id": "L",
+      "name": "Inductor",
+      "preset": {
+        "type": "L"
+      }
+    },
+    {
+      "id": "V",
+      "name": "Fuente V",
+      "preset": {
+        "type": "V"
+      }
+    },
+    {
+      "id": "I",
+      "name": "Fuente I",
+      "preset": {
+        "type": "I"
+      }
+    },
+    {
+      "id": "G",
+      "name": "Tierra",
+      "preset": {
+        "type": "G"
+      }
+    },
+    {
+      "id": "D",
+      "name": "Diodo 1N4148",
+      "preset": {
+        "type": "D"
+      }
+    },
+    {
+      "id": "QN",
+      "name": "NPN 2N2222",
+      "preset": {
+        "type": "Q",
+        "polarity": "NPN"
+      }
+    },
+    {
+      "id": "QP",
+      "name": "PNP 2N3906",
+      "preset": {
+        "type": "Q",
+        "polarity": "PNP"
+      }
+    },
+    {
+      "id": "LED",
+      "name": "LED",
+      "preset": {
+        "type": "D",
+        "appearance": "led"
+      }
+    },
+    {
+      "id": "CER",
+      "name": "Cerámico",
+      "preset": {
+        "type": "C",
+        "appearance": "ceramic"
+      }
+    },
+    {
+      "id": "EL",
+      "name": "Electrolítico",
+      "preset": {
+        "type": "C",
+        "appearance": "electrolytic"
+      }
+    },
+    {
+      "id": "BAT",
+      "name": "Pila 9 V",
+      "preset": {
+        "type": "V",
+        "appearance": "battery"
+      }
+    },
+    {
+      "id": "GEN",
+      "name": "Generador con caimanes",
+      "preset": {
+        "type": "V",
+        "appearance": "generator"
+      }
+    },
+    {
+      "id": "BENCH",
+      "name": "Fuente de banco",
+      "preset": {
+        "type": "V",
+        "appearance": "bench"
+      }
+    }
+  ]
+}

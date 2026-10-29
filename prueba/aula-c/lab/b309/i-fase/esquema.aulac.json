@@ -1,0 +1,259 @@
+{
+  "version": 1,
+  "mode": "scheme",
+  "components": [
+    {
+      "id": "XRED",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "RED127",
+        "name": "Red CA 127 V eficaces / 60 Hz · modelo simplificado",
+        "package": {
+          "id": "generator",
+          "name": "Generador con dos bornes",
+          "art": "generator",
+          "drawing": {
+            "pitchMm": 2.54,
+            "span": 8
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "L",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "N",
+              "x": 8,
+              "y": 0
+            }
+          ],
+          "symbol": "V"
+        },
+        "spice": {
+          "text": "* AULA-C original CC0-1.0; modelo simplificado\n.subckt B309_RED127 L N\nVRED L N SIN(0 179.605122 60)\n.ends B309_RED127"
+        },
+        "mapping": {
+          "1": "L",
+          "2": "N"
+        },
+        "parameters": {},
+        "source": "AULA-C; ecuaciones SPICE y macromodelos originales, sin consulta de red ni ajuste a fabricante.",
+        "license": "CC0-1.0",
+        "notes": "Modelo simplificado didáctico. PELIGRO: SOLO SIMULACIÓN. Nunca conectar la red a protoboard, USB, instrumentos sin aislamiento ni cuerpo humano."
+      },
+      "x": 100,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "XT",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "TRIAC",
+        "name": "TRIAC tipo BT136 · modelo simplificado",
+        "package": {
+          "id": "TO-220",
+          "name": "TO-220",
+          "art": "to220",
+          "drawing": {
+            "pitchMm": 2.54
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "MT1",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "MT2",
+              "x": 1,
+              "y": 0
+            },
+            {
+              "number": 3,
+              "name": "G",
+              "x": 2,
+              "y": 0
+            }
+          ],
+          "symbol": "box"
+        },
+        "spice": {
+          "text": "* AULA-C original CC0-1.0; modelo simplificado\n.subckt B309_TRIAC MT1 MT2 G\nBMAIN MT2 MT1 I={V(MT2,MT1)*(1e-9+5*V(STATE))}\nCSTATE STATE 0 5n\nRSTATE STATE 0 1G\nBMEM STATE 0 I={(V(STATE)-max((1+tanh((abs(V(G,MT1))-0.7)/0.02))/2,(1+tanh((abs(V(MT2,MT1))*5*V(STATE)-0.01)/0.0005))/2))/1000}\nRGATE G MT1 1k\n\n.ends B309_TRIAC"
+        },
+        "mapping": {
+          "1": "MT1",
+          "2": "MT2",
+          "3": "G"
+        },
+        "parameters": {},
+        "source": "AULA-C; ecuaciones SPICE y macromodelos originales, sin consulta de red ni ajuste a fabricante.",
+        "license": "CC0-1.0",
+        "notes": "Modelo simplificado didáctico. Conductancia bilateral con memoria RC de 5 µs y mantenimiento 10 mA. RON=0.2 Ω. Sin cuadrantes, dv/dt ni recuperación. El SCR separado sí usa dos transistores."
+      },
+      "x": 270,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "XD",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "DIAC",
+        "name": "DIAC tipo DB3 · modelo simplificado",
+        "package": {
+          "id": "axial",
+          "name": "axial",
+          "art": "axial",
+          "drawing": {
+            "pitchMm": 2.54,
+            "span": 4
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "A",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "K",
+              "x": 4,
+              "y": 0
+            }
+          ],
+          "symbol": "R"
+        },
+        "spice": {
+          "text": "* AULA-C original CC0-1.0; modelo simplificado\n.subckt B309_DIAC A K\nB1 A K I={V(A,K)>0 ? max(V(A,K)-32,0)/10 : -max(-V(A,K)-32,0)/10}\nRLEAK A K 10G\n.ends B309_DIAC"
+        },
+        "mapping": {
+          "1": "A",
+          "2": "K"
+        },
+        "parameters": {},
+        "source": "AULA-C; ecuaciones SPICE y macromodelos originales, sin consulta de red ni ajuste a fabricante.",
+        "license": "CC0-1.0",
+        "notes": "Modelo simplificado didáctico. Ruptura bilateral a 32 V, pendiente 10 Ω. Sin snapback ni histéresis; aproximación continua para control de fase, no curva DB3 comercial."
+      },
+      "x": 440,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "RT",
+      "type": "R",
+      "value": 100000,
+      "x": 610,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "CT",
+      "type": "C",
+      "value": 1e-07,
+      "x": 780,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "RG",
+      "type": "R",
+      "value": 100,
+      "x": 100,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "RL",
+      "type": "R",
+      "value": 100,
+      "x": 270,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "G1",
+      "type": "G",
+      "value": 0,
+      "x": 440,
+      "y": 230,
+      "rotation": 0
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "a": "XRED:0",
+      "b": "XT:1"
+    },
+    {
+      "id": "w2",
+      "a": "XRED:0",
+      "b": "RT:0"
+    },
+    {
+      "id": "w3",
+      "a": "XRED:1",
+      "b": "RL:1"
+    },
+    {
+      "id": "w4",
+      "a": "XRED:1",
+      "b": "G1:0"
+    },
+    {
+      "id": "w5",
+      "a": "RT:1",
+      "b": "CT:0"
+    },
+    {
+      "id": "w6",
+      "a": "RT:1",
+      "b": "XD:0"
+    },
+    {
+      "id": "w7",
+      "a": "XD:1",
+      "b": "RG:0"
+    },
+    {
+      "id": "w8",
+      "a": "RG:1",
+      "b": "XT:2"
+    },
+    {
+      "id": "w9",
+      "a": "XT:0",
+      "b": "RL:0"
+    },
+    {
+      "id": "w10",
+      "a": "XT:0",
+      "b": "CT:1"
+    }
+  ],
+  "b309": {
+    "package": "b309-analogica-potencia",
+    "practice": "i-fase",
+    "probes": [
+      "XRED:0",
+      "RL:0"
+    ],
+    "analysis": {
+      "dt": 5e-06,
+      "stop": 0.15,
+      "start": 1,
+      "end": 10000
+    }
+  }
+}

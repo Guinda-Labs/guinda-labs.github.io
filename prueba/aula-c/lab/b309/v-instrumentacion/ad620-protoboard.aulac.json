@@ -1,0 +1,862 @@
+{
+  "version": 1,
+  "mode": "board",
+  "components": [
+    {
+      "id": "VCM",
+      "type": "V",
+      "value": 0,
+      "ac": 0,
+      "wave": {
+        "type": "sin",
+        "args": [
+          0,
+          0.1,
+          60
+        ]
+      },
+      "x": 100,
+      "y": 430,
+      "rotation": 90,
+      "schematic": {
+        "label": [
+          0,
+          80
+        ]
+      }
+    },
+    {
+      "id": "VD",
+      "type": "V",
+      "value": 0,
+      "ac": 1,
+      "wave": {
+        "type": "sin",
+        "args": [
+          0,
+          0.001,
+          10
+        ]
+      },
+      "x": 100,
+      "y": 280,
+      "rotation": 90,
+      "schematic": {
+        "label": [
+          -5,
+          -65
+        ]
+      }
+    },
+    {
+      "id": "VRUIDO",
+      "type": "V",
+      "value": 0,
+      "ac": 0,
+      "wave": {
+        "type": "sin",
+        "args": [
+          0,
+          1e-05,
+          137
+        ]
+      },
+      "x": 290,
+      "y": 240,
+      "rotation": 0,
+      "schematic": {
+        "label": [
+          0,
+          -40
+        ]
+      }
+    },
+    {
+      "id": "VP",
+      "type": "V",
+      "value": 12,
+      "ac": 0,
+      "x": 560,
+      "y": 80,
+      "rotation": 0,
+      "schematic": {
+        "label": [
+          0,
+          -38
+        ]
+      }
+    },
+    {
+      "id": "VN",
+      "type": "V",
+      "value": -12,
+      "ac": 0,
+      "x": 800,
+      "y": 80,
+      "rotation": 0,
+      "schematic": {
+        "label": [
+          0,
+          -38
+        ]
+      }
+    },
+    {
+      "id": "XI",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "AD620",
+        "name": "AD620 · amplificador de instrumentación",
+        "manufacturer": "Analog Devices",
+        "package": {
+          "id": "DIP-8-300",
+          "name": "DIP-8-300",
+          "art": "dip",
+          "drawing": {
+            "pitchMm": 2.54,
+            "count": 8,
+            "width": 3,
+            "widthInches": 0.3
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "RG",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "−IN",
+              "x": 1,
+              "y": 0
+            },
+            {
+              "number": 3,
+              "name": "+IN",
+              "x": 2,
+              "y": 0
+            },
+            {
+              "number": 4,
+              "name": "−VS",
+              "x": 3,
+              "y": 0
+            },
+            {
+              "number": 5,
+              "name": "REF",
+              "x": 3,
+              "y": 3
+            },
+            {
+              "number": 6,
+              "name": "OUTPUT",
+              "x": 2,
+              "y": 3
+            },
+            {
+              "number": 7,
+              "name": "+VS",
+              "x": 1,
+              "y": 3
+            },
+            {
+              "number": 8,
+              "name": "RG",
+              "x": 0,
+              "y": 3
+            }
+          ],
+          "symbol": "box"
+        },
+        "spice": {
+          "text": "* CC0-1.0; modelo conductual AULA-C a partir de la hoja de datos; no es el modelo del fabricante\n.subckt B309_AD620 RG1 INM INP VN REF OUT VP RG8\n* Dos op-amps de entrada: Aol=1e9, polo dominante; RG es EXTERNA.\nE1 D1 0 INP RG1 1e9\nRP1 D1 A 1\nCP1 A 0 {1e9/(6.283185307179586*13000000)}\nE2 D2 0 INM RG8 1e9\nRP2 D2 B 1\nCP2 B 0 {1e9/(6.283185307179586*13000000)}\nR1 A RG1 24700\nR2 B RG8 24700\n* La etapa diferencial limita la banda tambien con RG abierta.\n* Tercer op-amp, restador unidad con red didactica, no del fabricante.\nR3 B F3 10k\nR4 DIFF F3 10k\nR5 A P3 10k\nR6 P3 REF 10k\nE3 DIFF REF P3 F3 1e9\nRDIFF DIFF DF 1\nCDIFF DF REF 1.7299450336075582e-07\nBCM RAW 0 V={V(DF)+0.000316227766*(V(INP)+V(INM))/2}\n* Sin tensión suficiente entre 7 y 4 no hay salida activa.\nBOUT OUT 0 V={V(VP,VN)>2.4 ? max(V(VN)+1.2,min(V(VP)-1.2,V(RAW))) : 0}\nBIQ VP VN I={0.0009*min(1,max(0,V(VP,VN)/2.4))}\nRVP VP 0 1e12\nRVN VN 0 1e12\n.ends B309_AD620"
+        },
+        "mapping": {
+          "1": "RG1",
+          "2": "INM",
+          "3": "INP",
+          "4": "VN",
+          "5": "REF",
+          "6": "OUT",
+          "7": "VP",
+          "8": "RG8"
+        },
+        "parameters": {},
+        "license": "CC0-1.0",
+        "source": "AULA-C, macromodelo original. Hoja de datos: AD620: Low Cost, Low Power Instrumentation Amplifier, Rev. H. Sin descarga ni copia de netlist.",
+        "datasheet": "https://www.analog.com/media/en/technical-documentation/data-sheets/AD620.pdf",
+        "notes": "Cifras típicas de la hoja de datos, aproximadas para docencia: G=1+49400/RG; sin RG G=1; CMRR a G=100 ≈110 dB; IQ≈0.9 mA. Margen de salida didáctico fijo 1.2 V por riel. Banda determinada por el lazo de entrada y el polo diferencial; no supone BW=GBW/G del chip completo. No reproduce límites de modo común, ruido, offset, slew rate, temperatura, corriente de carga ni protecciones. No usar para verificar seguridad clínica.",
+        "bandwidthReference": [
+          {
+            "gain": 1,
+            "typicalHz": 1000000,
+            "source": "AD620 rev. H, SPECIFICATIONS, DYNAMIC RESPONSE, Small Signal −3 dB Bandwidth; sin verificar contra el PDF"
+          },
+          {
+            "gain": 10,
+            "typicalHz": 800000,
+            "source": "AD620 rev. H, SPECIFICATIONS, DYNAMIC RESPONSE, Small Signal −3 dB Bandwidth; sin verificar contra el PDF"
+          },
+          {
+            "gain": 100,
+            "typicalHz": 120000,
+            "source": "AD620 rev. H, SPECIFICATIONS, DYNAMIC RESPONSE, Small Signal −3 dB Bandwidth; sin verificar contra el PDF"
+          },
+          {
+            "gain": 1000,
+            "typicalHz": 12000,
+            "source": "AD620 rev. H, SPECIFICATIONS, DYNAMIC RESPONSE, Small Signal −3 dB Bandwidth; sin verificar contra el PDF"
+          }
+        ]
+      },
+      "x": 600,
+      "y": 300,
+      "rotation": 0,
+      "schematic": {
+        "pins": [
+          [
+            -125,
+            -65
+          ],
+          [
+            -75,
+            30
+          ],
+          [
+            -75,
+            -30
+          ],
+          [
+            0,
+            85
+          ],
+          [
+            35,
+            85
+          ],
+          [
+            85,
+            0
+          ],
+          [
+            0,
+            -85
+          ],
+          [
+            -125,
+            65
+          ]
+        ],
+        "label": [
+          0,
+          -110
+        ]
+      }
+    },
+    {
+      "id": "RL",
+      "type": "R",
+      "value": 10000,
+      "x": 990,
+      "y": 380,
+      "rotation": 90,
+      "schematic": {
+        "label": [
+          75,
+          0
+        ]
+      }
+    },
+    {
+      "id": "G1",
+      "type": "G",
+      "value": 0,
+      "x": 480,
+      "y": 550,
+      "rotation": 0,
+      "schematic": {
+        "label": [
+          0,
+          48
+        ]
+      }
+    },
+    {
+      "id": "RG",
+      "type": "R",
+      "value": 499,
+      "x": 380,
+      "y": 300,
+      "rotation": 90,
+      "schematic": {
+        "label": [
+          0,
+          85
+        ]
+      }
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "a": "VCM:0",
+      "b": "VD:1",
+      "points": [
+        [
+          100,
+          390
+        ],
+        [
+          100,
+          320
+        ]
+      ]
+    },
+    {
+      "id": "w2",
+      "a": "VCM:0",
+      "b": "XI:1",
+      "points": [
+        [
+          100,
+          390
+        ],
+        [
+          100,
+          350
+        ],
+        [
+          460,
+          350
+        ],
+        [
+          460,
+          330
+        ],
+        [
+          525,
+          330
+        ]
+      ]
+    },
+    {
+      "id": "w3",
+      "a": "VD:0",
+      "b": "VRUIDO:1",
+      "points": [
+        [
+          100,
+          240
+        ],
+        [
+          330,
+          240
+        ]
+      ]
+    },
+    {
+      "id": "w4",
+      "a": "VRUIDO:0",
+      "b": "XI:2",
+      "points": [
+        [
+          250,
+          240
+        ],
+        [
+          420,
+          240
+        ],
+        [
+          420,
+          270
+        ],
+        [
+          525,
+          270
+        ]
+      ]
+    },
+    {
+      "id": "w5",
+      "a": "VP:0",
+      "b": "XI:6",
+      "points": [
+        [
+          520,
+          80
+        ],
+        [
+          520,
+          150
+        ],
+        [
+          600,
+          150
+        ],
+        [
+          600,
+          215
+        ]
+      ]
+    },
+    {
+      "id": "w6",
+      "a": "VN:0",
+      "b": "XI:3",
+      "points": [
+        [
+          760,
+          80
+        ],
+        [
+          760,
+          430
+        ],
+        [
+          600,
+          430
+        ],
+        [
+          600,
+          385
+        ]
+      ]
+    },
+    {
+      "id": "w7",
+      "a": "XI:5",
+      "b": "RL:0",
+      "points": [
+        [
+          685,
+          300
+        ],
+        [
+          990,
+          300
+        ],
+        [
+          990,
+          340
+        ]
+      ]
+    },
+    {
+      "id": "w8",
+      "a": "VCM:1",
+      "b": "VP:1",
+      "points": [
+        [
+          100,
+          470
+        ],
+        [
+          100,
+          550
+        ],
+        [
+          1180,
+          550
+        ],
+        [
+          1180,
+          20
+        ],
+        [
+          600,
+          20
+        ],
+        [
+          600,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "w9",
+      "a": "VCM:1",
+      "b": "VN:1",
+      "points": [
+        [
+          100,
+          470
+        ],
+        [
+          100,
+          550
+        ],
+        [
+          840,
+          550
+        ],
+        [
+          840,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "w10",
+      "a": "VCM:1",
+      "b": "XI:4",
+      "points": [
+        [
+          100,
+          470
+        ],
+        [
+          100,
+          550
+        ],
+        [
+          635,
+          550
+        ],
+        [
+          635,
+          385
+        ]
+      ]
+    },
+    {
+      "id": "w13",
+      "a": "VCM:1",
+      "b": "RL:1",
+      "points": [
+        [
+          100,
+          470
+        ],
+        [
+          100,
+          550
+        ],
+        [
+          990,
+          550
+        ],
+        [
+          990,
+          420
+        ]
+      ]
+    },
+    {
+      "id": "w14",
+      "a": "VCM:1",
+      "b": "G1:0",
+      "points": [
+        [
+          100,
+          470
+        ],
+        [
+          100,
+          550
+        ],
+        [
+          480,
+          550
+        ]
+      ]
+    },
+    {
+      "id": "w15",
+      "a": "XI:0",
+      "b": "RG:0",
+      "points": [
+        [
+          475,
+          235
+        ],
+        [
+          380,
+          235
+        ],
+        [
+          380,
+          260
+        ]
+      ]
+    },
+    {
+      "id": "w16",
+      "a": "XI:7",
+      "b": "RG:1",
+      "points": [
+        [
+          475,
+          365
+        ],
+        [
+          380,
+          365
+        ],
+        [
+          380,
+          340
+        ]
+      ]
+    }
+  ],
+  "b309": {
+    "package": "b309-analogica-potencia",
+    "practice": "v-instrumentacion",
+    "probes": [
+      "VD:0",
+      "XI:5"
+    ],
+    "analysis": {
+      "dt": 1e-05,
+      "stop": 0.3,
+      "start": 1,
+      "end": 1000
+    },
+    "chip": "AD620"
+  },
+  "physical": {
+    "placements": {
+      "VCM": {
+        "holes": [
+          "a:1",
+          "a:2"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "VD": {
+        "holes": [
+          "a:4",
+          "a:5"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "VRUIDO": {
+        "holes": [
+          "a:7",
+          "a:8"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "VP": {
+        "holes": [
+          "a:10",
+          "a:11"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "VN": {
+        "holes": [
+          "a:13",
+          "a:14"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "XI": {
+        "holes": [
+          "e:18",
+          "e:19",
+          "e:20",
+          "e:21",
+          "f:21",
+          "f:20",
+          "f:19",
+          "f:18"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "RL": {
+        "holes": [
+          "a:24",
+          "a:25"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "G1": {
+        "holes": [
+          "a:28"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "RG": {
+        "holes": [
+          "a:31",
+          "a:35"
+        ],
+        "rotation": 0,
+        "span": 4
+      }
+    },
+    "wires": [
+      {
+        "id": "w1",
+        "a": "d:1",
+        "b": "d:5",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w2",
+        "a": "d:1",
+        "b": "d:19",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w3",
+        "a": "d:4",
+        "b": "d:8",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w4",
+        "a": "d:7",
+        "b": "d:20",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w5",
+        "a": "d:10",
+        "b": "i:19",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w6",
+        "a": "d:13",
+        "b": "d:21",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w7",
+        "a": "i:20",
+        "b": "d:24",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w8",
+        "a": "d:2",
+        "b": "d:11",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w9",
+        "a": "d:2",
+        "b": "d:14",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w10",
+        "a": "d:2",
+        "b": "i:21",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w13",
+        "a": "d:2",
+        "b": "d:25",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w14",
+        "a": "d:2",
+        "b": "d:28",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w15",
+        "a": "d:18",
+        "b": "d:31",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w16",
+        "a": "i:18",
+        "b": "d:35",
+        "color": "#4985cf"
+      }
+    ],
+    "ground": "a:28"
+  },
+  "logicalRequest": [
+    {
+      "id": "w1",
+      "a": "VCM:0",
+      "b": "VD:1"
+    },
+    {
+      "id": "w2",
+      "a": "VCM:0",
+      "b": "XI:1"
+    },
+    {
+      "id": "w3",
+      "a": "VD:0",
+      "b": "VRUIDO:1"
+    },
+    {
+      "id": "w4",
+      "a": "VRUIDO:0",
+      "b": "XI:2"
+    },
+    {
+      "id": "w5",
+      "a": "VP:0",
+      "b": "XI:6"
+    },
+    {
+      "id": "w6",
+      "a": "VN:0",
+      "b": "XI:3"
+    },
+    {
+      "id": "w7",
+      "a": "XI:5",
+      "b": "RL:0"
+    },
+    {
+      "id": "w8",
+      "a": "VCM:1",
+      "b": "VP:1"
+    },
+    {
+      "id": "w9",
+      "a": "VCM:1",
+      "b": "VN:1"
+    },
+    {
+      "id": "w10",
+      "a": "VCM:1",
+      "b": "XI:4"
+    },
+    {
+      "id": "w13",
+      "a": "VCM:1",
+      "b": "RL:1"
+    },
+    {
+      "id": "w14",
+      "a": "VCM:1",
+      "b": "G1:0"
+    },
+    {
+      "id": "w15",
+      "a": "XI:0",
+      "b": "RG:0"
+    },
+    {
+      "id": "w16",
+      "a": "XI:7",
+      "b": "RG:1"
+    }
+  ],
+  "schematicVersion": 1
+}

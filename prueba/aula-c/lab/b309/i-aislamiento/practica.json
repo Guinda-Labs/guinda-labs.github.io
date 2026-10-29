@@ -1,0 +1,32 @@
+{
+  "id": "i-aislamiento",
+  "unit": "I",
+  "title": "Aislamiento óptico con MOC3021 y 4N25",
+  "package": "b309-analogica-potencia",
+  "analysis": {
+    "dt": 1e-05,
+    "stop": 0.005,
+    "start": 1,
+    "end": 10000
+  },
+  "expected": {
+    "collector_v": [
+      2.898,
+      0.05
+    ],
+    "load_v": [
+      11.7647,
+      0.05
+    ],
+    "dark_v": [
+      5,
+      0.01
+    ]
+  },
+  "probes": [
+    "VLED:0",
+    "XO:4"
+  ],
+  "variants": [],
+  "board": true
+}

@@ -1,0 +1,28 @@
+{
+  "id": "v-sallen-key",
+  "unit": "V",
+  "title": "Sallen-Key pasabajas de segundo orden",
+  "package": "b309-analogica-potencia",
+  "analysis": {
+    "dt": 2e-06,
+    "stop": 0.02,
+    "start": 10,
+    "end": 100000
+  },
+  "expected": {
+    "cutoff_hz": [
+      1591.549,
+      40
+    ],
+    "gain": [
+      1.586,
+      0.01
+    ]
+  },
+  "probes": [
+    "VIN:0",
+    "XA:0"
+  ],
+  "variants": [],
+  "board": true
+}

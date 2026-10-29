@@ -1,0 +1,28 @@
+{
+  "id": "ii-buck",
+  "unit": "II",
+  "title": "Convertidor reductor PWM",
+  "package": "b309-analogica-potencia",
+  "analysis": {
+    "dt": 5e-06,
+    "stop": 0.2,
+    "start": 10,
+    "end": 100000
+  },
+  "expected": {
+    "output_v": [
+      5.878,
+      0.15
+    ],
+    "ripple_v": [
+      0.00094,
+      0.0005
+    ]
+  },
+  "probes": [
+    "VIN:0",
+    "RL:0"
+  ],
+  "variants": [],
+  "board": true
+}

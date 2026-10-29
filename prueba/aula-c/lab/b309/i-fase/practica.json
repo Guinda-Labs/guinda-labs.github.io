@@ -1,0 +1,43 @@
+{
+  "id": "i-fase",
+  "unit": "I",
+  "title": "Control de fase TRIAC y DIAC",
+  "package": "b309-analogica-potencia",
+  "analysis": {
+    "dt": 5e-06,
+    "stop": 0.15,
+    "start": 1,
+    "end": 10000
+  },
+  "expected": {
+    "alpha_47000": [
+      57.0028,
+      3
+    ],
+    "power_47000": [
+      133.6621,
+      5
+    ],
+    "alpha_100000": [
+      99.4729,
+      3
+    ],
+    "power_100000": [
+      63.8224,
+      5
+    ]
+  },
+  "probes": [
+    "XRED:0",
+    "RL:0"
+  ],
+  "variants": [
+    {
+      "RT": 47000
+    },
+    {
+      "RT": 100000
+    }
+  ],
+  "board": false
+}

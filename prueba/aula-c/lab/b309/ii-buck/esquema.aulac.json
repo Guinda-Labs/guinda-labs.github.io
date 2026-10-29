@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "mode": "scheme",
+  "components": [
+    {
+      "id": "VIN",
+      "type": "V",
+      "value": 12,
+      "ac": 0,
+      "x": 100,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "VPWM",
+      "type": "V",
+      "value": 0,
+      "ac": 0,
+      "wave": {
+        "type": "pulse",
+        "args": [
+          0,
+          10,
+          0,
+          1e-07,
+          1e-07,
+          2.49e-05,
+          5e-05
+        ]
+      },
+      "x": 270,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "XM",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "IRF540",
+        "name": "MOSFET de potencia tipo IRF540 · modelo simplificado",
+        "package": {
+          "id": "TO-220",
+          "name": "TO-220",
+          "art": "to220",
+          "drawing": {
+            "pitchMm": 2.54
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "G",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "D",
+              "x": 1,
+              "y": 0
+            },
+            {
+              "number": 3,
+              "name": "S",
+              "x": 2,
+              "y": 0
+            }
+          ],
+          "symbol": "box"
+        },
+        "spice": {
+          "text": "* AULA-C original CC0-1.0; modelo simplificado\n.subckt B309_IRF540 G D S\nM1 DI GI SI SI POWER W=1 L=1\nRD D DI 0.01\nRS S SI 0.01\nRG G GI 10\nRGS GI SI 100meg\nDB SI DI BODY\n.model POWER NMOS(LEVEL=1 VTO=3 KP=2 LAMBDA=0.001)\n.model BODY D(IS=1e-9 N=1.5 RS=0.05)\n.ends B309_IRF540"
+        },
+        "mapping": {
+          "1": "G",
+          "2": "D",
+          "3": "S"
+        },
+        "parameters": {},
+        "source": "AULA-C; ecuaciones SPICE y macromodelos originales, sin consulta de red ni ajuste a fabricante.",
+        "license": "CC0-1.0",
+        "notes": "Modelo simplificado didáctico. MOS nivel 1, KP=2 A/V². Sin avalancha, recuperación ni pérdidas térmicas; no caracteriza IRF540."
+      },
+      "x": 440,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "XD",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "D1N5819",
+        "name": "Schottky tipo 1N5819 · modelo simplificado",
+        "package": {
+          "id": "axial",
+          "name": "axial",
+          "art": "axial",
+          "drawing": {
+            "pitchMm": 2.54,
+            "span": 4
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "A",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "K",
+              "x": 4,
+              "y": 0
+            }
+          ],
+          "symbol": "R"
+        },
+        "spice": {
+          "text": "* AULA-C original CC0-1.0; modelo simplificado\n.subckt B309_D1N5819 A K\nD1 A K SCH\n.model SCH D(IS=10u N=1.05 RS=0.02 BV=40)\n.ends B309_D1N5819"
+        },
+        "mapping": {
+          "1": "A",
+          "2": "K"
+        },
+        "parameters": {},
+        "source": "AULA-C; ecuaciones SPICE y macromodelos originales, sin consulta de red ni ajuste a fabricante.",
+        "license": "CC0-1.0",
+        "notes": "Modelo simplificado didáctico. Schottky aproximado, sin capacitancia ni recuperación de portadores minoritarios; no sustituye validación de límites."
+      },
+      "x": 610,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "L1",
+      "type": "L",
+      "value": 0.01,
+      "x": 780,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "C1",
+      "type": "C",
+      "value": 0.0001,
+      "x": 100,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "RL",
+      "type": "R",
+      "value": 100,
+      "x": 270,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "G1",
+      "type": "G",
+      "value": 0,
+      "x": 440,
+      "y": 230,
+      "rotation": 0
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "a": "VIN:0",
+      "b": "XM:1"
+    },
+    {
+      "id": "w2",
+      "a": "VIN:1",
+      "b": "XD:0"
+    },
+    {
+      "id": "w3",
+      "a": "VIN:1",
+      "b": "C1:1"
+    },
+    {
+      "id": "w4",
+      "a": "VIN:1",
+      "b": "RL:1"
+    },
+    {
+      "id": "w5",
+      "a": "VIN:1",
+      "b": "G1:0"
+    },
+    {
+      "id": "w6",
+      "a": "VPWM:0",
+      "b": "XM:0"
+    },
+    {
+      "id": "w7",
+      "a": "VPWM:1",
+      "b": "XM:2"
+    },
+    {
+      "id": "w8",
+      "a": "VPWM:1",
+      "b": "XD:1"
+    },
+    {
+      "id": "w9",
+      "a": "VPWM:1",
+      "b": "L1:0"
+    },
+    {
+      "id": "w10",
+      "a": "L1:1",
+      "b": "C1:0"
+    },
+    {
+      "id": "w11",
+      "a": "L1:1",
+      "b": "RL:0"
+    }
+  ],
+  "b309": {
+    "package": "b309-analogica-potencia",
+    "practice": "ii-buck",
+    "probes": [
+      "VIN:0",
+      "RL:0"
+    ],
+    "analysis": {
+      "dt": 5e-06,
+      "stop": 0.2,
+      "start": 10,
+      "end": 100000
+    }
+  }
+}

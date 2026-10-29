@@ -1,0 +1,1 @@
+{"id":"LED-3mm","name":"LED-3mm","art":"led","drawing":{"pitchMm":2.54,"diameterMm":3},"pins":[{"number":1,"name":"A","x":0,"y":0},{"number":2,"name":"K","x":1,"y":0}],"symbol":"D"}

@@ -1,0 +1,2217 @@
+{
+  "id": "upiita-v0",
+  "format": "aulac-paquete",
+  "schema": 1,
+  "name": "UPIITA · Electrónica v0",
+  "unit": "UPIITA-IPN",
+  "academy": "Electrónica",
+  "version": "0",
+  "status": "propuesta v0, pendiente de revisión de academias",
+  "components": [
+    {
+      "id": "R100",
+      "name": "Resistencia 100 Ω",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_R100 A B params: R=100\nR1 A B {R}\n.ends UPIITA_R100"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "B"
+      },
+      "parameters": {
+        "R": 100
+      },
+      "notes": "Resistencia ideal propia CC0-1.0.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "resistor"
+    },
+    {
+      "id": "R220",
+      "name": "Resistencia 220 Ω",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_R220 A B params: R=220\nR1 A B {R}\n.ends UPIITA_R220"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "B"
+      },
+      "parameters": {
+        "R": 220
+      },
+      "notes": "Resistencia ideal propia CC0-1.0.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "resistor"
+    },
+    {
+      "id": "R470",
+      "name": "Resistencia 470 Ω",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_R470 A B params: R=470\nR1 A B {R}\n.ends UPIITA_R470"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "B"
+      },
+      "parameters": {
+        "R": 470
+      },
+      "notes": "Resistencia ideal propia CC0-1.0.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "resistor"
+    },
+    {
+      "id": "R1K",
+      "name": "Resistencia 1 kΩ",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_R1K A B params: R=1000\nR1 A B {R}\n.ends UPIITA_R1K"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "B"
+      },
+      "parameters": {
+        "R": 1000
+      },
+      "notes": "Resistencia ideal propia CC0-1.0.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "resistor"
+    },
+    {
+      "id": "R4K7",
+      "name": "Resistencia 4.7 kΩ",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_R4K7 A B params: R=4700\nR1 A B {R}\n.ends UPIITA_R4K7"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "B"
+      },
+      "parameters": {
+        "R": 4700
+      },
+      "notes": "Resistencia ideal propia CC0-1.0.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "resistor"
+    },
+    {
+      "id": "R10K",
+      "name": "Resistencia 10 kΩ",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_R10K A B params: R=10000\nR1 A B {R}\n.ends UPIITA_R10K"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "B"
+      },
+      "parameters": {
+        "R": 10000
+      },
+      "notes": "Resistencia ideal propia CC0-1.0.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "resistor"
+    },
+    {
+      "id": "R100K",
+      "name": "Resistencia 100 kΩ",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_R100K A B params: R=100000\nR1 A B {R}\n.ends UPIITA_R100K"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "B"
+      },
+      "parameters": {
+        "R": 100000
+      },
+      "notes": "Resistencia ideal propia CC0-1.0.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "resistor"
+    },
+    {
+      "id": "POT10K",
+      "name": "Potenciómetro 10 kΩ",
+      "package": {
+        "id": "pot-3",
+        "name": "pot-3",
+        "art": "pot",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "W",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "B",
+            "x": 2,
+            "y": 0
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_POT10K A W B params: R=10000 POS=0.5\nR1 A W {R*max(0,min(1,POS))+1m}\nR2 W B {R*(1-max(0,min(1,POS)))+1m}\n.ends UPIITA_POT10K"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "W",
+        "3": "B"
+      },
+      "parameters": {
+        "R": 10000,
+        "POS": 0.5
+      },
+      "notes": "Modelo simplificado educativo propio CC0-1.0.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "C10N",
+      "name": "Capacitor 10 nF",
+      "package": {
+        "id": "radial",
+        "name": "radial",
+        "art": "radial",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "P",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "N",
+            "x": 1,
+            "y": 0
+          }
+        ],
+        "symbol": "C"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_C10N P N params: C=1e-8\nC1 P N {C}\n.ends UPIITA_C10N"
+      },
+      "mapping": {
+        "1": "P",
+        "2": "N"
+      },
+      "parameters": {
+        "C": 1e-8
+      },
+      "notes": "Capacitor ideal propio CC0-1.0; sin ESR ni ruptura.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "ceramic"
+    },
+    {
+      "id": "C100N",
+      "name": "Capacitor 100 nF",
+      "package": {
+        "id": "radial",
+        "name": "radial",
+        "art": "radial",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "P",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "N",
+            "x": 1,
+            "y": 0
+          }
+        ],
+        "symbol": "C"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_C100N P N params: C=1e-7\nC1 P N {C}\n.ends UPIITA_C100N"
+      },
+      "mapping": {
+        "1": "P",
+        "2": "N"
+      },
+      "parameters": {
+        "C": 1e-7
+      },
+      "notes": "Capacitor ideal propio CC0-1.0; sin ESR ni ruptura.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "ceramic"
+    },
+    {
+      "id": "C1U",
+      "name": "Capacitor 1 µF",
+      "package": {
+        "id": "radial",
+        "name": "radial",
+        "art": "radial",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "P",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "N",
+            "x": 1,
+            "y": 0
+          }
+        ],
+        "symbol": "C"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_C1U P N params: C=0.000001\nC1 P N {C}\n.ends UPIITA_C1U"
+      },
+      "mapping": {
+        "1": "P",
+        "2": "N"
+      },
+      "parameters": {
+        "C": 0.000001
+      },
+      "notes": "Capacitor ideal propio CC0-1.0; sin ESR ni ruptura.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "ceramic"
+    },
+    {
+      "id": "C10U",
+      "name": "Capacitor 10 µF electrolítico",
+      "package": {
+        "id": "radial",
+        "name": "radial",
+        "art": "radial",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "P",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "N",
+            "x": 1,
+            "y": 0
+          }
+        ],
+        "symbol": "C"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_C10U P N params: C=0.00001\nC1 P N {C}\n.ends UPIITA_C10U"
+      },
+      "mapping": {
+        "1": "P",
+        "2": "N"
+      },
+      "parameters": {
+        "C": 0.00001
+      },
+      "notes": "Capacitor ideal propio CC0-1.0; sin ESR ni ruptura.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "electrolytic"
+    },
+    {
+      "id": "L10M",
+      "name": "Inductor 10 mH",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_L10M A B params: L=0.01\nL1 A B {L}\nR1 A B 1g\n.ends UPIITA_L10M"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "B"
+      },
+      "parameters": {
+        "L": 0.01
+      },
+      "notes": "Inductor ideal propio CC0-1.0.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "inductor"
+    },
+    {
+      "id": "L100M",
+      "name": "Inductor 100 mH",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_L100M A B params: L=0.1\nL1 A B {L}\nR1 A B 1g\n.ends UPIITA_L100M"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "B"
+      },
+      "parameters": {
+        "L": 0.1
+      },
+      "notes": "Inductor ideal propio CC0-1.0.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "inductor"
+    },
+    {
+      "id": "D1N4148",
+      "name": "1N4148",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "K",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": ".model UPIITA_D1N4148 D(IS=2.52n N=1.752 RS=0.568 BV=100 IBV=100u CJO=4p TT=20n)"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "K"
+      },
+      "parameters": {},
+      "notes": "Parámetros públicos típicos, selección educativa propia CC0-1.0; sin ajuste a fabricante.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "diode"
+    },
+    {
+      "id": "D1N4007",
+      "name": "1N4007",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "K",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": ".model UPIITA_D1N4007 D(IS=5n N=1.8 RS=0.05 BV=1000 IBV=5u)"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "K"
+      },
+      "parameters": {},
+      "notes": "Parámetros públicos típicos, selección educativa propia CC0-1.0; sin ajuste a fabricante.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "diode"
+    },
+    {
+      "id": "Z5V1",
+      "name": "Zener 5.1 V",
+      "package": {
+        "id": "axial",
+        "name": "axial",
+        "art": "axial",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 4
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "K",
+            "x": 4,
+            "y": 0
+          }
+        ],
+        "symbol": "R"
+      },
+      "spice": {
+        "text": ".model UPIITA_Z5V1 D(IS=1n N=1.5 RS=2 BV=5.1 IBV=1m)"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "K"
+      },
+      "parameters": {},
+      "notes": "Parámetros públicos típicos, selección educativa propia CC0-1.0; sin ajuste a fabricante.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "diode"
+    },
+    {
+      "id": "LED_ROJO",
+      "name": "LED rojo",
+      "package": {
+        "id": "LED-5mm",
+        "name": "LED-5mm",
+        "art": "led",
+        "drawing": {
+          "pitchMm": 2.54,
+          "diameterMm": 5
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "K",
+            "x": 1,
+            "y": 0
+          }
+        ],
+        "symbol": "D"
+      },
+      "spice": {
+        "text": ".model UPIITA_LED_ROJO D(IS=1e-17 N=2 RS=10 BV=5 IBV=10u)"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "K"
+      },
+      "parameters": {},
+      "notes": "Parámetros públicos típicos, selección educativa propia CC0-1.0; sin ajuste a fabricante.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "led"
+    },
+    {
+      "id": "LED_VERDE",
+      "name": "LED verde",
+      "package": {
+        "id": "LED-5mm",
+        "name": "LED-5mm",
+        "art": "led",
+        "drawing": {
+          "pitchMm": 2.54,
+          "diameterMm": 5
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "K",
+            "x": 1,
+            "y": 0
+          }
+        ],
+        "symbol": "D"
+      },
+      "spice": {
+        "text": ".model UPIITA_LED_VERDE D(IS=1e-20 N=2 RS=10 BV=5 IBV=10u)"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "K"
+      },
+      "parameters": {},
+      "notes": "Parámetros públicos típicos, selección educativa propia CC0-1.0; sin ajuste a fabricante.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "led"
+    },
+    {
+      "id": "N2N3904",
+      "name": "2N3904",
+      "package": {
+        "id": "TO-92",
+        "name": "TO-92",
+        "art": "to92",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "E",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "C",
+            "x": 2,
+            "y": 0
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": ".model UPIITA_N2N3904 NPN(IS=1e-14 BF=200 VAF=100 CJE=8p CJC=4p TF=0.4n)"
+      },
+      "mapping": {
+        "1": "E",
+        "2": "B",
+        "3": "C"
+      },
+      "parameters": {},
+      "notes": "Gummel-Poon genérico, selección propia CC0-1.0. E-B-C físico, C-B-E SPICE; verificar fabricante.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "transistor"
+    },
+    {
+      "id": "P2N3906",
+      "name": "2N3906",
+      "package": {
+        "id": "TO-92",
+        "name": "TO-92",
+        "art": "to92",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "E",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "C",
+            "x": 2,
+            "y": 0
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": ".model UPIITA_P2N3906 PNP(IS=1e-14 BF=150 VAF=100 CJE=8p CJC=4p TF=0.4n)"
+      },
+      "mapping": {
+        "1": "E",
+        "2": "B",
+        "3": "C"
+      },
+      "parameters": {},
+      "notes": "Gummel-Poon genérico, selección propia CC0-1.0. E-B-C físico, C-B-E SPICE; verificar fabricante.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "transistor"
+    },
+    {
+      "id": "BS170",
+      "name": "BS170 · modelo simplificado",
+      "package": {
+        "id": "TO-92",
+        "name": "TO-92",
+        "art": "to92",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "D",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "G",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "S",
+            "x": 2,
+            "y": 0
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_BS170 D G S\nM1 D G S S UPIITA_BS170_CORE\n.model UPIITA_BS170_CORE NMOS(LEVEL=1 VTO=2 KP=0.02 LAMBDA=0.02)\nRGS G S 1g\n.ends UPIITA_BS170"
+      },
+      "mapping": {
+        "1": "D",
+        "2": "G",
+        "3": "S"
+      },
+      "parameters": {},
+      "notes": "Modelo simplificado MOS nivel 1 propio CC0-1.0; cuerpo unido a S, sin avalancha.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "transistor"
+    },
+    {
+      "id": "LM358",
+      "name": "LM358 · modelo simplificado",
+      "package": {
+        "id": "DIP-8-300",
+        "name": "DIP-8-300",
+        "art": "dip",
+        "drawing": {
+          "pitchMm": 2.54,
+          "count": 8,
+          "width": 3,
+          "widthInches": 0.3
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "2",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "3",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 4,
+            "name": "4",
+            "x": 3,
+            "y": 0
+          },
+          {
+            "number": 5,
+            "name": "5",
+            "x": 3,
+            "y": 3
+          },
+          {
+            "number": 6,
+            "name": "6",
+            "x": 2,
+            "y": 3
+          },
+          {
+            "number": 7,
+            "name": "7",
+            "x": 1,
+            "y": 3
+          },
+          {
+            "number": 8,
+            "name": "8",
+            "x": 0,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C: macromodelo educativo propio, CC0-1.0. Dos opamps, ganancia 100k.\n.subckt AULAC_LM358 OUT1 INM1 INP1 VEE INP2 INM2 OUT2 VCC\nRIN1 INP1 INM1 100meg\nRIN2 INP2 INM2 100meg\nB1 OUT1 VEE V={max(0,min(V(VCC,VEE)-1.5,100000*V(INP1,INM1)))}\nB2 OUT2 VEE V={max(0,min(V(VCC,VEE)-1.5,100000*V(INP2,INM2)))}\n.ends AULAC_LM358"
+      },
+      "mapping": {
+        "1": "OUT1",
+        "2": "INM1",
+        "3": "INP1",
+        "4": "VEE",
+        "5": "INP2",
+        "6": "INM2",
+        "7": "OUT2",
+        "8": "VCC"
+      },
+      "parameters": {},
+      "manufacturer": "",
+      "datasheet": "",
+      "notes": "Modelo simplificado propio: dos amplificadores sin dinámica ni corriente de alimentación realista.",
+      "license": "CC0-1.0",
+      "source": "AULA-C; ver encapsulados/LICENCIAS.md"
+    },
+    {
+      "id": "NE555",
+      "name": "NE555 · modelo simplificado",
+      "package": {
+        "id": "DIP-8-300",
+        "name": "DIP-8-300",
+        "art": "dip",
+        "drawing": {
+          "pitchMm": 2.54,
+          "count": 8,
+          "width": 3,
+          "widthInches": 0.3
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "2",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "3",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 4,
+            "name": "4",
+            "x": 3,
+            "y": 0
+          },
+          {
+            "number": 5,
+            "name": "5",
+            "x": 3,
+            "y": 3
+          },
+          {
+            "number": 6,
+            "name": "6",
+            "x": 2,
+            "y": 3
+          },
+          {
+            "number": 7,
+            "name": "7",
+            "x": 1,
+            "y": 3
+          },
+          {
+            "number": 8,
+            "name": "8",
+            "x": 0,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C: modelo simplificado propio CC0-1.0, comparador sin memoria.\n.subckt AULAC_NE555 GND TRIG OUT RESET CTRL THRESH DISCH VCC\nRCTRL VCC CTRL 5k\nRCTRLG CTRL GND 10k\nBOUT OUT GND V={V(RESET,GND)<0.7?0:(V(TRIG,GND)<V(VCC,GND)/3?V(VCC,GND):(V(THRESH,GND)>2*V(VCC,GND)/3?0:V(VCC,GND)/2))}\nRDIS DISCH GND 100meg\n.ends AULAC_NE555"
+      },
+      "mapping": {
+        "1": "GND",
+        "2": "TRIG",
+        "3": "OUT",
+        "4": "RESET",
+        "5": "CTRL",
+        "6": "THRESH",
+        "7": "DISCH",
+        "8": "VCC"
+      },
+      "parameters": {},
+      "notes": "Modelo simplificado: comparador sin latch, no apto para verificar temporizadores ni astables.",
+      "manufacturer": "",
+      "datasheet": "",
+      "license": "CC0-1.0",
+      "source": "AULA-C; ver encapsulados/LICENCIAS.md"
+    },
+    {
+      "id": "TL072",
+      "name": "TL072 · modelo simplificado",
+      "package": {
+        "id": "DIP-8-300",
+        "name": "DIP-8-300",
+        "art": "dip",
+        "drawing": {
+          "pitchMm": 2.54,
+          "count": 8,
+          "width": 3,
+          "widthInches": 0.3
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "OUT1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "INM1",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "INP1",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 4,
+            "name": "VEE",
+            "x": 3,
+            "y": 0
+          },
+          {
+            "number": 5,
+            "name": "INP2",
+            "x": 3,
+            "y": 3
+          },
+          {
+            "number": 6,
+            "name": "INM2",
+            "x": 2,
+            "y": 3
+          },
+          {
+            "number": 7,
+            "name": "OUT2",
+            "x": 1,
+            "y": 3
+          },
+          {
+            "number": 8,
+            "name": "VCC",
+            "x": 0,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_TL072 OUT1 INM1 INP1 VEE INP2 INM2 OUT2 VCC\nRIN1 INP1 INM1 1g\nRIN2 INP2 INM2 1g\nB1 OUT1 0 V={max(V(VEE),min(V(VCC),100000*V(INP1,INM1)))}\nB2 OUT2 0 V={max(V(VEE),min(V(VCC),100000*V(INP2,INM2)))}\n.ends UPIITA_TL072"
+      },
+      "mapping": {
+        "1": "OUT1",
+        "2": "INM1",
+        "3": "INP1",
+        "4": "VEE",
+        "5": "INP2",
+        "6": "INM2",
+        "7": "OUT2",
+        "8": "VCC"
+      },
+      "parameters": {},
+      "notes": "Modelo simplificado propio CC0-1.0, dos opamps de ganancia 100k sin ancho de banda, slew rate ni corriente de alimentación.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "TL082",
+      "name": "TL082 · modelo simplificado",
+      "package": {
+        "id": "DIP-8-300",
+        "name": "DIP-8-300",
+        "art": "dip",
+        "drawing": {
+          "pitchMm": 2.54,
+          "count": 8,
+          "width": 3,
+          "widthInches": 0.3
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "OUT1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "INM1",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "INP1",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 4,
+            "name": "VEE",
+            "x": 3,
+            "y": 0
+          },
+          {
+            "number": 5,
+            "name": "INP2",
+            "x": 3,
+            "y": 3
+          },
+          {
+            "number": 6,
+            "name": "INM2",
+            "x": 2,
+            "y": 3
+          },
+          {
+            "number": 7,
+            "name": "OUT2",
+            "x": 1,
+            "y": 3
+          },
+          {
+            "number": 8,
+            "name": "VCC",
+            "x": 0,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; macromodelo propio de _TL082: un polo (GBW), slew rate y salida a 1.5 V de los rieles\n.subckt UPIITA_TL082 OUT1 INM1 INP1 VEE INP2 INM2 OUT2 VCC params: GBW=3meg SR=13meg AOL=200k\n.param CINT=1n ISR={SR*CINT} GM={6.2832*GBW*CINT}\nBMID MID 0 V={(V(VCC)+V(VEE))/2}\nBHI HI 0 V={max(V(VCC)-1.5,V(MID))}\nBLO LO 0 V={min(V(VEE)+1.5,V(MID))}\nRQ VCC VEE 10.7k\nRIN1 INP1 INM1 1e12\nBG1 MID N1 I={max(-ISR,min(ISR,GM*V(INP1,INM1)))}\nCI1 N1 MID {CINT}\nRO1 N1 MID {AOL/GM}\nDH1 N1 HI DCLAMP\nDL1 LO N1 DCLAMP\nBO1 OI1 0 V={V(N1)}\nROUT1 OI1 OUT1 75\nRIN2 INP2 INM2 1e12\nBG2 MID N2 I={max(-ISR,min(ISR,GM*V(INP2,INM2)))}\nCI2 N2 MID {CINT}\nRO2 N2 MID {AOL/GM}\nDH2 N2 HI DCLAMP\nDL2 LO N2 DCLAMP\nBO2 OI2 0 V={V(N2)}\nROUT2 OI2 OUT2 75\n.model DCLAMP D(IS=1e-15 N=0.1)\n.ends UPIITA_TL082"
+      },
+      "mapping": {
+        "1": "OUT1",
+        "2": "INM1",
+        "3": "INP1",
+        "4": "VEE",
+        "5": "INP2",
+        "6": "INM2",
+        "7": "OUT2",
+        "8": "VCC"
+      },
+      "parameters": {
+        "GBW": 3000000.0,
+        "SR": 13000000.0,
+        "AOL": 200000
+      },
+      "notes": "Macromodelo propio CC0-1.0 con valores típicos de hoja de datos (no del fabricante): entrada JFET de 1 TΩ, ganancia 200 V/mV, GBW 3 MHz y slew rate 13 V/µs (editables), salida hasta 1.5 V de cada riel y 75 Ω de salida, consumo aproximado de 1.4 mA por amplificador a ±15 V. Sin offset, ruido, límite de corriente de salida, rango de modo común ni inversión de fase.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "TL084",
+      "name": "TL084 · modelo simplificado",
+      "package": {
+        "id": "DIP-14-300",
+        "name": "DIP-14-300",
+        "art": "dip",
+        "drawing": {
+          "pitchMm": 2.54,
+          "count": 14,
+          "width": 3,
+          "widthInches": 0.3
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "OUT1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "INM1",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "INP1",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 4,
+            "name": "VCC",
+            "x": 3,
+            "y": 0
+          },
+          {
+            "number": 5,
+            "name": "INP2",
+            "x": 4,
+            "y": 0
+          },
+          {
+            "number": 6,
+            "name": "INM2",
+            "x": 5,
+            "y": 0
+          },
+          {
+            "number": 7,
+            "name": "OUT2",
+            "x": 6,
+            "y": 0
+          },
+          {
+            "number": 8,
+            "name": "OUT3",
+            "x": 6,
+            "y": 3
+          },
+          {
+            "number": 9,
+            "name": "INM3",
+            "x": 5,
+            "y": 3
+          },
+          {
+            "number": 10,
+            "name": "INP3",
+            "x": 4,
+            "y": 3
+          },
+          {
+            "number": 11,
+            "name": "VEE",
+            "x": 3,
+            "y": 3
+          },
+          {
+            "number": 12,
+            "name": "INP4",
+            "x": 2,
+            "y": 3
+          },
+          {
+            "number": 13,
+            "name": "INM4",
+            "x": 1,
+            "y": 3
+          },
+          {
+            "number": 14,
+            "name": "OUT4",
+            "x": 0,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; macromodelo propio de _TL084: un polo (GBW), slew rate y salida a 1.5 V de los rieles\n.subckt UPIITA_TL084 OUT1 INM1 INP1 VCC INP2 INM2 OUT2 OUT3 INM3 INP3 VEE INP4 INM4 OUT4 params: GBW=3meg SR=13meg AOL=200k\n.param CINT=1n ISR={SR*CINT} GM={6.2832*GBW*CINT}\nBMID MID 0 V={(V(VCC)+V(VEE))/2}\nBHI HI 0 V={max(V(VCC)-1.5,V(MID))}\nBLO LO 0 V={min(V(VEE)+1.5,V(MID))}\nRQ VCC VEE 5.36k\nRIN1 INP1 INM1 1e12\nBG1 MID N1 I={max(-ISR,min(ISR,GM*V(INP1,INM1)))}\nCI1 N1 MID {CINT}\nRO1 N1 MID {AOL/GM}\nDH1 N1 HI DCLAMP\nDL1 LO N1 DCLAMP\nBO1 OI1 0 V={V(N1)}\nROUT1 OI1 OUT1 75\nRIN2 INP2 INM2 1e12\nBG2 MID N2 I={max(-ISR,min(ISR,GM*V(INP2,INM2)))}\nCI2 N2 MID {CINT}\nRO2 N2 MID {AOL/GM}\nDH2 N2 HI DCLAMP\nDL2 LO N2 DCLAMP\nBO2 OI2 0 V={V(N2)}\nROUT2 OI2 OUT2 75\nRIN3 INP3 INM3 1e12\nBG3 MID N3 I={max(-ISR,min(ISR,GM*V(INP3,INM3)))}\nCI3 N3 MID {CINT}\nRO3 N3 MID {AOL/GM}\nDH3 N3 HI DCLAMP\nDL3 LO N3 DCLAMP\nBO3 OI3 0 V={V(N3)}\nROUT3 OI3 OUT3 75\nRIN4 INP4 INM4 1e12\nBG4 MID N4 I={max(-ISR,min(ISR,GM*V(INP4,INM4)))}\nCI4 N4 MID {CINT}\nRO4 N4 MID {AOL/GM}\nDH4 N4 HI DCLAMP\nDL4 LO N4 DCLAMP\nBO4 OI4 0 V={V(N4)}\nROUT4 OI4 OUT4 75\n.model DCLAMP D(IS=1e-15 N=0.1)\n.ends UPIITA_TL084"
+      },
+      "mapping": {
+        "1": "OUT1",
+        "2": "INM1",
+        "3": "INP1",
+        "4": "VCC",
+        "5": "INP2",
+        "6": "INM2",
+        "7": "OUT2",
+        "8": "OUT3",
+        "9": "INM3",
+        "10": "INP3",
+        "11": "VEE",
+        "12": "INP4",
+        "13": "INM4",
+        "14": "OUT4"
+      },
+      "parameters": {
+        "GBW": 3000000.0,
+        "SR": 13000000.0,
+        "AOL": 200000
+      },
+      "notes": "Macromodelo propio CC0-1.0 con valores típicos de hoja de datos (no del fabricante): entrada JFET de 1 TΩ, ganancia 200 V/mV, GBW 3 MHz y slew rate 13 V/µs (editables), salida hasta 1.5 V de cada riel y 75 Ω de salida, consumo aproximado de 1.4 mA por amplificador a ±15 V. Sin offset, ruido, límite de corriente de salida, rango de modo común ni inversión de fase.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "REG7805",
+      "name": "7805 · modelo simplificado",
+      "package": {
+        "id": "TO-220",
+        "name": "TO-220",
+        "art": "to220",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "IN",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "GND",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "OUT",
+            "x": 2,
+            "y": 0
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_REG7805 IN GND OUT\nBREG INT GND V={min(5,max(0,V(IN,GND)-2))}\nROUT INT OUT 0.1\nRIN IN GND 100meg\n.ends UPIITA_REG7805"
+      },
+      "mapping": {
+        "1": "IN",
+        "2": "GND",
+        "3": "OUT"
+      },
+      "parameters": {},
+      "notes": "Modelo simplificado propio CC0-1.0; 5 V, caída 2 V, Rout 0.1 Ω. Sin límite de corriente ni térmico.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "LM317",
+      "name": "LM317 · modelo simplificado",
+      "package": {
+        "id": "TO-220",
+        "name": "TO-220",
+        "art": "to220",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "ADJ",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "OUT",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "IN",
+            "x": 2,
+            "y": 0
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_LM317 ADJ OUT IN\nBREG INT ADJ V={min(1.25,max(0,V(IN,ADJ)-2))}\nROUT INT OUT 0.1\nRIN IN ADJ 100meg\n.ends UPIITA_LM317"
+      },
+      "mapping": {
+        "1": "ADJ",
+        "2": "OUT",
+        "3": "IN"
+      },
+      "parameters": {},
+      "notes": "Modelo simplificado propio CC0-1.0; referencia 1.25 V sobre ADJ, caída 2 V, Rout 0.1 Ω. Requiere divisor externo; sin protección.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "HC74_00",
+      "name": "74HC00 · modelo simplificado",
+      "package": {
+        "id": "DIP-14-300",
+        "name": "DIP-14-300",
+        "art": "dip",
+        "drawing": {
+          "pitchMm": 2.54,
+          "count": 14,
+          "width": 3,
+          "widthInches": 0.3
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B1",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "Y1",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 4,
+            "name": "A2",
+            "x": 3,
+            "y": 0
+          },
+          {
+            "number": 5,
+            "name": "B2",
+            "x": 4,
+            "y": 0
+          },
+          {
+            "number": 6,
+            "name": "Y2",
+            "x": 5,
+            "y": 0
+          },
+          {
+            "number": 7,
+            "name": "GND",
+            "x": 6,
+            "y": 0
+          },
+          {
+            "number": 8,
+            "name": "Y3",
+            "x": 6,
+            "y": 3
+          },
+          {
+            "number": 9,
+            "name": "A3",
+            "x": 5,
+            "y": 3
+          },
+          {
+            "number": 10,
+            "name": "B3",
+            "x": 4,
+            "y": 3
+          },
+          {
+            "number": 11,
+            "name": "Y4",
+            "x": 3,
+            "y": 3
+          },
+          {
+            "number": 12,
+            "name": "A4",
+            "x": 2,
+            "y": 3
+          },
+          {
+            "number": 13,
+            "name": "B4",
+            "x": 1,
+            "y": 3
+          },
+          {
+            "number": 14,
+            "name": "VCC",
+            "x": 0,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_HC74_00 A1 B1 Y1 A2 B2 Y2 GND Y3 A3 B3 Y4 A4 B4 VCC\nRPOWER VCC GND 100meg\nB1 N1 GND V={V(VCC,GND)>0?(((V(A1,GND)>V(VCC,GND)/2)&&(V(B1,GND)>V(VCC,GND)/2))?0:V(VCC,GND)):0}\nRO1 N1 Y1 50\nRA1 A1 GND 1g\nRB1 B1 GND 1g\nB2 N2 GND V={V(VCC,GND)>0?(((V(A2,GND)>V(VCC,GND)/2)&&(V(B2,GND)>V(VCC,GND)/2))?0:V(VCC,GND)):0}\nRO2 N2 Y2 50\nRA2 A2 GND 1g\nRB2 B2 GND 1g\nB3 N3 GND V={V(VCC,GND)>0?(((V(A3,GND)>V(VCC,GND)/2)&&(V(B3,GND)>V(VCC,GND)/2))?0:V(VCC,GND)):0}\nRO3 N3 Y3 50\nRA3 A3 GND 1g\nRB3 B3 GND 1g\nB4 N4 GND V={V(VCC,GND)>0?(((V(A4,GND)>V(VCC,GND)/2)&&(V(B4,GND)>V(VCC,GND)/2))?0:V(VCC,GND)):0}\nRO4 N4 Y4 50\nRA4 A4 GND 1g\nRB4 B4 GND 1g\n.ends UPIITA_HC74_00"
+      },
+      "mapping": {
+        "1": "A1",
+        "2": "B1",
+        "3": "Y1",
+        "4": "A2",
+        "5": "B2",
+        "6": "Y2",
+        "7": "GND",
+        "8": "Y3",
+        "9": "A3",
+        "10": "B3",
+        "11": "Y4",
+        "12": "A4",
+        "13": "B4",
+        "14": "VCC"
+      },
+      "parameters": {},
+      "notes": "Modelo simplificado propio CC0-1.0: B-sources analógicas, umbral VCC/2, salida 50 Ω, sin retardos, histéresis ni niveles de familia. No requiere XSPICE.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "HC74_04",
+      "name": "74HC04 · modelo simplificado",
+      "package": {
+        "id": "DIP-14-300",
+        "name": "DIP-14-300",
+        "art": "dip",
+        "drawing": {
+          "pitchMm": 2.54,
+          "count": 14,
+          "width": 3,
+          "widthInches": 0.3
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "Y1",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "A2",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 4,
+            "name": "Y2",
+            "x": 3,
+            "y": 0
+          },
+          {
+            "number": 5,
+            "name": "A3",
+            "x": 4,
+            "y": 0
+          },
+          {
+            "number": 6,
+            "name": "Y3",
+            "x": 5,
+            "y": 0
+          },
+          {
+            "number": 7,
+            "name": "GND",
+            "x": 6,
+            "y": 0
+          },
+          {
+            "number": 8,
+            "name": "Y4",
+            "x": 6,
+            "y": 3
+          },
+          {
+            "number": 9,
+            "name": "A4",
+            "x": 5,
+            "y": 3
+          },
+          {
+            "number": 10,
+            "name": "Y5",
+            "x": 4,
+            "y": 3
+          },
+          {
+            "number": 11,
+            "name": "A5",
+            "x": 3,
+            "y": 3
+          },
+          {
+            "number": 12,
+            "name": "Y6",
+            "x": 2,
+            "y": 3
+          },
+          {
+            "number": 13,
+            "name": "A6",
+            "x": 1,
+            "y": 3
+          },
+          {
+            "number": 14,
+            "name": "VCC",
+            "x": 0,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_HC74_04 A1 Y1 A2 Y2 A3 Y3 GND Y4 A4 Y5 A5 Y6 A6 VCC\nRPOWER VCC GND 100meg\nB1 N1 GND V={V(VCC,GND)>0?((V(A1,GND)>V(VCC,GND)/2)?0:V(VCC,GND)):0}\nRO1 N1 Y1 50\nRA1 A1 GND 1g\nB2 N2 GND V={V(VCC,GND)>0?((V(A2,GND)>V(VCC,GND)/2)?0:V(VCC,GND)):0}\nRO2 N2 Y2 50\nRA2 A2 GND 1g\nB3 N3 GND V={V(VCC,GND)>0?((V(A3,GND)>V(VCC,GND)/2)?0:V(VCC,GND)):0}\nRO3 N3 Y3 50\nRA3 A3 GND 1g\nB4 N4 GND V={V(VCC,GND)>0?((V(A4,GND)>V(VCC,GND)/2)?0:V(VCC,GND)):0}\nRO4 N4 Y4 50\nRA4 A4 GND 1g\nB5 N5 GND V={V(VCC,GND)>0?((V(A5,GND)>V(VCC,GND)/2)?0:V(VCC,GND)):0}\nRO5 N5 Y5 50\nRA5 A5 GND 1g\nB6 N6 GND V={V(VCC,GND)>0?((V(A6,GND)>V(VCC,GND)/2)?0:V(VCC,GND)):0}\nRO6 N6 Y6 50\nRA6 A6 GND 1g\n.ends UPIITA_HC74_04"
+      },
+      "mapping": {
+        "1": "A1",
+        "2": "Y1",
+        "3": "A2",
+        "4": "Y2",
+        "5": "A3",
+        "6": "Y3",
+        "7": "GND",
+        "8": "Y4",
+        "9": "A4",
+        "10": "Y5",
+        "11": "A5",
+        "12": "Y6",
+        "13": "A6",
+        "14": "VCC"
+      },
+      "parameters": {},
+      "notes": "Modelo simplificado propio CC0-1.0: B-sources analógicas, umbral VCC/2, salida 50 Ω, sin retardos, histéresis ni niveles de familia. No requiere XSPICE.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "HC74_08",
+      "name": "74HC08 · modelo simplificado",
+      "package": {
+        "id": "DIP-14-300",
+        "name": "DIP-14-300",
+        "art": "dip",
+        "drawing": {
+          "pitchMm": 2.54,
+          "count": 14,
+          "width": 3,
+          "widthInches": 0.3
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B1",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "Y1",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 4,
+            "name": "A2",
+            "x": 3,
+            "y": 0
+          },
+          {
+            "number": 5,
+            "name": "B2",
+            "x": 4,
+            "y": 0
+          },
+          {
+            "number": 6,
+            "name": "Y2",
+            "x": 5,
+            "y": 0
+          },
+          {
+            "number": 7,
+            "name": "GND",
+            "x": 6,
+            "y": 0
+          },
+          {
+            "number": 8,
+            "name": "Y3",
+            "x": 6,
+            "y": 3
+          },
+          {
+            "number": 9,
+            "name": "A3",
+            "x": 5,
+            "y": 3
+          },
+          {
+            "number": 10,
+            "name": "B3",
+            "x": 4,
+            "y": 3
+          },
+          {
+            "number": 11,
+            "name": "Y4",
+            "x": 3,
+            "y": 3
+          },
+          {
+            "number": 12,
+            "name": "A4",
+            "x": 2,
+            "y": 3
+          },
+          {
+            "number": 13,
+            "name": "B4",
+            "x": 1,
+            "y": 3
+          },
+          {
+            "number": 14,
+            "name": "VCC",
+            "x": 0,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_HC74_08 A1 B1 Y1 A2 B2 Y2 GND Y3 A3 B3 Y4 A4 B4 VCC\nRPOWER VCC GND 100meg\nB1 N1 GND V={V(VCC,GND)>0?(((V(A1,GND)>V(VCC,GND)/2)&&(V(B1,GND)>V(VCC,GND)/2))?V(VCC,GND):0):0}\nRO1 N1 Y1 50\nRA1 A1 GND 1g\nRB1 B1 GND 1g\nB2 N2 GND V={V(VCC,GND)>0?(((V(A2,GND)>V(VCC,GND)/2)&&(V(B2,GND)>V(VCC,GND)/2))?V(VCC,GND):0):0}\nRO2 N2 Y2 50\nRA2 A2 GND 1g\nRB2 B2 GND 1g\nB3 N3 GND V={V(VCC,GND)>0?(((V(A3,GND)>V(VCC,GND)/2)&&(V(B3,GND)>V(VCC,GND)/2))?V(VCC,GND):0):0}\nRO3 N3 Y3 50\nRA3 A3 GND 1g\nRB3 B3 GND 1g\nB4 N4 GND V={V(VCC,GND)>0?(((V(A4,GND)>V(VCC,GND)/2)&&(V(B4,GND)>V(VCC,GND)/2))?V(VCC,GND):0):0}\nRO4 N4 Y4 50\nRA4 A4 GND 1g\nRB4 B4 GND 1g\n.ends UPIITA_HC74_08"
+      },
+      "mapping": {
+        "1": "A1",
+        "2": "B1",
+        "3": "Y1",
+        "4": "A2",
+        "5": "B2",
+        "6": "Y2",
+        "7": "GND",
+        "8": "Y3",
+        "9": "A3",
+        "10": "B3",
+        "11": "Y4",
+        "12": "A4",
+        "13": "B4",
+        "14": "VCC"
+      },
+      "parameters": {},
+      "notes": "Modelo simplificado propio CC0-1.0: B-sources analógicas, umbral VCC/2, salida 50 Ω, sin retardos, histéresis ni niveles de familia. No requiere XSPICE.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "CD4011",
+      "name": "CD4011 · modelo simplificado",
+      "package": {
+        "id": "DIP-14-300",
+        "name": "DIP-14-300",
+        "art": "dip",
+        "drawing": {
+          "pitchMm": 2.54,
+          "count": 14,
+          "width": 3,
+          "widthInches": 0.3
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A1",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B1",
+            "x": 1,
+            "y": 0
+          },
+          {
+            "number": 3,
+            "name": "Y1",
+            "x": 2,
+            "y": 0
+          },
+          {
+            "number": 4,
+            "name": "Y2",
+            "x": 3,
+            "y": 0
+          },
+          {
+            "number": 5,
+            "name": "A2",
+            "x": 4,
+            "y": 0
+          },
+          {
+            "number": 6,
+            "name": "B2",
+            "x": 5,
+            "y": 0
+          },
+          {
+            "number": 7,
+            "name": "GND",
+            "x": 6,
+            "y": 0
+          },
+          {
+            "number": 8,
+            "name": "A3",
+            "x": 6,
+            "y": 3
+          },
+          {
+            "number": 9,
+            "name": "B3",
+            "x": 5,
+            "y": 3
+          },
+          {
+            "number": 10,
+            "name": "Y3",
+            "x": 4,
+            "y": 3
+          },
+          {
+            "number": 11,
+            "name": "Y4",
+            "x": 3,
+            "y": 3
+          },
+          {
+            "number": 12,
+            "name": "A4",
+            "x": 2,
+            "y": 3
+          },
+          {
+            "number": 13,
+            "name": "B4",
+            "x": 1,
+            "y": 3
+          },
+          {
+            "number": 14,
+            "name": "VCC",
+            "x": 0,
+            "y": 3
+          }
+        ],
+        "symbol": "box"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_CD4011 A1 B1 Y1 Y2 A2 B2 GND A3 B3 Y3 Y4 A4 B4 VCC\nRPOWER VCC GND 100meg\nB1 N1 GND V={V(VCC,GND)>0?(((V(A1,GND)>V(VCC,GND)/2)&&(V(B1,GND)>V(VCC,GND)/2))?0:V(VCC,GND)):0}\nRO1 N1 Y1 50\nRA1 A1 GND 1g\nRB1 B1 GND 1g\nB2 N2 GND V={V(VCC,GND)>0?(((V(A2,GND)>V(VCC,GND)/2)&&(V(B2,GND)>V(VCC,GND)/2))?0:V(VCC,GND)):0}\nRO2 N2 Y2 50\nRA2 A2 GND 1g\nRB2 B2 GND 1g\nB3 N3 GND V={V(VCC,GND)>0?(((V(A3,GND)>V(VCC,GND)/2)&&(V(B3,GND)>V(VCC,GND)/2))?0:V(VCC,GND)):0}\nRO3 N3 Y3 50\nRA3 A3 GND 1g\nRB3 B3 GND 1g\nB4 N4 GND V={V(VCC,GND)>0?(((V(A4,GND)>V(VCC,GND)/2)&&(V(B4,GND)>V(VCC,GND)/2))?0:V(VCC,GND)):0}\nRO4 N4 Y4 50\nRA4 A4 GND 1g\nRB4 B4 GND 1g\n.ends UPIITA_CD4011"
+      },
+      "mapping": {
+        "1": "A1",
+        "2": "B1",
+        "3": "Y1",
+        "4": "Y2",
+        "5": "A2",
+        "6": "B2",
+        "7": "GND",
+        "8": "A3",
+        "9": "B3",
+        "10": "Y3",
+        "11": "Y4",
+        "12": "A4",
+        "13": "B4",
+        "14": "VCC"
+      },
+      "parameters": {},
+      "notes": "Modelo simplificado propio CC0-1.0: B-sources analógicas, umbral VCC/2, salida 50 Ω, sin retardos, histéresis ni niveles de familia. No requiere XSPICE.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "NTC10K",
+      "name": "NTC 10 kΩ",
+      "package": {
+        "id": "radial",
+        "name": "radial",
+        "art": "radial",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 1,
+            "y": 0
+          }
+        ],
+        "symbol": "C"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_NTC10K A B params: R25=10000 BETA=3950 CELSIUS=25\nR1 A B {R25*exp(BETA*(1/(CELSIUS+273.15)-1/298.15))}\n.ends UPIITA_NTC10K"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "B"
+      },
+      "parameters": {
+        "R25": 10000,
+        "BETA": 3950,
+        "CELSIUS": 25
+      },
+      "notes": "Modelo simplificado propio CC0-1.0; ecuación beta, temperatura fija editable, sin autocalentamiento.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "ceramic"
+    },
+    {
+      "id": "LDR",
+      "name": "LDR",
+      "package": {
+        "id": "radial",
+        "name": "radial",
+        "art": "radial",
+        "drawing": {
+          "pitchMm": 2.54
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "A",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "B",
+            "x": 1,
+            "y": 0
+          }
+        ],
+        "symbol": "C"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_LDR A B params: R10=10000 LUX=10 GAMMA=0.7\nR1 A B {R10*pow(10/max(0.01,LUX),GAMMA)}\n.ends UPIITA_LDR"
+      },
+      "mapping": {
+        "1": "A",
+        "2": "B"
+      },
+      "parameters": {
+        "R10": 10000,
+        "LUX": 10,
+        "GAMMA": 0.7
+      },
+      "notes": "Modelo simplificado propio CC0-1.0; ley de potencia R10(10/lux)^gamma, sin dinámica ni espectro.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "ceramic"
+    },
+    {
+      "id": "PILA9V",
+      "name": "Pila 9 V",
+      "package": {
+        "id": "battery",
+        "name": "Pila con dos bornes",
+        "art": "battery",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 8
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "P",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "N",
+            "x": 8,
+            "y": 0
+          }
+        ],
+        "symbol": "V"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_PILA9V P N params: VOLTS=9 RS=2\nV1 INT N DC {VOLTS}\nR1 INT P {RS}\n.ends UPIITA_PILA9V"
+      },
+      "mapping": {
+        "1": "P",
+        "2": "N"
+      },
+      "parameters": {
+        "VOLTS": 9,
+        "RS": 2
+      },
+      "notes": "Modelo simplificado propio CC0-1.0; fuente DC con resistencia interna, sin descarga.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "battery"
+    },
+    {
+      "id": "FUENTE_BANCO",
+      "name": "Fuente de banco",
+      "package": {
+        "id": "bench",
+        "name": "Fuente con dos bornes",
+        "art": "bench",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 8
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "P",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "N",
+            "x": 8,
+            "y": 0
+          }
+        ],
+        "symbol": "V"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_FUENTE_BANCO P N params: VOLTS=5 RS=0.1\nV1 INT N DC {VOLTS}\nR1 INT P {RS}\n.ends UPIITA_FUENTE_BANCO"
+      },
+      "mapping": {
+        "1": "P",
+        "2": "N"
+      },
+      "parameters": {
+        "VOLTS": 5,
+        "RS": 0.1
+      },
+      "notes": "Modelo simplificado propio CC0-1.0; fuente DC, sin regulación CC ni protección.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "bench"
+    },
+    {
+      "id": "GENERADOR",
+      "name": "Generador",
+      "package": {
+        "id": "generator",
+        "name": "Generador con dos bornes",
+        "art": "generator",
+        "drawing": {
+          "pitchMm": 2.54,
+          "span": 8
+        },
+        "pins": [
+          {
+            "number": 1,
+            "name": "P",
+            "x": 0,
+            "y": 0
+          },
+          {
+            "number": 2,
+            "name": "N",
+            "x": 8,
+            "y": 0
+          }
+        ],
+        "symbol": "V"
+      },
+      "spice": {
+        "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_GENERADOR P N params: OFFSET=0 AMP=1 FREQ=1000 RS=50\nV1 INT N DC {OFFSET} AC {AMP} SIN({OFFSET} {AMP} {FREQ})\nR1 INT P {RS}\n.ends UPIITA_GENERADOR"
+      },
+      "mapping": {
+        "1": "P",
+        "2": "N"
+      },
+      "parameters": {
+        "OFFSET": 0,
+        "AMP": 1,
+        "FREQ": 1000,
+        "RS": 50
+      },
+      "notes": "Modelo simplificado propio CC0-1.0; seno con impedancia 50 Ω, amplitud pico en vacío.",
+      "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+      "license": "CC0-1.0",
+      "appearance": "generator"
+    }
+  ],
+  "notes": "propuesta v0, pendiente de revisión de academias. Basada en ANALISIS-CARRERAS-UPIITA.md §5; no representa una lista aprobada. Modelos educativos, no caracterización de fabricante. Parámetros editables en el editor de componentes; fuentes y generador del paquete se configuran ahí."
+}

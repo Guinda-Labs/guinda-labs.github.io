@@ -1,0 +1,32 @@
+{
+  "id": "v-instrumentacion",
+  "unit": "V",
+  "title": "Instrumentación para bioseñal simulada",
+  "package": "b309-analogica-potencia",
+  "analysis": {
+    "dt": 1e-05,
+    "stop": 0.3,
+    "start": 1,
+    "end": 1000
+  },
+  "expected": {
+    "gain": [
+      101.025237,
+      0.3
+    ],
+    "cmrr_db": [
+      106.1137,
+      0.3
+    ],
+    "bio_peak_v": [
+      0.1021,
+      0.003
+    ]
+  },
+  "probes": [
+    "VD:0",
+    "XI:4"
+  ],
+  "variants": [],
+  "board": true
+}

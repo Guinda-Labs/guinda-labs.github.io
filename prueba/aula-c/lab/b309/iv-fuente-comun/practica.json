@@ -1,0 +1,28 @@
+{
+  "id": "iv-fuente-comun",
+  "unit": "IV",
+  "title": "Fuente común con MOSFET",
+  "package": "b309-analogica-potencia",
+  "analysis": {
+    "dt": 2e-06,
+    "stop": 0.01,
+    "start": 1,
+    "end": 100000
+  },
+  "expected": {
+    "drain_v": [
+      6.67276,
+      0.05
+    ],
+    "gain": [
+      9.73898,
+      0.15
+    ]
+  },
+  "probes": [
+    "VG:0",
+    "RD:1"
+  ],
+  "variants": [],
+  "board": true
+}

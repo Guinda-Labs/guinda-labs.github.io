@@ -1,0 +1,271 @@
+{
+  "version": 1,
+  "mode": "scheme",
+  "components": [
+    {
+      "id": "VCM",
+      "type": "V",
+      "value": 0,
+      "ac": 0,
+      "wave": {
+        "type": "sin",
+        "args": [
+          0,
+          0.1,
+          60
+        ]
+      },
+      "x": 100,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "VD",
+      "type": "V",
+      "value": 0,
+      "ac": 1,
+      "wave": {
+        "type": "sin",
+        "args": [
+          0,
+          0.001,
+          10
+        ]
+      },
+      "x": 270,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "VRUIDO",
+      "type": "V",
+      "value": 0,
+      "ac": 0,
+      "wave": {
+        "type": "sin",
+        "args": [
+          0,
+          1e-05,
+          137
+        ]
+      },
+      "x": 440,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "VP",
+      "type": "V",
+      "value": 12,
+      "ac": 0,
+      "x": 610,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "VN",
+      "type": "V",
+      "value": -12,
+      "ac": 0,
+      "x": 780,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "XI",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "INA3",
+        "name": "Instrumentación con tres op-amps · modelo simplificado",
+        "package": {
+          "id": "DIP-8-300",
+          "name": "DIP-8-300",
+          "art": "dip",
+          "drawing": {
+            "pitchMm": 2.54,
+            "count": 8,
+            "width": 3,
+            "widthInches": 0.3
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "INP",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "INM",
+              "x": 1,
+              "y": 0
+            },
+            {
+              "number": 3,
+              "name": "VP",
+              "x": 2,
+              "y": 0
+            },
+            {
+              "number": 4,
+              "name": "VN",
+              "x": 3,
+              "y": 0
+            },
+            {
+              "number": 5,
+              "name": "OUT",
+              "x": 3,
+              "y": 3
+            },
+            {
+              "number": 6,
+              "name": "REF",
+              "x": 2,
+              "y": 3
+            },
+            {
+              "number": 7,
+              "name": "NC7",
+              "x": 1,
+              "y": 3
+            },
+            {
+              "number": 8,
+              "name": "NC8",
+              "x": 0,
+              "y": 3
+            }
+          ],
+          "symbol": "box"
+        },
+        "spice": {
+          "text": "* AULA-C original CC0-1.0; modelo simplificado\n.subckt B309_INA3 INP INM VP VN OUT REF NC7 NC8 params: RG=1000 ERR=0.001\nE1 A 0 INP F1 100k\nE2 B 0 INM F2 100k\nR1 A F1 50k\nRG F1 F2 {RG}\nR2 B F2 50k\nR3 B F3 10k\nR4 OUT F3 10k\nR5 A P3 10k\nR6 P3 REF {10000*(1+ERR)}\nE3 OUT REF P3 F3 100k\nR7 NC7 REF 1e12\nR8 NC8 REF 1e12\nRP VP 0 1e12\nRN VN 0 1e12\n.ends B309_INA3"
+        },
+        "mapping": {
+          "1": "INP",
+          "2": "INM",
+          "3": "VP",
+          "4": "VN",
+          "5": "OUT",
+          "6": "REF",
+          "7": "NC7",
+          "8": "NC8"
+        },
+        "parameters": {
+          "RG": 1000,
+          "ERR": 0.001
+        },
+        "source": "AULA-C; ecuaciones SPICE y macromodelos originales, sin consulta de red ni ajuste a fabricante.",
+        "license": "CC0-1.0",
+        "notes": "Modelo simplificado didáctico. Tres op-amps de Aol=100k; redes 50k/1k y restador 10k con error relativo 0.1%. Sin saturación ni ancho de banda: mantener salida dentro de ±10 V con alimentación ±12 V."
+      },
+      "x": 100,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "RL",
+      "type": "R",
+      "value": 10000,
+      "x": 270,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "G1",
+      "type": "G",
+      "value": 0,
+      "x": 440,
+      "y": 230,
+      "rotation": 0
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "a": "VCM:0",
+      "b": "VD:1"
+    },
+    {
+      "id": "w2",
+      "a": "VCM:0",
+      "b": "XI:1"
+    },
+    {
+      "id": "w3",
+      "a": "VD:0",
+      "b": "VRUIDO:1"
+    },
+    {
+      "id": "w4",
+      "a": "VRUIDO:0",
+      "b": "XI:0"
+    },
+    {
+      "id": "w5",
+      "a": "VP:0",
+      "b": "XI:2"
+    },
+    {
+      "id": "w6",
+      "a": "VN:0",
+      "b": "XI:3"
+    },
+    {
+      "id": "w7",
+      "a": "XI:4",
+      "b": "RL:0"
+    },
+    {
+      "id": "w8",
+      "a": "VCM:1",
+      "b": "VP:1"
+    },
+    {
+      "id": "w9",
+      "a": "VCM:1",
+      "b": "VN:1"
+    },
+    {
+      "id": "w10",
+      "a": "VCM:1",
+      "b": "XI:5"
+    },
+    {
+      "id": "w11",
+      "a": "VCM:1",
+      "b": "XI:6"
+    },
+    {
+      "id": "w12",
+      "a": "VCM:1",
+      "b": "XI:7"
+    },
+    {
+      "id": "w13",
+      "a": "VCM:1",
+      "b": "RL:1"
+    },
+    {
+      "id": "w14",
+      "a": "VCM:1",
+      "b": "G1:0"
+    }
+  ],
+  "b309": {
+    "package": "b309-analogica-potencia",
+    "practice": "v-instrumentacion",
+    "probes": [
+      "VD:0",
+      "XI:4"
+    ],
+    "analysis": {
+      "dt": 1e-05,
+      "stop": 0.3,
+      "start": 1,
+      "end": 1000
+    }
+  }
+}

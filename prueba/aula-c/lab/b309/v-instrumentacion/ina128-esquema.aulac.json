@@ -1,0 +1,622 @@
+{
+  "version": 1,
+  "mode": "scheme",
+  "components": [
+    {
+      "id": "VCM",
+      "type": "V",
+      "value": 0,
+      "ac": 0,
+      "wave": {
+        "type": "sin",
+        "args": [
+          0,
+          0.1,
+          60
+        ]
+      },
+      "x": 100,
+      "y": 430,
+      "rotation": 90,
+      "schematic": {
+        "label": [
+          0,
+          80
+        ]
+      }
+    },
+    {
+      "id": "VD",
+      "type": "V",
+      "value": 0,
+      "ac": 1,
+      "wave": {
+        "type": "sin",
+        "args": [
+          0,
+          0.001,
+          10
+        ]
+      },
+      "x": 100,
+      "y": 280,
+      "rotation": 90,
+      "schematic": {
+        "label": [
+          -5,
+          -65
+        ]
+      }
+    },
+    {
+      "id": "VRUIDO",
+      "type": "V",
+      "value": 0,
+      "ac": 0,
+      "wave": {
+        "type": "sin",
+        "args": [
+          0,
+          1e-05,
+          137
+        ]
+      },
+      "x": 290,
+      "y": 240,
+      "rotation": 0,
+      "schematic": {
+        "label": [
+          0,
+          -40
+        ]
+      }
+    },
+    {
+      "id": "VP",
+      "type": "V",
+      "value": 12,
+      "ac": 0,
+      "x": 560,
+      "y": 80,
+      "rotation": 0,
+      "schematic": {
+        "label": [
+          0,
+          -38
+        ]
+      }
+    },
+    {
+      "id": "VN",
+      "type": "V",
+      "value": -12,
+      "ac": 0,
+      "x": 800,
+      "y": 80,
+      "rotation": 0,
+      "schematic": {
+        "label": [
+          0,
+          -38
+        ]
+      }
+    },
+    {
+      "id": "XI",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "INA128",
+        "name": "INA128 · amplificador de instrumentación",
+        "manufacturer": "Texas Instruments",
+        "package": {
+          "id": "DIP-8-300",
+          "name": "DIP-8-300",
+          "art": "dip",
+          "drawing": {
+            "pitchMm": 2.54,
+            "count": 8,
+            "width": 3,
+            "widthInches": 0.3
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "RG",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "V−IN",
+              "x": 1,
+              "y": 0
+            },
+            {
+              "number": 3,
+              "name": "V+IN",
+              "x": 2,
+              "y": 0
+            },
+            {
+              "number": 4,
+              "name": "V−",
+              "x": 3,
+              "y": 0
+            },
+            {
+              "number": 5,
+              "name": "Ref",
+              "x": 3,
+              "y": 3
+            },
+            {
+              "number": 6,
+              "name": "VO",
+              "x": 2,
+              "y": 3
+            },
+            {
+              "number": 7,
+              "name": "V+",
+              "x": 1,
+              "y": 3
+            },
+            {
+              "number": 8,
+              "name": "RG",
+              "x": 0,
+              "y": 3
+            }
+          ],
+          "symbol": "box"
+        },
+        "spice": {
+          "text": "* CC0-1.0; modelo conductual AULA-C a partir de la hoja de datos; no es el modelo del fabricante\n.subckt B309_INA128 RG1 INM INP VN REF OUT VP RG8\n* Dos op-amps de entrada: Aol=1e9, polo dominante; RG es EXTERNA.\nE1 D1 0 INP RG1 1e9\nRP1 D1 A 1\nCP1 A 0 {1e9/(6.283185307179586*22000000)}\nE2 D2 0 INM RG8 1e9\nRP2 D2 B 1\nCP2 B 0 {1e9/(6.283185307179586*22000000)}\nR1 A RG1 25000\nR2 B RG8 25000\n* Compensacion de entrada: polo de realimentacion a 1.3 MHz.\nCF1 A RG1 4.897075172058318e-12\nCF2 B RG8 4.897075172058318e-12\n* La etapa diferencial limita la banda tambien con RG abierta.\n* Tercer op-amp, restador unidad con red didactica, no del fabricante.\nR3 B F3 10k\nR4 DIFF F3 10k\nR5 A P3 10k\nR6 P3 REF 10k\nE3 DIFF REF P3 F3 1e9\nRDIFF DIFF DF 1\nCDIFF DF REF 1.5915494309189535e-07\nBCM RAW 0 V={V(DF)+0.0001*(V(INP)+V(INM))/2}\n* Sin tensión suficiente entre 7 y 4 no hay salida activa.\nBOUT OUT 0 V={V(VP,VN)>2.4 ? max(V(VN)+1.2,min(V(VP)-1.2,V(RAW))) : 0}\nBIQ VP VN I={0.0007*min(1,max(0,V(VP,VN)/2.4))}\nRVP VP 0 1e12\nRVN VN 0 1e12\n.ends B309_INA128"
+        },
+        "mapping": {
+          "1": "RG1",
+          "2": "INM",
+          "3": "INP",
+          "4": "VN",
+          "5": "REF",
+          "6": "OUT",
+          "7": "VP",
+          "8": "RG8"
+        },
+        "parameters": {},
+        "license": "CC0-1.0",
+        "source": "AULA-C, macromodelo original. Hoja de datos: INA128, INA129 Precision, Low-Power Instrumentation Amplifiers, SBOS051G, enero 2026, §6.5 p.8 (PDF local). Sin descarga ni copia de netlist.",
+        "datasheet": "https://www.ti.com/lit/ds/symlink/ina128.pdf",
+        "notes": "Cifras típicas de la hoja de datos, aproximadas para docencia: G=1+50000/RG; sin RG G=1; CMRR a G=100 ≈120 dB; IQ≈0.7 mA. Margen de salida didáctico fijo 1.2 V por riel. Banda determinada por el lazo de entrada y el polo diferencial; no supone BW=GBW/G del chip completo. No reproduce límites de modo común, ruido, offset, slew rate, temperatura, corriente de carga ni protecciones. No usar para verificar seguridad clínica.",
+        "bandwidthReference": [
+          {
+            "gain": 1,
+            "typicalHz": 1300000,
+            "source": "INA128/INA129 SBOS051G, §6.5 Electrical Characteristics (continued), p.8, FREQUENCY RESPONSE, BW Bandwidth −3 dB; G=1000: CSO SHE (FRE: 33 kHz)"
+          },
+          {
+            "gain": 10,
+            "typicalHz": 640000,
+            "source": "INA128/INA129 SBOS051G, §6.5 Electrical Characteristics (continued), p.8, FREQUENCY RESPONSE, BW Bandwidth −3 dB; G=1000: CSO SHE (FRE: 33 kHz)"
+          },
+          {
+            "gain": 100,
+            "typicalHz": 200000,
+            "source": "INA128/INA129 SBOS051G, §6.5 Electrical Characteristics (continued), p.8, FREQUENCY RESPONSE, BW Bandwidth −3 dB; G=1000: CSO SHE (FRE: 33 kHz)"
+          },
+          {
+            "gain": 1000,
+            "typicalHz": 20000,
+            "source": "INA128/INA129 SBOS051G, §6.5 Electrical Characteristics (continued), p.8, FREQUENCY RESPONSE, BW Bandwidth −3 dB; G=1000: CSO SHE (FRE: 33 kHz)"
+          }
+        ]
+      },
+      "x": 600,
+      "y": 300,
+      "rotation": 0,
+      "schematic": {
+        "pins": [
+          [
+            -125,
+            -65
+          ],
+          [
+            -75,
+            30
+          ],
+          [
+            -75,
+            -30
+          ],
+          [
+            0,
+            85
+          ],
+          [
+            35,
+            85
+          ],
+          [
+            85,
+            0
+          ],
+          [
+            0,
+            -85
+          ],
+          [
+            -125,
+            65
+          ]
+        ],
+        "label": [
+          0,
+          -110
+        ]
+      }
+    },
+    {
+      "id": "RL",
+      "type": "R",
+      "value": 10000,
+      "x": 990,
+      "y": 380,
+      "rotation": 90,
+      "schematic": {
+        "label": [
+          75,
+          0
+        ]
+      }
+    },
+    {
+      "id": "G1",
+      "type": "G",
+      "value": 0,
+      "x": 480,
+      "y": 550,
+      "rotation": 0,
+      "schematic": {
+        "label": [
+          0,
+          48
+        ]
+      }
+    },
+    {
+      "id": "RG",
+      "type": "R",
+      "value": 505,
+      "x": 380,
+      "y": 300,
+      "rotation": 90,
+      "schematic": {
+        "label": [
+          0,
+          85
+        ]
+      }
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "a": "VCM:0",
+      "b": "VD:1",
+      "points": [
+        [
+          100,
+          390
+        ],
+        [
+          100,
+          320
+        ]
+      ]
+    },
+    {
+      "id": "w2",
+      "a": "VCM:0",
+      "b": "XI:1",
+      "points": [
+        [
+          100,
+          390
+        ],
+        [
+          100,
+          350
+        ],
+        [
+          460,
+          350
+        ],
+        [
+          460,
+          330
+        ],
+        [
+          525,
+          330
+        ]
+      ]
+    },
+    {
+      "id": "w3",
+      "a": "VD:0",
+      "b": "VRUIDO:1",
+      "points": [
+        [
+          100,
+          240
+        ],
+        [
+          330,
+          240
+        ]
+      ]
+    },
+    {
+      "id": "w4",
+      "a": "VRUIDO:0",
+      "b": "XI:2",
+      "points": [
+        [
+          250,
+          240
+        ],
+        [
+          420,
+          240
+        ],
+        [
+          420,
+          270
+        ],
+        [
+          525,
+          270
+        ]
+      ]
+    },
+    {
+      "id": "w5",
+      "a": "VP:0",
+      "b": "XI:6",
+      "points": [
+        [
+          520,
+          80
+        ],
+        [
+          520,
+          150
+        ],
+        [
+          600,
+          150
+        ],
+        [
+          600,
+          215
+        ]
+      ]
+    },
+    {
+      "id": "w6",
+      "a": "VN:0",
+      "b": "XI:3",
+      "points": [
+        [
+          760,
+          80
+        ],
+        [
+          760,
+          430
+        ],
+        [
+          600,
+          430
+        ],
+        [
+          600,
+          385
+        ]
+      ]
+    },
+    {
+      "id": "w7",
+      "a": "XI:5",
+      "b": "RL:0",
+      "points": [
+        [
+          685,
+          300
+        ],
+        [
+          990,
+          300
+        ],
+        [
+          990,
+          340
+        ]
+      ]
+    },
+    {
+      "id": "w8",
+      "a": "VCM:1",
+      "b": "VP:1",
+      "points": [
+        [
+          100,
+          470
+        ],
+        [
+          100,
+          550
+        ],
+        [
+          1180,
+          550
+        ],
+        [
+          1180,
+          20
+        ],
+        [
+          600,
+          20
+        ],
+        [
+          600,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "w9",
+      "a": "VCM:1",
+      "b": "VN:1",
+      "points": [
+        [
+          100,
+          470
+        ],
+        [
+          100,
+          550
+        ],
+        [
+          840,
+          550
+        ],
+        [
+          840,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "w10",
+      "a": "VCM:1",
+      "b": "XI:4",
+      "points": [
+        [
+          100,
+          470
+        ],
+        [
+          100,
+          550
+        ],
+        [
+          635,
+          550
+        ],
+        [
+          635,
+          385
+        ]
+      ]
+    },
+    {
+      "id": "w13",
+      "a": "VCM:1",
+      "b": "RL:1",
+      "points": [
+        [
+          100,
+          470
+        ],
+        [
+          100,
+          550
+        ],
+        [
+          990,
+          550
+        ],
+        [
+          990,
+          420
+        ]
+      ]
+    },
+    {
+      "id": "w14",
+      "a": "VCM:1",
+      "b": "G1:0",
+      "points": [
+        [
+          100,
+          470
+        ],
+        [
+          100,
+          550
+        ],
+        [
+          480,
+          550
+        ]
+      ]
+    },
+    {
+      "id": "w15",
+      "a": "XI:0",
+      "b": "RG:0",
+      "points": [
+        [
+          475,
+          235
+        ],
+        [
+          380,
+          235
+        ],
+        [
+          380,
+          260
+        ]
+      ]
+    },
+    {
+      "id": "w16",
+      "a": "XI:7",
+      "b": "RG:1",
+      "points": [
+        [
+          475,
+          365
+        ],
+        [
+          380,
+          365
+        ],
+        [
+          380,
+          340
+        ]
+      ]
+    }
+  ],
+  "b309": {
+    "package": "b309-analogica-potencia",
+    "practice": "v-instrumentacion",
+    "probes": [
+      "VD:0",
+      "XI:5"
+    ],
+    "analysis": {
+      "dt": 1e-05,
+      "stop": 0.3,
+      "start": 1,
+      "end": 1000
+    },
+    "chip": "INA128"
+  },
+  "schematicVersion": 1
+}

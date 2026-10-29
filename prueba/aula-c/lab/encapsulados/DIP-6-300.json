@@ -1,0 +1,1 @@
+{"id":"DIP-6-300","name":"DIP-6-300","art":"dip","drawing":{"pitchMm":2.54,"count":6,"width":3,"widthInches":0.3},"pins":[{"number":1,"name":"1","x":0,"y":0},{"number":2,"name":"2","x":1,"y":0},{"number":3,"name":"3","x":2,"y":0},{"number":4,"name":"4","x":2,"y":3},{"number":5,"name":"5","x":1,"y":3},{"number":6,"name":"6","x":0,"y":3}],"symbol":"box"}

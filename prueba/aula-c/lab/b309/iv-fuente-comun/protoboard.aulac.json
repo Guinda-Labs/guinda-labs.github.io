@@ -1,0 +1,269 @@
+{
+  "version": 1,
+  "mode": "board",
+  "components": [
+    {
+      "id": "VDD",
+      "type": "V",
+      "value": 12,
+      "ac": 0,
+      "x": 100,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "VG",
+      "type": "V",
+      "value": 3,
+      "ac": 1,
+      "wave": {
+        "type": "sin",
+        "args": [
+          3,
+          0.001,
+          1000
+        ]
+      },
+      "x": 270,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "XM",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "BS170",
+        "name": "BS170 · modelo simplificado",
+        "package": {
+          "id": "TO-92",
+          "name": "TO-92",
+          "art": "to92",
+          "drawing": {
+            "pitchMm": 2.54
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "D",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "G",
+              "x": 1,
+              "y": 0
+            },
+            {
+              "number": 3,
+              "name": "S",
+              "x": 2,
+              "y": 0
+            }
+          ],
+          "symbol": "box"
+        },
+        "spice": {
+          "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_BS170 D G S\nM1 D G S S UPIITA_BS170_CORE\n.model UPIITA_BS170_CORE NMOS(LEVEL=1 VTO=2 KP=0.02 LAMBDA=0.02)\nRGS G S 1g\n.ends UPIITA_BS170"
+        },
+        "mapping": {
+          "1": "D",
+          "2": "G",
+          "3": "S"
+        },
+        "parameters": {},
+        "notes": "Modelo simplificado MOS nivel 1 propio CC0-1.0; cuerpo unido a S, sin avalancha.",
+        "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+        "license": "CC0-1.0",
+        "appearance": "transistor"
+      },
+      "x": 440,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "RD",
+      "type": "R",
+      "value": 470,
+      "x": 610,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "RG",
+      "type": "R",
+      "value": 1000000.0,
+      "x": 780,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "G1",
+      "type": "G",
+      "value": 0,
+      "x": 100,
+      "y": 230,
+      "rotation": 0
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "a": "VDD:0",
+      "b": "RD:0"
+    },
+    {
+      "id": "w2",
+      "a": "RD:1",
+      "b": "XM:0"
+    },
+    {
+      "id": "w3",
+      "a": "VG:0",
+      "b": "XM:1"
+    },
+    {
+      "id": "w4",
+      "a": "VG:0",
+      "b": "RG:0"
+    },
+    {
+      "id": "w5",
+      "a": "VDD:1",
+      "b": "VG:1"
+    },
+    {
+      "id": "w6",
+      "a": "VDD:1",
+      "b": "XM:2"
+    },
+    {
+      "id": "w7",
+      "a": "VDD:1",
+      "b": "RG:1"
+    },
+    {
+      "id": "w8",
+      "a": "VDD:1",
+      "b": "G1:0"
+    }
+  ],
+  "b309": {
+    "package": "b309-analogica-potencia",
+    "practice": "iv-fuente-comun",
+    "probes": [
+      "VG:0",
+      "RD:1"
+    ],
+    "analysis": {
+      "dt": 2e-06,
+      "stop": 0.01,
+      "start": 1,
+      "end": 100000
+    }
+  },
+  "physical": {
+    "placements": {
+      "VDD": {
+        "holes": [
+          "a:1",
+          "a:2"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "VG": {
+        "holes": [
+          "a:4",
+          "a:5"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "XM": {
+        "holes": [
+          "a:8",
+          "a:9",
+          "a:10"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "RD": {
+        "holes": [
+          "a:13",
+          "a:14"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "RG": {
+        "holes": [
+          "a:17",
+          "a:18"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "G1": {
+        "holes": [
+          "a:21"
+        ],
+        "rotation": 0,
+        "span": 1
+      }
+    },
+    "wires": [
+      {
+        "id": "w1",
+        "a": "d:1",
+        "b": "d:13",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w2",
+        "a": "d:14",
+        "b": "d:8",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w3",
+        "a": "d:4",
+        "b": "d:9",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w4",
+        "a": "d:4",
+        "b": "d:17",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w5",
+        "a": "d:2",
+        "b": "d:5",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w6",
+        "a": "d:2",
+        "b": "d:10",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w7",
+        "a": "d:2",
+        "b": "d:18",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w8",
+        "a": "d:2",
+        "b": "d:21",
+        "color": "#4985cf"
+      }
+    ],
+    "ground": "a:21"
+  }
+}

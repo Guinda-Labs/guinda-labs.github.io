@@ -1,0 +1,502 @@
+{
+  "version": 1,
+  "mode": "board",
+  "components": [
+    {
+      "id": "VIN",
+      "type": "V",
+      "value": 0,
+      "ac": 1,
+      "wave": {
+        "type": "sin",
+        "args": [
+          0,
+          0.01,
+          100
+        ]
+      },
+      "x": 100,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "VP",
+      "type": "V",
+      "value": 12,
+      "ac": 0,
+      "x": 270,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "VN",
+      "type": "V",
+      "value": -12,
+      "ac": 0,
+      "x": 440,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "R1",
+      "type": "R",
+      "value": 10000,
+      "x": 610,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "R2",
+      "type": "R",
+      "value": 10000,
+      "x": 780,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "C1",
+      "type": "C",
+      "value": 1e-08,
+      "x": 100,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "C2",
+      "type": "C",
+      "value": 1e-08,
+      "x": 270,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "XA",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "TL072",
+        "name": "TL072 · modelo simplificado",
+        "package": {
+          "id": "DIP-8-300",
+          "name": "DIP-8-300",
+          "art": "dip",
+          "drawing": {
+            "pitchMm": 2.54,
+            "count": 8,
+            "width": 3,
+            "widthInches": 0.3
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "OUT1",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "INM1",
+              "x": 1,
+              "y": 0
+            },
+            {
+              "number": 3,
+              "name": "INP1",
+              "x": 2,
+              "y": 0
+            },
+            {
+              "number": 4,
+              "name": "VEE",
+              "x": 3,
+              "y": 0
+            },
+            {
+              "number": 5,
+              "name": "INP2",
+              "x": 3,
+              "y": 3
+            },
+            {
+              "number": 6,
+              "name": "INM2",
+              "x": 2,
+              "y": 3
+            },
+            {
+              "number": 7,
+              "name": "OUT2",
+              "x": 1,
+              "y": 3
+            },
+            {
+              "number": 8,
+              "name": "VCC",
+              "x": 0,
+              "y": 3
+            }
+          ],
+          "symbol": "box"
+        },
+        "spice": {
+          "text": "* AULA-C CC0-1.0; modelo simplificado\n.subckt UPIITA_TL072 OUT1 INM1 INP1 VEE INP2 INM2 OUT2 VCC\nRIN1 INP1 INM1 1g\nRIN2 INP2 INM2 1g\nB1 OUT1 0 V={max(V(VEE),min(V(VCC),100000*V(INP1,INM1)))}\nB2 OUT2 0 V={max(V(VEE),min(V(VCC),100000*V(INP2,INM2)))}\n.ends UPIITA_TL072"
+        },
+        "mapping": {
+          "1": "OUT1",
+          "2": "INM1",
+          "3": "INP1",
+          "4": "VEE",
+          "5": "INP2",
+          "6": "INM2",
+          "7": "OUT2",
+          "8": "VCC"
+        },
+        "parameters": {},
+        "notes": "Modelo simplificado propio CC0-1.0, dos opamps de ganancia 100k sin ancho de banda, slew rate ni corriente de alimentación.",
+        "source": "AULA-C; ecuaciones estándar SPICE, ver encapsulados/LICENCIAS.md",
+        "license": "CC0-1.0"
+      },
+      "x": 440,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "RF",
+      "type": "R",
+      "value": 5860,
+      "x": 610,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "RG",
+      "type": "R",
+      "value": 10000,
+      "x": 780,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "G1",
+      "type": "G",
+      "value": 0,
+      "x": 100,
+      "y": 370,
+      "rotation": 0
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "a": "VIN:0",
+      "b": "R1:0"
+    },
+    {
+      "id": "w2",
+      "a": "R1:1",
+      "b": "R2:0"
+    },
+    {
+      "id": "w3",
+      "a": "R1:1",
+      "b": "C1:0"
+    },
+    {
+      "id": "w4",
+      "a": "R2:1",
+      "b": "C2:0"
+    },
+    {
+      "id": "w5",
+      "a": "R2:1",
+      "b": "XA:2"
+    },
+    {
+      "id": "w6",
+      "a": "C1:1",
+      "b": "XA:0"
+    },
+    {
+      "id": "w7",
+      "a": "C1:1",
+      "b": "RF:0"
+    },
+    {
+      "id": "w8",
+      "a": "RF:1",
+      "b": "RG:0"
+    },
+    {
+      "id": "w9",
+      "a": "RF:1",
+      "b": "XA:1"
+    },
+    {
+      "id": "w10",
+      "a": "VIN:1",
+      "b": "VP:1"
+    },
+    {
+      "id": "w11",
+      "a": "VIN:1",
+      "b": "VN:1"
+    },
+    {
+      "id": "w12",
+      "a": "VIN:1",
+      "b": "C2:1"
+    },
+    {
+      "id": "w13",
+      "a": "VIN:1",
+      "b": "RG:1"
+    },
+    {
+      "id": "w14",
+      "a": "VIN:1",
+      "b": "XA:4"
+    },
+    {
+      "id": "w15",
+      "a": "VIN:1",
+      "b": "G1:0"
+    },
+    {
+      "id": "w16",
+      "a": "VP:0",
+      "b": "XA:7"
+    },
+    {
+      "id": "w17",
+      "a": "VN:0",
+      "b": "XA:3"
+    },
+    {
+      "id": "w18",
+      "a": "XA:5",
+      "b": "XA:6"
+    }
+  ],
+  "b309": {
+    "package": "b309-analogica-potencia",
+    "practice": "v-sallen-key",
+    "probes": [
+      "VIN:0",
+      "XA:0"
+    ],
+    "analysis": {
+      "dt": 2e-06,
+      "stop": 0.02,
+      "start": 10,
+      "end": 100000
+    }
+  },
+  "physical": {
+    "placements": {
+      "VIN": {
+        "holes": [
+          "a:1",
+          "a:2"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "VP": {
+        "holes": [
+          "a:4",
+          "a:5"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "VN": {
+        "holes": [
+          "a:7",
+          "a:8"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "R1": {
+        "holes": [
+          "a:10",
+          "a:11"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "R2": {
+        "holes": [
+          "a:13",
+          "a:14"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "C1": {
+        "holes": [
+          "a:16",
+          "a:17"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "C2": {
+        "holes": [
+          "a:19",
+          "a:20"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "XA": {
+        "holes": [
+          "e:24",
+          "e:25",
+          "e:26",
+          "e:27",
+          "f:27",
+          "f:26",
+          "f:25",
+          "f:24"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "RF": {
+        "holes": [
+          "a:30",
+          "a:31"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "RG": {
+        "holes": [
+          "a:34",
+          "a:35"
+        ],
+        "rotation": 0,
+        "span": 1
+      },
+      "G1": {
+        "holes": [
+          "a:38"
+        ],
+        "rotation": 0,
+        "span": 1
+      }
+    },
+    "wires": [
+      {
+        "id": "w1",
+        "a": "d:1",
+        "b": "d:10",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w2",
+        "a": "d:11",
+        "b": "d:13",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w3",
+        "a": "d:11",
+        "b": "d:16",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w4",
+        "a": "d:14",
+        "b": "d:19",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w5",
+        "a": "d:14",
+        "b": "d:26",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w6",
+        "a": "d:17",
+        "b": "d:24",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w7",
+        "a": "d:17",
+        "b": "d:30",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w8",
+        "a": "d:31",
+        "b": "d:34",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w9",
+        "a": "d:31",
+        "b": "d:25",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w10",
+        "a": "d:2",
+        "b": "d:5",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w11",
+        "a": "d:2",
+        "b": "d:8",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w12",
+        "a": "d:2",
+        "b": "d:20",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w13",
+        "a": "d:2",
+        "b": "d:35",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w14",
+        "a": "d:2",
+        "b": "i:27",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w15",
+        "a": "d:2",
+        "b": "d:38",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w16",
+        "a": "d:4",
+        "b": "i:24",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w17",
+        "a": "d:7",
+        "b": "d:27",
+        "color": "#4985cf"
+      },
+      {
+        "id": "w18",
+        "a": "i:26",
+        "b": "i:25",
+        "color": "#4985cf"
+      }
+    ],
+    "ground": "a:38"
+  }
+}

@@ -1,0 +1,352 @@
+{
+  "version": 1,
+  "mode": "scheme",
+  "components": [
+    {
+      "id": "VLED",
+      "type": "V",
+      "value": 5,
+      "ac": 0,
+      "x": 100,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "RLED",
+      "type": "R",
+      "value": 680,
+      "x": 270,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "XO",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "OPTO4N25",
+        "name": "Optoacoplador tipo 4N25 · modelo simplificado",
+        "package": {
+          "id": "DIP-6-300",
+          "name": "DIP-6-300",
+          "art": "dip",
+          "drawing": {
+            "pitchMm": 2.54,
+            "count": 6,
+            "width": 3,
+            "widthInches": 0.3
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "A",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "K",
+              "x": 1,
+              "y": 0
+            },
+            {
+              "number": 3,
+              "name": "NC",
+              "x": 2,
+              "y": 0
+            },
+            {
+              "number": 4,
+              "name": "E",
+              "x": 2,
+              "y": 3
+            },
+            {
+              "number": 5,
+              "name": "C",
+              "x": 1,
+              "y": 3
+            },
+            {
+              "number": 6,
+              "name": "B",
+              "x": 0,
+              "y": 3
+            }
+          ],
+          "symbol": "box"
+        },
+        "spice": {
+          "text": "* AULA-C original CC0-1.0; modelo simplificado\n.subckt B309_OPTO4N25 A K NC E C B\nDLED A S LED\nVS S K 0\nGPHOTO C E VALUE={max(I(VS),0)*0.5}\nRCE C E 1e9\nRB B E 1meg\nRNC NC K 1e12\n.model LED D(IS=1e-20 N=2 RS=10)\n.ends B309_OPTO4N25"
+        },
+        "mapping": {
+          "1": "A",
+          "2": "K",
+          "3": "NC",
+          "4": "E",
+          "5": "C",
+          "6": "B"
+        },
+        "parameters": {},
+        "source": "AULA-C; ecuaciones SPICE y macromodelos originales, sin consulta de red ni ajuste a fabricante.",
+        "license": "CC0-1.0",
+        "notes": "Modelo simplificado didáctico. CTR fijo 50%; fuente de corriente sin saturación, válida aquí con VCE positivo. Sin dependencia espectral ni dinámica."
+      },
+      "x": 440,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "VCC",
+      "type": "V",
+      "value": 5,
+      "ac": 0,
+      "x": 610,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "RC",
+      "type": "R",
+      "value": 1000,
+      "x": 780,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "VLED2",
+      "type": "V",
+      "value": 5,
+      "ac": 0,
+      "x": 100,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "RLED2",
+      "type": "R",
+      "value": 330,
+      "x": 270,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "XM",
+      "type": "X",
+      "value": 0,
+      "definition": {
+        "id": "MOC3021",
+        "name": "Optotriac tipo MOC3021 · modelo simplificado",
+        "package": {
+          "id": "DIP-6-300",
+          "name": "DIP-6-300",
+          "art": "dip",
+          "drawing": {
+            "pitchMm": 2.54,
+            "count": 6,
+            "width": 3,
+            "widthInches": 0.3
+          },
+          "pins": [
+            {
+              "number": 1,
+              "name": "A",
+              "x": 0,
+              "y": 0
+            },
+            {
+              "number": 2,
+              "name": "K",
+              "x": 1,
+              "y": 0
+            },
+            {
+              "number": 3,
+              "name": "NC3",
+              "x": 2,
+              "y": 0
+            },
+            {
+              "number": 4,
+              "name": "MT1",
+              "x": 2,
+              "y": 3
+            },
+            {
+              "number": 5,
+              "name": "NC5",
+              "x": 1,
+              "y": 3
+            },
+            {
+              "number": 6,
+              "name": "MT2",
+              "x": 0,
+              "y": 3
+            }
+          ],
+          "symbol": "box"
+        },
+        "spice": {
+          "text": "* AULA-C original CC0-1.0; modelo simplificado\n.subckt B309_MOC3021 A K NC3 MT1 NC5 MT2\nDLED A S LED\nVS S K 0\nBCTR CTRL 0 V=abs(I(VS))*200\nSOUT MT1 MT2 CTRL 0 OSW\nR3 NC3 K 1e12\nR5 NC5 K 1e12\n.model LED D(IS=1e-20 N=2 RS=10)\n.model OSW SW(RON=20 ROFF=1e12 VT=1 VH=0.05)\n.ends B309_MOC3021"
+        },
+        "mapping": {
+          "1": "A",
+          "2": "K",
+          "3": "NC3",
+          "4": "MT1",
+          "5": "NC5",
+          "6": "MT2"
+        },
+        "parameters": {},
+        "source": "AULA-C; ecuaciones SPICE y macromodelos originales, sin consulta de red ni ajuste a fabricante.",
+        "license": "CC0-1.0",
+        "notes": "Modelo simplificado didáctico. Umbral LED 5 mA; salida bilateral sin retención ni cruce por cero; aislamiento galvánico ideal, no certifica seguridad."
+      },
+      "x": 440,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "VISO",
+      "type": "V",
+      "value": 12,
+      "ac": 0,
+      "x": 610,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "RL",
+      "type": "R",
+      "value": 1000,
+      "x": 780,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "G1",
+      "type": "G",
+      "value": 0,
+      "x": 100,
+      "y": 370,
+      "rotation": 0
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "a": "VLED:0",
+      "b": "RLED:0"
+    },
+    {
+      "id": "w2",
+      "a": "RLED:1",
+      "b": "XO:0"
+    },
+    {
+      "id": "w3",
+      "a": "VLED:1",
+      "b": "XO:1"
+    },
+    {
+      "id": "w4",
+      "a": "VLED:1",
+      "b": "XO:2"
+    },
+    {
+      "id": "w5",
+      "a": "VLED:1",
+      "b": "G1:0"
+    },
+    {
+      "id": "w6",
+      "a": "VLED:1",
+      "b": "VCC:1"
+    },
+    {
+      "id": "w7",
+      "a": "VLED:1",
+      "b": "XO:3"
+    },
+    {
+      "id": "w8",
+      "a": "VLED:1",
+      "b": "XO:5"
+    },
+    {
+      "id": "w9",
+      "a": "VLED:1",
+      "b": "VLED2:1"
+    },
+    {
+      "id": "w10",
+      "a": "VLED:1",
+      "b": "XM:1"
+    },
+    {
+      "id": "w11",
+      "a": "VLED:1",
+      "b": "XM:2"
+    },
+    {
+      "id": "w12",
+      "a": "VLED:1",
+      "b": "XM:4"
+    },
+    {
+      "id": "w13",
+      "a": "VLED:1",
+      "b": "VISO:1"
+    },
+    {
+      "id": "w14",
+      "a": "VLED:1",
+      "b": "XM:3"
+    },
+    {
+      "id": "w15",
+      "a": "VCC:0",
+      "b": "RC:0"
+    },
+    {
+      "id": "w16",
+      "a": "RC:1",
+      "b": "XO:4"
+    },
+    {
+      "id": "w17",
+      "a": "VLED2:0",
+      "b": "RLED2:0"
+    },
+    {
+      "id": "w18",
+      "a": "RLED2:1",
+      "b": "XM:0"
+    },
+    {
+      "id": "w19",
+      "a": "VISO:0",
+      "b": "RL:0"
+    },
+    {
+      "id": "w20",
+      "a": "RL:1",
+      "b": "XM:5"
+    }
+  ],
+  "b309": {
+    "package": "b309-analogica-potencia",
+    "practice": "i-aislamiento",
+    "probes": [
+      "VLED:0",
+      "XO:4"
+    ],
+    "analysis": {
+      "dt": 1e-05,
+      "stop": 0.005,
+      "start": 1,
+      "end": 10000
+    }
+  }
+}

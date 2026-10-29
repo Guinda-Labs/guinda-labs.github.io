@@ -1,0 +1,1 @@
+{"id":"button-4","name":"button-4","art":"button","drawing":{"pitchMm":2.54},"pins":[{"number":1,"name":"A1","x":0,"y":0},{"number":2,"name":"A2","x":2,"y":0},{"number":3,"name":"B1","x":0,"y":3},{"number":4,"name":"B2","x":2,"y":3}],"symbol":"box"}

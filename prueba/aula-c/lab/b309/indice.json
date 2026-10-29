@@ -1,0 +1,265 @@
+[
+  {
+    "id": "i-fase",
+    "unit": "I",
+    "title": "Control de fase TRIAC y DIAC",
+    "package": "b309-analogica-potencia",
+    "analysis": {
+      "dt": 5e-06,
+      "stop": 0.15,
+      "start": 1,
+      "end": 10000
+    },
+    "expected": {
+      "alpha_47000": [
+        57.0028,
+        3
+      ],
+      "power_47000": [
+        133.6621,
+        5
+      ],
+      "alpha_100000": [
+        99.4729,
+        3
+      ],
+      "power_100000": [
+        63.8224,
+        5
+      ]
+    },
+    "probes": [
+      "XRED:0",
+      "RL:0"
+    ],
+    "variants": [
+      {
+        "RT": 47000
+      },
+      {
+        "RT": 100000
+      }
+    ],
+    "board": false
+  },
+  {
+    "id": "i-aislamiento",
+    "unit": "I",
+    "title": "Aislamiento óptico con MOC3021 y 4N25",
+    "package": "b309-analogica-potencia",
+    "analysis": {
+      "dt": 1e-05,
+      "stop": 0.005,
+      "start": 1,
+      "end": 10000
+    },
+    "expected": {
+      "collector_v": [
+        2.898,
+        0.05
+      ],
+      "load_v": [
+        11.7647,
+        0.05
+      ],
+      "dark_v": [
+        5,
+        0.01
+      ]
+    },
+    "probes": [
+      "VLED:0",
+      "XO:4"
+    ],
+    "variants": [],
+    "board": true
+  },
+  {
+    "id": "ii-rectificador",
+    "unit": "II",
+    "title": "Rectificación y rizo capacitivo",
+    "package": "b309-analogica-potencia",
+    "analysis": {
+      "dt": 2e-05,
+      "stop": 1,
+      "start": 1,
+      "end": 10000
+    },
+    "expected": {
+      "full_v": [
+        10.6556,
+        0.5
+      ],
+      "full_ripple": [
+        0.0888,
+        0.025
+      ],
+      "half_v": [
+        11.2562,
+        0.5
+      ],
+      "half_ripple": [
+        0.1876,
+        0.04
+      ]
+    },
+    "probes": [
+      "VAC:0",
+      "RL:0"
+    ],
+    "variants": [],
+    "board": true
+  },
+  {
+    "id": "ii-buck",
+    "unit": "II",
+    "title": "Convertidor reductor PWM",
+    "package": "b309-analogica-potencia",
+    "analysis": {
+      "dt": 5e-06,
+      "stop": 0.2,
+      "start": 10,
+      "end": 100000
+    },
+    "expected": {
+      "output_v": [
+        5.878,
+        0.15
+      ],
+      "ripple_v": [
+        0.00094,
+        0.0005
+      ]
+    },
+    "probes": [
+      "VIN:0",
+      "RL:0"
+    ],
+    "variants": [],
+    "board": true
+  },
+  {
+    "id": "iii-emisor-comun",
+    "unit": "III",
+    "title": "Emisor común con divisor y RE desviada",
+    "package": "b309-analogica-potencia",
+    "analysis": {
+      "dt": 2e-06,
+      "stop": 0.01,
+      "start": 1,
+      "end": 100000
+    },
+    "expected": {
+      "gain": [
+        91.64,
+        8
+      ],
+      "vce": [
+        7.7828,
+        0.3
+      ],
+      "zin": [
+        1588,
+        160
+      ],
+      "zout": [
+        2200,
+        5
+      ]
+    },
+    "probes": [
+      "V2:0",
+      "RL:0"
+    ],
+    "variants": [],
+    "board": true
+  },
+  {
+    "id": "iv-fuente-comun",
+    "unit": "IV",
+    "title": "Fuente común con MOSFET",
+    "package": "b309-analogica-potencia",
+    "analysis": {
+      "dt": 2e-06,
+      "stop": 0.01,
+      "start": 1,
+      "end": 100000
+    },
+    "expected": {
+      "drain_v": [
+        6.67276,
+        0.05
+      ],
+      "gain": [
+        9.73898,
+        0.15
+      ]
+    },
+    "probes": [
+      "VG:0",
+      "RD:1"
+    ],
+    "variants": [],
+    "board": true
+  },
+  {
+    "id": "v-sallen-key",
+    "unit": "V",
+    "title": "Sallen-Key pasabajas de segundo orden",
+    "package": "b309-analogica-potencia",
+    "analysis": {
+      "dt": 2e-06,
+      "stop": 0.02,
+      "start": 10,
+      "end": 100000
+    },
+    "expected": {
+      "cutoff_hz": [
+        1591.549,
+        40
+      ],
+      "gain": [
+        1.586,
+        0.01
+      ]
+    },
+    "probes": [
+      "VIN:0",
+      "XA:0"
+    ],
+    "variants": [],
+    "board": true
+  },
+  {
+    "id": "v-instrumentacion",
+    "unit": "V",
+    "title": "Instrumentación para bioseñal simulada",
+    "package": "b309-analogica-potencia",
+    "analysis": {
+      "dt": 1e-05,
+      "stop": 0.3,
+      "start": 1,
+      "end": 1000
+    },
+    "expected": {
+      "gain": [
+        101.025237,
+        0.3
+      ],
+      "cmrr_db": [
+        106.1137,
+        0.3
+      ],
+      "bio_peak_v": [
+        0.1021,
+        0.003
+      ]
+    },
+    "probes": [
+      "VD:0",
+      "XI:4"
+    ],
+    "variants": [],
+    "board": true
+  }
+]

@@ -1,0 +1,1 @@
+{"id":"battery","name":"Pila con dos bornes","art":"battery","drawing":{"pitchMm":2.54,"span":8},"pins":[{"number":1,"name":"+","x":0,"y":0},{"number":2,"name":"−","x":8,"y":0}],"symbol":"V"}
