@@ -1,162 +1,162 @@
 document.getElementById('v-hor').innerHTML="\n    <div hidden><p id=\"cupos-ayuda\"></p><a id=\"cupos-instalar\" class=\"saes-bm\" href=\"javascript:(function(){var s=document.createElement(&#x27;script&#x27;);s.src=&#x27;https://guinda-labs.github.io/prueba/sate.js?v=&#x27;+Date.now();document.head.appendChild(s)})()\" draggable=\"true\" onclick=\"event.preventDefault()\"></a></div>\n    <div class=\"est-eqv\" id=\"est-eqv\" hidden></div>\n    <div id=\"hor-desfase\"></div>\n    <section class=\"filters\" id=\"filters\" aria-label=\"Filtros\">\n      <div class=\"field\"><span>Turno</span><div class=\"chips\" id=\"f-turno\"></div></div>\n      <div class=\"field\"><span>Nivel</span><div class=\"chips\" id=\"f-nivel\"></div></div>\n      <div class=\"field search\">\n        <span id=\"q-lbl\">Buscar</span>\n        <input id=\"f-q\" type=\"search\" role=\"combobox\" aria-autocomplete=\"list\" aria-expanded=\"false\" aria-controls=\"ac\" aria-labelledby=\"q-lbl\" placeholder=\"Materia, clave, profesor o grupo\" autocomplete=\"off\">\n        <ul class=\"ac\" id=\"ac\" role=\"listbox\" hidden></ul>\n      </div>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-want\"> <span id=\"f-want-l\">Solo las elegidas en el Mapa curricular</span></label>\n      <details id=\"f-more\"><summary id=\"f-more-title\" data-htexto=\"mas_filtros\">Más filtros</summary><div class=\"more-filters\">\n      <div class=\"field\"><span>Ver por</span><div class=\"seg\" role=\"group\" aria-label=\"Agrupar oferta\">\n        <button data-view=\"materia\">Materia</button><button data-view=\"grupo\">Grupo</button>\n      </div></div>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-hide\"> Ocultar las marcadas como No</label>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-done\" checked> <span data-htexto=\"ocultar_acreditadas\">Ocultar las ya acreditadas</span></label>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-cupo\"> <span data-htexto=\"solo_cupo\">Solo con cupo</span></label><small id=\"f-cupo-ayuda\" aria-live=\"polite\"></small>\n      <label class=\"check\" title=\"Muestra los grupos de la carrera compatibles con el horario actual\"><input type=\"checkbox\" id=\"f-fit\"> Solo lo que cabe en mi horario</label>\n      <div class=\"field\" id=\"g-window\"><div class=\"trange\"><label class=\"field\"><span data-htexto=\"d_entrada\"></span><select id=\"g-from\" aria-label=\"Llegar desde\"></select></label><label class=\"field\"><span data-htexto=\"d_salida\"></span><select id=\"g-to\" aria-label=\"Salir a más tardar\"></select></label></div></div>\n      <label class=\"field\"><span>Excluir profesores</span><input type=\"text\" id=\"g-avoid\" list=\"proflist\" autocomplete=\"off\"></label>\n      <button type=\"button\" class=\"btn\" id=\"b-reset\" title=\"Regresa a su valor inicial los filtros de la oferta, los profesores excluidos, el horario en la escuela y las preferencias del generador, y quita las marcas «Sí / Quizá / No». No borra tus horarios.\">Restablecer filtros</button>\n      </div></details>\n      <div class=\"active\" id=\"active\"></div>\n    </section>\n\n    <button type=\"button\" class=\"btn horario-flotante\" id=\"b-horario\" data-htexto=\"horario_ver\" aria-haspopup=\"dialog\">Ver horario</button>\n    <div class=\"hlayout\">\n      <section aria-labelledby=\"h-offer\">\n        <details class=\"box2\" id=\"mi-semana\" hidden>\n          <summary id=\"semana-resumen\" data-htexto=\"semana_titulo\"></summary>\n          <p data-htexto=\"semana_subtitulo\"></p>\n          <p data-htexto=\"semana_privacidad\"></p>\n          <div id=\"semana-campos\">\n            <div id=\"semana-principales\" class=\"semana-campos\"></div>\n            <div id=\"semana-form\"></div>\n            <details id=\"semana-opciones\">\n              <summary data-htexto=\"semana_mas_opciones\"></summary>\n              <div id=\"semana-secundarios\" class=\"semana-campos\"></div>\n            </details>\n          </div>\n          <div id=\"semana-bloques\"></div>\n          <div id=\"semana-presupuesto\" aria-live=\"polite\"></div>\n          <div class=\"ownrow\"><button type=\"button\" class=\"btn\" id=\"semana-borrar\" data-htexto=\"semana_borrar\"></button><span id=\"semana-borrar-ayuda\"></span></div>\n        </details>\n        <details class=\"box2\" id=\"gen\" style=\"margin-bottom:var(--ipn-esp-3)\">\n          <summary>Generar horarios automáticamente</summary>\n          <p style=\"font-size:var(--ipn-tamano-s);margin:var(--ipn-esp-2) 0 0\">Genera combinaciones sin traslapes con los grupos de las materias seleccionadas. Prioriza los grupos marcados con «Sí» y los profesores indicados; omite los marcados con «No», los profesores excluidos y los grupos fuera del horario definido en los filtros.</p>\n          <div class=\"genrow\">\n            <div class=\"field\"><span>Turno preferido</span><div class=\"seg\" role=\"group\" aria-label=\"Turno preferido\">\n              <button aria-pressed=\"true\" data-gt=\"*\">Cualquiera</button><button aria-pressed=\"false\" data-gt=\"M\">Matutino</button><button aria-pressed=\"false\" data-gt=\"V\">Vespertino</button>\n            </div></div>\n            <label class=\"field\"><span>Priorizar profesor</span><input type=\"text\" id=\"g-pref\" list=\"proflist\" autocomplete=\"off\"></label>\n            <datalist id=\"proflist\"></datalist>\n            <label class=\"check\" title=\"Prioriza horarios con menos tiempo libre entre clases y menos días en la escuela\"><input type=\"checkbox\" id=\"g-compact\" checked> Menos tiempo libre entre clases</label>\n            <label class=\"check\"><input type=\"checkbox\" id=\"cupos-omitir\" disabled aria-describedby=\"cupos-omitir-ayuda\"><span id=\"cupos-omitir-texto\"></span></label>\n            <small id=\"cupos-omitir-ayuda\" class=\"cupos-antigua\"></small>\n            <button class=\"btn primary\" id=\"b-gen\">Generar</button>\n            <button class=\"btn\" type=\"button\" id=\"b-gen-clear\" data-htexto=\"generador_borrar\" hidden>Borrar opciones generadas</button>\n          </div>\n          <div class=\"gtime\">\n            <div class=\"field\"><span>Días a la semana</span><div class=\"seg\" role=\"group\" aria-label=\"Días a la semana en la escuela\" id=\"g-days\">\n              <button type=\"button\" aria-pressed=\"true\" data-gdays=\"\">Sin límite</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"3\">3</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"4\">4</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"5\">5</button></div></div>\n            <div class=\"field\"><span>Base para generar</span><div class=\"seg\" role=\"group\" aria-label=\"Base para generar\" id=\"g-src\">\n              <button type=\"button\" aria-pressed=\"true\" data-gsrc=\"\" title=\"Usa las materias y grupos que muestra la oferta con los filtros actuales\">Filtros de la oferta</button><button type=\"button\" aria-pressed=\"false\" data-gsrc=\"todo\" title=\"Usa todas las materias elegidas y todos sus grupos, sin los filtros de la oferta (se respetan las marcas «No» y los profesores excluidos)\">Todas las elegidas</button></div></div>\n            <div class=\"field\"><span>Materias por horario</span><div class=\"seg\" role=\"group\" aria-label=\"Materias por horario\" id=\"g-n\">\n              <button type=\"button\" aria-pressed=\"false\" data-gn=\"auto\" title=\"El generador elige cuántas y cuáles materias, buscando la carga media y un horario saludable: permanencia razonable, espacio para comer y sin bloques largos sin descanso\">Automático</button><button type=\"button\" aria-pressed=\"true\" data-gn=\"\">Todas</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"3\">3</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"4\">4</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"5\">5</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"6\">6</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"7\">7</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"8\">8</button></div></div>\n            <div class=\"field\"><span>Descansos</span><div class=\"gbreaks\" id=\"gbreaks\"></div></div>\n          </div>\n          <div class=\"active\" id=\"gprefs\" style=\"padding-top:var(--ipn-esp-2)\"></div>\n          <p id=\"gen-status\" role=\"status\" aria-live=\"polite\"></p>\n          <div class=\"genres\" id=\"genres\"></div>\n        </details>\n        <details class=\"box2\" id=\"equiv\" style=\"margin-bottom:var(--ipn-esp-3)\" hidden>\n          <summary>Ver equivalencias con otras carreras de tu unidad académica</summary>\n          <div id=\"equiv-body\"></div>\n        </details>\n        <div class=\"colhead\"><h2 id=\"h-offer\">Oferta</h2><span class=\"count\" id=\"offer-count\"></span></div>\n        <div class=\"cupos-cabecera\"><span id=\"cupos-estado\" role=\"status\"></span><button class=\"btn sate-cupos-consultar\" type=\"button\" data-cupos-ayuda><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M4 4h16v16H4zM4 10h16M10 10v10\"/></svg><span data-cupos-etiqueta></span></button></div>\n        <div class=\"offer\" id=\"offer\"></div>\n      </section>\n      <section class=\"planner\" aria-labelledby=\"h-plan\">\n        <div class=\"cupos-cabecera\"><span id=\"cupos-estado-horario\"></span></div>\n        <p id=\"cupos-llenos\" hidden><span id=\"cupos-llenos-texto\"></span> <button class=\"link\" type=\"button\" id=\"cupos-alternativas\"></button></p>\n        <div class=\"colhead\"><h2 id=\"h-plan\">Mi horario</h2>\n          <div class=\"actions\">\n            <div class=\"seg calview\" role=\"group\" aria-label=\"Vista del horario\"><button type=\"button\" data-cview=\"semana\">Semana</button><button type=\"button\" data-cview=\"dia\">Por día</button></div>\n            <label class=\"check\"><input type=\"checkbox\" id=\"f-weekend\"> Mostrar fin de semana</label>\n            <button class=\"btn\" id=\"b-export\" type=\"button\" aria-haspopup=\"dialog\">Exportar horario</button>\n            <button class=\"btn\" id=\"b-propuestas\" type=\"button\" aria-haspopup=\"dialog\"><span class=\"sate-pestana__icono\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg></span><span data-htexto=\"d_propuestas\"></span></button>\n            <button class=\"btn\" id=\"b-saeshor\" hidden title=\"Carga en la versión seleccionada el horario inscrito según el SAES\">Traer horario inscrito (SAES)</button>\n            <button class=\"btn\" id=\"b-clear\">Vaciar</button>\n          </div>\n        </div>\n        <p class=\"muted\" id=\"exp-msg\" aria-live=\"polite\" style=\"margin:0 0 var(--ipn-esp-2);font-size:var(--ipn-tamano-s);min-height:1.3em\"></p>\n        <div class=\"plans\" id=\"plans\" role=\"group\" aria-label=\"Versiones de horario\"></div>\n        <div class=\"calwrap\"><div class=\"cal\" id=\"cal\"></div></div>\n        <div class=\"agenda\" id=\"agenda\" hidden></div>\n        <div class=\"summary\">\n          <div class=\"stats\" id=\"stats\"></div>\n          <div class=\"load\" id=\"load\"></div>\n          <p id=\"cupos-alerta\" hidden><button type=\"button\" class=\"link\" data-cupos-riesgos></button></p>\n          <div id=\"cupos-resultado\"><p id=\"cupos-cambio\" role=\"status\" aria-live=\"polite\"></p><button type=\"button\" class=\"btn\" id=\"cupos-deshacer\" data-cupos-deshacer hidden></button></div>\n          <div class=\"sel\" id=\"sel\"></div>\n          <div id=\"cupos-opciones\"></div>\n          <div class=\"aviso-deshacer\" id=\"own-deshacer\" role=\"status\" aria-live=\"polite\" hidden><span id=\"own-deshacer-txt\"></span> <button type=\"button\" class=\"link\" id=\"own-deshacer-b\" data-htexto=\"semana_deshacer\"></button></div>\n          <details class=\"box2\" id=\"ownform\">\n            <summary>Agregar actividad extracurricular</summary>\n            <form class=\"ownrow\" id=\"own-f\">\n              <label class=\"field\"><span>Nombre</span><input type=\"text\" id=\"own-n\" placeholder=\"Inglés CELEX\" required></label>\n              <div class=\"field\"><span>Días</span><div class=\"daypick\" id=\"own-d\"></div></div>\n              <label class=\"field\"><span>De</span><select id=\"own-a\" required></select></label>\n              <label class=\"field\"><span>A</span><select id=\"own-b\" required></select></label>\n              <button class=\"btn primary\" type=\"submit\">Agregar</button>\n            </form>\n          </details>\n          <textarea class=\"copy\" id=\"copybox\" readonly hidden></textarea>\n        </div>\n      </section>\n    </div>\n    <dialog class=\"horario-compacto\" id=\"horario-compacto\" aria-labelledby=\"horario-compacto-titulo\">\n      <div class=\"dl-head\"><h2 id=\"horario-compacto-titulo\" data-htexto=\"horario_ver\">Ver horario</h2><button class=\"btn\" type=\"button\" id=\"horario-compacto-cerrar\" data-htexto=\"horario_cerrar\">Cerrar</button></div>\n      <div id=\"horario-compacto-cuerpo\"></div>\n    </dialog>\n  ";
 const txH=(clave,vars)=>SATE.texto('sate.horarios.'+clave,vars);
-// Prueba privada: no modifica los controles existentes si está apagada.
+ 
 const FILTROS_D=(()=>{const url=globalThis.SATE_CONFIG?.pruebaFiltrosD||globalThis.location?.hash?.includes('#filtros-d');try{return url||localStorage.getItem('sate.prueba.filtrosD')==='1'}catch{return !!url}})();
 function montarFiltrosD(){
-  if(!FILTROS_D||$('#filters').classList.contains('filtros-d'))return;
-  const filtros=$('#filters'),mas=$('#f-more .more-filters');
-  filtros.classList.add('filtros-d');
-  filtros.prepend($('#f-q').closest('.field'));
-  mas.prepend($('#f-nivel').closest('.field'));
-  for(const id of ['f-cupo','f-fit'])filtros.insertBefore($('#'+id).closest('label'),$('#f-more'));
-  $('#f-fit').closest('label').lastChild.textContent=txH('d_sin_choques');
-  const impacto=document.createElement('section');impacto.className='filtros-d-impacto';
-  impacto.innerHTML=`<strong id="d-cuenta" role="status"></strong><details><summary>${esc(txH('d_por_que'))}</summary><ul id="d-reglas"></ul></details><div id="d-activos" class="active"></div>`;
-  filtros.after(impacto);
-  $('#active').hidden=true;
-  $('#f-hide').closest('label').hidden=true;
-  $('#b-reset').hidden=true;
-  for(const id of ['g-src'])$('#'+id).closest('.field').hidden=true;
-  $('[data-gt]').closest('.field').hidden=true;
-  $('#cupos-omitir').closest('label').hidden=true;
-  $('#cupos-omitir-ayuda').hidden=true;
-  $('#h-offer').parentElement.appendChild($('[data-view]').closest('.field'));
-  filtros.insertBefore($('#g-window'),$('#f-more'));
-  const panel=document.createElement('dialog');panel.className='filtros-d-panel';panel.setAttribute('aria-label',txH('mas_filtros'));
-  const cerrar=document.createElement('button');cerrar.type='button';cerrar.className='btn';cerrar.textContent=txH('d_cerrar');
-  const cab=document.createElement('header');cab.className='tramite-encabezado';
-  const titulo=document.createElement('h2');titulo.textContent=txH('d_filtros');
-  cerrar.textContent='×';cerrar.setAttribute('aria-label',txH('d_cerrar'));
-  cab.append(titulo,cerrar);panel.append(cab,mas);$('#v-hor').appendChild(panel);
-  const resumen=document.createElement('p');resumen.id='d-panel-resumen';resumen.setAttribute('role','status');
-  panel.insertBefore(resumen,mas);
-  const grupo=(clave,elementos)=>{
-    const seccion=document.createElement('section'),titulo=document.createElement('h3');
-    titulo.textContent=txH(clave);seccion.appendChild(titulo);
-    for(const el of elementos)seccion.appendChild(el);
-    mas.appendChild(seccion);
-  };
-  const cupo=document.createElement('div');cupo.className='d-cupo';cupo.append($('#f-cupo').closest('label'),$('#f-cupo-ayuda'));
-  grupo('d_que',[$('#f-nivel').closest('.field'),$('#f-done').closest('label'),cupo]);
-  const horas=document.createElement('div');horas.className='trange';
-  for(const [id,k] of [['d-from','d_entrada'],['d-to','d_salida']]){
-    const campo=document.createElement('label');campo.className='field';
-    campo.innerHTML=`<span>${esc(txH(k))}</span><select id="${id}" aria-label="${esc(txH(k))}"></select>`;horas.appendChild(campo);
-  }
-  grupo('d_cuando',[horas,$('#f-fit').closest('label')]);
-  grupo('d_quien',[$('#g-avoid').closest('.field')]);
-  for(const [id,k] of [['#d-from','a'],['#d-to','b']])$(id).addEventListener('change',e=>{GT[k]=e.target.value;renderGTime();gtChanged()});
-  $('#f-more-title').addEventListener('click',e=>{e.preventDefault();SateUI.abrirVentana(panel);cerrar.focus()});
-  cerrar.addEventListener('click',()=>SateUI.cerrarVentana(panel));
-  panel.addEventListener('cancel',()=>$('#f-more-title').focus());
-  const limpiar=document.createElement('button');limpiar.type='button';limpiar.className='link';limpiar.textContent=txH('d_limpiar');
-  const activos=document.createElement('div');activos.className='active';
-  panel.insertBefore(activos,mas);activos.append(resumen,limpiar);
-  limpiar.addEventListener('click',()=>{
-    Object.assign(S,{tur:'*',niv:'*',q:'',chips:[],onlyWant:false,hideDone:false,soloCupo:false,fit:false,gap:null,gavoid:[]});
-    store.set('excl',[]);
-    Object.assign(GT,{a:'',b:''});gtSave();$('#f-q').value='';
-    for(const k of ['tur','niv','onlyWant','hideDone','soloCupo'])store.set(k,S[k]);
-    renderHFilters();renderGTime();renderOffer();
-  });
-  const quitar=e=>{
-    const b=e.target.closest('[data-d-quitar]');if(!b)return;
-    const k=b.dataset.dQuitar;
-    if(k.startsWith('chip:'))S.chips.splice(+k.slice(5),1);
-    else if(k.startsWith('prof:')){S.gavoid.splice(+k.slice(5),1);store.set('excl',S.gavoid)}
-    else if(k.startsWith('no:')){delete ws().marks[k.slice(3)];save()}
-    else if(k==='a'||k==='b'){GT[k]='';gtSave()}
-    else{S[k]=['tur','niv'].includes(k)?'*':k==='q'?'':k==='gap'?null:false;store.set(k,S[k])}
-    $('#f-q').value=S.q;renderHFilters();renderGTime();renderOffer();
-  };
-  $('#d-activos').addEventListener('click',quitar);
-  resumen.addEventListener('click',quitar);
-  const oferta=$('#offer');oferta.addEventListener('click',quitar);
-  if(typeof renderGTime==='function')renderGTime();
+ if(!FILTROS_D||$('#filters').classList.contains('filtros-d'))return;
+ const filtros=$('#filters'),mas=$('#f-more .more-filters');
+ filtros.classList.add('filtros-d');
+ filtros.prepend($('#f-q').closest('.field'));
+ mas.prepend($('#f-nivel').closest('.field'));
+ for(const id of ['f-cupo','f-fit'])filtros.insertBefore($('#'+id).closest('label'),$('#f-more'));
+ $('#f-fit').closest('label').lastChild.textContent=txH('d_sin_choques');
+ const impacto=document.createElement('section');impacto.className='filtros-d-impacto';
+ impacto.innerHTML=`<strong id="d-cuenta" role="status"></strong><details><summary>${esc(txH('d_por_que'))}</summary><ul id="d-reglas"></ul></details><div id="d-activos" class="active"></div>`;
+ filtros.after(impacto);
+ $('#active').hidden=true;
+ $('#f-hide').closest('label').hidden=true;
+ $('#b-reset').hidden=true;
+ for(const id of ['g-src'])$('#'+id).closest('.field').hidden=true;
+ $('[data-gt]').closest('.field').hidden=true;
+ $('#cupos-omitir').closest('label').hidden=true;
+ $('#cupos-omitir-ayuda').hidden=true;
+ $('#h-offer').parentElement.appendChild($('[data-view]').closest('.field'));
+ filtros.insertBefore($('#g-window'),$('#f-more'));
+ const panel=document.createElement('dialog');panel.className='filtros-d-panel';panel.setAttribute('aria-label',txH('mas_filtros'));
+ const cerrar=document.createElement('button');cerrar.type='button';cerrar.className='btn';cerrar.textContent=txH('d_cerrar');
+ const cab=document.createElement('header');cab.className='tramite-encabezado';
+ const titulo=document.createElement('h2');titulo.textContent=txH('d_filtros');
+ cerrar.textContent='×';cerrar.setAttribute('aria-label',txH('d_cerrar'));
+ cab.append(titulo,cerrar);panel.append(cab,mas);$('#v-hor').appendChild(panel);
+ const resumen=document.createElement('p');resumen.id='d-panel-resumen';resumen.setAttribute('role','status');
+ panel.insertBefore(resumen,mas);
+ const grupo=(clave,elementos)=>{
+ const seccion=document.createElement('section'),titulo=document.createElement('h3');
+ titulo.textContent=txH(clave);seccion.appendChild(titulo);
+ for(const el of elementos)seccion.appendChild(el);
+ mas.appendChild(seccion);
+ };
+ const cupo=document.createElement('div');cupo.className='d-cupo';cupo.append($('#f-cupo').closest('label'),$('#f-cupo-ayuda'));
+ grupo('d_que',[$('#f-nivel').closest('.field'),$('#f-done').closest('label'),cupo]);
+ const horas=document.createElement('div');horas.className='trange';
+ for(const [id,k] of [['d-from','d_entrada'],['d-to','d_salida']]){
+ const campo=document.createElement('label');campo.className='field';
+ campo.innerHTML=`<span>${esc(txH(k))}</span><select id="${id}" aria-label="${esc(txH(k))}"></select>`;horas.appendChild(campo);
+ }
+ grupo('d_cuando',[horas,$('#f-fit').closest('label')]);
+ grupo('d_quien',[$('#g-avoid').closest('.field')]);
+ for(const [id,k] of [['#d-from','a'],['#d-to','b']])$(id).addEventListener('change',e=>{GT[k]=e.target.value;renderGTime();gtChanged()});
+ $('#f-more-title').addEventListener('click',e=>{e.preventDefault();SateUI.abrirVentana(panel);cerrar.focus()});
+ cerrar.addEventListener('click',()=>SateUI.cerrarVentana(panel));
+ panel.addEventListener('cancel',()=>$('#f-more-title').focus());
+ const limpiar=document.createElement('button');limpiar.type='button';limpiar.className='link';limpiar.textContent=txH('d_limpiar');
+ const activos=document.createElement('div');activos.className='active';
+ panel.insertBefore(activos,mas);activos.append(resumen,limpiar);
+ limpiar.addEventListener('click',()=>{
+ Object.assign(S,{tur:'*',niv:'*',q:'',chips:[],onlyWant:false,hideDone:false,soloCupo:false,fit:false,gap:null,gavoid:[]});
+ store.set('excl',[]);
+ Object.assign(GT,{a:'',b:''});gtSave();$('#f-q').value='';
+ for(const k of ['tur','niv','onlyWant','hideDone','soloCupo'])store.set(k,S[k]);
+ renderHFilters();renderGTime();renderOffer();
+ });
+ const quitar=e=>{
+ const b=e.target.closest('[data-d-quitar]');if(!b)return;
+ const k=b.dataset.dQuitar;
+ if(k.startsWith('chip:'))S.chips.splice(+k.slice(5),1);
+ else if(k.startsWith('prof:')){S.gavoid.splice(+k.slice(5),1);store.set('excl',S.gavoid)}
+ else if(k.startsWith('no:')){delete ws().marks[k.slice(3)];save()}
+ else if(k==='a'||k==='b'){GT[k]='';gtSave()}
+ else{S[k]=['tur','niv'].includes(k)?'*':k==='q'?'':k==='gap'?null:false;store.set(k,S[k])}
+ $('#f-q').value=S.q;renderHFilters();renderGTime();renderOffer();
+ };
+ $('#d-activos').addEventListener('click',quitar);
+ resumen.addEventListener('click',quitar);
+ const oferta=$('#offer');oferta.addEventListener('click',quitar);
+ if(typeof renderGTime==='function')renderGTime();
 }
 function ocultosFiltrosD(list){
-  const visibles=new Set(list.map(keyOf)),grupos=new Map();
-  for(const c of classes().filter(c=>c[0]===S.car&&!visibles.has(keyOf(c)))){
-    const r=[];
-    if(S.tur!=='*'&&c[1]!==S.tur)r.push(['tur',txH('d_turno',{valor:TURNOS[S.tur]||S.tur})]);
-    if(S.niv!=='*'&&c[2]!==S.niv)r.push(['niv',txH('nivel',{n:S.niv})]);
-    if(S.onlyWant&&!tr().want.includes(c[8])&&!S.fit&&!S.gap)r.push(['onlyWant',txH('d_mis_materias')]);
-    if(outWin(c))r.push([GT.b?'b':'a',txH('d_fuera_hora')]);
-    if(isExcl(c))r.push(['prof:'+S.gavoid.findIndex(p=>c[5].some(i=>norm(DATA.prof[i]).includes(norm(p)))),txH('profesor_excluido')]);
-    if(ws().marks[keyOf(c)]?.s==='no')r.push(['no:'+keyOf(c),txH('no')]);
-    if(S.hideDone&&isPersonal()&&tr().done.includes(c[8]))r.push(['hideDone',txH('acreditada')]);
-    if(S.soloCupo&&typeof CUPOS!=='undefined'&&CUPOS.fila(c)?.disponibles===0)r.push(['soloCupo',txH('d_lleno')]);
-    if(S.q.trim()&&!norm(name(c)+' '+c[8]+' '+profs(c)+' '+c[3]).includes(norm(S.q.trim())))r.push(['q',txH('d_busqueda',{valor:S.q})]);
-    if(S.fit||S.gap){
-      const sel=selected(),done=new Set(isPersonal()?tr().done:[]);
-      const cabe=c[6].length&&!sel.some(x=>x[4]===c[4])&&!done.has(c[8])&&![...sel,...ownAsClasses()].some(x=>overlaps(x,c));
-      if(!cabe)r.push([S.fit?'fit':'gap',txH('d_sin_choques')]);
-      if(S.gap&&!c[6].some(([d,a,b])=>d===S.gap.d&&a<S.gap.b&&S.gap.a<b))r.push(['gap',txH('d_fuera_hueco')]);
-    }
-    if(!r.length)r.push(['chips',txH('d_seleccion_busqueda')]);
-    const g=grupos.get(c[4])||{c,items:[]};g.items.push({c,r});grupos.set(c[4],g);
-  }
-  let ceros=0;
-  const html=[...grupos.values()].map(({c,items})=>{
-    const cero=!list.some(x=>x[4]===c[4]);if(cero)ceros++;
-    return `<article class="subj"><header><h3>${esc(name(c))}</h3></header>${cero?`<p>${esc(txH('d_cero',{n:items.length}))}</p>`:''}<details><summary>${esc(txH('d_ocultos',{n:items.length}))}</summary>${items.map(({c,r})=>`<p>${esc(c[3])} · ${esc(r.map(x=>x[1]).join(' · '))}${cero&&r[0][0]!=='chips'?` <button type="button" class="link" data-d-quitar="${esc(r[0][0])}">${esc(txH('d_quitar_regla',{nombre:r[0][1]}))}</button>`:''}</p>`).join('')}</details></article>`;
-  }).join('');
-  $('#d-cuenta').textContent=txH('d_cuenta',{n:list.length,total:classes().filter(c=>c[0]===S.car).length})+' · '+txH('d_sin_grupos',{n:ceros});
-  return html;
+ const visibles=new Set(list.map(keyOf)),grupos=new Map();
+ for(const c of classes().filter(c=>c[0]===S.car&&!visibles.has(keyOf(c)))){
+ const r=[];
+ if(S.tur!=='*'&&c[1]!==S.tur)r.push(['tur',txH('d_turno',{valor:TURNOS[S.tur]||S.tur})]);
+ if(S.niv!=='*'&&c[2]!==S.niv)r.push(['niv',txH('nivel',{n:S.niv})]);
+ if(S.onlyWant&&!tr().want.includes(c[8])&&!S.fit&&!S.gap)r.push(['onlyWant',txH('d_mis_materias')]);
+ if(outWin(c))r.push([GT.b?'b':'a',txH('d_fuera_hora')]);
+ if(isExcl(c))r.push(['prof:'+S.gavoid.findIndex(p=>c[5].some(i=>norm(DATA.prof[i]).includes(norm(p)))),txH('profesor_excluido')]);
+ if(ws().marks[keyOf(c)]?.s==='no')r.push(['no:'+keyOf(c),txH('no')]);
+ if(S.hideDone&&isPersonal()&&tr().done.includes(c[8]))r.push(['hideDone',txH('acreditada')]);
+ if(S.soloCupo&&typeof CUPOS!=='undefined'&&CUPOS.fila(c)?.disponibles===0)r.push(['soloCupo',txH('d_lleno')]);
+ if(S.q.trim()&&!norm(name(c)+' '+c[8]+' '+profs(c)+' '+c[3]).includes(norm(S.q.trim())))r.push(['q',txH('d_busqueda',{valor:S.q})]);
+ if(S.fit||S.gap){
+ const sel=selected(),done=new Set(isPersonal()?tr().done:[]);
+ const cabe=c[6].length&&!sel.some(x=>x[4]===c[4])&&!done.has(c[8])&&![...sel,...ownAsClasses()].some(x=>overlaps(x,c));
+ if(!cabe)r.push([S.fit?'fit':'gap',txH('d_sin_choques')]);
+ if(S.gap&&!c[6].some(([d,a,b])=>d===S.gap.d&&a<S.gap.b&&S.gap.a<b))r.push(['gap',txH('d_fuera_hueco')]);
+ }
+ if(!r.length)r.push(['chips',txH('d_seleccion_busqueda')]);
+ const g=grupos.get(c[4])||{c,items:[]};g.items.push({c,r});grupos.set(c[4],g);
+ }
+ let ceros=0;
+ const html=[...grupos.values()].map(({c,items})=>{
+ const cero=!list.some(x=>x[4]===c[4]);if(cero)ceros++;
+ return `<article class="subj"><header><h3>${esc(name(c))}</h3></header>${cero?`<p>${esc(txH('d_cero',{n:items.length}))}</p>`:''}<details><summary>${esc(txH('d_ocultos',{n:items.length}))}</summary>${items.map(({c,r})=>`<p>${esc(c[3])} · ${esc(r.map(x=>x[1]).join(' · '))}${cero&&r[0][0]!=='chips'?` <button type="button" class="link" data-d-quitar="${esc(r[0][0])}">${esc(txH('d_quitar_regla',{nombre:r[0][1]}))}</button>`:''}</p>`).join('')}</details></article>`;
+ }).join('');
+ $('#d-cuenta').textContent=txH('d_cuenta',{n:list.length,total:classes().filter(c=>c[0]===S.car).length})+' · '+txH('d_sin_grupos',{n:ceros});
+ return html;
 }
 function reglasFiltrosD(){
-  const r=[];
-  if(S.onlyWant)r.push(txH('d_mis_materias'));
-  if(S.tur!=='*')r.push(txH('d_turno',{valor:TURNOS[S.tur]||S.tur}));
-  if(S.niv!=='*')r.push(txH('nivel',{n:S.niv}));
-  if(S.q.trim())r.push(txH('d_busqueda',{valor:S.q.trim()}));
-  for(const x of S.chips)r.push(x.t==='m'?DATA.asig[x.v]:x.t==='p'?DATA.prof[x.v]:x.v);
-  if(S.soloCupo)r.push(txH('solo_cupo'));
-  if(S.fit)r.push(txH('d_sin_choques'));
-  if(S.hideDone&&isPersonal())r.push(txH('ocultar_acreditadas'));
-  if(GT.a)r.push(txH('d_desde',{hora:GT.a}));
-  if(GT.b)r.push(txH('d_hasta',{hora:GT.b}));
-  for(const p of S.gavoid)r.push(txH('d_sin_profesor',{nombre:p}));
-  for(const [k,m] of Object.entries(ws().marks))if(m.s==='no')r.push(txH('d_marca_no',{grupo:k}));
-  if(S.gap)r.push(txH('d_hueco',{valor:DAYS[S.gap.d]+' '+hm(S.gap.a)+'–'+hm(S.gap.b)}));
-  return r;
+ const r=[];
+ if(S.onlyWant)r.push(txH('d_mis_materias'));
+ if(S.tur!=='*')r.push(txH('d_turno',{valor:TURNOS[S.tur]||S.tur}));
+ if(S.niv!=='*')r.push(txH('nivel',{n:S.niv}));
+ if(S.q.trim())r.push(txH('d_busqueda',{valor:S.q.trim()}));
+ for(const x of S.chips)r.push(x.t==='m'?DATA.asig[x.v]:x.t==='p'?DATA.prof[x.v]:x.v);
+ if(S.soloCupo)r.push(txH('solo_cupo'));
+ if(S.fit)r.push(txH('d_sin_choques'));
+ if(S.hideDone&&isPersonal())r.push(txH('ocultar_acreditadas'));
+ if(GT.a)r.push(txH('d_desde',{hora:GT.a}));
+ if(GT.b)r.push(txH('d_hasta',{hora:GT.b}));
+ for(const p of S.gavoid)r.push(txH('d_sin_profesor',{nombre:p}));
+ for(const [k,m] of Object.entries(ws().marks))if(m.s==='no')r.push(txH('d_marca_no',{grupo:k}));
+ if(S.gap)r.push(txH('d_hueco',{valor:DAYS[S.gap.d]+' '+hm(S.gap.a)+'–'+hm(S.gap.b)}));
+ return r;
 }
 function renderFiltrosD(){
-  if(!FILTROS_D)return;
-  montarFiltrosD();
-  const reglas=reglasFiltrosD();
-  $('#d-panel-resumen').textContent=reglas.join(' · ')||txH('d_sin_filtros');
-  $('#f-want-l').textContent=txH('d_mis_materias');
-  $('#d-cuenta').textContent=txH('d_cuenta',{n:filtered().length,total:classes().filter(c=>c[0]===S.car).length});
-  $('#d-reglas').innerHTML=(reglas.length?reglas:[txH('d_sin_filtros')]).map(r=>`<li>${esc(r)}</li>`).join('');
-  $('#d-reglas').innerHTML+=`<li>${esc(txH('d_fijos'))}</li>`;
-  const generador=[];
-  if(GT.days)generador.push(txH('d_gen_dias',{n:GT.days}));
-  if(GT.n)generador.push(txH('d_gen_materias',{n:GT.n==='auto'?txH('d_automatico'):GT.n}));
-  for(const b of GT.breaks||[])generador.push(txH('d_gen_descanso',{minutos:b.d,desde:b.a,hasta:b.b,dias:(b.days?.length?b.days.map(d=>DAYS[d]):DAYS.slice(0,5)).join(', ')}));
-  $('#d-reglas').innerHTML+=generador.map(r=>`<li>${esc(r)}</li>`).join('');
-  const claves=[...(S.onlyWant?['onlyWant']:[]),...(S.tur!=='*'?['tur']:[]),...(S.niv!=='*'?['niv']:[]),...(S.q.trim()?['q']:[]),...S.chips.map((_,i)=>'chip:'+i),...(S.soloCupo?['soloCupo']:[]),...(S.fit?['fit']:[]),...(S.hideDone&&isPersonal()?['hideDone']:[]),...(GT.a?['a']:[]),...(GT.b?['b']:[]),...S.gavoid.map((_,i)=>'prof:'+i),...Object.entries(ws().marks).filter(([,m])=>m.s==='no').map(([k])=>'no:'+k),...(S.gap?['gap']:[])];
-  $('#d-activos').innerHTML=reglas.map((r,i)=>`<span class="chip">${esc(r)}<button type="button" data-d-quitar="${esc(claves[i])}" aria-label="${esc(txH('quitar_filtro',{nombre:r}))}">×</button></span>`).join('');
-  $('#d-panel-resumen').innerHTML=$('#d-activos').innerHTML||esc(txH('d_sin_filtros'));
+ if(!FILTROS_D)return;
+ montarFiltrosD();
+ const reglas=reglasFiltrosD();
+ $('#d-panel-resumen').textContent=reglas.join(' · ')||txH('d_sin_filtros');
+ $('#f-want-l').textContent=txH('d_mis_materias');
+ $('#d-cuenta').textContent=txH('d_cuenta',{n:filtered().length,total:classes().filter(c=>c[0]===S.car).length});
+ $('#d-reglas').innerHTML=(reglas.length?reglas:[txH('d_sin_filtros')]).map(r=>`<li>${esc(r)}</li>`).join('');
+ $('#d-reglas').innerHTML+=`<li>${esc(txH('d_fijos'))}</li>`;
+ const generador=[];
+ if(GT.days)generador.push(txH('d_gen_dias',{n:GT.days}));
+ if(GT.n)generador.push(txH('d_gen_materias',{n:GT.n==='auto'?txH('d_automatico'):GT.n}));
+ for(const b of GT.breaks||[])generador.push(txH('d_gen_descanso',{minutos:b.d,desde:b.a,hasta:b.b,dias:(b.days?.length?b.days.map(d=>DAYS[d]):DAYS.slice(0,5)).join(', ')}));
+ $('#d-reglas').innerHTML+=generador.map(r=>`<li>${esc(r)}</li>`).join('');
+ const claves=[...(S.onlyWant?['onlyWant']:[]),...(S.tur!=='*'?['tur']:[]),...(S.niv!=='*'?['niv']:[]),...(S.q.trim()?['q']:[]),...S.chips.map((_,i)=>'chip:'+i),...(S.soloCupo?['soloCupo']:[]),...(S.fit?['fit']:[]),...(S.hideDone&&isPersonal()?['hideDone']:[]),...(GT.a?['a']:[]),...(GT.b?['b']:[]),...S.gavoid.map((_,i)=>'prof:'+i),...Object.entries(ws().marks).filter(([,m])=>m.s==='no').map(([k])=>'no:'+k),...(S.gap?['gap']:[])];
+ $('#d-activos').innerHTML=reglas.map((r,i)=>`<span class="chip">${esc(r)}<button type="button" data-d-quitar="${esc(claves[i])}" aria-label="${esc(txH('quitar_filtro',{nombre:r}))}">×</button></span>`).join('');
+ $('#d-panel-resumen').innerHTML=$('#d-activos').innerHTML||esc(txH('d_sin_filtros'));
 }
 if(typeof CUPOS!=='undefined')CUPOS.montar();
 $('#offer').addEventListener('click',e=>{
-  if(e.target.closest('[data-oferta-mapa]'))SATE.ir('mapa');
-  if(e.target.closest('[data-oferta-toda]')){S.onlyWant=false;store.set('onlyWant',false);renderHFilters();renderOffer()}
-  const temario=e.target.closest('[data-temario]');
-  if(temario){
-    const k=temario.dataset.temario;
-    if(SATE.temarios?.tiene(k))SATE.temarios.abrir(k,temario);
-    else {
-      const grupos=classes().filter(c=>c[0]===S.car&&c[8]===k),cuerpo=document.createElement('div');
-      cuerpo.className='sate-puentes-materia';
-      for(const [href,texto] of [['#/'+UNIDAD+'/horarios?materia='+encodeURIComponent(k),SATE.texto('sate.puentes.grupos',{n:new Set(grupos.map(c=>c[3])).size})],['#/'+UNIDAD+'/guia',SATE.texto('sate.puentes.todo')]]){
-        const a=document.createElement('a');a.href=href;a.textContent=texto;a.onclick=()=>SateUI.cerrarModal();cuerpo.appendChild(a);
-      }
-      if(SATE.relacionesMateria)cuerpo.insertAdjacentHTML('beforeend',SATE.relacionesHtml(SATE.relacionesMateria(k)));
-      SateUI.modal(grupos.length?name(grupos[0]):k,cuerpo,{pequeno:true});
-    }
-  }
+ if(e.target.closest('[data-oferta-mapa]'))SATE.ir('mapa');
+ if(e.target.closest('[data-oferta-toda]')){S.onlyWant=false;store.set('onlyWant',false);renderHFilters();renderOffer()}
+ const temario=e.target.closest('[data-temario]');
+ if(temario){
+ const k=temario.dataset.temario;
+ if(SATE.temarios?.tiene(k))SATE.temarios.abrir(k,temario);
+ else {
+ const grupos=classes().filter(c=>c[0]===S.car&&c[8]===k),cuerpo=document.createElement('div');
+ cuerpo.className='sate-puentes-materia';
+ for(const [href,texto] of [['#/'+UNIDAD+'/horarios?materia='+encodeURIComponent(k),SATE.texto('sate.puentes.grupos',{n:new Set(grupos.map(c=>c[3])).size})],['#/'+UNIDAD+'/guia',SATE.texto('sate.puentes.todo')]]){
+ const a=document.createElement('a');a.href=href;a.textContent=texto;a.onclick=()=>SateUI.cerrarModal();cuerpo.appendChild(a);
+ }
+ if(SATE.relacionesMateria)cuerpo.insertAdjacentHTML('beforeend',SATE.relacionesHtml(SATE.relacionesMateria(k)));
+ SateUI.modal(grupos.length?name(grupos[0]):k,cuerpo,{pequeno:true});
+ }
+ }
 });
 $('#f-hide').addEventListener('change',e=>{S.hide=e.target.checked;store.set('hide',S.hide);renderOffer()});
 $('#f-done').addEventListener('change',e=>{S.hideDone=e.target.checked;store.set('hideDone',S.hideDone);renderOffer()});
@@ -166,84 +166,84 @@ $('#f-want').addEventListener('change',e=>{S.onlyWant=e.target.checked;store.set
 $('#f-weekend').addEventListener('change',e=>{S.weekend=e.target.checked;store.set('weekend',S.weekend);renderCal()});
 $('#f-q').addEventListener('input',e=>{S.q=e.target.value;S.acIdx=-1;renderAC();renderOffer()});
 $('#f-q').addEventListener('keydown',e=>{
-  const n=S.acItems.length;
-  if(e.key==='ArrowDown'&&n){e.preventDefault();S.acIdx=(S.acIdx+1)%n;renderAC()}
-  else if(e.key==='ArrowUp'&&n){e.preventDefault();S.acIdx=(S.acIdx-1+n)%n;renderAC()}
-  else if(e.key==='Enter'&&n){e.preventDefault();pick(S.acIdx<0?0:S.acIdx)}
-  else if(e.key==='Escape'){S.acIdx=-1;$('#ac').hidden=true;$('#f-q').setAttribute('aria-expanded','false')}
-  else if(e.key==='Backspace'&&!e.target.value&&S.chips.length){S.chips.pop();renderActive();renderOffer()}
+ const n=S.acItems.length;
+ if(e.key==='ArrowDown'&&n){e.preventDefault();S.acIdx=(S.acIdx+1)%n;renderAC()}
+ else if(e.key==='ArrowUp'&&n){e.preventDefault();S.acIdx=(S.acIdx-1+n)%n;renderAC()}
+ else if(e.key==='Enter'&&n){e.preventDefault();pick(S.acIdx<0?0:S.acIdx)}
+ else if(e.key==='Escape'){S.acIdx=-1;$('#ac').hidden=true;$('#f-q').setAttribute('aria-expanded','false')}
+ else if(e.key==='Backspace'&&!e.target.value&&S.chips.length){S.chips.pop();renderActive();renderOffer()}
 });
 $('#f-q').addEventListener('blur',()=>setTimeout(()=>{$('#ac').hidden=true;$('#f-q').setAttribute('aria-expanded','false')},150));
 $('#f-q').addEventListener('focus',()=>{if(S.q)renderAC()});
 for(const [id,list] of [['#g-pref','gpref'],['#g-avoid','gavoid']]){
-  const add=el=>{const v=el.value.trim();if(v&&!S[list].includes(v)){S[list].push(v);
-    if(list==='gavoid'){store.set('excl',S.gavoid);renderActive();renderOffer()}else renderGPrefs()}el.value=''};
-  $(id).addEventListener('change',e=>add(e.target));
-  // al elegir una opción del autocompletado se agrega de inmediato (sin Enter): el texto coincide con un profesor de la lista
-  $(id).addEventListener('input',e=>{const v=e.target.value.trim();if(v&&[...$('#proflist').options].some(o=>o.value===v))add(e.target)});
+ const add=el=>{const v=el.value.trim();if(v&&!S[list].includes(v)){S[list].push(v);
+ if(list==='gavoid'){store.set('excl',S.gavoid);renderActive();renderOffer()}else renderGPrefs()}el.value=''};
+ $(id).addEventListener('change',e=>add(e.target));
+  
+ $(id).addEventListener('input',e=>{const v=e.target.value.trim();if(v&&[...$('#proflist').options].some(o=>o.value===v))add(e.target)});
 }
-// horario en la escuela y descansos (se vuelven a generar las opciones si ya había resultados)
+ 
 const gtChanged=()=>{gtSave();renderOffer();if(S.gen||generacion)iniciarGeneracion()};
 $('#g-from').addEventListener('change',e=>{GT.a=e.target.value;renderGTime();gtChanged()});
 $('#g-to').addEventListener('change',e=>{GT.b=e.target.value;renderGTime();gtChanged()});
 $('#b-reset').addEventListener('click',()=>{
-  Object.assign(S,{tur:'*',niv:'*',q:'',chips:[],hide:false,hideDone:true,soloCupo:false,fit:false,gap:null,onlyWant:true,gavoid:[],gt:'*',gpref:[],gen:null});S.expand=new Set();
-  ws().marks={};save();   // también quita las marcas «Sí / Quizá / No» (y sus notas) del periodo consultado
-  ['tur','niv'].forEach(k=>store.set(k,'*'));store.set('hide',false);store.set('hideDone',true);store.set('soloCupo',false);store.set('onlyWant',true);store.set('excl',[]);
-  Object.assign(GT,{a:'',b:'',breaks:[],days:'',n:'',src:''});gtSave();$('#f-q').value='';$('#g-avoid').value='';$('#g-pref').value='';
-  if($('#gen'))$('#gen').open=false;renderGTime();render()});
+ Object.assign(S,{tur:'*',niv:'*',q:'',chips:[],hide:false,hideDone:true,soloCupo:false,fit:false,gap:null,onlyWant:true,gavoid:[],gt:'*',gpref:[],gen:null});S.expand=new Set();
+ ws().marks={};save();  
+ ['tur','niv'].forEach(k=>store.set(k,'*'));store.set('hide',false);store.set('hideDone',true);store.set('soloCupo',false);store.set('onlyWant',true);store.set('excl',[]);
+ Object.assign(GT,{a:'',b:'',breaks:[],days:'',n:'',src:''});gtSave();$('#f-q').value='';$('#g-avoid').value='';$('#g-pref').value='';
+ if($('#gen'))$('#gen').open=false;renderGTime();render()});
 $('#g-src').addEventListener('click',e=>{const b=e.target.closest('[data-gsrc]');if(!b)return;GT.src=b.dataset.gsrc;renderGTime();gtChanged()});
 $('#g-n').addEventListener('click',e=>{const b=e.target.closest('[data-gn]');if(!b)return;GT.n=b.dataset.gn;renderGTime();gtChanged()});
 $('#g-days').addEventListener('click',e=>{const b=e.target.closest('[data-gdays]');if(!b)return;GT.days=b.dataset.gdays;renderGTime();gtChanged()});
 $('#gbreaks').addEventListener('click',e=>{
-  if(e.target.id==='b-addbrk'){GT.breaks.push({d:30,a:'13:00',b:'15:00'});renderGTime();gtChanged()}
-  else if(e.target.dataset.unbrk){GT.breaks.splice(+e.target.dataset.unbrk,1);renderGTime();gtChanged()}
-  else if(e.target.dataset.bday){const b=GT.breaks[+e.target.closest('[data-brk]').dataset.brk],v=e.target.dataset.bday;
-    if(v==='all')b.days=[];else{const d=+v,ds=new Set(b.days||[]);ds.has(d)?ds.delete(d):ds.add(d);b.days=[...ds].sort()}
-    renderGTime();gtChanged()}});
+ if(e.target.id==='b-addbrk'){GT.breaks.push({d:30,a:'13:00',b:'15:00'});renderGTime();gtChanged()}
+ else if(e.target.dataset.unbrk){GT.breaks.splice(+e.target.dataset.unbrk,1);renderGTime();gtChanged()}
+ else if(e.target.dataset.bday){const b=GT.breaks[+e.target.closest('[data-brk]').dataset.brk],v=e.target.dataset.bday;
+ if(v==='all')b.days=[];else{const d=+v,ds=new Set(b.days||[]);ds.has(d)?ds.delete(d):ds.add(d);b.days=[...ds].sort()}
+ renderGTime();gtChanged()}});
 $('#gbreaks').addEventListener('change',e=>{const r=e.target.closest('[data-brk]'),f=e.target.dataset.f;if(!r||!f)return;GT.breaks[+r.dataset.brk][f]=e.target.value;gtChanged()});
 $('#b-gen').addEventListener('click',iniciarGeneracion);
 $('#b-gen-clear').addEventListener('click',()=>{cancelarGeneracion();S.gen=null;renderGen();renderCal();$('#gen-status').textContent='';$('#b-gen').focus()});
-// Un cambio de contexto invalida el cálculo antes de que otro lote lea preferencias nuevas.
+ 
 document.addEventListener('change',()=>cancelarGeneracion(),true);
 document.addEventListener('input',()=>cancelarGeneracion(),true);
 document.addEventListener('click',e=>{
-  const b=e.target.closest('button');
-  if(b&&b.id!=='b-gen')cancelarGeneracion();
+ const b=e.target.closest('button');
+ if(b&&b.id!=='b-gen')cancelarGeneracion();
 },true);
 $('#b-horario').addEventListener('click',()=>{
-  const dlg=$('#horario-compacto');
-  // Mover la vista real conserva la selección, los eventos y la vista previa sin duplicar ids.
-  for(const s of ['.calwrap','#agenda'])$('#horario-compacto-cuerpo').appendChild($(s));
-  SateUI.abrirVentana(dlg);
-  renderCal();
+ const dlg=$('#horario-compacto');
+  
+ for(const s of ['.calwrap','#agenda'])$('#horario-compacto-cuerpo').appendChild($(s));
+ SateUI.abrirVentana(dlg);
+ renderCal();
 });
 $('#horario-compacto-cerrar').addEventListener('click',()=>SateUI.cerrarVentana($('#horario-compacto')));
 $('#horario-compacto').addEventListener('close',()=>{
-  for(const s of ['.calwrap','#agenda'])$('.planner').insertBefore($(s),$('.planner .summary'));
-  renderCal();
-  $('#b-horario').focus();
+ for(const s of ['.calwrap','#agenda'])$('.planner').insertBefore($(s),$('.planner .summary'));
+ renderCal();
+ $('#b-horario').focus();
 });
 $('#offer').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse'||e.target.closest('.note'))return;const o=e.target.closest('.opt');const k=o?o.dataset.k:null;if(k!==S.hover){S.hover=k;renderCal()}});
 $('#offer').addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'&&S.hover){S.hover=null;renderCal()}});
 for(const id of ['#cal','#agenda'])$(id).addEventListener('keydown',bloquePropioEvento);
 $('#agenda').addEventListener('click',bloquePropioEvento);
 $('#cal').addEventListener('click',e=>{
-  if(bloquePropioEvento(e))return;
-  // clic en un hueco vacío: filtra la oferta a lo que cabe en ese bloque (otro clic en el mismo hueco lo quita)
-  const g=e.target.closest('.gapcell');
-  if(g){const [d,a]=g.dataset.gap.split('|').map(Number);S.gap=S.gap&&S.gap.d===d&&S.gap.a===a?null:{d,a,b:a+BLOCK};
-    renderActive();renderOffer();renderCal();if(S.gap)$('#h-offer').scrollIntoView({block:'start',behavior:'smooth'});return}
-  const b=e.target.closest('.blk[data-k]:not(.ghost)');if(!b)return;const o=document.querySelector(`.opt[data-k="${CSS.escape(b.dataset.k)}"]`);if(o)o.scrollIntoView({block:'center',behavior:'smooth'})});
+ if(bloquePropioEvento(e))return;
+  
+ const g=e.target.closest('.gapcell');
+ if(g){const [d,a]=g.dataset.gap.split('|').map(Number);S.gap=S.gap&&S.gap.d===d&&S.gap.a===a?null:{d,a,b:a+BLOCK};
+ renderActive();renderOffer();renderCal();if(S.gap)$('#h-offer').scrollIntoView({block:'start',behavior:'smooth'});return}
+ const b=e.target.closest('.blk[data-k]:not(.ghost)');if(!b)return;const o=document.querySelector(`.opt[data-k="${CSS.escape(b.dataset.k)}"]`);if(o)o.scrollIntoView({block:'center',behavior:'smooth'})});
 $('#own-f').addEventListener('submit',e=>{
-  e.preventDefault();const n=$('#own-n').value.trim(),a=toMin($('#own-a').value),b=toMin($('#own-b').value);
-  const oculto=SEMANA_ACTIVA&&$('#semana-oculta').checked,hsTxt=oculto?$('#semana-hs').value:'',hs=hsTxt!==''?parseFloat(hsTxt):null;
-  const conHoras=oculto&&hs!=null;
-  const msg=conHoras?(hs>0&&hs<=168?'':txH('semana_horas_invalidas')):!S.ownDays.length?txH('actividad_dias'):b<=a?txH('actividad_horas'):'';
-  if(!n||msg){$('#own-n').setCustomValidity(msg);$('#own-n').reportValidity();$('#own-n').setCustomValidity('');return}
-  plan().own.push(conHoras?{n,d:[],a:0,b:0,hs,oculto:true,tipo:$('#semana-tipo').value}:{n,d:[...S.ownDays].sort(),a,b,...(SEMANA_ACTIVA?{tipo:$('#semana-tipo').value}:{}),...(oculto?{oculto:true}:{})});
-  if(!conHoras&&S.ownDays.some(d=>d>=5)){S.weekend=true;store.set('weekend',true);$('#f-weekend').checked=true}
-  $('#own-n').value='';S.ownDays=[];if(SEMANA_ACTIVA){$('#semana-oculta').checked=false;$('#semana-hs').value='';$('#semana-hs-campo').hidden=true}renderOwnForm();refresh();
+ e.preventDefault();const n=$('#own-n').value.trim(),a=toMin($('#own-a').value),b=toMin($('#own-b').value);
+ const oculto=SEMANA_ACTIVA&&$('#semana-oculta').checked,hsTxt=oculto?$('#semana-hs').value:'',hs=hsTxt!==''?parseFloat(hsTxt):null;
+ const conHoras=oculto&&hs!=null;
+ const msg=conHoras?(hs>0&&hs<=168?'':txH('semana_horas_invalidas')):!S.ownDays.length?txH('actividad_dias'):b<=a?txH('actividad_horas'):'';
+ if(!n||msg){$('#own-n').setCustomValidity(msg);$('#own-n').reportValidity();$('#own-n').setCustomValidity('');return}
+ plan().own.push(conHoras?{n,d:[],a:0,b:0,hs,oculto:true,tipo:$('#semana-tipo').value}:{n,d:[...S.ownDays].sort(),a,b,...(SEMANA_ACTIVA?{tipo:$('#semana-tipo').value}:{}),...(oculto?{oculto:true}:{})});
+ if(!conHoras&&S.ownDays.some(d=>d>=5)){S.weekend=true;store.set('weekend',true);$('#f-weekend').checked=true}
+ $('#own-n').value='';S.ownDays=[];if(SEMANA_ACTIVA){$('#semana-oculta').checked=false;$('#semana-hs').value='';$('#semana-hs-campo').hidden=true}renderOwnForm();refresh();
 });
 $('#b-saeshor').addEventListener('click',()=>loadInscrito());
 $('#b-clear').addEventListener('click',()=>{plan().sel=[];plan().own=[];$('#copybox').hidden=true;refresh()});
@@ -252,187 +252,187 @@ $('#b-clear').addEventListener('click',()=>{plan().sel=[];plan().own=[];$('#copy
 $('#equiv').addEventListener('toggle',renderEquiv);
 function base(){return classes().filter(c=>c[0]===S.car&&(S.tur==='*'||c[1]===S.tur)&&(S.niv==='*'||c[2]===S.niv))}
 function filtered(){
-  const filtrosD=typeof FILTROS_D!=='undefined'&&FILTROS_D;
-  const q=norm(S.q.trim()), marks=ws().marks, want=new Set(tr().want);
-  const m=S.chips.filter(x=>x.t==='m').map(x=>x.v), p=S.chips.filter(x=>x.t==='p').map(x=>x.v), g=S.chips.filter(x=>x.t==='g').map(x=>x.v);
-  // llenar huecos: en toda la carrera, sin lo ya elegido/acreditado, sin choques y (si hay hueco) con clase en ese bloque
-  const hunt=S.fit||!!S.gap, sel=selected(), own=ownAsClasses(), have=new Set(sel.map(c=>c[4])), done=new Set(isPersonal()?tr().done:[]);
-  const fits=c=>c[6].length&&!have.has(c[4])&&!done.has(c[8])&&![...sel,...own].some(x=>overlaps(x,c))&&
-    (!S.gap||c[6].some(([d,a,b])=>d===S.gap.d&&a<S.gap.b&&S.gap.a<b));
-  const mine=new Set(plan().sel);
-  return base().filter(c=>(mine.has(keyOf(c))||!outWin(c))&&(!(filtrosD||S.hide)||mine.has(keyOf(c))||!isExcl(c))&&(!S.soloCupo||mine.has(keyOf(c))||typeof CUPOS==='undefined'||!CUPOS.fila(c)||CUPOS.fila(c).disponibles>0)&&(hunt?(mine.has(keyOf(c))||fits(c)):(!S.onlyWant||want.has(c[8])))&&(!m.length||m.includes(c[4]))&&(!p.length||c[5].some(i=>p.includes(i)))&&(!g.length||g.includes(c[3]))&&
-    (!S.hideDone||mine.has(keyOf(c))||!done.has(c[8]))&&(!(filtrosD||S.hide)||marks[keyOf(c)]?.s!=='no'||mine.has(keyOf(c)))&&
-    (!q||norm(name(c)+' '+c[8]+' '+profs(c)+' '+c[3]).includes(q)));
+ const filtrosD=typeof FILTROS_D!=='undefined'&&FILTROS_D;
+ const q=norm(S.q.trim()), marks=ws().marks, want=new Set(tr().want);
+ const m=S.chips.filter(x=>x.t==='m').map(x=>x.v), p=S.chips.filter(x=>x.t==='p').map(x=>x.v), g=S.chips.filter(x=>x.t==='g').map(x=>x.v);
+  
+ const hunt=S.fit||!!S.gap, sel=selected(), own=ownAsClasses(), have=new Set(sel.map(c=>c[4])), done=new Set(isPersonal()?tr().done:[]);
+ const fits=c=>c[6].length&&!have.has(c[4])&&!done.has(c[8])&&![...sel,...own].some(x=>overlaps(x,c))&&
+ (!S.gap||c[6].some(([d,a,b])=>d===S.gap.d&&a<S.gap.b&&S.gap.a<b));
+ const mine=new Set(plan().sel);
+ return base().filter(c=>(mine.has(keyOf(c))||!outWin(c))&&(!(filtrosD||S.hide)||mine.has(keyOf(c))||!isExcl(c))&&(!S.soloCupo||mine.has(keyOf(c))||typeof CUPOS==='undefined'||!CUPOS.fila(c)||CUPOS.fila(c).disponibles>0)&&(hunt?(mine.has(keyOf(c))||fits(c)):(!S.onlyWant||want.has(c[8])))&&(!m.length||m.includes(c[4]))&&(!p.length||c[5].some(i=>p.includes(i)))&&(!g.length||g.includes(c[3]))&&
+ (!S.hideDone||mine.has(keyOf(c))||!done.has(c[8]))&&(!(filtrosD||S.hide)||marks[keyOf(c)]?.s!=='no'||mine.has(keyOf(c)))&&
+ (!q||norm(name(c)+' '+c[8]+' '+profs(c)+' '+c[3]).includes(q)));
 }
 function suggest(q){
-  q=norm(q.trim());if(!q)return[];
-  const cs=classes().filter(c=>c[0]===S.car), out=[], seen=new Set();
-  const hit=s=>norm(s).includes(q);
-  const push=(t,v,label,right)=>{const k=t+v;if(seen.has(k)||S.chips.some(x=>x.t===t&&x.v===v))return;seen.add(k);out.push({t,v,label,right})};
-  cs.forEach(c=>{if(hit(name(c))||hit(c[8]))push('m',c[4],name(c),`${c[8]} · ${textoCreditos(c[8],c[7])}`)});
-  cs.forEach(c=>c[5].forEach(i=>{if(hit(DATA.prof[i]))push('p',i,DATA.prof[i],'')}));
-  cs.forEach(c=>{if(hit(c[3]))push('g',c[3],c[3],TURNOS[c[1]]||'')});
-  const rank=x=>(norm(x.label).startsWith(q)?0:1);
-  return out.sort((a,b)=>rank(a)-rank(b)||'mpg'.indexOf(a.t)-'mpg'.indexOf(b.t)).slice(0,10);
+ q=norm(q.trim());if(!q)return[];
+ const cs=classes().filter(c=>c[0]===S.car), out=[], seen=new Set();
+ const hit=s=>norm(s).includes(q);
+ const push=(t,v,label,right)=>{const k=t+v;if(seen.has(k)||S.chips.some(x=>x.t===t&&x.v===v))return;seen.add(k);out.push({t,v,label,right})};
+ cs.forEach(c=>{if(hit(name(c))||hit(c[8]))push('m',c[4],name(c),`${c[8]} · ${textoCreditos(c[8],c[7])}`)});
+ cs.forEach(c=>c[5].forEach(i=>{if(hit(DATA.prof[i]))push('p',i,DATA.prof[i],'')}));
+ cs.forEach(c=>{if(hit(c[3]))push('g',c[3],c[3],TURNOS[c[1]]||'')});
+ const rank=x=>(norm(x.label).startsWith(q)?0:1);
+ return out.sort((a,b)=>rank(a)-rank(b)||'mpg'.indexOf(a.t)-'mpg'.indexOf(b.t)).slice(0,10);
 }
 function hl(s,q){const i=norm(s).indexOf(norm(q.trim()));return i<0?esc(s):esc(s.slice(0,i))+'<mark>'+esc(s.slice(i,i+q.trim().length))+'</mark>'+esc(s.slice(i+q.trim().length))}
 function renderAC(){
-  const ac=$('#ac'), inp=$('#f-q');
-  S.acItems=suggest(S.q);
-  if(!S.acItems.length){ac.hidden=true;inp.setAttribute('aria-expanded','false');inp.removeAttribute('aria-activedescendant');return}
-  const K={m:txH('materia'),p:txH('profesor'),g:txH('grupo')};
-  ac.innerHTML=S.acItems.map((x,i)=>`<li id="ac-${i}" role="option" data-i="${i}" aria-selected="${i===S.acIdx}"><span class="k">${K[x.t]}</span><span>${hl(x.label,S.q)}</span><span class="r">${esc(x.right)}</span></li>`).join('');
-  ac.hidden=false;inp.setAttribute('aria-expanded','true');
-  if(S.acIdx>=0)inp.setAttribute('aria-activedescendant','ac-'+S.acIdx);else inp.removeAttribute('aria-activedescendant');
+ const ac=$('#ac'), inp=$('#f-q');
+ S.acItems=suggest(S.q);
+ if(!S.acItems.length){ac.hidden=true;inp.setAttribute('aria-expanded','false');inp.removeAttribute('aria-activedescendant');return}
+ const K={m:txH('materia'),p:txH('profesor'),g:txH('grupo')};
+ ac.innerHTML=S.acItems.map((x,i)=>`<li id="ac-${i}" role="option" data-i="${i}" aria-selected="${i===S.acIdx}"><span class="k">${K[x.t]}</span><span>${hl(x.label,S.q)}</span><span class="r">${esc(x.right)}</span></li>`).join('');
+ ac.hidden=false;inp.setAttribute('aria-expanded','true');
+ if(S.acIdx>=0)inp.setAttribute('aria-activedescendant','ac-'+S.acIdx);else inp.removeAttribute('aria-activedescendant');
 }
 function pick(i){const x=S.acItems[i];if(!x)return;S.chips.push({t:x.t,v:x.v});S.q='';$('#f-q').value='';S.acIdx=-1;renderAC();renderActive();renderOffer()}
 function renderActive(){
-  const K={m:txH('tipo_materia'),p:txH('tipo_profesor'),g:txH('tipo_grupo')};
-  const lab=x=>x.t==='m'?DATA.asig[x.v]:x.t==='p'?DATA.prof[x.v]:x.v;
-  $('#active').innerHTML=S.chips.map((x,i)=>`<span class="pill"><i>${K[x.t]}</i>${esc(lab(x))}<button data-unchip="${i}" aria-label="${esc(txH('quitar_filtro',{nombre:lab(x)}))}">×</button></span>`).join('')+
-    (S.chips.length>1?`<button class="link" data-unchip="all">${esc(txH('quitar_todos'))}</button>`:'')+
-    S.gavoid.map((p,i)=>`<span class="pill"><i>${esc(txH('excluir'))}</i>${esc(p)}<button data-unga="${i}" aria-label="${esc(txH('quitar',{nombre:p}))}">×</button></span>`).join('')+
-    (S.gap?`<span class="pill gap"><i>${esc(txH('hueco'))}</i>${DAYS[S.gap.d]} ${hm(S.gap.a)}–${hm(S.gap.b)}<button data-ungap="1" aria-label="${esc(txH('quitar_hueco'))}">×</button></span>`:'');
+ const K={m:txH('tipo_materia'),p:txH('tipo_profesor'),g:txH('tipo_grupo')};
+ const lab=x=>x.t==='m'?DATA.asig[x.v]:x.t==='p'?DATA.prof[x.v]:x.v;
+ $('#active').innerHTML=S.chips.map((x,i)=>`<span class="pill"><i>${K[x.t]}</i>${esc(lab(x))}<button data-unchip="${i}" aria-label="${esc(txH('quitar_filtro',{nombre:lab(x)}))}">×</button></span>`).join('')+
+ (S.chips.length>1?`<button class="link" data-unchip="all">${esc(txH('quitar_todos'))}</button>`:'')+
+ S.gavoid.map((p,i)=>`<span class="pill"><i>${esc(txH('excluir'))}</i>${esc(p)}<button data-unga="${i}" aria-label="${esc(txH('quitar',{nombre:p}))}">×</button></span>`).join('')+
+ (S.gap?`<span class="pill gap"><i>${esc(txH('hueco'))}</i>${DAYS[S.gap.d]} ${hm(S.gap.a)}–${hm(S.gap.b)}<button data-ungap="1" aria-label="${esc(txH('quitar_hueco'))}">×</button></span>`:'');
 }
 function renderHFilters(){
-  document.querySelectorAll('#v-hor [data-htexto]').forEach(el=>el.textContent=txH(el.dataset.htexto));
-  document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===S.view));
-  document.querySelectorAll('[data-gt]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.gt===S.gt));
-  $('#f-hide').checked=S.hide;$('#f-done').checked=S.hideDone;$('#f-done').disabled=!isPersonal();$('#f-fit').checked=S.fit;$('#f-weekend').checked=S.weekend;
-  const compatibles=typeof CUPOS!=='undefined'&&CUPOS.disponible, datos=compatibles?CUPOS.datos:null;
-  $('#f-cupo').checked=S.soloCupo;$('#f-cupo').disabled=!compatibles;$('#f-cupo-ayuda').textContent=compatibles?SATE.texto('sate.horarios.cupo_ultima',{hora:CUPOS.fecha(datos)}):txH('cupo_sin_datos');
-  const n=tr().want.length;$('#f-want').checked=S.onlyWant;$('#f-want').disabled=false;
-  $('#f-want-l').textContent=n?txH('elegidas',{n}):SATE.texto('sate.planeacion.filtro_elegidas');
-  const mine=classes().filter(c=>c[0]===S.car);
-  const turs=[...new Set(mine.map(c=>c[1]))].sort();
-  if(S.tur!=='*'&&!turs.includes(S.tur)) S.tur='*';
-  $('#f-turno').innerHTML=[['*',txH('todos')],...turs.map(t=>[t,TURNOS[t]||t])].map(([v,l])=>`<button class="chip" data-tur="${esc(v)}" aria-pressed="${v===S.tur}">${esc(l)}</button>`).join('');
-  const nivs=[...new Set(mine.map(c=>c[2]))].sort((a,b)=>a-b);
-  if(S.niv!=='*'&&!nivs.includes(S.niv)) S.niv='*';
-  $('#f-nivel').innerHTML=[['*',txH('todos')],...nivs.map(n=>[n,n])].map(([v,l])=>`<button class="chip" data-niv="${esc(v)}" aria-pressed="${v===S.niv}">${esc(l)}</button>`).join('');
-  $('#proflist').innerHTML=[...new Set(mine.flatMap(c=>c[5]))].map(i=>`<option value="${esc(DATA.prof[i])}">`).join('');
-  renderActive();renderGPrefs();
-  renderGTime();
+ document.querySelectorAll('#v-hor [data-htexto]').forEach(el=>el.textContent=txH(el.dataset.htexto));
+ document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===S.view));
+ document.querySelectorAll('[data-gt]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.gt===S.gt));
+ $('#f-hide').checked=S.hide;$('#f-done').checked=S.hideDone;$('#f-done').disabled=!isPersonal();$('#f-fit').checked=S.fit;$('#f-weekend').checked=S.weekend;
+ const compatibles=typeof CUPOS!=='undefined'&&CUPOS.disponible, datos=compatibles?CUPOS.datos:null;
+ $('#f-cupo').checked=S.soloCupo;$('#f-cupo').disabled=!compatibles;$('#f-cupo-ayuda').textContent=compatibles?SATE.texto('sate.horarios.cupo_ultima',{hora:CUPOS.fecha(datos)}):txH('cupo_sin_datos');
+ const n=tr().want.length;$('#f-want').checked=S.onlyWant;$('#f-want').disabled=false;
+ $('#f-want-l').textContent=n?txH('elegidas',{n}):SATE.texto('sate.planeacion.filtro_elegidas');
+ const mine=classes().filter(c=>c[0]===S.car);
+ const turs=[...new Set(mine.map(c=>c[1]))].sort();
+ if(S.tur!=='*'&&!turs.includes(S.tur)) S.tur='*';
+ $('#f-turno').innerHTML=[['*',txH('todos')],...turs.map(t=>[t,TURNOS[t]||t])].map(([v,l])=>`<button class="chip" data-tur="${esc(v)}" aria-pressed="${v===S.tur}">${esc(l)}</button>`).join('');
+ const nivs=[...new Set(mine.map(c=>c[2]))].sort((a,b)=>a-b);
+ if(S.niv!=='*'&&!nivs.includes(S.niv)) S.niv='*';
+ $('#f-nivel').innerHTML=[['*',txH('todos')],...nivs.map(n=>[n,n])].map(([v,l])=>`<button class="chip" data-niv="${esc(v)}" aria-pressed="${v===S.niv}">${esc(l)}</button>`).join('');
+ $('#proflist').innerHTML=[...new Set(mine.flatMap(c=>c[5]))].map(i=>`<option value="${esc(DATA.prof[i])}">`).join('');
+ renderActive();renderGPrefs();
+ renderGTime();
 }
 function renderMasFiltros(){
-  if(typeof renderFiltrosD==='function')renderFiltrosD();
-  const n=[S.hide,S.fit,!!(GT.a||GT.b),S.gavoid.length>0,S.hideDone&&isPersonal(),S.soloCupo].filter(Boolean).length;
-  $('#f-more-title').textContent=txH(n?'mas_filtros_activos':'mas_filtros',{n});
-  if(n&&(typeof FILTROS_D==='undefined'||!FILTROS_D))$('#f-more').open=true;
+ if(typeof renderFiltrosD==='function')renderFiltrosD();
+ const n=[S.hide,S.fit,!!(GT.a||GT.b),S.gavoid.length>0,S.hideDone&&isPersonal(),S.soloCupo].filter(Boolean).length;
+ $('#f-more-title').textContent=txH(n?'mas_filtros_activos':'mas_filtros',{n});
+ if(n&&(typeof FILTROS_D==='undefined'||!FILTROS_D))$('#f-more').open=true;
 }
-/* Salones (índice 10, paralelo a los bloques; solo periodo actual, del PDF de horarios por aula de la unidad) */
+ 
 const shortRoom=r=>String(r||'').replace(/^Aula\s+/,'');
 const roomAt=(c,d,a)=>{const i=(c[6]||[]).findIndex(x=>x[0]===d&&x[1]===a);return i>=0&&c[10]?c[10][i]||'':''};
 function roomsTxt(c){if(!c[10]||!c[10].some(Boolean))return '';const by=new Map();
-  c[6].forEach((b,i)=>{const r=c[10][i];if(!r)return;const ds=by.get(r)||[];if(!ds.includes(b[0]))ds.push(b[0]);by.set(r,ds)});
-  return [...by].map(([r,ds])=>`${esc(shortRoom(r))}${by.size>1?` (${ds.sort((x,y)=>x-y).map(d=>DAYS[d]).join(', ')})`:''}`).join(' · ')}
-/* Líneas de especialización de una optativa (por clave o por nombre, ya que una optativa puede tener varias claves) */
+ c[6].forEach((b,i)=>{const r=c[10][i];if(!r)return;const ds=by.get(r)||[];if(!ds.includes(b[0]))ds.push(b[0]);by.set(r,ds)});
+ return [...by].map(([r,ds])=>`${esc(shortRoom(r))}${by.size>1?` (${ds.sort((x,y)=>x-y).map(d=>DAYS[d]).join(', ')})`:''}`).join(' · ')}
+ 
 function lineasDe(k){const c=cur(), n=c[k]?.[0]?.toUpperCase();if(!n)return[];
-  return (MAP().lineas||[]).filter(l=>l.claves.some(x=>x===k||c[x]?.[0]?.toUpperCase()===n)).map(l=>l.linea!==l.area?l.linea:l.area)}
+ return (MAP().lineas||[]).filter(l=>l.claves.some(x=>x===k||c[x]?.[0]?.toUpperCase()===n)).map(l=>l.linea!==l.area?l.linea:l.area)}
 function botonTemario(c){return `<button type="button" class="temario-mini" data-temario="${esc(c[8])}" aria-label="${esc(SATE.texto('sate.puentes.materia',{nombre:name(c)}))}" title="${esc(SATE.texto('sate.puentes.materia',{nombre:name(c)}))}"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22zM4 5.5v14A2.5 2.5 0 0 1 6.5 17H20M8 7h8M8 10h8"/></svg></button>`}
 function optRow(c,sel,inGroup){
-  const k=keyOf(c), on=plan().sel.includes(k), mk=ws().marks[k]||{};
-  const clash=[...sel,...ownAsClasses()].filter(s=>(s.own||keyOf(s)!==k)&&overlaps(s,c));
-  const same=sel.find(s=>s[4]===c[4]&&keyOf(s)!==k);
-  let tags=typeof CUPOS!=='undefined'?CUPOS.insignia(c):'';
-  if(!on&&clash.length) tags+=`<span class="tag bad">${esc(txH('choca',{nombre:clash.map(s=>s.own?s.n:s[3]+' '+name(s).toLowerCase()).join(', ')}))}</span>`;
-  if(!on&&same) tags+=`<span class="tag soft">${esc(txH('reemplaza',{grupo:same[3]}))}</span>`;
-  const who=inGroup?`<b>${esc(name(c))}</b> <small>${esc(c[8])} · ${esc(textoCreditos(c[8],c[7]))}</small><br>${esc(profs(c))}`:esc(profs(c));
-  if(isExcl(c)) tags+=`<span class="tag soft">${esc(txH('profesor_excluido'))}</span>`;
-  return `<div class="opt${mk.s==='no'||isExcl(c)?' no':''}" data-k="${esc(k)}"><span class="grp">${inGroup?'':esc(c[3])}</span><span class="who">${who}${inGroup?botonTemario(c):''}</span>
+ const k=keyOf(c), on=plan().sel.includes(k), mk=ws().marks[k]||{};
+ const clash=[...sel,...ownAsClasses()].filter(s=>(s.own||keyOf(s)!==k)&&overlaps(s,c));
+ const same=sel.find(s=>s[4]===c[4]&&keyOf(s)!==k);
+ let tags=typeof CUPOS!=='undefined'?CUPOS.insignia(c):'';
+ if(!on&&clash.length) tags+=`<span class="tag bad">${esc(txH('choca',{nombre:clash.map(s=>s.own?s.n:s[3]+' '+name(s).toLowerCase()).join(', ')}))}</span>`;
+ if(!on&&same) tags+=`<span class="tag soft">${esc(txH('reemplaza',{grupo:same[3]}))}</span>`;
+ const who=inGroup?`<b>${esc(name(c))}</b> <small>${esc(c[8])} · ${esc(textoCreditos(c[8],c[7]))}</small><br>${esc(profs(c))}`:esc(profs(c));
+ if(isExcl(c)) tags+=`<span class="tag soft">${esc(txH('profesor_excluido'))}</span>`;
+ return `<div class="opt${mk.s==='no'||isExcl(c)?' no':''}" data-k="${esc(k)}"><span class="grp">${inGroup?'':esc(c[3])}</span><span class="who">${who}${inGroup?botonTemario(c):''}</span>
     <div class="right"><button class="add" data-toggle="${esc(k)}" aria-pressed="${on}">${esc(txH(on?'quitar_opcion':'agregar'))}</button>
       <span class="marks" role="group" aria-label="${esc(txH('marcar'))}"${isExcl(c)?` title="${esc(txH('profesor_excluido_ayuda'))}"`:''}>${[['si',txH('si')],['quiza',txH('quiza')],['no',txH('no')]].map(([m,l])=>isExcl(c)?`<button disabled data-m="${m}" aria-pressed="${m==='no'}">${esc(l)}</button>`:`<button data-mark="${m}" data-m="${m}" data-k="${esc(k)}" aria-pressed="${mk.s===m}">${esc(l)}</button>`).join('')}</span></div>
     <span class="when">${pattern(c).map(p=>`<span>${p}</span>`).join('')}${roomsTxt(c)?`<span class="room">${esc(txH('salon'))} ${roomsTxt(c)}</span>`:''}</span>
     ${tags?`<span class="tags">${tags}</span>`:''}
     ${mk.s?`<input class="note" type="text" data-note="${esc(k)}" value="${esc(mk.n||'')}" placeholder="${esc(txH('nota_placeholder'))}" aria-label="${esc(txH('nota'))}">`:''}</div>`;
 }
-/* filtros globales: profesores excluidos (cuentan como "No") y horario en la escuela (de … a …) */
+ 
 const isExcl=c=>{const ex=S.gavoid.map(norm);return ex.length>0&&c[5].some(i=>ex.some(p=>norm(DATA.prof[i]).includes(p)))};
 const outWin=c=>{const ga=tmin(GT.a),gb=tmin(GT.b);return c[6].some(([d,a,b])=>(ga!=null&&a<ga)||(gb!=null&&b>gb))};
-// Las elegidas encabezan la oferta; después vienen los adeudos y el desfase.
+ 
 const prio=k=>{if(tr().want.includes(k))return 0;if(!isPersonal()||!cur()[k])return 2;const st=statusOf(k);return st.startsWith('late')||st.startsWith('fail')?1:2};
-/* ---------- propuestas y actividades en una sola ventana ---------- */
+ 
 let ventanaPropuestas=null,indicePropuesta=0,compararPropuesta=false;
 function montarPropuestas(){
-  const deposito=document.createElement('div');deposito.id='d-propuestas-deposito';deposito.hidden=true;
-  $('#v-hor').appendChild(deposito);deposito.appendChild($('#gen'));deposito.appendChild($('#ownform'));deposito.appendChild($('#mi-semana'));
-  $('#b-propuestas').addEventListener('click',abrirPropuestas);
+ const deposito=document.createElement('div');deposito.id='d-propuestas-deposito';deposito.hidden=true;
+ $('#v-hor').appendChild(deposito);deposito.appendChild($('#gen'));deposito.appendChild($('#ownform'));deposito.appendChild($('#mi-semana'));
+ $('#b-propuestas').addEventListener('click',abrirPropuestas);
 }
 function abrirPropuestas(){
-  const cuerpo=document.createElement('div');cuerpo.className='hor-propuestas';
-  cuerpo.innerHTML=`<div class="sate-segmentado" role="tablist"><button type="button" role="tab" id="d-tab-generar" aria-controls="gen" aria-selected="true">${esc(txH('d_generar'))}</button><button type="button" role="tab" id="d-tab-actividades" aria-controls="ownform" aria-selected="false">${esc(txH('d_actividades'))}</button></div>`;
-  const subtitulo=document.createElement('p');subtitulo.textContent=txH('d_propuestas_subtitulo');cuerpo.insertBefore(subtitulo,cuerpo.firstChild);
-  // El cuerpo debe estar conectado antes de mover controles consultados por id.
-  ventanaPropuestas=SateUI.modal(txH('d_propuestas'),cuerpo,{amplio:true,alCerrar:()=>{
-    cancelarGeneracion();$('#d-propuestas-deposito').append($('#gen'),$('#ownform'),$('#mi-semana'));ventanaPropuestas.elemento.classList.remove('hor-propuestas-modal');ventanaPropuestas=null;renderCal();
-  }});
-  cuerpo.append($('#gen'),$('#ownform'),$('#mi-semana'));
-  for(const id of ['#gen','#ownform']){$(id).open=true;$(id).setAttribute('role','tabpanel')}
-  $('#gen').hidden=false;$('#ownform').hidden=true;$('#mi-semana').hidden=true;$('#mi-semana').open=true;
-  if(!$('#d-preview')){
-    const rejilla=document.createElement('div');rejilla.className='hor-propuestas-rejilla';
-    const previa=document.createElement('section');previa.className='hor-propuesta-previa';
-    previa.innerHTML=`<div class="actions"><button type="button" class="btn" data-paso="-1" aria-label="${esc(txH('d_anterior'))}">←</button><strong id="d-propuesta-n" role="status"></strong><button type="button" class="btn" data-paso="1" aria-label="${esc(txH('d_siguiente'))}">→</button><button type="button" class="btn" id="d-comparar" aria-pressed="false">${esc(txH('d_comparar'))}</button></div><p id="d-diferencias" role="status"></p><div class="calwrap"><div class="cal" id="d-preview"></div></div><div class="actions"><button type="button" class="btn primary" id="d-usar">${esc(txH('d_usar'))}</button><button type="button" class="btn" id="d-usar-nueva">${esc(txH('d_nueva'))}</button></div>`;
-    const lateral=document.createElement('aside');lateral.className='hor-propuestas-opciones';
-    const opciones=document.createElement('details');opciones.id='d-opciones';opciones.open=true;
-    const resumen=document.createElement('summary');resumen.id='d-opciones-resumen';resumen.textContent=txH('d_editar_opciones');opciones.appendChild(resumen);
-    const generar=$('#b-gen'),estado=$('#gen-status'),lista=$('#genres');
-    for(const n of [...$('#gen').children])if(!n.matches('summary,#genres,#gen-status'))opciones.appendChild(n);
-    opciones.appendChild(generar);lateral.append(opciones,estado,lista);
-    rejilla.append(lateral,previa);$('#gen').appendChild(rejilla);
-  }
-  const tab=actividad=>{
-    $('#gen').hidden=actividad;$('#ownform').hidden=!actividad;$('#mi-semana').hidden=!actividad||!SEMANA_ACTIVA;
-    $('#d-tab-generar').setAttribute('aria-selected',String(!actividad));$('#d-tab-actividades').setAttribute('aria-selected',String(actividad));
-  };
-  cuerpo.addEventListener('click',e=>{
-    const b=e.target.closest('button');if(!b)return;
-    if(b.id==='d-tab-generar'||b.id==='d-tab-actividades')tab(b.id==='d-tab-actividades');
-    if(b.dataset.paso){indicePropuesta+=Number(b.dataset.paso);renderPropuesta()}
-    if(b.dataset.propuesta!==undefined){indicePropuesta=Number(b.dataset.propuesta);renderPropuesta()}
-    if(b.id==='d-comparar'){compararPropuesta=!compararPropuesta;renderPropuesta()}
-    if(b.id==='d-usar'||b.id==='d-usar-nueva'||b.dataset.useg!==undefined){
-      e.stopPropagation();aplicarPropuesta(b.id==='d-usar-nueva'||b.dataset.to==='+',b.dataset.useg);
-    }
-  });
-  cuerpo.addEventListener('keydown',e=>{
-    if(!['ArrowLeft','ArrowRight'].includes(e.key)||e.target.closest('input,select,textarea,[role="tablist"]'))return;
-    e.preventDefault();indicePropuesta+=e.key==='ArrowRight'?1:-1;renderPropuesta();
-  });
-  ventanaPropuestas.elemento.classList.add('hor-propuestas-modal');renderGen();renderPropuesta();
+ const cuerpo=document.createElement('div');cuerpo.className='hor-propuestas';
+ cuerpo.innerHTML=`<div class="sate-segmentado" role="tablist"><button type="button" role="tab" id="d-tab-generar" aria-controls="gen" aria-selected="true">${esc(txH('d_generar'))}</button><button type="button" role="tab" id="d-tab-actividades" aria-controls="ownform" aria-selected="false">${esc(txH('d_actividades'))}</button></div>`;
+ const subtitulo=document.createElement('p');subtitulo.textContent=txH('d_propuestas_subtitulo');cuerpo.insertBefore(subtitulo,cuerpo.firstChild);
+  
+ ventanaPropuestas=SateUI.modal(txH('d_propuestas'),cuerpo,{amplio:true,alCerrar:()=>{
+ cancelarGeneracion();$('#d-propuestas-deposito').append($('#gen'),$('#ownform'),$('#mi-semana'));ventanaPropuestas.elemento.classList.remove('hor-propuestas-modal');ventanaPropuestas=null;renderCal();
+ }});
+ cuerpo.append($('#gen'),$('#ownform'),$('#mi-semana'));
+ for(const id of ['#gen','#ownform']){$(id).open=true;$(id).setAttribute('role','tabpanel')}
+ $('#gen').hidden=false;$('#ownform').hidden=true;$('#mi-semana').hidden=true;$('#mi-semana').open=true;
+ if(!$('#d-preview')){
+ const rejilla=document.createElement('div');rejilla.className='hor-propuestas-rejilla';
+ const previa=document.createElement('section');previa.className='hor-propuesta-previa';
+ previa.innerHTML=`<div class="actions"><button type="button" class="btn" data-paso="-1" aria-label="${esc(txH('d_anterior'))}">←</button><strong id="d-propuesta-n" role="status"></strong><button type="button" class="btn" data-paso="1" aria-label="${esc(txH('d_siguiente'))}">→</button><button type="button" class="btn" id="d-comparar" aria-pressed="false">${esc(txH('d_comparar'))}</button></div><p id="d-diferencias" role="status"></p><div class="calwrap"><div class="cal" id="d-preview"></div></div><div class="actions"><button type="button" class="btn primary" id="d-usar">${esc(txH('d_usar'))}</button><button type="button" class="btn" id="d-usar-nueva">${esc(txH('d_nueva'))}</button></div>`;
+ const lateral=document.createElement('aside');lateral.className='hor-propuestas-opciones';
+ const opciones=document.createElement('details');opciones.id='d-opciones';opciones.open=true;
+ const resumen=document.createElement('summary');resumen.id='d-opciones-resumen';resumen.textContent=txH('d_editar_opciones');opciones.appendChild(resumen);
+ const generar=$('#b-gen'),estado=$('#gen-status'),lista=$('#genres');
+ for(const n of [...$('#gen').children])if(!n.matches('summary,#genres,#gen-status'))opciones.appendChild(n);
+ opciones.appendChild(generar);lateral.append(opciones,estado,lista);
+ rejilla.append(lateral,previa);$('#gen').appendChild(rejilla);
+ }
+ const tab=actividad=>{
+ $('#gen').hidden=actividad;$('#ownform').hidden=!actividad;$('#mi-semana').hidden=!actividad||!SEMANA_ACTIVA;
+ $('#d-tab-generar').setAttribute('aria-selected',String(!actividad));$('#d-tab-actividades').setAttribute('aria-selected',String(actividad));
+ };
+ cuerpo.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ if(b.id==='d-tab-generar'||b.id==='d-tab-actividades')tab(b.id==='d-tab-actividades');
+ if(b.dataset.paso){indicePropuesta+=Number(b.dataset.paso);renderPropuesta()}
+ if(b.dataset.propuesta!==undefined){indicePropuesta=Number(b.dataset.propuesta);renderPropuesta()}
+ if(b.id==='d-comparar'){compararPropuesta=!compararPropuesta;renderPropuesta()}
+ if(b.id==='d-usar'||b.id==='d-usar-nueva'||b.dataset.useg!==undefined){
+ e.stopPropagation();aplicarPropuesta(b.id==='d-usar-nueva'||b.dataset.to==='+',b.dataset.useg);
+ }
+ });
+ cuerpo.addEventListener('keydown',e=>{
+ if(!['ArrowLeft','ArrowRight'].includes(e.key)||e.target.closest('input,select,textarea,[role="tablist"]'))return;
+ e.preventDefault();indicePropuesta+=e.key==='ArrowRight'?1:-1;renderPropuesta();
+ });
+ ventanaPropuestas.elemento.classList.add('hor-propuestas-modal');renderGen();renderPropuesta();
 }
 function aplicarPropuesta(nueva,indice){
-  const r=S.gen?.top?.[indice===undefined?indicePropuesta:Number(indice)];if(!r)return;
-  const to=nueva?nextPlan():ws().plan;
-  if(nueva)ws().plans[to]={sel:[],own:JSON.parse(JSON.stringify(plan().own))};
-  ws().plans[to].sel=r.cs.map(keyOf);ws().plan=to;refresh();ventanaPropuestas?.cerrar();
+ const r=S.gen?.top?.[indice===undefined?indicePropuesta:Number(indice)];if(!r)return;
+ const to=nueva?nextPlan():ws().plan;
+ if(nueva)ws().plans[to]={sel:[],own:JSON.parse(JSON.stringify(plan().own))};
+ ws().plans[to].sel=r.cs.map(keyOf);ws().plan=to;refresh();ventanaPropuestas?.cerrar();
 }
 function renderPropuesta(){
-  const previa=$('#d-preview');if(!previa)return;
-  const top=S.gen?.top||[];indicePropuesta=top.length?(indicePropuesta+top.length)%top.length:0;
-  const r=top[indicePropuesta],actual=selected(),cs=r?.cs||actual;
-  for(const b of $('#genres').querySelectorAll('[data-propuesta]'))b.setAttribute('aria-pressed',String(Number(b.dataset.propuesta)===indicePropuesta));
-  $('#d-propuesta-n').textContent=r?txH('d_propuesta_numero',{n:indicePropuesta+1,total:top.length}):txH('d_sin_propuestas');
-  $('#d-usar').hidden=$('#d-usar-nueva').hidden=!r;
-  $('#d-comparar').setAttribute('aria-pressed',String(compararPropuesta));
-  const claves=new Set(cs.map(keyOf)),anteriores=new Set(actual.map(keyOf));
-  const nuevos=cs.filter(c=>!anteriores.has(keyOf(c))),quitados=actual.filter(c=>!claves.has(keyOf(c)));
-  $('#d-diferencias').textContent=compararPropuesta&&r?txH('d_diferencias',{n:nuevos.length,m:quitados.length}):'';
-  SateUI.cuadriculaHorario([...cs,...ownAsClasses(),...(compararPropuesta?quitados:[])],{S,slots,START,BLOCK,SLOT,SLOTPX,$:()=>previa,DAYS,hm,esc,txH,hue,keyOf,name,profs,roomAt,soloLectura:true});
-  if(compararPropuesta){
-    // El contorno distingue grupos agregados; el rayado distingue los retirados.
-    for(const bloque of previa.querySelectorAll('.blk')){
-      const contenido=bloque.textContent;
-      if(nuevos.some(c=>contenido.includes(c[3])&&contenido.includes(name(c))))bloque.classList.add('d-agregado');
-      if(quitados.some(c=>contenido.includes(c[3])&&contenido.includes(name(c))))bloque.classList.add('d-retirado');
-    }
-  }
+ const previa=$('#d-preview');if(!previa)return;
+ const top=S.gen?.top||[];indicePropuesta=top.length?(indicePropuesta+top.length)%top.length:0;
+ const r=top[indicePropuesta],actual=selected(),cs=r?.cs||actual;
+ for(const b of $('#genres').querySelectorAll('[data-propuesta]'))b.setAttribute('aria-pressed',String(Number(b.dataset.propuesta)===indicePropuesta));
+ $('#d-propuesta-n').textContent=r?txH('d_propuesta_numero',{n:indicePropuesta+1,total:top.length}):txH('d_sin_propuestas');
+ $('#d-usar').hidden=$('#d-usar-nueva').hidden=!r;
+ $('#d-comparar').setAttribute('aria-pressed',String(compararPropuesta));
+ const claves=new Set(cs.map(keyOf)),anteriores=new Set(actual.map(keyOf));
+ const nuevos=cs.filter(c=>!anteriores.has(keyOf(c))),quitados=actual.filter(c=>!claves.has(keyOf(c)));
+ $('#d-diferencias').textContent=compararPropuesta&&r?txH('d_diferencias',{n:nuevos.length,m:quitados.length}):'';
+ SateUI.cuadriculaHorario([...cs,...ownAsClasses(),...(compararPropuesta?quitados:[])],{S,slots,START,BLOCK,SLOT,SLOTPX,$:()=>previa,DAYS,hm,esc,txH,hue,keyOf,name,profs,roomAt,soloLectura:true});
+ if(compararPropuesta){
+  
+ for(const bloque of previa.querySelectorAll('.blk')){
+ const contenido=bloque.textContent;
+ if(nuevos.some(c=>contenido.includes(c[3])&&contenido.includes(name(c))))bloque.classList.add('d-agregado');
+ if(quitados.some(c=>contenido.includes(c[3])&&contenido.includes(name(c))))bloque.classList.add('d-retirado');
+ }
+ }
 }
-/* ---------- generador de horarios ---------- */
-/* horario en la escuela y descansos: preferencias del alumno para el generador (se guardan en este navegador) */
+ 
+ 
 const GT=Object.assign({a:'',b:'',breaks:[],days:'',n:'',src:''},store.get('gtime',{}));
 const daysOf=cs=>[...new Set(cs.flatMap(c=>c[6].map(x=>x[0])))].sort((a,b)=>a-b);
-const tmin=t=>{const m=String(t||'').match(/^(\d{1,2}):(\d{2})/);return m?+m[1]*60+ +m[2]:null}; // '' -> null
+const tmin=t=>{const m=String(t||'').match(/^(\d{1,2}):(\d{2})/);return m?+m[1]*60+ +m[2]:null};  
 const gtSave=()=>store.set('gtime',GT);
 const SEMANA_ACTIVA=window.SATE_CONFIG?.unidades?.[UNIDAD]?.miSemana===true;
 const MS=store.get('miSemana',{})||{};
@@ -440,571 +440,571 @@ const semanaValor=k=>SEMANA_ACTIVA?Math.max(0,Number(MS[k])||0):0;
 const SEMANA_ETQ={comidaA:'comida_desde',comidaB:'comida_hasta'};
 const semanaCampos=[['trabajo','number',168],['ida','number',1440],['vuelta','number',1440],['sueno','number',24],['estudio','number',168],['antes','time'],['dias','number',7],['comidaA','time'],['comidaB','time']];
 function montarSemana(){
-  if(!SEMANA_ACTIVA)return;
-  $('#mi-semana').hidden=false;
-  const principales=['ida','vuelta','antes','dias'];
-  for(const [id,campos] of [['principales',semanaCampos.filter(c=>principales.includes(c[0]))],['secundarios',semanaCampos.filter(c=>!principales.includes(c[0]))]]){
-    $(`#semana-${id}`).innerHTML=campos.map(([k,t,max])=>`<label class="field"><span>${esc(txH(`semana_${SEMANA_ETQ[k]||k}`))}</span>${t==='time'?`<select id="semana-${esc(k)}" data-semana="${esc(k)}">${opcionesHoras(MS[k]||'')}</select>`:`<input id="semana-${esc(k)}" data-semana="${esc(k)}" type="${t}"${max?` min="${k==='dias'?1:0}" max="${max}" step="${k==='dias'?'1':'0.5'}"`:''} value="${esc(MS[k]??'')}">`}</label>`).join('');
-  }
-  // Se mueve el formulario existente: conserva días, calendario y persistencia por versión.
-  $('#semana-form').appendChild($('#ownform'));
-  $('#ownform summary').textContent=txH('semana_agregar');
-  $('#ownform summary').appendChild(SateUI.ayuda('sate.horarios.semana_trabajo_ayuda'));
-  $('#semana-borrar-ayuda').appendChild(SateUI.ayuda('sate.horarios.semana_borrado_ayuda'));
-  $('#mi-semana').addEventListener('toggle',resumenSemana);
-  resumenSemana();
-  $('#own-n').placeholder='';$('#own-a').value='';$('#own-b').value='';
-  $('#own-f').insertAdjacentHTML('afterbegin',`<p class="semana-ayuda-corta">${esc(txH('semana_agregar_ayuda'))}</p><label class="field"><span>${esc(txH('semana_tipo'))}</span><select id="semana-tipo"><option value="trabajo">${esc(txH('semana_trabajo_bloque'))}</option><option value="otras">${esc(txH('semana_otras'))}</option></select></label>`);
-  $('#own-f').insertAdjacentHTML('beforeend',`<label class="check"><input type="checkbox" id="semana-oculta"> ${esc(txH('semana_solo_horas'))}</label><label class="field" id="semana-hs-campo" hidden><span>${esc(txH('semana_horas_semana'))}</span><input type="number" id="semana-hs" min="0" max="168" step="0.5"><small>${esc(txH('semana_horas_semana_ayuda'))}</small></label>`);
-  $('#own-f').addEventListener('change',e=>{
-    if(e.target?.id!=='semana-oculta')return;
-    const solo=$('#semana-oculta').checked;$('#semana-hs-campo').hidden=!solo;
-    if(!solo)$('#semana-hs').value='';
-  });
-  $('#semana-bloques').addEventListener('click',e=>{
-    const ed=e.target.closest?.('[data-own-ed]'),el=e.target.closest?.('[data-own-del]');
-    if(ed)abrirFichaPropia(+ed.dataset.ownEd);else if(el)eliminarPropia(+el.dataset.ownDel);
-  });
-  $('#own-deshacer-b').addEventListener('click',deshacerPropia);
-  $('#semana-campos').addEventListener('change',e=>{
-    const k=e.target.dataset.semana;if(!k||!e.target.checkValidity())return;
-    const a=k==='comidaA'?e.target.value:MS.comidaA,b=k==='comidaB'?e.target.value:MS.comidaB;
-    if(a&&b&&tmin(b)<=tmin(a)){e.target.setCustomValidity(txH('actividad_horas'));e.target.reportValidity();e.target.setCustomValidity('');e.target.value=MS[k]||'';return}
-    MS[k]=e.target.value;store.set('miSemana',MS);semanaCambiar();
-  });
-  $('#semana-borrar').addEventListener('click',()=>{
-    for(const k of Object.keys(MS))delete MS[k];store.set('miSemana',MS);
-    // Solo los bloques de rutina nuevos; los extracurriculares anteriores y el SAES se conservan.
-    for(const p of Object.values(ws().plans))p.own=p.own.filter(o=>!o.tipo);
-    document.querySelectorAll('[data-semana]').forEach(el=>el.value='');refresh();semanaCambiar();
-  });
+ if(!SEMANA_ACTIVA)return;
+ $('#mi-semana').hidden=false;
+ const principales=['ida','vuelta','antes','dias'];
+ for(const [id,campos] of [['principales',semanaCampos.filter(c=>principales.includes(c[0]))],['secundarios',semanaCampos.filter(c=>!principales.includes(c[0]))]]){
+ $(`#semana-${id}`).innerHTML=campos.map(([k,t,max])=>`<label class="field"><span>${esc(txH(`semana_${SEMANA_ETQ[k]||k}`))}</span>${t==='time'?`<select id="semana-${esc(k)}" data-semana="${esc(k)}">${opcionesHoras(MS[k]||'')}</select>`:`<input id="semana-${esc(k)}" data-semana="${esc(k)}" type="${t}"${max?` min="${k==='dias'?1:0}" max="${max}" step="${k==='dias'?'1':'0.5'}"`:''} value="${esc(MS[k]??'')}">`}</label>`).join('');
+ }
+  
+ $('#semana-form').appendChild($('#ownform'));
+ $('#ownform summary').textContent=txH('semana_agregar');
+ $('#ownform summary').appendChild(SateUI.ayuda('sate.horarios.semana_trabajo_ayuda'));
+ $('#semana-borrar-ayuda').appendChild(SateUI.ayuda('sate.horarios.semana_borrado_ayuda'));
+ $('#mi-semana').addEventListener('toggle',resumenSemana);
+ resumenSemana();
+ $('#own-n').placeholder='';$('#own-a').value='';$('#own-b').value='';
+ $('#own-f').insertAdjacentHTML('afterbegin',`<p class="semana-ayuda-corta">${esc(txH('semana_agregar_ayuda'))}</p><label class="field"><span>${esc(txH('semana_tipo'))}</span><select id="semana-tipo"><option value="trabajo">${esc(txH('semana_trabajo_bloque'))}</option><option value="otras">${esc(txH('semana_otras'))}</option></select></label>`);
+ $('#own-f').insertAdjacentHTML('beforeend',`<label class="check"><input type="checkbox" id="semana-oculta"> ${esc(txH('semana_solo_horas'))}</label><label class="field" id="semana-hs-campo" hidden><span>${esc(txH('semana_horas_semana'))}</span><input type="number" id="semana-hs" min="0" max="168" step="0.5"><small>${esc(txH('semana_horas_semana_ayuda'))}</small></label>`);
+ $('#own-f').addEventListener('change',e=>{
+ if(e.target?.id!=='semana-oculta')return;
+ const solo=$('#semana-oculta').checked;$('#semana-hs-campo').hidden=!solo;
+ if(!solo)$('#semana-hs').value='';
+ });
+ $('#semana-bloques').addEventListener('click',e=>{
+ const ed=e.target.closest?.('[data-own-ed]'),el=e.target.closest?.('[data-own-del]');
+ if(ed)abrirFichaPropia(+ed.dataset.ownEd);else if(el)eliminarPropia(+el.dataset.ownDel);
+ });
+ $('#own-deshacer-b').addEventListener('click',deshacerPropia);
+ $('#semana-campos').addEventListener('change',e=>{
+ const k=e.target.dataset.semana;if(!k||!e.target.checkValidity())return;
+ const a=k==='comidaA'?e.target.value:MS.comidaA,b=k==='comidaB'?e.target.value:MS.comidaB;
+ if(a&&b&&tmin(b)<=tmin(a)){e.target.setCustomValidity(txH('actividad_horas'));e.target.reportValidity();e.target.setCustomValidity('');e.target.value=MS[k]||'';return}
+ MS[k]=e.target.value;store.set('miSemana',MS);semanaCambiar();
+ });
+ $('#semana-borrar').addEventListener('click',()=>{
+ for(const k of Object.keys(MS))delete MS[k];store.set('miSemana',MS);
+  
+ for(const p of Object.values(ws().plans))p.own=p.own.filter(o=>!o.tipo);
+ document.querySelectorAll('[data-semana]').forEach(el=>el.value='');refresh();semanaCambiar();
+ });
 }
 function resumenSemana(){
-  const partes=[txH('semana_titulo')];
-  if(!$('#mi-semana').open){
-    if(semanaValor('dias'))partes.push(txH('semana_resumen_dias',{n:fmtCr(semanaValor('dias'))}));
-    const traslado=semanaValor('ida')+semanaValor('vuelta');
-    if(traslado)partes.push(txH('semana_resumen_traslado',{n:fmtCr(traslado/60)}));
-    if(MS.antes)partes.push(txH('semana_resumen_antes',{hora:MS.antes.replace(/^0/,'')}));
-    for(const k of ['sueno','estudio','trabajo'])if(semanaValor(k))partes.push(txH(`semana_resumen_${k}`,{n:fmtCr(semanaValor(k))}));
-    if(MS.comidaA||MS.comidaB)partes.push(txH('semana_resumen_comida',{desde:MS.comidaA||'',hasta:MS.comidaB||''}));
-    const bloques=plan().own.filter(o=>!o.saes).length;
-    if(bloques)partes.push(txH(bloques===1?'semana_resumen_bloque':'semana_resumen_bloques',{n:bloques}));
-  }
-  $('#semana-resumen').textContent=partes.join(' · ');
+ const partes=[txH('semana_titulo')];
+ if(!$('#mi-semana').open){
+ if(semanaValor('dias'))partes.push(txH('semana_resumen_dias',{n:fmtCr(semanaValor('dias'))}));
+ const traslado=semanaValor('ida')+semanaValor('vuelta');
+ if(traslado)partes.push(txH('semana_resumen_traslado',{n:fmtCr(traslado/60)}));
+ if(MS.antes)partes.push(txH('semana_resumen_antes',{hora:MS.antes.replace(/^0/,'')}));
+ for(const k of ['sueno','estudio','trabajo'])if(semanaValor(k))partes.push(txH(`semana_resumen_${k}`,{n:fmtCr(semanaValor(k))}));
+ if(MS.comidaA||MS.comidaB)partes.push(txH('semana_resumen_comida',{desde:MS.comidaA||'',hasta:MS.comidaB||''}));
+ const bloques=plan().own.filter(o=>!o.saes).length;
+ if(bloques)partes.push(txH(bloques===1?'semana_resumen_bloque':'semana_resumen_bloques',{n:bloques}));
+ }
+ $('#semana-resumen').textContent=partes.join(' · ');
 }
 function semanaCambiar(){renderCal();if(S.gen||generacion)iniciarGeneracion()}
 function semanaTraslados(cs){
-  const clases=cs.flatMap(c=>c[6]||[]).concat(plan().own.filter(o=>o.saes).flatMap(o=>o.d.map(d=>[d,o.a,o.b])));
-  return [...new Set(clases.map(b=>b[0]))].flatMap(d=>{
-    const bs=clases.filter(b=>b[0]===d),a=Math.min(...bs.map(b=>b[1])),b=Math.max(...bs.map(b=>b[2]));
-    return [[d,a-semanaValor('ida'),a],[d,b,b+semanaValor('vuelta')]].filter(x=>x[2]>x[1]);
-  });
+ const clases=cs.flatMap(c=>c[6]||[]).concat(plan().own.filter(o=>o.saes).flatMap(o=>o.d.map(d=>[d,o.a,o.b])));
+ return [...new Set(clases.map(b=>b[0]))].flatMap(d=>{
+ const bs=clases.filter(b=>b[0]===d),a=Math.min(...bs.map(b=>b[1])),b=Math.max(...bs.map(b=>b[2]));
+ return [[d,a-semanaValor('ida'),a],[d,b,b+semanaValor('vuelta')]].filter(x=>x[2]>x[1]);
+ });
 }
 function semanaOk(cs){
-  if(!SEMANA_ACTIVA)return true;
-  const clases=cs.flatMap(c=>c[6]||[]).concat(plan().own.filter(o=>o.saes).flatMap(o=>o.d.map(d=>[d,o.a,o.b])));
-  if(semanaValor('dias')&&new Set(clases.map(b=>b[0])).size>semanaValor('dias'))return false;
-  const antes=tmin(MS.antes);if(antes!=null&&clases.some(b=>b[1]<antes))return false;
-  const viaje=semanaTraslados(cs),propios=plan().own.filter(o=>!o.saes&&!o.oculto).flatMap(o=>o.d.map(d=>[d,o.a,o.b]));
-  if(viaje.some(([d,a,b])=>a<0||b>1440||propios.some(([e,x,y])=>d===e&&a<y&&x<b)))return false;
-  const a=tmin(MS.comidaA),b=tmin(MS.comidaB);
-  // Como los descansos, el rango registrado se reserva completo, sin relajación automática.
-  const dias=new Set(clases.map(x=>x[0]));
-  return a==null||b==null||![...clases,...viaje,...propios].some(x=>dias.has(x[0])&&x[1]<b&&a<x[2]);
+ if(!SEMANA_ACTIVA)return true;
+ const clases=cs.flatMap(c=>c[6]||[]).concat(plan().own.filter(o=>o.saes).flatMap(o=>o.d.map(d=>[d,o.a,o.b])));
+ if(semanaValor('dias')&&new Set(clases.map(b=>b[0])).size>semanaValor('dias'))return false;
+ const antes=tmin(MS.antes);if(antes!=null&&clases.some(b=>b[1]<antes))return false;
+ const viaje=semanaTraslados(cs),propios=plan().own.filter(o=>!o.saes&&!o.oculto).flatMap(o=>o.d.map(d=>[d,o.a,o.b]));
+ if(viaje.some(([d,a,b])=>a<0||b>1440||propios.some(([e,x,y])=>d===e&&a<y&&x<b)))return false;
+ const a=tmin(MS.comidaA),b=tmin(MS.comidaB);
+  
+ const dias=new Set(clases.map(x=>x[0]));
+ return a==null||b==null||![...clases,...viaje,...propios].some(x=>dias.has(x[0])&&x[1]<b&&a<x[2]);
 }
 function semanaPena(cs){return SEMANA_ACTIVA&&(semanaValor('ida')>=60||semanaValor('vuelta')>=60)?new Set(semanaTraslados(cs).map(x=>x[0])).size*12:0}
 function presupuestoSemana(cs){
-  const horas={sueno:semanaValor('sueno')*7,clases:0,traslados:0,trabajo:0,otras:0,estudio:semanaValor('estudio'),libre:0},ocupado=new Set();
-  // Unión de minutos: clases, traslados, trabajo y otras nunca descuentan el mismo minuto dos veces.
-  const sumar=(k,bs)=>{for(const [d,a,b] of bs)for(let m=Math.max(0,Math.floor(a));m<Math.min(1440,Math.ceil(b));m++){
-    const t=d*1440+m;if(!ocupado.has(t)){ocupado.add(t);horas[k]+=1/60}
-  }};
-  const propios=plan().own;
-  sumar('clases',cs.flatMap(c=>c[6]||[]).concat(propios.filter(o=>o.saes).flatMap(o=>o.d.map(d=>[d,o.a,o.b]))));
-  sumar('traslados',semanaTraslados(cs));
-  for(const k of ['trabajo','otras'])sumar(k,propios.filter(o=>!o.saes&&!o.oculto&&(k==='trabajo'?o.tipo==='trabajo':o.tipo!=='trabajo')).flatMap(o=>o.d.map(d=>[d,o.a,o.b])));
-  for(const o of propios)if(o.oculto&&!o.saes)horas[o.tipo==='trabajo'?'trabajo':'otras']+=horasPropia(o);
-  if(!propios.some(o=>o.tipo==='trabajo'))horas.trabajo=semanaValor('trabajo');
-  const total=Object.values(horas).reduce((a,b)=>a+b,0);horas.libre=Math.max(0,168-total);
-  return {horas,total,disponible:168-total+horas.estudio,exceso:Math.max(0,total-168)};
+ const horas={sueno:semanaValor('sueno')*7,clases:0,traslados:0,trabajo:0,otras:0,estudio:semanaValor('estudio'),libre:0},ocupado=new Set();
+  
+ const sumar=(k,bs)=>{for(const [d,a,b] of bs)for(let m=Math.max(0,Math.floor(a));m<Math.min(1440,Math.ceil(b));m++){
+ const t=d*1440+m;if(!ocupado.has(t)){ocupado.add(t);horas[k]+=1/60}
+ }};
+ const propios=plan().own;
+ sumar('clases',cs.flatMap(c=>c[6]||[]).concat(propios.filter(o=>o.saes).flatMap(o=>o.d.map(d=>[d,o.a,o.b]))));
+ sumar('traslados',semanaTraslados(cs));
+ for(const k of ['trabajo','otras'])sumar(k,propios.filter(o=>!o.saes&&!o.oculto&&(k==='trabajo'?o.tipo==='trabajo':o.tipo!=='trabajo')).flatMap(o=>o.d.map(d=>[d,o.a,o.b])));
+ for(const o of propios)if(o.oculto&&!o.saes)horas[o.tipo==='trabajo'?'trabajo':'otras']+=horasPropia(o);
+ if(!propios.some(o=>o.tipo==='trabajo'))horas.trabajo=semanaValor('trabajo');
+ const total=Object.values(horas).reduce((a,b)=>a+b,0);horas.libre=Math.max(0,168-total);
+ return {horas,total,disponible:168-total+horas.estudio,exceso:Math.max(0,total-168)};
 }
-/* ---------- actividades fijas propias: ficha, edición, eliminación con deshacer ---------- */
+ 
 const horasPropia=o=>o.hs!=null?Number(o.hs)||0:(o.d||[]).length*(o.b-o.a)/60;
 let OWN_UNDO=null,OWN_UNDO_T=null;
 function validarPropia(v){
-  if(!v.n)return txH('actividad_nombre');
-  if(v.oculto&&v.hs!=null)return v.hs>0&&v.hs<=168?'':txH('semana_horas_invalidas');
-  if(!v.d.length)return txH('actividad_dias');
-  return v.b<=v.a?txH('actividad_horas'):'';
+ if(!v.n)return txH('actividad_nombre');
+ if(v.oculto&&v.hs!=null)return v.hs>0&&v.hs<=168?'':txH('semana_horas_invalidas');
+ if(!v.d.length)return txH('actividad_dias');
+ return v.b<=v.a?txH('actividad_horas'):'';
 }
 function guardarPropia(i,v){
-  const o=plan().own[i];if(!o||o.saes)return '';
-  const err=validarPropia(v);if(err)return err;
-  const nuevo={...o,n:v.n,d:v.oculto&&v.hs!=null?[]:[...v.d].sort(),a:v.oculto&&v.hs!=null?0:v.a,b:v.oculto&&v.hs!=null?0:v.b};
-  if(SEMANA_ACTIVA){nuevo.tipo=v.tipo;if(v.oculto)nuevo.oculto=true;else delete nuevo.oculto;if(v.oculto&&v.hs!=null)nuevo.hs=v.hs;else delete nuevo.hs}
-  plan().own[i]=nuevo;
-  if(nuevo.d.some(d=>d>=5)){S.weekend=true;store.set('weekend',true);$('#f-weekend').checked=true}
-  refresh();return '';
+ const o=plan().own[i];if(!o||o.saes)return '';
+ const err=validarPropia(v);if(err)return err;
+ const nuevo={...o,n:v.n,d:v.oculto&&v.hs!=null?[]:[...v.d].sort(),a:v.oculto&&v.hs!=null?0:v.a,b:v.oculto&&v.hs!=null?0:v.b};
+ if(SEMANA_ACTIVA){nuevo.tipo=v.tipo;if(v.oculto)nuevo.oculto=true;else delete nuevo.oculto;if(v.oculto&&v.hs!=null)nuevo.hs=v.hs;else delete nuevo.hs}
+ plan().own[i]=nuevo;
+ if(nuevo.d.some(d=>d>=5)){S.weekend=true;store.set('weekend',true);$('#f-weekend').checked=true}
+ refresh();return '';
 }
 function olvidarDeshacerPropia(){OWN_UNDO=null;clearTimeout(OWN_UNDO_T);$('#own-deshacer').hidden=true}
 function eliminarPropia(i){
-  const lista=plan().own,o=lista[i];if(!o)return;
-  lista.splice(i,1);
-  OWN_UNDO={plan:ws().plan,i,item:o};clearTimeout(OWN_UNDO_T);
-  OWN_UNDO_T=setTimeout(olvidarDeshacerPropia,10000);
-  $('#own-deshacer-txt').textContent=txH('semana_eliminada',{nombre:o.n});$('#own-deshacer').hidden=false;
-  refresh();
+ const lista=plan().own,o=lista[i];if(!o)return;
+ lista.splice(i,1);
+ OWN_UNDO={plan:ws().plan,i,item:o};clearTimeout(OWN_UNDO_T);
+ OWN_UNDO_T=setTimeout(olvidarDeshacerPropia,10000);
+ $('#own-deshacer-txt').textContent=txH('semana_eliminada',{nombre:o.n});$('#own-deshacer').hidden=false;
+ refresh();
 }
 function deshacerPropia(){
-  const u=OWN_UNDO;if(!u)return;
-  const pl=ws().plans[u.plan];olvidarDeshacerPropia();if(!pl)return;
-  pl.own.splice(Math.min(u.i,pl.own.length),0,u.item);
-  $('#own-deshacer-txt').textContent=txH('semana_restaurada',{nombre:u.item.n});$('#own-deshacer').hidden=false;
-  OWN_UNDO_T=setTimeout(()=>{$('#own-deshacer').hidden=true},4000);
-  refresh();
+ const u=OWN_UNDO;if(!u)return;
+ const pl=ws().plans[u.plan];olvidarDeshacerPropia();if(!pl)return;
+ pl.own.splice(Math.min(u.i,pl.own.length),0,u.item);
+ $('#own-deshacer-txt').textContent=txH('semana_restaurada',{nombre:u.item.n});$('#own-deshacer').hidden=false;
+ OWN_UNDO_T=setTimeout(()=>{$('#own-deshacer').hidden=true},4000);
+ refresh();
 }
 function confirmarEliminarPropia(i){
-  const o=plan().own[i];if(!o)return;
-  if(typeof ventanaPropuestas!=='undefined')ventanaPropuestas?.cerrar();
-  SateUI.modal(txH('semana_eliminar'),txH('semana_confirmar_eliminar',{nombre:o.n}),{pequeno:true,acciones:[
-    {texto:txH('semana_eliminar'),primaria:true,onclick:()=>eliminarPropia(i)},{texto:txH('semana_cancelar')}]});
+ const o=plan().own[i];if(!o)return;
+ if(typeof ventanaPropuestas!=='undefined')ventanaPropuestas?.cerrar();
+ SateUI.modal(txH('semana_eliminar'),txH('semana_confirmar_eliminar',{nombre:o.n}),{pequeno:true,acciones:[
+ {texto:txH('semana_eliminar'),primaria:true,onclick:()=>eliminarPropia(i)},{texto:txH('semana_cancelar')}]});
 }
 function abrirFichaPropia(i){
-  const o=plan().own[i];if(!o||o.saes)return;
-  if(typeof ventanaPropuestas!=='undefined')ventanaPropuestas?.cerrar();
-  let dias=[...(o.d||[])];const solo=!!o.oculto,conHoras=solo&&o.hs!=null;
-  const f=document.createElement('form');f.className='semana-ficha';
-  f.innerHTML=`<label class="field"><span>${esc(txH('semana_nombre'))}</span><input type="text" id="ficha-n" required></label>`+
-    (SEMANA_ACTIVA?`<label class="field"><span>${esc(txH('semana_tipo'))}</span><select id="ficha-tipo"><option value="trabajo">${esc(txH('semana_trabajo_bloque'))}</option><option value="otras">${esc(txH('semana_otras'))}</option></select></label>`:'')+
-    `<div class="field"><span>${esc(txH('semana_dias_ficha'))}</span><div class="daypick" id="ficha-dias"></div></div>`+
-    `<label class="field"><span>${esc(txH('semana_de'))}</span><select id="ficha-a">${opcionesHoras(hm(o.a),false)}</select></label><label class="field"><span>${esc(txH('semana_a'))}</span><select id="ficha-b">${opcionesHoras(hm(o.b),false)}</select></label>`+
-    (SEMANA_ACTIVA?`<label class="check"><input type="checkbox" id="ficha-mostrar"> ${esc(txH('semana_mostrar'))}</label><label class="field"><span>${esc(txH('semana_horas_semana'))}</span><input type="number" id="ficha-hs" min="0" max="168" step="0.5"></label>`:'')+
-    `<p class="err" id="ficha-err" role="alert"></p>`;
-  const q=s=>f.querySelector(s),pintar=()=>{q('#ficha-dias').innerHTML=DAYS.map((d,k)=>`<button type="button" class="chip" data-fd="${esc(k)}" aria-pressed="${dias.includes(k)}">${d}</button>`).join('')};
-  const hhmm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
-  q('#ficha-n').value=o.n;
-  q('#ficha-a').value=conHoras?'':hhmm(o.a);q('#ficha-b').value=conHoras?'':hhmm(o.b);
-  if(SEMANA_ACTIVA){q('#ficha-tipo').value=o.tipo==='trabajo'?'trabajo':'otras';q('#ficha-mostrar').checked=!solo;q('#ficha-hs').value=conHoras?o.hs:''}
-  pintar();
-  q('#ficha-dias').addEventListener('click',e=>{const b=e.target.closest?.('[data-fd]');if(!b)return;const k=+b.dataset.fd;dias=dias.includes(k)?dias.filter(x=>x!==k):[...dias,k];pintar()});
-  f.addEventListener('submit',e=>{e.preventDefault();guardar()});
-  const leer=()=>{
-    const oculto=SEMANA_ACTIVA&&!q('#ficha-mostrar').checked,hsTxt=SEMANA_ACTIVA?q('#ficha-hs').value:'';
-    const hs=oculto&&hsTxt!==''?parseFloat(hsTxt):null;
-    return {n:q('#ficha-n').value.trim(),tipo:SEMANA_ACTIVA?q('#ficha-tipo').value:o.tipo,d:dias,a:tmin(q('#ficha-a').value)??0,b:tmin(q('#ficha-b').value)??0,oculto,hs};
-  };
-  let m=null;
-  const guardar=()=>{const err=guardarPropia(i,leer());if(err){q('#ficha-err').textContent=err;return}m?.cerrar()};
-  m=SateUI.modal(txH('semana_ficha_titulo'),f,{acciones:[
-    {texto:txH('semana_guardar'),primaria:true,cierra:false,onclick:guardar},
-    {texto:txH('semana_eliminar'),cierra:false,onclick:()=>{m?.cerrar();eliminarPropia(i)}},
-    {texto:txH('semana_cancelar')}]});
-  return m;
+ const o=plan().own[i];if(!o||o.saes)return;
+ if(typeof ventanaPropuestas!=='undefined')ventanaPropuestas?.cerrar();
+ let dias=[...(o.d||[])];const solo=!!o.oculto,conHoras=solo&&o.hs!=null;
+ const f=document.createElement('form');f.className='semana-ficha';
+ f.innerHTML=`<label class="field"><span>${esc(txH('semana_nombre'))}</span><input type="text" id="ficha-n" required></label>`+
+ (SEMANA_ACTIVA?`<label class="field"><span>${esc(txH('semana_tipo'))}</span><select id="ficha-tipo"><option value="trabajo">${esc(txH('semana_trabajo_bloque'))}</option><option value="otras">${esc(txH('semana_otras'))}</option></select></label>`:'')+
+ `<div class="field"><span>${esc(txH('semana_dias_ficha'))}</span><div class="daypick" id="ficha-dias"></div></div>`+
+ `<label class="field"><span>${esc(txH('semana_de'))}</span><select id="ficha-a">${opcionesHoras(hm(o.a),false)}</select></label><label class="field"><span>${esc(txH('semana_a'))}</span><select id="ficha-b">${opcionesHoras(hm(o.b),false)}</select></label>`+
+ (SEMANA_ACTIVA?`<label class="check"><input type="checkbox" id="ficha-mostrar"> ${esc(txH('semana_mostrar'))}</label><label class="field"><span>${esc(txH('semana_horas_semana'))}</span><input type="number" id="ficha-hs" min="0" max="168" step="0.5"></label>`:'')+
+ `<p class="err" id="ficha-err" role="alert"></p>`;
+ const q=s=>f.querySelector(s),pintar=()=>{q('#ficha-dias').innerHTML=DAYS.map((d,k)=>`<button type="button" class="chip" data-fd="${esc(k)}" aria-pressed="${dias.includes(k)}">${d}</button>`).join('')};
+ const hhmm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+ q('#ficha-n').value=o.n;
+ q('#ficha-a').value=conHoras?'':hhmm(o.a);q('#ficha-b').value=conHoras?'':hhmm(o.b);
+ if(SEMANA_ACTIVA){q('#ficha-tipo').value=o.tipo==='trabajo'?'trabajo':'otras';q('#ficha-mostrar').checked=!solo;q('#ficha-hs').value=conHoras?o.hs:''}
+ pintar();
+ q('#ficha-dias').addEventListener('click',e=>{const b=e.target.closest?.('[data-fd]');if(!b)return;const k=+b.dataset.fd;dias=dias.includes(k)?dias.filter(x=>x!==k):[...dias,k];pintar()});
+ f.addEventListener('submit',e=>{e.preventDefault();guardar()});
+ const leer=()=>{
+ const oculto=SEMANA_ACTIVA&&!q('#ficha-mostrar').checked,hsTxt=SEMANA_ACTIVA?q('#ficha-hs').value:'';
+ const hs=oculto&&hsTxt!==''?parseFloat(hsTxt):null;
+ return {n:q('#ficha-n').value.trim(),tipo:SEMANA_ACTIVA?q('#ficha-tipo').value:o.tipo,d:dias,a:tmin(q('#ficha-a').value)??0,b:tmin(q('#ficha-b').value)??0,oculto,hs};
+ };
+ let m=null;
+ const guardar=()=>{const err=guardarPropia(i,leer());if(err){q('#ficha-err').textContent=err;return}m?.cerrar()};
+ m=SateUI.modal(txH('semana_ficha_titulo'),f,{acciones:[
+ {texto:txH('semana_guardar'),primaria:true,cierra:false,onclick:guardar},
+ {texto:txH('semana_eliminar'),cierra:false,onclick:()=>{m?.cerrar();eliminarPropia(i)}},
+ {texto:txH('semana_cancelar')}]});
+ return m;
 }
 function bloquePropioEvento(e){
-  const b=e.target.closest?.('[data-own]');if(!b)return false;
-  const i=+b.dataset.own;
-  if(e.type==='click'||e.key==='Enter'||e.key===' '){e.preventDefault?.();abrirFichaPropia(i);return true}
-  if(e.key==='Delete'||e.key==='Supr'){e.preventDefault?.();confirmarEliminarPropia(i);return true}
-  return false;
+ const b=e.target.closest?.('[data-own]');if(!b)return false;
+ const i=+b.dataset.own;
+ if(e.type==='click'||e.key==='Enter'||e.key===' '){e.preventDefault?.();abrirFichaPropia(i);return true}
+ if(e.key==='Delete'||e.key==='Supr'){e.preventDefault?.();confirmarEliminarPropia(i);return true}
+ return false;
 }
 function renderSemana(){
-  if(!SEMANA_ACTIVA)return;
-  resumenSemana();
-  $('#semana-bloques').innerHTML=plan().own.map((o,i)=>o.saes?'':`<p class="semana-item"><b>${esc(o.n)}</b> · ${o.oculto&&o.hs!=null?'':o.d.map(d=>DAYS[d]).join(' ')+' '+hm(o.a)+'–'+hm(o.b)+' · '}${esc(txH('semana_lista_horas',{n:fmtCr(horasPropia(o))}))} · ${esc(txH(o.oculto?'semana_lista_oculta':'semana_lista_visible'))} <span class="semana-acc"><button type="button" class="btn" data-own-ed="${i}" aria-label="${esc(txH('semana_editar_nombre',{nombre:o.n}))}">${esc(txH('semana_editar'))}</button> <button type="button" class="btn" data-own-del="${i}" aria-label="${esc(txH('semana_eliminar_nombre',{nombre:o.n}))}">${esc(txH('semana_eliminar'))}</button></span></p>`).join('');
-  const cs=selected(),presupuesto=$('#semana-presupuesto');
-  presupuesto.hidden=!semanaCampos.some(([k])=>MS[k]!=null&&MS[k]!=='')&&!plan().own.length&&!cs.length;
-  if(presupuesto.hidden){presupuesto.innerHTML='';return}
-  const p=presupuestoSemana(cs),avisos=[];
-  if(p.exceso>0.01)avisos.push(txH('semana_exceso',{n:fmtCr(p.exceso)}));
-  if(p.disponible<p.horas.estudio)avisos.push(txH('semana_sin_estudio'));
-  if(p.horas.trabajo>15&&p.horas.clases>=25)avisos.push(txH('semana_carga_aviso'));
-  if(p.horas.traslados>10)avisos.push(txH('semana_traslado_aviso'));
-  if(semanaValor('ida')>60&&cs.some(c=>c[6].some(b=>b[1]<480)))avisos.push(txH('semana_temprano_aviso'));
-  if(!semanaOk(cs))avisos.push(txH('semana_conflicto'));
-  if(cs.length&&!qualityOf(cs).comida)avisos.push(txH('semana_comida_aviso'));
-  const partes=Object.entries(p.horas),cifra=([k,v])=>txH(`semana_categoria_${k}`)+': '+fmtCr(v)+' h';
-  const descripcion=[['libre',p.horas.libre],...partes.filter(([k,v])=>k!=='libre'&&v>0)].map(cifra).join(' · ');
-  presupuesto.innerHTML=`<p id="semana-presupuesto-titulo">${esc(txH('semana_presupuesto'))}</p><div class="semana-barra" role="img" aria-label="${esc(descripcion)}">${partes.map(([k,v],i)=>`<span class="semana-parte semana-parte-${i}" style="width:${v/168*100}%"></span>`).join('')}</div><p>${esc(descripcion)}</p>${avisos.map(t=>`<p>${esc(t)}</p>`).join('')}`;
-  $('#semana-presupuesto-titulo').appendChild(SateUI.ayuda('sate.horarios.semana_supuestos'));
+ if(!SEMANA_ACTIVA)return;
+ resumenSemana();
+ $('#semana-bloques').innerHTML=plan().own.map((o,i)=>o.saes?'':`<p class="semana-item"><b>${esc(o.n)}</b> · ${o.oculto&&o.hs!=null?'':o.d.map(d=>DAYS[d]).join(' ')+' '+hm(o.a)+'–'+hm(o.b)+' · '}${esc(txH('semana_lista_horas',{n:fmtCr(horasPropia(o))}))} · ${esc(txH(o.oculto?'semana_lista_oculta':'semana_lista_visible'))} <span class="semana-acc"><button type="button" class="btn" data-own-ed="${i}" aria-label="${esc(txH('semana_editar_nombre',{nombre:o.n}))}">${esc(txH('semana_editar'))}</button> <button type="button" class="btn" data-own-del="${i}" aria-label="${esc(txH('semana_eliminar_nombre',{nombre:o.n}))}">${esc(txH('semana_eliminar'))}</button></span></p>`).join('');
+ const cs=selected(),presupuesto=$('#semana-presupuesto');
+ presupuesto.hidden=!semanaCampos.some(([k])=>MS[k]!=null&&MS[k]!=='')&&!plan().own.length&&!cs.length;
+ if(presupuesto.hidden){presupuesto.innerHTML='';return}
+ const p=presupuestoSemana(cs),avisos=[];
+ if(p.exceso>0.01)avisos.push(txH('semana_exceso',{n:fmtCr(p.exceso)}));
+ if(p.disponible<p.horas.estudio)avisos.push(txH('semana_sin_estudio'));
+ if(p.horas.trabajo>15&&p.horas.clases>=25)avisos.push(txH('semana_carga_aviso'));
+ if(p.horas.traslados>10)avisos.push(txH('semana_traslado_aviso'));
+ if(semanaValor('ida')>60&&cs.some(c=>c[6].some(b=>b[1]<480)))avisos.push(txH('semana_temprano_aviso'));
+ if(!semanaOk(cs))avisos.push(txH('semana_conflicto'));
+ if(cs.length&&!qualityOf(cs).comida)avisos.push(txH('semana_comida_aviso'));
+ const partes=Object.entries(p.horas),cifra=([k,v])=>txH(`semana_categoria_${k}`)+': '+fmtCr(v)+' h';
+ const descripcion=[['libre',p.horas.libre],...partes.filter(([k,v])=>k!=='libre'&&v>0)].map(cifra).join(' · ');
+ presupuesto.innerHTML=`<p id="semana-presupuesto-titulo">${esc(txH('semana_presupuesto'))}</p><div class="semana-barra" role="img" aria-label="${esc(descripcion)}">${partes.map(([k,v],i)=>`<span class="semana-parte semana-parte-${i}" style="width:${v/168*100}%"></span>`).join('')}</div><p>${esc(descripcion)}</p>${avisos.map(t=>`<p>${esc(t)}</p>`).join('')}`;
+ $('#semana-presupuesto-titulo').appendChild(SateUI.ayuda('sate.horarios.semana_supuestos'));
 }
 function opcionesHoras(valor='',libre=true){
-  const minutos=new Set(classes().filter(c=>c[0]===S.car).flatMap(c=>c[6].flatMap(([,a,b])=>[a,b])));
-  // Conserva límites guardados aunque cambie la oferta del periodo.
-  if(valor)minutos.add(toMin(valor));
-  return (libre?`<option value="">${esc(txH('d_sin_limite'))}</option>`:'')+[...minutos].filter(Number.isFinite).sort((a,b)=>a-b).map(m=>{
-    const v=hm(m);return `<option value="${v}"${v===valor?' selected':''}>${Math.floor(m/60)}:${String(m%60).padStart(2,'0')}</option>`;
-  }).join('');
+ const minutos=new Set(classes().filter(c=>c[0]===S.car).flatMap(c=>c[6].flatMap(([,a,b])=>[a,b])));
+  
+ if(valor)minutos.add(toMin(valor));
+ return (libre?`<option value="">${esc(txH('d_sin_limite'))}</option>`:'')+[...minutos].filter(Number.isFinite).sort((a,b)=>a-b).map(m=>{
+ const v=hm(m);return `<option value="${v}"${v===valor?' selected':''}>${Math.floor(m/60)}:${String(m%60).padStart(2,'0')}</option>`;
+ }).join('');
 }
 function renderGTime(){
-  for(const [id,v] of [['#g-from',GT.a],['#g-to',GT.b],['#d-from',GT.a],['#d-to',GT.b]]){
-    const el=$(id);if(el){el.innerHTML=opcionesHoras(v);el.value=v}
-  }
-  for(const id of ['#own-a','#own-b']){const el=$(id),v=el.value||'';el.innerHTML=opcionesHoras(v,false);if(v)el.value=v}
-  document.querySelectorAll('[data-gdays]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gdays===String(GT.days||''))));
-  document.querySelectorAll('[data-gsrc]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gsrc===String(GT.src||''))));
-  document.querySelectorAll('[data-gn]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gn===String(GT.n||''))));
-  $('#gbreaks').innerHTML=GT.breaks.map((b,i)=>`<div class="gbrk" data-brk="${i}"><label class="field"><span>${esc(txH('descanso_duracion'))}</span><select data-f="d" aria-label="${esc(txH('descanso_duracion'))}">${[30,60,90,120].map(m=>`<option value="${m}"${+b.d===m?' selected':''}>${({30:txH('minutos_30'),60:txH('hora_1'),90:txH('hora_media'),120:txH('horas_2')})[m]}</option>`).join('')}</select></label><div class="gbrk-horas"><label class="field"><span>${esc(txH('desde'))}</span><select data-f="a" aria-label="${esc(txH('desde'))}">${opcionesHoras(b.a,false)}</select></label><label class="field"><span>${esc(txH('hasta'))}</span><select data-f="b" aria-label="${esc(txH('hasta'))}">${opcionesHoras(b.b,false)}</select></label></div><span class="brkdays" role="group" aria-label="${esc(txH('descanso_dias'))}"><button type="button" class="chip" data-bday="all" aria-pressed="${!(b.days||[]).length}">${esc(txH('todos_dias'))}</button>${DAYS.slice(0,6).map((n,d)=>`<button type="button" class="chip" data-bday="${d}" aria-pressed="${(b.days||[]).includes(d)}">${n}</button>`).join('')}</span><button type="button" class="x" data-unbrk="${i}" aria-label="${esc(txH('quitar_descanso'))}">×</button></div>`).join('')+
-    `<button type="button" class="link" id="b-addbrk">${esc(txH('agregar_descanso'))}</button>`;
+ for(const [id,v] of [['#g-from',GT.a],['#g-to',GT.b],['#d-from',GT.a],['#d-to',GT.b]]){
+ const el=$(id);if(el){el.innerHTML=opcionesHoras(v);el.value=v}
+ }
+ for(const id of ['#own-a','#own-b']){const el=$(id),v=el.value||'';el.innerHTML=opcionesHoras(v,false);if(v)el.value=v}
+ document.querySelectorAll('[data-gdays]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gdays===String(GT.days||''))));
+ document.querySelectorAll('[data-gsrc]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gsrc===String(GT.src||''))));
+ document.querySelectorAll('[data-gn]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gn===String(GT.n||''))));
+ $('#gbreaks').innerHTML=GT.breaks.map((b,i)=>`<div class="gbrk" data-brk="${i}"><label class="field"><span>${esc(txH('descanso_duracion'))}</span><select data-f="d" aria-label="${esc(txH('descanso_duracion'))}">${[30,60,90,120].map(m=>`<option value="${m}"${+b.d===m?' selected':''}>${({30:txH('minutos_30'),60:txH('hora_1'),90:txH('hora_media'),120:txH('horas_2')})[m]}</option>`).join('')}</select></label><div class="gbrk-horas"><label class="field"><span>${esc(txH('desde'))}</span><select data-f="a" aria-label="${esc(txH('desde'))}">${opcionesHoras(b.a,false)}</select></label><label class="field"><span>${esc(txH('hasta'))}</span><select data-f="b" aria-label="${esc(txH('hasta'))}">${opcionesHoras(b.b,false)}</select></label></div><span class="brkdays" role="group" aria-label="${esc(txH('descanso_dias'))}"><button type="button" class="chip" data-bday="all" aria-pressed="${!(b.days||[]).length}">${esc(txH('todos_dias'))}</button>${DAYS.slice(0,6).map((n,d)=>`<button type="button" class="chip" data-bday="${d}" aria-pressed="${(b.days||[]).includes(d)}">${n}</button>`).join('')}</span><button type="button" class="x" data-unbrk="${i}" aria-label="${esc(txH('quitar_descanso'))}">×</button></div>`).join('')+
+ `<button type="button" class="link" id="b-addbrk">${esc(txH('agregar_descanso'))}</button>`;
 }
-// ¿cada día con clases deja un hueco de al menos d minutos dentro de [a,b]?
+ 
 function breaksOk(cs){
-  const brk=GT.breaks.map(b=>({d:+b.d,a:tmin(b.a),b:tmin(b.b),days:b.days||[]})).filter(b=>b.a!=null&&b.b!=null&&b.b-b.a>=b.d);
-  if(!brk.length) return true;
-  const days=new Set(cs.flatMap(c=>c[6].map(x=>x[0])));
-  for(const d of days){
-    const busy=cs.flatMap(c=>c[6].filter(x=>x[0]===d).map(x=>[x[1],x[2]])).sort((x,y)=>x[0]-y[0]);
-    for(const b of brk){if(b.days.length&&!b.days.includes(d))continue;  // descanso solo en ciertos días
-      let t=b.a,gap=0;
-      for(const [x,y] of busy){if(y<=b.a||x>=b.b)continue;gap=Math.max(gap,Math.max(b.a,x)-t);t=Math.max(t,Math.min(y,b.b))}
-      gap=Math.max(gap,b.b-t);if(gap<b.d)return false}
-  }
-  return true;
+ const brk=GT.breaks.map(b=>({d:+b.d,a:tmin(b.a),b:tmin(b.b),days:b.days||[]})).filter(b=>b.a!=null&&b.b!=null&&b.b-b.a>=b.d);
+ if(!brk.length) return true;
+ const days=new Set(cs.flatMap(c=>c[6].map(x=>x[0])));
+ for(const d of days){
+ const busy=cs.flatMap(c=>c[6].filter(x=>x[0]===d).map(x=>[x[1],x[2]])).sort((x,y)=>x[0]-y[0]);
+ for(const b of brk){if(b.days.length&&!b.days.includes(d))continue;  
+ let t=b.a,gap=0;
+ for(const [x,y] of busy){if(y<=b.a||x>=b.b)continue;gap=Math.max(gap,Math.max(b.a,x)-t);t=Math.max(t,Math.min(y,b.b))}
+ gap=Math.max(gap,b.b-t);if(gap<b.d)return false}
+ }
+ return true;
 }
 function renderGPrefs(){
-  $('#gprefs').innerHTML=S.gpref.map((p,i)=>`<span class="pill"><i>${esc(txH('priorizar'))}</i>${esc(p)}<button data-ungp="${i}" aria-label="${esc(txH('quitar',{nombre:p}))}">×</button></span>`).join('');
+ $('#gprefs').innerHTML=S.gpref.map((p,i)=>`<span class="pill"><i>${esc(txH('priorizar'))}</i>${esc(p)}<button data-ungp="${i}" aria-label="${esc(txH('quitar',{nombre:p}))}">×</button></span>`).join('');
 }
 let generacion=null;
 const GEN_MS=3000, GEN_NODOS=250000;
 function presupuestoGenerador(dispositivo=typeof navigator==='undefined'?{}:navigator){
-  const bajo=(dispositivo.hardwareConcurrency>0&&dispositivo.hardwareConcurrency<=4)||(dispositivo.deviceMemory>0&&dispositivo.deviceMemory<=4)||dispositivo.connection?.saveData;
-  const alto=dispositivo.hardwareConcurrency>=8&&dispositivo.deviceMemory>=8;
-  // Señales ausentes: conservar el presupuesto histórico; no adivinar la RAM.
-  const medio=!bajo&&!alto&&(dispositivo.hardwareConcurrency>0||dispositivo.deviceMemory>0);
-  return {clase:bajo?'baja':medio?'media':'alta',ms:GEN_MS,nodos:bajo?60000:medio?140000:GEN_NODOS};
+ const bajo=(dispositivo.hardwareConcurrency>0&&dispositivo.hardwareConcurrency<=4)||(dispositivo.deviceMemory>0&&dispositivo.deviceMemory<=4)||dispositivo.connection?.saveData;
+ const alto=dispositivo.hardwareConcurrency>=8&&dispositivo.deviceMemory>=8;
+  
+ const medio=!bajo&&!alto&&(dispositivo.hardwareConcurrency>0||dispositivo.deviceMemory>0);
+ return {clase:bajo?'baja':medio?'media':'alta',ms:GEN_MS,nodos:bajo?60000:medio?140000:GEN_NODOS};
 }
 function cancelarGeneracion(){
-  if(!generacion)return;
-  generacion.cancelada=true;generacion=null;
-  $('#b-gen').textContent=txH('generar');$('#b-gen').disabled=false;
-  $('#genres').removeAttribute('aria-busy');$('#gen-status').textContent='';
+ if(!generacion)return;
+ generacion.cancelada=true;generacion=null;
+ $('#b-gen').textContent=txH('generar');$('#b-gen').disabled=false;
+ $('#genres').removeAttribute('aria-busy');$('#gen-status').textContent='';
 }
 function* pasoGen(run){
-  // También cuentan las ramas rechazadas por carga u optativas: antes escapaban del límite.
-  if(++run.nodes%128===0)yield;
-  const presupuesto=run.presupuesto||(run.presupuesto=presupuestoGenerador());
-  if(run.nodes>presupuesto.nodos||performance.now()-run.start>=presupuesto.ms)run.limited=true;
+  
+ if(++run.nodes%128===0)yield;
+ const presupuesto=run.presupuesto||(run.presupuesto=presupuestoGenerador());
+ if(run.nodes>presupuesto.nodos||performance.now()-run.start>=presupuesto.ms)run.limited=true;
 }
 async function iniciarGeneracion(){
-  cancelarGeneracion();
-  const run={start:performance.now(),nodes:0,limited:false,cancelada:false,presupuesto:presupuestoGenerador()};generacion=run;
-  const medida=window.SateMedicion?.iniciar('generacion',GT.n==='auto'?'automatico':'todas');
-  const boton=$('#b-gen');
-  try{
-    S.gen=null;renderGen();boton.disabled=false;boton.textContent=txH('generar_reiniciar');
-    $('#genres').setAttribute('aria-busy','true');$('#gen-status').textContent=txH('generando');
-    const iter=generarPasos(run);
-    let next;
-    do{
-      await new Promise(resolve=>setTimeout(resolve,0));
-      if(run.cancelada)return;
-      // Varios pasos por cuadro reducen el coste de los temporizadores sin bloquear la interacción.
-      const hasta=performance.now()+12;
-      do{next=iter.next()}while(!next.done&&performance.now()<hasta);
-    }while(!next.done);
-    if(run.cancelada)return;
-    S.gen=next.value;run.resultado=next.value;renderGen();
-    $('#gen-status').textContent=S.gen.trunc?txH(run.limited&&run.presupuesto.clase==='baja'?'generador_limite_modesto':'generador_limite'):'';
-    window.ENCUESTA?.marcar('gen');
-  }catch(error){
-    run.error=error.name;
-    if(!run.cancelada){S.gen=null;$('#genres').innerHTML='';$('#b-gen-clear').hidden=true;$('#gen-status').textContent=txH('generador_error');
-      console.error('Generador de horarios: fallo', {error,nodos:run.nodes,ms:performance.now()-run.start,periodo:S.per,carrera:S.car})}
-  }finally{
-    window.SateMedicion?.terminar(medida,{pasos:run.nodes,trunco:!!run.resultado?.trunc,cancelada:run.cancelada,error:run.error||null,opciones:run.resultado?.top?.length||0,presupuesto:run.presupuesto});
-    if(generacion===run){generacion=null;boton.disabled=false;boton.textContent=txH('generar');$('#genres').removeAttribute('aria-busy')}
-  }
+ cancelarGeneracion();
+ const run={start:performance.now(),nodes:0,limited:false,cancelada:false,presupuesto:presupuestoGenerador()};generacion=run;
+ const medida=window.SateMedicion?.iniciar('generacion',GT.n==='auto'?'automatico':'todas');
+ const boton=$('#b-gen');
+ try{
+ S.gen=null;renderGen();boton.disabled=false;boton.textContent=txH('generar_reiniciar');
+ $('#genres').setAttribute('aria-busy','true');$('#gen-status').textContent=txH('generando');
+ const iter=generarPasos(run);
+ let next;
+ do{
+ await new Promise(resolve=>setTimeout(resolve,0));
+ if(run.cancelada)return;
+  
+ const hasta=performance.now()+12;
+ do{next=iter.next()}while(!next.done&&performance.now()<hasta);
+ }while(!next.done);
+ if(run.cancelada)return;
+ S.gen=next.value;run.resultado=next.value;renderGen();
+ $('#gen-status').textContent=S.gen.trunc?txH(run.limited&&run.presupuesto.clase==='baja'?'generador_limite_modesto':'generador_limite'):'';
+ window.ENCUESTA?.marcar('gen');
+ }catch(error){
+ run.error=error.name;
+ if(!run.cancelada){S.gen=null;$('#genres').innerHTML='';$('#b-gen-clear').hidden=true;$('#gen-status').textContent=txH('generador_error');
+ console.error('Generador de horarios: fallo', {error,nodos:run.nodes,ms:performance.now()-run.start,periodo:S.per,carrera:S.car})}
+ }finally{
+ window.SateMedicion?.terminar(medida,{pasos:run.nodes,trunco:!!run.resultado?.trunc,cancelada:run.cancelada,error:run.error||null,opciones:run.resultado?.top?.length||0,presupuesto:run.presupuesto});
+ if(generacion===run){generacion=null;boton.disabled=false;boton.textContent=txH('generar');$('#genres').removeAttribute('aria-busy')}
+ }
 }
-// La API síncrona se conserva para las invariantes del motor; consume el mismo algoritmo.
+ 
 function generate(materias,rescate=false){const iter=generarPasos({start:performance.now(),nodes:0,limited:false},materias,rescate);let r;do{r=iter.next()}while(!r.done);return r.value}
 function* generarPasos(run,materias,rescate=false){
-  const filtrosD=typeof FILTROS_D!=='undefined'&&FILTROS_D;
-  // materias y grupos: los mismos que muestra la oferta con sus filtros (turno, nivel, búsqueda, materia, profesor, grupo,
-  // «solo las elegidas», horario en la escuela, excluidos). «Solo lo que cabe» y la búsqueda de huecos no aplican aquí.
-  const todo=!filtrosD&&(Array.isArray(materias)||GT.src==='todo');   // Las alternativas abarcan los grupos de las materias del horario armado.
-  const pool=filtrosD?[...new Map([...filtered(),...selected()].map(c=>[keyOf(c),c])).values()]:todo?classes().filter(c=>c[0]===S.car):(()=>{const f=S.fit,g=S.gap;S.fit=false;S.gap=null;try{return filtered()}finally{S.fit=f;S.gap=g}})();
-  let want=Array.isArray(materias)?materias.slice():todo?(tr().want.length?tr().want.slice():[...new Set(S.chips.filter(x=>x.t==='m').map(x=>classes().find(c=>c[4]===x.v)?.[8]).filter(Boolean))]):[...new Set(pool.map(c=>c[8]))];
-  if(!todo&&!S.onlyWant&&!S.chips.some(x=>x.t==='m')&&tr().want.length){const w=new Set(tr().want);want=want.filter(k=>w.has(k))}   // sin filtro de materias: las elegidas
-  // El rescate conserva exactamente las materias del horario, incluidas las inscritas.
-  if(!rescate){tr().oblig.forEach(k=>{if(!want.includes(k))want.unshift(k)});
-    const ya=new Set([...tr().done,...tr().curso]);want=want.filter(k=>!ya.has(k))}
-  const t=tr();want=want.filter(k=>!t.adeudos?.includes(k)||t.elecciones[k]==='actual');
-  if(filtrosD)for(const c of selected())if(!want.includes(c[8]))want.push(c[8]);
-  const marks=ws().marks, own=ownAsClasses();
-  const pref=S.gpref.map(norm), avoid=S.gavoid.map(norm);
-  const pscore=c=>c[5].reduce((s,i)=>s+(pref.some(p=>norm(DATA.prof[i]).includes(p))?4:0),0);
-  const bad=c=>!(filtrosD&&plan().sel.includes(keyOf(c)))&&((typeof CUPOS!=='undefined'&&((!filtrosD&&CUPOS.excluir(c))||(S.soloCupo&&!plan().sel.includes(keyOf(c))&&CUPOS.fila(c)?.disponibles===0)))||marks[keyOf(c)]?.s==='no'||c[5].some(i=>avoid.some(p=>norm(DATA.prof[i]).includes(p)))||(!filtrosD&&S.gt!=='*'&&c[1]!==S.gt)||own.some(o=>overlaps(o,c))||outside(c));
-  const ga=tmin(GT.a), gb=tmin(GT.b);
-  function outside(c){return c[6].some(([d,a,b])=>(ga!=null&&a<ga)||(gb!=null&&b>gb))}
-  const inPool=new Set(pool.map(keyOf));
-  const subj=want.map(k=>{const all=classes().filter(c=>c[0]===S.car&&c[8]===k&&!bad(c)), f=all.filter(c=>inPool.has(keyOf(c)));
-    return {k,must:tr().oblig.includes(k)||(filtrosD&&selected().some(c=>c[8]===k)),opts:filtrosD?(plan().sel.some(id=>all.some(c=>keyOf(c)===id))?all.filter(c=>plan().sel.includes(keyOf(c))):f):f.length||!tr().oblig.includes(k)?f:all}}).filter(s=>cur()[s.k]||s.opts.length);
-  if(!subj.length) return {msg:txH('generador_vacio')};
-  // optativas por nivel: una opción no lleva más optativas de un nivel que espacios libres tenga el plan en ese nivel
-  const oq=optCupo(), oex=optExceso(subj.map(s=>s.k),oq);
-  const conAviso=r=>{if(Object.keys(oex).length)r.optExceso=oex;return r};
-  if(GT.n==='auto') return conAviso(yield* generateBank(subj,'auto',{marks,pscore,oq,run}));
-  const N=+GT.n||0;
-  if(N&&N<subj.length) return conAviso(yield* generateBank(subj,N,{marks,pscore,oq,run}));
-  subj.sort((a,b)=>a.opts.length-b.opts.length);
-  const res=[];let minDays=Infinity;const maxD=+GT.days||0;
-  const pick=[];
-  const score=()=>{
-    const cs=pick.filter(Boolean);let s=cs.length*100;
-    cs.forEach(c=>{const m=marks[keyOf(c)]?.s;s+=m==='si'?6:m==='quiza'?2:0;s+=pscore(c)});
-    if($('#g-compact').checked){for(let d=0;d<6;d++){const b=cs.flatMap(c=>c[6].filter(x=>x[0]===d)).sort((x,y)=>x[1]-y[1]);if(b.length)s-=2;for(let i=1;i<b.length;i++)s-=Math.max(0,b[i][1]-b[i-1][2])/30}}
-    return s-semanaPena(cs);
-  };
-  const rec=function*(i){
-    yield* pasoGen(run);if(run.limited)return;
-    if(i===subj.length){const cs=pick.filter(Boolean);if(!cs.length||!breaksOk(cs)||!semanaOk(cs))return;
-      const nd=daysOf(cs).length;
-      // mínimo de días posible llevando todas las materias que tienen grupos (antes de aplicar el límite)
-      if(subj.every((x,j)=>pick[j]||!x.opts.length))minDays=Math.min(minDays,nd);
-      if(maxD&&nd>maxD)return;
-      res.push({cs:cs.slice(),s:score(),miss:subj.filter((x,j)=>!pick[j]).map(x=>x.k),days:daysOf(cs)});return}
-    const nv=nivOpt(subj[i].k,oq), llena=nv&&pick.slice(0,i).filter((p,j)=>p&&nivOpt(subj[j].k,oq)===nv).length>=oq[nv].libre;   // espacio del nivel ya cubierto
-    if(!llena)for(const c of subj[i].opts){yield* pasoGen(run);if(run.limited)break;if(pick.some(p=>p&&overlaps(p,c)))continue;pick[i]=c;yield* rec(i+1)}
-    if(!run.limited&&(!subj[i].must||!subj[i].opts.length)){pick[i]=null;yield* rec(i+1)}   // una obligatoria con grupos no se puede omitir
-  };
-  yield* rec(0);
-  const seen=new Set();
-  const top=res.sort((a,b)=>b.s-a.s).filter(r=>{const k=r.cs.map(keyOf).sort().join();if(seen.has(k))return false;seen.add(k);return true}).slice(0,6);
-  return conAviso({top,subj,trunc:run.limited,minDays:minDays===Infinity?null:minDays,maxD});
+ const filtrosD=typeof FILTROS_D!=='undefined'&&FILTROS_D;
+  
+  
+ const todo=!filtrosD&&(Array.isArray(materias)||GT.src==='todo');  
+ const pool=filtrosD?[...new Map([...filtered(),...selected()].map(c=>[keyOf(c),c])).values()]:todo?classes().filter(c=>c[0]===S.car):(()=>{const f=S.fit,g=S.gap;S.fit=false;S.gap=null;try{return filtered()}finally{S.fit=f;S.gap=g}})();
+ let want=Array.isArray(materias)?materias.slice():todo?(tr().want.length?tr().want.slice():[...new Set(S.chips.filter(x=>x.t==='m').map(x=>classes().find(c=>c[4]===x.v)?.[8]).filter(Boolean))]):[...new Set(pool.map(c=>c[8]))];
+ if(!todo&&!S.onlyWant&&!S.chips.some(x=>x.t==='m')&&tr().want.length){const w=new Set(tr().want);want=want.filter(k=>w.has(k))}  
+  
+ if(!rescate){tr().oblig.forEach(k=>{if(!want.includes(k))want.unshift(k)});
+ const ya=new Set([...tr().done,...tr().curso]);want=want.filter(k=>!ya.has(k))}
+ const t=tr();want=want.filter(k=>!t.adeudos?.includes(k)||t.elecciones[k]==='actual');
+ if(filtrosD)for(const c of selected())if(!want.includes(c[8]))want.push(c[8]);
+ const marks=ws().marks, own=ownAsClasses();
+ const pref=S.gpref.map(norm), avoid=S.gavoid.map(norm);
+ const pscore=c=>c[5].reduce((s,i)=>s+(pref.some(p=>norm(DATA.prof[i]).includes(p))?4:0),0);
+ const bad=c=>!(filtrosD&&plan().sel.includes(keyOf(c)))&&((typeof CUPOS!=='undefined'&&((!filtrosD&&CUPOS.excluir(c))||(S.soloCupo&&!plan().sel.includes(keyOf(c))&&CUPOS.fila(c)?.disponibles===0)))||marks[keyOf(c)]?.s==='no'||c[5].some(i=>avoid.some(p=>norm(DATA.prof[i]).includes(p)))||(!filtrosD&&S.gt!=='*'&&c[1]!==S.gt)||own.some(o=>overlaps(o,c))||outside(c));
+ const ga=tmin(GT.a), gb=tmin(GT.b);
+ function outside(c){return c[6].some(([d,a,b])=>(ga!=null&&a<ga)||(gb!=null&&b>gb))}
+ const inPool=new Set(pool.map(keyOf));
+ const subj=want.map(k=>{const all=classes().filter(c=>c[0]===S.car&&c[8]===k&&!bad(c)), f=all.filter(c=>inPool.has(keyOf(c)));
+ return {k,must:tr().oblig.includes(k)||(filtrosD&&selected().some(c=>c[8]===k)),opts:filtrosD?(plan().sel.some(id=>all.some(c=>keyOf(c)===id))?all.filter(c=>plan().sel.includes(keyOf(c))):f):f.length||!tr().oblig.includes(k)?f:all}}).filter(s=>cur()[s.k]||s.opts.length);
+ if(!subj.length) return {msg:txH('generador_vacio')};
+  
+ const oq=optCupo(), oex=optExceso(subj.map(s=>s.k),oq);
+ const conAviso=r=>{if(Object.keys(oex).length)r.optExceso=oex;return r};
+ if(GT.n==='auto') return conAviso(yield* generateBank(subj,'auto',{marks,pscore,oq,run}));
+ const N=+GT.n||0;
+ if(N&&N<subj.length) return conAviso(yield* generateBank(subj,N,{marks,pscore,oq,run}));
+ subj.sort((a,b)=>a.opts.length-b.opts.length);
+ const res=[];let minDays=Infinity;const maxD=+GT.days||0;
+ const pick=[];
+ const score=()=>{
+ const cs=pick.filter(Boolean);let s=cs.length*100;
+ cs.forEach(c=>{const m=marks[keyOf(c)]?.s;s+=m==='si'?6:m==='quiza'?2:0;s+=pscore(c)});
+ if($('#g-compact').checked){for(let d=0;d<6;d++){const b=cs.flatMap(c=>c[6].filter(x=>x[0]===d)).sort((x,y)=>x[1]-y[1]);if(b.length)s-=2;for(let i=1;i<b.length;i++)s-=Math.max(0,b[i][1]-b[i-1][2])/30}}
+ return s-semanaPena(cs);
+ };
+ const rec=function*(i){
+ yield* pasoGen(run);if(run.limited)return;
+ if(i===subj.length){const cs=pick.filter(Boolean);if(!cs.length||!breaksOk(cs)||!semanaOk(cs))return;
+ const nd=daysOf(cs).length;
+  
+ if(subj.every((x,j)=>pick[j]||!x.opts.length))minDays=Math.min(minDays,nd);
+ if(maxD&&nd>maxD)return;
+ res.push({cs:cs.slice(),s:score(),miss:subj.filter((x,j)=>!pick[j]).map(x=>x.k),days:daysOf(cs)});return}
+ const nv=nivOpt(subj[i].k,oq), llena=nv&&pick.slice(0,i).filter((p,j)=>p&&nivOpt(subj[j].k,oq)===nv).length>=oq[nv].libre;  
+ if(!llena)for(const c of subj[i].opts){yield* pasoGen(run);if(run.limited)break;if(pick.some(p=>p&&overlaps(p,c)))continue;pick[i]=c;yield* rec(i+1)}
+ if(!run.limited&&(!subj[i].must||!subj[i].opts.length)){pick[i]=null;yield* rec(i+1)}  
+ };
+ yield* rec(0);
+ const seen=new Set();
+ const top=res.sort((a,b)=>b.s-a.s).filter(r=>{const k=r.cs.map(keyOf).sort().join();if(seen.has(k))return false;seen.add(k);return true}).slice(0,6);
+ return conAviso({top,subj,trunc:run.limited,minDays:minDays===Infinity?null:minDays,maxD});
 }
-/* Banco de materias: horarios con exactamente N materias tomadas de las seleccionadas. Recorre subconjuntos en orden
-   de prioridad (adeudos elegidos para este periodo siempre incluidos; luego reprobadas, atrasadas, sugeridas y marcadas «Sí»),
-   descarta los que exceden la carga permitida y, para cada subconjunto, busca la mejor combinación de grupos.
-   Se muestran opciones con materias distintas (la mejor de cada subconjunto). */
-/* Calidad de un horario (modo Automático). Criterios basados en recomendaciones sobre sueño, atención y descanso:
-   permanencia diaria ≤ 8 h (ideal ≤ 6.5 h), a lo sumo 3 clases (4.5 h) seguidas, espacio de ≥ 1 h para comer entre
-   12:00 y 16:30 si el día cruza el mediodía, pocas horas libres largas, evitar entrar a las 7:00 y salir después de las
-   19:00 el mismo día, y repartir las clases entre los días. Devuelve {ok, pen, span, comida}. */
+
+
+
+
+
+
+
+
 function qualityOf(cs){
-  let pen=0, ok=true, span=0, comida=true;const per=[];
-  for(let d=0;d<6;d++){
-    const b=cs.flatMap(c=>c[6].filter(x=>x[0]===d)).sort((x,y)=>x[1]-y[1]);if(!b.length)continue;
-    const a0=b[0][1], z=Math.max(...b.map(x=>x[2]));span=Math.max(span,z-a0);per.push(b.length);
-    if(z-a0>480)ok=false; else if(z-a0>390)pen+=(z-a0-390)/30*2;
-    let run=b[0][2]-b[0][1], meal=false;
-    for(let i=1;i<b.length;i++){const g=b[i][1]-Math.max(...b.slice(0,i).map(x=>x[2]));
-      if(g>=30){run=0;if(g>90)pen+=(g-90)/30*3;
-        const ga=Math.max(...b.slice(0,i).map(x=>x[2])), gb=b[i][1];if(Math.min(gb,990)-Math.max(ga,720)>=60)meal=true}
-      run+=b[i][2]-b[i][1];if(run>270)ok=false;else if(run>180)pen+=4}
-    if(a0<780&&z>900&&!meal){ok=false;comida=false}
-    if(a0<=420&&z>=1140)pen+=8;
-  }
-  if(per.length>1){const m=per.reduce((x,y)=>x+y,0)/per.length;pen+=per.reduce((x,y)=>x+(y-m)**2,0)/per.length*2}
-  return {ok,pen,span,comida};
+ let pen=0, ok=true, span=0, comida=true;const per=[];
+ for(let d=0;d<6;d++){
+ const b=cs.flatMap(c=>c[6].filter(x=>x[0]===d)).sort((x,y)=>x[1]-y[1]);if(!b.length)continue;
+ const a0=b[0][1], z=Math.max(...b.map(x=>x[2]));span=Math.max(span,z-a0);per.push(b.length);
+ if(z-a0>480)ok=false; else if(z-a0>390)pen+=(z-a0-390)/30*2;
+ let run=b[0][2]-b[0][1], meal=false;
+ for(let i=1;i<b.length;i++){const g=b[i][1]-Math.max(...b.slice(0,i).map(x=>x[2]));
+ if(g>=30){run=0;if(g>90)pen+=(g-90)/30*3;
+ const ga=Math.max(...b.slice(0,i).map(x=>x[2])), gb=b[i][1];if(Math.min(gb,990)-Math.max(ga,720)>=60)meal=true}
+ run+=b[i][2]-b[i][1];if(run>270)ok=false;else if(run>180)pen+=4}
+ if(a0<780&&z>900&&!meal){ok=false;comida=false}
+ if(a0<=420&&z>=1140)pen+=8;
+ }
+ if(per.length>1){const m=per.reduce((x,y)=>x+y,0)/per.length;pen+=per.reduce((x,y)=>x+(y-m)**2,0)/per.length*2}
+ return {ok,pen,span,comida};
 }
 function* generateBank(subj,N,{marks,pscore,oq,run}){
-  const auto=N==='auto';
-  const maxD=+GT.days||0, ci=cargaInfo(0), failS=new Set(tr().fail), sugS=new Set(MARK.sug);
-  const cost=k=>failS.has(k)?0:(cur()[k]?.[1]||0);
-  const prio=k=>{const st=statusOf(k);return (st==='late fail'?50:st==='fail'?35:st.startsWith('late')||st.startsWith('prev')?20:0)+(sugS.has(k)?10:0)};
-  // en Automático las reprobadas también son fijas: no suman créditos nuevos (ya están retenidos) y conviene acreditarlas pronto
-  const fixed=x=>x.must||(auto&&statusOf(x.k).includes('fail'));
-  const must=subj.filter(x=>fixed(x)&&x.opts.length), free=subj.filter(x=>!fixed(x)&&x.opts.length)
-    .sort((a,b)=>prio(b.k)-prio(a.k)||a.opts.length-b.opts.length);
-  const nuevosDe=set=>set.reduce((s,x)=>s+cost(x.k),0);
-  // meta de créditos nuevos en modo Automático: carga media (con adeudos, sin rebasar lo permitido además de los retenidos)
-  const meta=ci?(ci.adeudo?Math.max(0,Math.min(ci.L.media,ci.tope)-ci.ret):ci.L.media):40;
-  const sizes=auto?[3,4,5,6,7,8].filter(n=>n>=must.length&&n<=must.length+free.length):[N];
-  if(!sizes.length||sizes[0]-must.length<0) return {top:[],subj,bank:{N,M:subj.length},msg:null,trunc:false,minDays:null,maxD};
-  const res=[];let subsets=0,trunc=false;const CAP=auto?160:400;
-  const score=cs=>{let s=0;cs.forEach(c=>{const m=marks[keyOf(c)]?.s;s+=m==='si'?6:m==='quiza'?2:0;s+=pscore(c)+prio(c[8])});
-    if($('#g-compact').checked){for(let d=0;d<6;d++){const b=cs.flatMap(c=>c[6].filter(x=>x[0]===d)).sort((x,y)=>x[1]-y[1]);if(b.length)s-=2;for(let i=1;i<b.length;i++)s-=Math.max(0,b[i][1]-b[i-1][2])/30}}
-    return s-semanaPena(cs)};
-  // mejor combinación de grupos para un subconjunto fijo de materias
-  const bestFor=function*(set){const ord=set.slice().sort((a,b)=>a.opts.length-b.opts.length), pick=[];let best=null,nodes=0;
-    const rec=function*(i){yield* pasoGen(run);if(run.limited)return;if(++nodes>4000){trunc=true;return}
-      if(i===ord.length){if(!breaksOk(pick)||!semanaOk(pick))return;const days=daysOf(pick);if(maxD&&days.length>maxD)return;
-        let s, q=null;
-        if(auto){q=qualityOf(pick);if(!q.ok&&estricto)return;
-          // la cantidad la decide la meta de créditos: la prioridad cuenta como promedio, no como suma
-          const m=pick.reduce((t,c)=>{const mk=marks[keyOf(c)]?.s;return t+(mk==='si'?6:mk==='quiza'?2:0)+pscore(c)},0);
-          s=m+pick.reduce((t,c)=>t+prio(c[8]),0)/pick.length*2-q.pen*4-(q.ok?0:200)-semanaPena(pick)}
-        else s=score(pick);
-        if(!best||s>best.s)best={cs:pick.slice(),s,days,miss:[],q};return}
-      for(const c of ord[i].opts){yield* pasoGen(run);if(run.limited)break;if(pick.some(p=>overlaps(p,c)))continue;pick.push(c);yield* rec(i+1);pick.pop()}};
-    yield* rec(0);return best};
-  // subconjuntos de tamaño need en orden de prioridad (combinaciones lexicográficas sobre la lista ordenada)
-  // si ninguna combinación cumple los criterios de un horario saludable (p. ej. por profesores excluidos), se muestran
-  // las más cercanas en lugar de no mostrar nada
-  let estricto=true;
-  const chosen=[];let need=0;
-  const walk=function*(start){yield* pasoGen(run);if(run.limited)return;if(subsets>=CAP){trunc=true;return}
-    if(chosen.length===need){const set=[...must,...chosen], nuevos=nuevosDe(set);
-      if(Object.keys(optExceso(set.map(x=>x.k),oq)).length)return;   // más optativas de un nivel que espacios libres
-      if(ci&&ci.ret+nuevos>ci.tope+0.01)return;
-      if(auto&&(nuevos>meta+7.5||(ci&&ci.ret+nuevos<ci.L.min-0.01&&set.length<must.length+free.length)))return;   // cerca de la meta y ${esc(txH('descanso_al_menos'))}la mínima
-      subsets++;const b=yield* bestFor(set);if(b){if(auto)b.s-=(nuevos<meta?(meta-nuevos)*8:(nuevos-meta)*3);res.push(b)}return}
-    for(let i=start;i<=free.length-(need-chosen.length);i++){chosen.push(free[i]);yield* walk(i+1);chosen.pop();if(run.limited)return;if(subsets>=CAP){trunc=true;return}}};
-  for(const n of sizes){if(run.limited)break;need=n-must.length;subsets=0;yield* walk(0)}
-  if(auto&&!res.length&&!run.limited){estricto=false;for(const n of sizes){if(run.limited)break;need=n-must.length;subsets=0;yield* walk(0)}}
-  const top=res.sort((a,b)=>b.s-a.s).slice(0,6);
-  const best=top.length?Math.max(...top.map(r=>nuevosDe(r.cs.map(c=>({k:c[8]}))))):0;
-  return {top,subj,bank:{N,M:subj.length,tope:ci?.tope??null,auto,meta,best,relajado:auto&&!estricto&&top.length>0},trunc:trunc||run.limited,minDays:null,maxD};
+ const auto=N==='auto';
+ const maxD=+GT.days||0, ci=cargaInfo(0), failS=new Set(tr().fail), sugS=new Set(MARK.sug);
+ const cost=k=>failS.has(k)?0:(cur()[k]?.[1]||0);
+ const prio=k=>{const st=statusOf(k);return (st==='late fail'?50:st==='fail'?35:st.startsWith('late')||st.startsWith('prev')?20:0)+(sugS.has(k)?10:0)};
+  
+ const fixed=x=>x.must||(auto&&statusOf(x.k).includes('fail'));
+ const must=subj.filter(x=>fixed(x)&&x.opts.length), free=subj.filter(x=>!fixed(x)&&x.opts.length)
+ .sort((a,b)=>prio(b.k)-prio(a.k)||a.opts.length-b.opts.length);
+ const nuevosDe=set=>set.reduce((s,x)=>s+cost(x.k),0);
+  
+ const meta=ci?(ci.adeudo?Math.max(0,Math.min(ci.L.media,ci.tope)-ci.ret):ci.L.media):40;
+ const sizes=auto?[3,4,5,6,7,8].filter(n=>n>=must.length&&n<=must.length+free.length):[N];
+ if(!sizes.length||sizes[0]-must.length<0) return {top:[],subj,bank:{N,M:subj.length},msg:null,trunc:false,minDays:null,maxD};
+ const res=[];let subsets=0,trunc=false;const CAP=auto?160:400;
+ const score=cs=>{let s=0;cs.forEach(c=>{const m=marks[keyOf(c)]?.s;s+=m==='si'?6:m==='quiza'?2:0;s+=pscore(c)+prio(c[8])});
+ if($('#g-compact').checked){for(let d=0;d<6;d++){const b=cs.flatMap(c=>c[6].filter(x=>x[0]===d)).sort((x,y)=>x[1]-y[1]);if(b.length)s-=2;for(let i=1;i<b.length;i++)s-=Math.max(0,b[i][1]-b[i-1][2])/30}}
+ return s-semanaPena(cs)};
+  
+ const bestFor=function*(set){const ord=set.slice().sort((a,b)=>a.opts.length-b.opts.length), pick=[];let best=null,nodes=0;
+ const rec=function*(i){yield* pasoGen(run);if(run.limited)return;if(++nodes>4000){trunc=true;return}
+ if(i===ord.length){if(!breaksOk(pick)||!semanaOk(pick))return;const days=daysOf(pick);if(maxD&&days.length>maxD)return;
+ let s, q=null;
+ if(auto){q=qualityOf(pick);if(!q.ok&&estricto)return;
+  
+ const m=pick.reduce((t,c)=>{const mk=marks[keyOf(c)]?.s;return t+(mk==='si'?6:mk==='quiza'?2:0)+pscore(c)},0);
+ s=m+pick.reduce((t,c)=>t+prio(c[8]),0)/pick.length*2-q.pen*4-(q.ok?0:200)-semanaPena(pick)}
+ else s=score(pick);
+ if(!best||s>best.s)best={cs:pick.slice(),s,days,miss:[],q};return}
+ for(const c of ord[i].opts){yield* pasoGen(run);if(run.limited)break;if(pick.some(p=>overlaps(p,c)))continue;pick.push(c);yield* rec(i+1);pick.pop()}};
+ yield* rec(0);return best};
+  
+  
+  
+ let estricto=true;
+ const chosen=[];let need=0;
+ const walk=function*(start){yield* pasoGen(run);if(run.limited)return;if(subsets>=CAP){trunc=true;return}
+ if(chosen.length===need){const set=[...must,...chosen], nuevos=nuevosDe(set);
+ if(Object.keys(optExceso(set.map(x=>x.k),oq)).length)return;  
+ if(ci&&ci.ret+nuevos>ci.tope+0.01)return;
+ if(auto&&(nuevos>meta+7.5||(ci&&ci.ret+nuevos<ci.L.min-0.01&&set.length<must.length+free.length)))return;  
+ subsets++;const b=yield* bestFor(set);if(b){if(auto)b.s-=(nuevos<meta?(meta-nuevos)*8:(nuevos-meta)*3);res.push(b)}return}
+ for(let i=start;i<=free.length-(need-chosen.length);i++){chosen.push(free[i]);yield* walk(i+1);chosen.pop();if(run.limited)return;if(subsets>=CAP){trunc=true;return}}};
+ for(const n of sizes){if(run.limited)break;need=n-must.length;subsets=0;yield* walk(0)}
+ if(auto&&!res.length&&!run.limited){estricto=false;for(const n of sizes){if(run.limited)break;need=n-must.length;subsets=0;yield* walk(0)}}
+ const top=res.sort((a,b)=>b.s-a.s).slice(0,6);
+ const best=top.length?Math.max(...top.map(r=>nuevosDe(r.cs.map(c=>({k:c[8]}))))):0;
+ return {top,subj,bank:{N,M:subj.length,tope:ci?.tope??null,auto,meta,best,relajado:auto&&!estricto&&top.length>0},trunc:trunc||run.limited,minDays:null,maxD};
 }
 function renderGen(){
-  const g=S.gen;
-  if($('#d-opciones')&&g?.top?.length){
-    $('#d-opciones').open=false;
-    $('#d-opciones-resumen').textContent=txH('d_opciones_resumen',{n:g.top[0].cs.length,dias:GT.days?txH('cantidad_dias',{n:GT.days}):txH('d_dias_sin_limite')});
-  }
-  if(typeof ventanaPropuestas!=='undefined'&&ventanaPropuestas)renderPropuesta();
-  $('#b-gen-clear').hidden=!g?.top?.length;
-  if(!g){$('#genres').innerHTML='';return}
-  if(g.msg){$('#genres').innerHTML=`<p class="empty">${esc(g.msg)}</p>`;return}
-  const dmsg=g.bank?.auto?`<p class="gdays-msg">${txH('generador_auto',{n:g.bank.M,meta:fmtCr(g.bank.meta),tope:g.bank.tope!=null?txH('generador_tope',{n:fmtCr(g.bank.tope)}):''})}</p>${g.bank.relajado?`<p class="gdays-msg warn">${esc(txH('generador_relajado'))}</p>`:''}${g.top.length&&g.bank.best<g.bank.meta-4.5?`<p class="gdays-msg warn">${txH('generador_carga_menor',{n:fmtCr(g.bank.best)})}</p>`:''}`:g.bank?`<p class="gdays-msg">${txH('generador_numero',{n:g.bank.N,total:g.bank.M,tope:g.bank.tope!=null?txH('generador_carga_tope',{n:fmtCr(g.bank.tope)}):''})}</p>`:g.minDays!=null?`<p class="gdays-msg${g.maxD&&g.minDays>g.maxD?' warn':''}">${txH('generador_dias',{n:g.minDays})}${g.maxD&&g.minDays>g.maxD?' '+esc(txH('generador_dias_imposible',{n:g.maxD})):g.maxD?' '+esc(txH('generador_dias_posible',{n:g.maxD})):''}</p>`:'';
-  const oex=g.optExceso?Object.entries(g.optExceso).map(([v,x])=>x.libre<=0?txH('optativas_cubiertas',{n:x.total,nivel:v}):txH('optativas_libres',{n:x.libre,nivel:v,elegidas:x.n})):[];
-  const none=g.subj.filter(s=>!s.opts.length).map(s=>s.k), mustNone=g.subj.filter(s=>s.must&&!s.opts.length).map(s=>s.k);
-  const must=g.subj.filter(s=>s.must&&s.opts.length).map(s=>s.k);
-  const omsg=(mustNone.length?`<p class="gdays-msg warn">${txH('obligatoria_sin_grupos',{nombre:mustNone.map(k=>esc(pretty(cur()[k][0]))).join(', ')})}</p>`:'')+
-    (must.length?`<p class="gdays-msg">${txH('obligatoria_incluida',{nombre:must.map(k=>esc(pretty(cur()[k][0]))).join(', ')})}</p>`:'');
-  const avisos=dmsg||omsg||oex.length?`<details class="sate-aviso"><summary>${esc(txH(oex.length?'d_optativas_aviso':'d_generacion_aviso'))}</summary>${dmsg}${omsg}${oex.length?`<p>${esc(txH('optativas_aviso',{detalle:oex.join('; ')}))}</p>`:''}</details>`:'';
-  if(!g.top.length){$('#genres').innerHTML=avisos+`<p class="empty">${esc(txH(g.trunc?'generador_limite':'generador_sin_resultados'))}</p>`;return}
-  $('#genres').innerHTML=avisos+
-    (none.length?`<small class="warn">${esc(txH('sin_grupos',{nombre:none.map(k=>cur()[k]?.[0]||k).join(', ')}))}</small>`:'')+
-    g.top.map((r,i)=>{const cr=r.cs.reduce((s,c)=>s+c[7],0);
-      const huecos=r.days.some(d=>{const bloques=r.cs.flatMap(c=>c[6].filter(b=>b[0]===d)).sort((a,b)=>a[1]-b[1]);return bloques.some((b,j)=>j>0&&b[1]>Math.max(...bloques.slice(0,j).map(x=>x[2])))});
-      return `<div class="gen"><div><button type="button" class="link" data-propuesta="${i}">${esc(txH('d_opcion_fila',{n:i+1,cr:fmtCr(cr),dias:r.days.length,huecos:huecos?txH('d_con_huecos'):txH('d_sin_huecos')}))}</button><details><summary>${esc(txH('cantidad_materias',{n:r.cs.length}))}</summary><ul>${r.cs.map(c=>`<li><span class="grp">${esc(c[3])}</span> ${esc(pretty(name(c)))}</li>`).join('')}</ul>${r.miss.length?`<p class="warn">${esc(txH('sin_materias',{n:r.miss.length,nombre:r.miss.map(k=>pretty(cur()[k]?.[0]||k)).join(', ')}))}</p>`:''}</details></div>
+ const g=S.gen;
+ if($('#d-opciones')&&g?.top?.length){
+ $('#d-opciones').open=false;
+ $('#d-opciones-resumen').textContent=txH('d_opciones_resumen',{n:g.top[0].cs.length,dias:GT.days?txH('cantidad_dias',{n:GT.days}):txH('d_dias_sin_limite')});
+ }
+ if(typeof ventanaPropuestas!=='undefined'&&ventanaPropuestas)renderPropuesta();
+ $('#b-gen-clear').hidden=!g?.top?.length;
+ if(!g){$('#genres').innerHTML='';return}
+ if(g.msg){$('#genres').innerHTML=`<p class="empty">${esc(g.msg)}</p>`;return}
+ const dmsg=g.bank?.auto?`<p class="gdays-msg">${txH('generador_auto',{n:g.bank.M,meta:fmtCr(g.bank.meta),tope:g.bank.tope!=null?txH('generador_tope',{n:fmtCr(g.bank.tope)}):''})}</p>${g.bank.relajado?`<p class="gdays-msg warn">${esc(txH('generador_relajado'))}</p>`:''}${g.top.length&&g.bank.best<g.bank.meta-4.5?`<p class="gdays-msg warn">${txH('generador_carga_menor',{n:fmtCr(g.bank.best)})}</p>`:''}`:g.bank?`<p class="gdays-msg">${txH('generador_numero',{n:g.bank.N,total:g.bank.M,tope:g.bank.tope!=null?txH('generador_carga_tope',{n:fmtCr(g.bank.tope)}):''})}</p>`:g.minDays!=null?`<p class="gdays-msg${g.maxD&&g.minDays>g.maxD?' warn':''}">${txH('generador_dias',{n:g.minDays})}${g.maxD&&g.minDays>g.maxD?' '+esc(txH('generador_dias_imposible',{n:g.maxD})):g.maxD?' '+esc(txH('generador_dias_posible',{n:g.maxD})):''}</p>`:'';
+ const oex=g.optExceso?Object.entries(g.optExceso).map(([v,x])=>x.libre<=0?txH('optativas_cubiertas',{n:x.total,nivel:v}):txH('optativas_libres',{n:x.libre,nivel:v,elegidas:x.n})):[];
+ const none=g.subj.filter(s=>!s.opts.length).map(s=>s.k), mustNone=g.subj.filter(s=>s.must&&!s.opts.length).map(s=>s.k);
+ const must=g.subj.filter(s=>s.must&&s.opts.length).map(s=>s.k);
+ const omsg=(mustNone.length?`<p class="gdays-msg warn">${txH('obligatoria_sin_grupos',{nombre:mustNone.map(k=>esc(pretty(cur()[k][0]))).join(', ')})}</p>`:'')+
+ (must.length?`<p class="gdays-msg">${txH('obligatoria_incluida',{nombre:must.map(k=>esc(pretty(cur()[k][0]))).join(', ')})}</p>`:'');
+ const avisos=dmsg||omsg||oex.length?`<details class="sate-aviso"><summary>${esc(txH(oex.length?'d_optativas_aviso':'d_generacion_aviso'))}</summary>${dmsg}${omsg}${oex.length?`<p>${esc(txH('optativas_aviso',{detalle:oex.join('; ')}))}</p>`:''}</details>`:'';
+ if(!g.top.length){$('#genres').innerHTML=avisos+`<p class="empty">${esc(txH(g.trunc?'generador_limite':'generador_sin_resultados'))}</p>`;return}
+ $('#genres').innerHTML=avisos+
+ (none.length?`<small class="warn">${esc(txH('sin_grupos',{nombre:none.map(k=>cur()[k]?.[0]||k).join(', ')}))}</small>`:'')+
+ g.top.map((r,i)=>{const cr=r.cs.reduce((s,c)=>s+c[7],0);
+ const huecos=r.days.some(d=>{const bloques=r.cs.flatMap(c=>c[6].filter(b=>b[0]===d)).sort((a,b)=>a[1]-b[1]);return bloques.some((b,j)=>j>0&&b[1]>Math.max(...bloques.slice(0,j).map(x=>x[2])))});
+ return `<div class="gen"><div><button type="button" class="link" data-propuesta="${i}">${esc(txH('d_opcion_fila',{n:i+1,cr:fmtCr(cr),dias:r.days.length,huecos:huecos?txH('d_con_huecos'):txH('d_sin_huecos')}))}</button><details><summary>${esc(txH('cantidad_materias',{n:r.cs.length}))}</summary><ul>${r.cs.map(c=>`<li><span class="grp">${esc(c[3])}</span> ${esc(pretty(name(c)))}</li>`).join('')}</ul>${r.miss.length?`<p class="warn">${esc(txH('sin_materias',{n:r.miss.length,nombre:r.miss.map(k=>pretty(cur()[k]?.[0]||k)).join(', ')}))}</p>`:''}</details></div>
         <div class="acts"><button class="btn" data-useg="${i}" data-to="${ws().plan}">${esc(txH('usar',{version:ws().plan}))}</button><button class="btn" data-useg="${i}" data-to="+">${esc(txH('usar_nuevo'))}</button><button class="btn" data-propuesta="${i}">${esc(txH('ver'))}</button></div></div>`}).join('')+
-    (g.trunc?`<small>${esc(txH(g.bank?'busqueda_prioridad':'busqueda_limitada'))}</small>`:'');
+ (g.trunc?`<small>${esc(txH(g.bank?'busqueda_prioridad':'busqueda_limitada'))}</small>`:'');
 }
 
 
 function renderOffer(){
-  if(typeof CUPOS!=='undefined')CUPOS.pintar();
-  renderMasFiltros();
-  // Una explicación por materia, también al agrupar por grupo. Los adeudos sin
-  // renglón visible permanecen como materias por resolver junto a la oferta.
-  const avisadas=new Set();
-  const aviso=k=>{
-    if(avisadas.has(k)||!isPersonal())return '';
-    const html=desfaseAcciones(k);if(html)avisadas.add(k);return html;
-  };
-  const pendientes=()=>{$('#hor-desfase').innerHTML=isPersonal()?desfaseAvisos(avisadas):''};
-  if(S.onlyWant&&!tr().want.length&&!FILTROS_D){
-    pendientes();
-    $('#offer-count').textContent='';
-    $('#offer').innerHTML=`<div class="empty"><p>${esc(SATE.texto('sate.planeacion.oferta_vacia'))}</p><div class="actions"><button class="btn" type="button" data-oferta-mapa>${esc(SATE.texto('sate.planeacion.elegir_mapa'))}</button><button class="btn" type="button" data-oferta-toda>${esc(SATE.texto('sate.planeacion.oferta_toda'))}</button></div></div>`;return;
-  }
-  const list=filtered(), sel=selected();
-  let html='';
-  if(S.view==='materia'){
-    const g=new Map();list.forEach(c=>{(g.get(c[4])||g.set(c[4],[]).get(c[4])).push(c)});
-    const items=[...g.values()].sort((a,b)=>prio(a[0][8])-prio(b[0][8])||a[0][2]-b[0][2]||name(a[0]).localeCompare(name(b[0])));
-    html=items.map(cs=>{cs.sort((a,b)=>a[3].localeCompare(b[3],'es',{numeric:true}));const c=cs[0];
-      const st=cur()[c[8]]?statusOf(c[8]).split(' ')[0]:'';
-      const fl=cur()[c[8]]&&statusOf(c[8]).includes('fail');
-      const etiqueta=st==='late'?(fl?(['agotada','dictamen'].includes(reglaDesfase()?.por[c[8]])?'desfasada_dictamen':'desfasada_recursar'):'desfasada'):st==='fail'?'recursar':st==='now'?'semestre':st==='curso'?'curso':st==='done'?'acreditada':(isPersonal()&&cur()[c[8]]&&available(c[8]))?'disponible':'';
-      const badge=etiqueta?`<span class="tag ${['late','fail'].includes(st)?'bad':st==='now'||etiqueta==='disponible'?'good':'soft'}">${esc(txH(etiqueta))}</span> `:'';
-      return `<article class="subj"><header><h3>${badge}${esc(name(c))} ${botonTemario(c)}</h3><span class="meta">${esc(c[8])} · ${esc(textoCreditos(c[8],c[7],true))} ${ayudaCreditos(c[8])} · ${esc(txH('nivel',{n:c[2]}))}${c[9]&&c[9]!=='O'?' · '+TIPO[c[9]]:''}</span>${lineasDe(c[8]).length?`<span class="lineas">${lineasDe(c[8]).map(l=>`<span class="tag lin" title="${esc(txH('linea'))}">${esc(l)}</span>`).join('')}</span>`:''}</header>${aviso(c[8])}${(()=>{
-        // con una opción marcada «Sí», la materia se colapsa a esa(s) opción(es) (y la que esté en el horario)
-        const mk=ws().marks, keep=cs.filter(x=>mk[keyOf(x)]?.s==='si'||plan().sel.includes(keyOf(x)));
-        const col=keep.length&&keep.some(x=>mk[keyOf(x)]?.s==='si')&&keep.length<cs.length, open=S.expand.has(c[4]);
-        const rows=(col&&!open?keep:cs).map(x=>optRow(x,sel,false)).join('');
-        return rows+(col?`<button type="button" class="link more" data-expand="${c[4]}">${esc(open?txH('solo_opcion'):txH('mas_opciones',{n:cs.length-keep.length}))}</button>`:'')})()}</article>`}).join('');
-    $('#offer-count').textContent=txH('cuenta_materias',{n:g.size,opciones:list.length});
-  }else{
-    const g=new Map();list.forEach(c=>{(g.get(c[3])||g.set(c[3],[]).get(c[3])).push(c)});
-    const gp=cs=>Math.min(...cs.map(c=>prio(c[8])));
-    const items=[...g.entries()].sort((a,b)=>gp(a[1])-gp(b[1])||a[0].localeCompare(b[0],'es',{numeric:true}));
-    html=items.map(([grp,cs])=>`<article class="subj"><header><h3 class="grp">${esc(grp)}</h3><span class="meta">${fmtCr(cs.reduce((s,c)=>s+c[7],0))} créditos ${ayudaCreditos()} <button class="link" data-group="${esc(grp)}">${esc(txH('agregar_grupo'))}</button></span></header>${cs.map(c=>aviso(c[8])+optRow(c,sel,true)).join('')}</article>`).join('');
-    $('#offer-count').textContent=txH('cuenta_grupos',{n:g.size,materias:list.length});
-  }
-  if(FILTROS_D)html+=ocultosFiltrosD(list);
-  $('#offer').innerHTML=html||`<p class="empty">${esc(txH('oferta_sin_resultados'))}</p>`;
-  pendientes();
-  montarAyudasCreditos();
+ if(typeof CUPOS!=='undefined')CUPOS.pintar();
+ renderMasFiltros();
+  
+  
+ const avisadas=new Set();
+ const aviso=k=>{
+ if(avisadas.has(k)||!isPersonal())return '';
+ const html=desfaseAcciones(k);if(html)avisadas.add(k);return html;
+ };
+ const pendientes=()=>{$('#hor-desfase').innerHTML=isPersonal()?desfaseAvisos(avisadas):''};
+ if(S.onlyWant&&!tr().want.length&&!FILTROS_D){
+ pendientes();
+ $('#offer-count').textContent='';
+ $('#offer').innerHTML=`<div class="empty"><p>${esc(SATE.texto('sate.planeacion.oferta_vacia'))}</p><div class="actions"><button class="btn" type="button" data-oferta-mapa>${esc(SATE.texto('sate.planeacion.elegir_mapa'))}</button><button class="btn" type="button" data-oferta-toda>${esc(SATE.texto('sate.planeacion.oferta_toda'))}</button></div></div>`;return;
+ }
+ const list=filtered(), sel=selected();
+ let html='';
+ if(S.view==='materia'){
+ const g=new Map();list.forEach(c=>{(g.get(c[4])||g.set(c[4],[]).get(c[4])).push(c)});
+ const items=[...g.values()].sort((a,b)=>prio(a[0][8])-prio(b[0][8])||a[0][2]-b[0][2]||name(a[0]).localeCompare(name(b[0])));
+ html=items.map(cs=>{cs.sort((a,b)=>a[3].localeCompare(b[3],'es',{numeric:true}));const c=cs[0];
+ const st=cur()[c[8]]?statusOf(c[8]).split(' ')[0]:'';
+ const fl=cur()[c[8]]&&statusOf(c[8]).includes('fail');
+ const etiqueta=st==='late'?(fl?(['agotada','dictamen'].includes(reglaDesfase()?.por[c[8]])?'desfasada_dictamen':'desfasada_recursar'):'desfasada'):st==='fail'?'recursar':st==='now'?'semestre':st==='curso'?'curso':st==='done'?'acreditada':(isPersonal()&&cur()[c[8]]&&available(c[8]))?'disponible':'';
+ const badge=etiqueta?`<span class="tag ${['late','fail'].includes(st)?'bad':st==='now'||etiqueta==='disponible'?'good':'soft'}">${esc(txH(etiqueta))}</span> `:'';
+ return `<article class="subj"><header><h3>${badge}${esc(name(c))} ${botonTemario(c)}</h3><span class="meta">${esc(c[8])} · ${esc(textoCreditos(c[8],c[7],true))} ${ayudaCreditos(c[8])} · ${esc(txH('nivel',{n:c[2]}))}${c[9]&&c[9]!=='O'?' · '+TIPO[c[9]]:''}</span>${lineasDe(c[8]).length?`<span class="lineas">${lineasDe(c[8]).map(l=>`<span class="tag lin" title="${esc(txH('linea'))}">${esc(l)}</span>`).join('')}</span>`:''}</header>${aviso(c[8])}${(()=>{
+  
+ const mk=ws().marks, keep=cs.filter(x=>mk[keyOf(x)]?.s==='si'||plan().sel.includes(keyOf(x)));
+ const col=keep.length&&keep.some(x=>mk[keyOf(x)]?.s==='si')&&keep.length<cs.length, open=S.expand.has(c[4]);
+ const rows=(col&&!open?keep:cs).map(x=>optRow(x,sel,false)).join('');
+ return rows+(col?`<button type="button" class="link more" data-expand="${c[4]}">${esc(open?txH('solo_opcion'):txH('mas_opciones',{n:cs.length-keep.length}))}</button>`:'')})()}</article>`}).join('');
+ $('#offer-count').textContent=txH('cuenta_materias',{n:g.size,opciones:list.length});
+ }else{
+ const g=new Map();list.forEach(c=>{(g.get(c[3])||g.set(c[3],[]).get(c[3])).push(c)});
+ const gp=cs=>Math.min(...cs.map(c=>prio(c[8])));
+ const items=[...g.entries()].sort((a,b)=>gp(a[1])-gp(b[1])||a[0].localeCompare(b[0],'es',{numeric:true}));
+ html=items.map(([grp,cs])=>`<article class="subj"><header><h3 class="grp">${esc(grp)}</h3><span class="meta">${fmtCr(cs.reduce((s,c)=>s+c[7],0))} créditos ${ayudaCreditos()} <button class="link" data-group="${esc(grp)}">${esc(txH('agregar_grupo'))}</button></span></header>${cs.map(c=>aviso(c[8])+optRow(c,sel,true)).join('')}</article>`).join('');
+ $('#offer-count').textContent=txH('cuenta_grupos',{n:g.size,materias:list.length});
+ }
+ if(FILTROS_D)html+=ocultosFiltrosD(list);
+ $('#offer').innerHTML=html||`<p class="empty">${esc(txH('oferta_sin_resultados'))}</p>`;
+ pendientes();
+ montarAyudasCreditos();
 }
-/* horario inscrito (leído del SAES con el Lector): se carga en la versión seleccionada para exportarlo o compararlo */
+ 
 function loadInscrito(){
-  const H=(isPersonal()&&ALUMNO.horario_inscrito)||[];if(!H.length)return;
-  const find=(per,g,k)=>(DATA.periodos[per]||[]).find(c=>c[0]===S.car&&c[3]===g&&c[8]===k);
-  // periodo de la oferta con más coincidencias (grupo + clave)
-  const per=['proximo','actual'].filter(hasOffer).sort((a,b)=>H.filter(h=>find(b,h[0],h[1])).length-H.filter(h=>find(a,h[0],h[1])).length)[0]||S.per;
-  if(per!==S.per){S.per=per;store.set('per',per)}
-  const pl=plan();pl.inscrita=true;pl.sel=[];pl.own=pl.own.filter(o=>!o.saes);let sinOferta=0;
-  H.forEach(([g,k,n,pf,ses])=>{const c=find(per,g,k);if(c){pl.sel.push(keyOf(c));return}
-    // sin coincidencia en la oferta capturada: se agrega con las horas del SAES
-    sinOferta++;const by={};ses.forEach(([d,a,b])=>{(by[a+'-'+b]=by[a+'-'+b]||{a,b,d:[]}).d.push(d)});
-    Object.values(by).forEach(x=>pl.own.push({n:`${pretty(n)} (${g})`,d:x.d.sort(),a:x.a,b:x.b,saes:true}))});
-  render();
-  $('#exp-msg').textContent=txH('inscrito_cargado',{version:ws().plan,periodo:txH(per==='proximo'?'periodo_proximo':'periodo_actual')})+
-    (sinOferta?' '+txH('inscrito_sin_oferta',{n:sinOferta}):'');
+ const H=(isPersonal()&&ALUMNO.horario_inscrito)||[];if(!H.length)return;
+ const find=(per,g,k)=>(DATA.periodos[per]||[]).find(c=>c[0]===S.car&&c[3]===g&&c[8]===k);
+  
+ const per=['proximo','actual'].filter(hasOffer).sort((a,b)=>H.filter(h=>find(b,h[0],h[1])).length-H.filter(h=>find(a,h[0],h[1])).length)[0]||S.per;
+ if(per!==S.per){S.per=per;store.set('per',per)}
+ const pl=plan();pl.inscrita=true;pl.sel=[];pl.own=pl.own.filter(o=>!o.saes);let sinOferta=0;
+ H.forEach(([g,k,n,pf,ses])=>{const c=find(per,g,k);if(c){pl.sel.push(keyOf(c));return}
+  
+ sinOferta++;const by={};ses.forEach(([d,a,b])=>{(by[a+'-'+b]=by[a+'-'+b]||{a,b,d:[]}).d.push(d)});
+ Object.values(by).forEach(x=>pl.own.push({n:`${pretty(n)} (${g})`,d:x.d.sort(),a:x.a,b:x.b,saes:true}))});
+ render();
+ $('#exp-msg').textContent=txH('inscrito_cargado',{version:ws().plan,periodo:txH(per==='proximo'?'periodo_proximo':'periodo_actual')})+
+ (sinOferta?' '+txH('inscrito_sin_oferta',{n:sinOferta}):'');
 }
-// El periodo actual ya está inscrito; en otros periodos solo la versión cargada desde SAES.
+ 
 window.SateHorarioInscrito=()=>S.per==='actual'||!!plan().inscrita;
 function renderPlans(){
-  $('#b-saeshor').hidden=!(isPersonal()&&ALUMNO.horario_inscrito?.length);
-  const ids=planIds();
-  $('#plans').innerHTML=`<span class="lbl" style="margin-right:var(--ipn-esp-1)">${esc(txH('version'))}</span>`+ids.map(p=>{const pl=ws().plans[p];const cr=pl.sel.map(byKey).filter(Boolean).reduce((s,c)=>s+c[7],0);
-    return `<span class="plan-tab"><button class="chip" data-plan="${esc(p)}" aria-pressed="${ws().plan===p}">${esc(txH('horario',{version:p}))}<small>${pl.sel.length?fmtCr(cr)+' créditos':esc(txH('vacio'))}</small></button>${ids.length>1&&ws().plan===p?`<button class="x" data-delplan="${esc(p)}" aria-label="${esc(txH('eliminar_horario',{version:p}))}" title="${esc(txH('eliminar_horario',{version:p}))}">×</button>`:''}</span>`}).join('')+
-    `<button class="chip plan-new" data-newplan="1" title="${esc(txH('nuevo_ayuda'))}">${esc(txH('nuevo'))}</button><button class="link" data-dup style="margin-left:var(--ipn-esp-2)">${esc(txH('duplicar',{version:ws().plan}))}</button>`;
+ $('#b-saeshor').hidden=!(isPersonal()&&ALUMNO.horario_inscrito?.length);
+ const ids=planIds();
+ $('#plans').innerHTML=`<span class="lbl" style="margin-right:var(--ipn-esp-1)">${esc(txH('version'))}</span>`+ids.map(p=>{const pl=ws().plans[p];const cr=pl.sel.map(byKey).filter(Boolean).reduce((s,c)=>s+c[7],0);
+ return `<span class="plan-tab"><button class="chip" data-plan="${esc(p)}" aria-pressed="${ws().plan===p}">${esc(txH('horario',{version:p}))}<small>${pl.sel.length?fmtCr(cr)+' créditos':esc(txH('vacio'))}</small></button>${ids.length>1&&ws().plan===p?`<button class="x" data-delplan="${esc(p)}" aria-label="${esc(txH('eliminar_horario',{version:p}))}" title="${esc(txH('eliminar_horario',{version:p}))}">×</button>`:''}</span>`}).join('')+
+ `<button class="chip plan-new" data-newplan="1" title="${esc(txH('nuevo_ayuda'))}">${esc(txH('nuevo'))}</button><button class="link" data-dup style="margin-left:var(--ipn-esp-2)">${esc(txH('duplicar',{version:ws().plan}))}</button>`;
 }
 function agendaHorario(items,soloLectura=false){const by={};items.forEach(b=>(by[b.d]=by[b.d]||[]).push(b));
-  return Object.keys(by).length?Object.keys(by).sort((a,b)=>a-b).map(d=>`<section class="ag-day"><h4>${DAYN[d]}</h4>`+by[d].sort((x,y)=>x.a-y.a).map(b=>b.c.own?
-      `<div class="ag-it own${b.clash?' clash':''}"${!soloLectura&&b.c.i!=null?` data-own="${b.c.i}" tabindex="0" role="button" aria-label="${esc(txH('semana_abrir_bloque',{nombre:b.c.n}))}"`:''}><span class="t">${hm(b.a)}–${hm(b.b)}</span><span><b>${esc(b.c.n)}</b><small>${esc(txH('actividad'))}${b.clash?' · '+esc(txH('traslape')):''}</small></span></div>`:
-      `<div class="ag-it${b.clash?' clash':''}${b.ghost?' ghost':''}" style="--h:${hue(b.c)}"><span class="t">${hm(b.a)}–${hm(b.b)}</span><span><b>${esc(name(b.c))}</b><small>${esc(b.c[3])}${roomAt(b.c,b.d,b.a)?' · '+esc(roomAt(b.c,b.d,b.a)):''} · ${esc(profs(b.c))}${b.ghost?' · '+esc(txH('vista_previa')):''}${b.clash?' · '+esc(txH('traslape')):''}</small>${typeof CUPOS!=='undefined'?CUPOS.insignia(b.c):''}</span></div>`).join('')+'</section>').join(''):
-      `<p class="ag-empty">${esc(txH('horario_vacio'))}</p>`;
+ return Object.keys(by).length?Object.keys(by).sort((a,b)=>a-b).map(d=>`<section class="ag-day"><h4>${DAYN[d]}</h4>`+by[d].sort((x,y)=>x.a-y.a).map(b=>b.c.own?
+ `<div class="ag-it own${b.clash?' clash':''}"${!soloLectura&&b.c.i!=null?` data-own="${b.c.i}" tabindex="0" role="button" aria-label="${esc(txH('semana_abrir_bloque',{nombre:b.c.n}))}"`:''}><span class="t">${hm(b.a)}–${hm(b.b)}</span><span><b>${esc(b.c.n)}</b><small>${esc(txH('actividad'))}${b.clash?' · '+esc(txH('traslape')):''}</small></span></div>`:
+ `<div class="ag-it${b.clash?' clash':''}${b.ghost?' ghost':''}" style="--h:${hue(b.c)}"><span class="t">${hm(b.a)}–${hm(b.b)}</span><span><b>${esc(name(b.c))}</b><small>${esc(b.c[3])}${roomAt(b.c,b.d,b.a)?' · '+esc(roomAt(b.c,b.d,b.a)):''} · ${esc(profs(b.c))}${b.ghost?' · '+esc(txH('vista_previa')):''}${b.clash?' · '+esc(txH('traslape')):''}</small>${typeof CUPOS!=='undefined'?CUPOS.insignia(b.c):''}</span></div>`).join('')+'</section>').join(''):
+ `<p class="ag-empty">${esc(txH('horario_vacio'))}</p>`;
 }
 function renderCal(){
-  if(typeof CUPOS!=='undefined')CUPOS.pintar();
-  renderSemana();
-  const sel=selected(), own=ownAsClasses();
-  const ghost=S.hover&&!plan().sel.includes(S.hover)?byKey(S.hover):null;
-  const viajes=SEMANA_ACTIVA?semanaTraslados(sel).map(([d,a,b])=>({own:true,n:txH('semana_categoria_traslados'),h:[[d,Math.max(0,a),Math.min(1440,b)]]})):[];
-  const all=[...sel,...own,...viajes,...(ghost?[ghost]:[])];
-  const reducida=document.documentElement.dataset.vista==='cupos';
-  const items=SateUI.cuadriculaHorario(all,{S,slots,START,BLOCK,SLOT,SLOTPX,$,DAYS,hm,esc,txH,hue,keyOf,name,profs,roomAt,ghost,soloLectura:reducida,insignia:typeof CUPOS!=='undefined'?CUPOS.insignia:null});
-  const cv=(reducida||$('#horario-compacto').open)&&MQ_PHONE.matches?'dia':cview();document.querySelectorAll('[data-cview]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cview===cv)));
-  $('.calwrap').hidden=cv==='dia';$('#agenda').hidden=cv!=='dia';
-  if(cv==='dia')$('#agenda').innerHTML=agendaHorario(items,reducida);
-  const cr=sel.reduce((s,c)=>s+c[7],0);
-  const mins=sel.reduce((s,c)=>s+c[6].reduce((t,b)=>t+b[2]-b[1],0),0);
-  const both=[...sel,...own];let clashes=0;
-  for(let i=0;i<both.length;i++)for(let j=i+1;j<both.length;j++)if(overlaps(both[i],both[j]))clashes++;
-  const noSched=sel.filter(c=>!c[6].length).length;
-  $('#stats').innerHTML=sel.length||own.length?`<span><b>${fmtCr(cr)}</b> ${esc(txH('creditos_horario'))} ${ayudaCreditos()}</span><span>${txH('materias_horario',{n:sel.length})}</span><span><b>${(mins/60).toFixed(1)}</b> ${esc(txH('horas_semana'))}</span>`+
-    (clashes?`<span class="bad">${esc(txH('traslapes',{n:clashes}))}</span>`:`<span>${esc(txH('sin_traslapes'))}</span>`)+(noSched?`<span>${esc(txH('sin_horario',{n:noSched}))}</span>`:'')+
-    (()=>{const have=new Set(sel.map(c=>c[8])),miss=tr().oblig.filter(k=>!have.has(k));return miss.length?`<span class="bad">${esc(txH('falta_obligatoria',{nombre:miss.map(k=>pretty(cur()[k][0])).join(', ')}))}</span>`:''})():
-    `<span>${esc(txH('horario_inicio'))} ${esc(txH(tactil()?'previa_tactil':'previa_cursor'))}</span>`;
-  const failS=new Set(tr().fail), ci=cargaInfo(sel.filter(c=>!failS.has(c[8])).reduce((s,c)=>s+c[7],0));
-  if(ci&&(sel.length||ci.ret)){
-    const L=ci.L, t=ci.total, top=Math.max(L.max,t,ci.tope)*1.05, pct=v=>Math.min(100,v/top*100);
-    const tag=t<L.min?txH('carga_menor'):t>ci.tope+0.01?(ci.aut!=null||ci.regla?txH('carga_excede'):ci.adeudo?txH('carga_excede_media'):txH('carga_mayor')):t<=L.media?txH('carga_min_media'):txH('carga_media_max');
-    const bad=t<L.min||t>ci.tope+0.01;
-    $('#load').innerHTML=`<span class="lbl${bad?' bad':''}">${esc(txH('carga_total',{n:fmtCr(t),estado:tag}))}</span><div class="bar">${ci.ret?`<div class="fill ret" style="width:${pct(ci.ret)}%"></div>`:''}<div class="fill" style="left:${pct(ci.ret)}%;width:${Math.max(0,pct(t)-pct(ci.ret))}%"></div>${['min','media','max'].map(k=>`<div class="tick" style="left:${pct(L[k])}%"></div>`).join('')}${ci.tope!==L.max&&ci.tope!==L.media?`<div class="tick tope" style="left:${pct(ci.tope)}%"></div>`:''}</div>
-      ${(()=>{   // La leyenda fluye sin depender de la distancia entre los límites en la barra.
-        const et=[['min',txH('minima')],['media',txH('media')],['max',txH('maxima')]].map(([k,l])=>({p:pct(L[k]),t:`${l} ${L[k]}`,c:''}));
+ if(typeof CUPOS!=='undefined')CUPOS.pintar();
+ renderSemana();
+ const sel=selected(), own=ownAsClasses();
+ const ghost=S.hover&&!plan().sel.includes(S.hover)?byKey(S.hover):null;
+ const viajes=SEMANA_ACTIVA?semanaTraslados(sel).map(([d,a,b])=>({own:true,n:txH('semana_categoria_traslados'),h:[[d,Math.max(0,a),Math.min(1440,b)]]})):[];
+ const all=[...sel,...own,...viajes,...(ghost?[ghost]:[])];
+ const reducida=document.documentElement.dataset.vista==='cupos';
+ const items=SateUI.cuadriculaHorario(all,{S,slots,START,BLOCK,SLOT,SLOTPX,$,DAYS,hm,esc,txH,hue,keyOf,name,profs,roomAt,ghost,soloLectura:reducida,insignia:typeof CUPOS!=='undefined'?CUPOS.insignia:null});
+ const cv=(reducida||$('#horario-compacto').open)&&MQ_PHONE.matches?'dia':cview();document.querySelectorAll('[data-cview]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cview===cv)));
+ $('.calwrap').hidden=cv==='dia';$('#agenda').hidden=cv!=='dia';
+ if(cv==='dia')$('#agenda').innerHTML=agendaHorario(items,reducida);
+ const cr=sel.reduce((s,c)=>s+c[7],0);
+ const mins=sel.reduce((s,c)=>s+c[6].reduce((t,b)=>t+b[2]-b[1],0),0);
+ const both=[...sel,...own];let clashes=0;
+ for(let i=0;i<both.length;i++)for(let j=i+1;j<both.length;j++)if(overlaps(both[i],both[j]))clashes++;
+ const noSched=sel.filter(c=>!c[6].length).length;
+ $('#stats').innerHTML=sel.length||own.length?`<span><b>${fmtCr(cr)}</b> ${esc(txH('creditos_horario'))} ${ayudaCreditos()}</span><span>${txH('materias_horario',{n:sel.length})}</span><span><b>${(mins/60).toFixed(1)}</b> ${esc(txH('horas_semana'))}</span>`+
+ (clashes?`<span class="bad">${esc(txH('traslapes',{n:clashes}))}</span>`:`<span>${esc(txH('sin_traslapes'))}</span>`)+(noSched?`<span>${esc(txH('sin_horario',{n:noSched}))}</span>`:'')+
+ (()=>{const have=new Set(sel.map(c=>c[8])),miss=tr().oblig.filter(k=>!have.has(k));return miss.length?`<span class="bad">${esc(txH('falta_obligatoria',{nombre:miss.map(k=>pretty(cur()[k][0])).join(', ')}))}</span>`:''})():
+ `<span>${esc(txH('horario_inicio'))} ${esc(txH(tactil()?'previa_tactil':'previa_cursor'))}</span>`;
+ const failS=new Set(tr().fail), ci=cargaInfo(sel.filter(c=>!failS.has(c[8])).reduce((s,c)=>s+c[7],0));
+ if(ci&&(sel.length||ci.ret)){
+ const L=ci.L, t=ci.total, top=Math.max(L.max,t,ci.tope)*1.05, pct=v=>Math.min(100,v/top*100);
+ const tag=t<L.min?txH('carga_menor'):t>ci.tope+0.01?(ci.aut!=null||ci.regla?txH('carga_excede'):ci.adeudo?txH('carga_excede_media'):txH('carga_mayor')):t<=L.media?txH('carga_min_media'):txH('carga_media_max');
+ const bad=t<L.min||t>ci.tope+0.01;
+ $('#load').innerHTML=`<span class="lbl${bad?' bad':''}">${esc(txH('carga_total',{n:fmtCr(t),estado:tag}))}</span><div class="bar">${ci.ret?`<div class="fill ret" style="width:${pct(ci.ret)}%"></div>`:''}<div class="fill" style="left:${pct(ci.ret)}%;width:${Math.max(0,pct(t)-pct(ci.ret))}%"></div>${['min','media','max'].map(k=>`<div class="tick" style="left:${pct(L[k])}%"></div>`).join('')}${ci.tope!==L.max&&ci.tope!==L.media?`<div class="tick tope" style="left:${pct(ci.tope)}%"></div>`:''}</div>
+      ${(()=>{  
+ const et=[['min',txH('minima')],['media',txH('media')],['max',txH('maxima')]].map(([k,l])=>({p:pct(L[k]),t:`${l} ${L[k]}`,c:''}));
         if(ci.tope!==L.max&&ci.tope!==L.media)et.push({p:pct(ci.tope),t:txH('carga_autorizada',{n:fmtCr(ci.tope)}),c:'bad'});
         et.sort((x,y)=>x.p-y.p);
         return `<div class="ticks">${et.map(e=>`<span class="${e.c}">${esc(e.t)}</span>`).join('')}</div>`})()}`+
-      `<p class="load-note"><span>${esc(txH('carga_resumen',{n:fmtCr(t),max:fmtCr(ci.tope)}))}${ci.faltaMin?esc(txH('carga_falta',{f:fmtCr(ci.faltaMin)})):''}</span></p>`;
-    if(ci.ret)$('#load .load-note').appendChild(SateUI.ayuda('sate.horarios.carga_ayuda',{ret:fmtCr(ci.ret),nuevos:fmtCr(ci.nuevos),libre:fmtCr(ci.libre),tope:fmtCr(ci.tope)}));
-  }else $('#load').innerHTML='';
-  $('#sel').hidden=!both.length;
-  const inscrito=window.SateHorarioInscrito?.()||false;
-  const cabeceraCupos=$('.planner .cupos-cabecera');if(cabeceraCupos)cabeceraCupos.hidden=inscrito;
-  const alertaCupos=$('#cupos-alerta');if(alertaCupos)alertaCupos.hidden=inscrito||!window.SateCuposVista?.riesgo||!sel.some(c=>window.SateCuposVista.riesgo(c));
-  $('#sel').innerHTML=sel.map(c=>`<div class="sel-item${!inscrito&&window.SateCuposVista?.riesgo(c)?' cupos-riesgo':''}"><div class="sel-row"><span class="sw" style="--h:${hue(c)}"></span><span class="grp">${esc(c[3])}</span><span class="sel-materia"><span class="sel-nombre">${esc(pretty(name(c)))}</span><small class="sel-prof" title="${esc(profs(c))}">${esc(profs(c))}</small></span><span class="sel-meta"><span class="cr">${esc(textoCreditos(c[8],c[7]))}</span>${!inscrito&&typeof CUPOS!=='undefined'?CUPOS.insignia(c):''}${ayudaCreditos(c[8])}<button class="x" data-toggle="${esc(keyOf(c))}" aria-label="${esc(txH('quitar',{nombre:name(c)}))}">×</button></span></div>${!inscrito?window.SateCuposVista?.avisoCarga(c)||'':''}${!inscrito?window.SateCuposVista?.sugerencias(c)||'':''}</div>`).join('')+
-    own.map(o=>{const r=plan().own[o.i];return `<div class="sel-item"><div class="sel-row"><span class="sw own"></span><span class="grp">${esc(txH('extra'))}</span><span class="sel-materia"><span class="sel-nombre">${esc(o.n)}</span><small class="sel-prof">${r.d.map(d=>DAYS[d]).join(' ')} ${hm(r.a)}–${hm(r.b)}</small></span><span class="sel-meta"><button class="x" data-unown="${o.i}" aria-label="${esc(txH('quitar',{nombre:o.n}))}">×</button></span></div></div>`}).join('');
-  montarAyudasCreditos();
-  window.SateCuposVista?.pintar();
+ `<p class="load-note"><span>${esc(txH('carga_resumen',{n:fmtCr(t),max:fmtCr(ci.tope)}))}${ci.faltaMin?esc(txH('carga_falta',{f:fmtCr(ci.faltaMin)})):''}</span></p>`;
+ if(ci.ret)$('#load .load-note').appendChild(SateUI.ayuda('sate.horarios.carga_ayuda',{ret:fmtCr(ci.ret),nuevos:fmtCr(ci.nuevos),libre:fmtCr(ci.libre),tope:fmtCr(ci.tope)}));
+ }else $('#load').innerHTML='';
+ $('#sel').hidden=!both.length;
+ const inscrito=window.SateHorarioInscrito?.()||false;
+ const cabeceraCupos=$('.planner .cupos-cabecera');if(cabeceraCupos)cabeceraCupos.hidden=inscrito;
+ const alertaCupos=$('#cupos-alerta');if(alertaCupos)alertaCupos.hidden=inscrito||!window.SateCuposVista?.riesgo||!sel.some(c=>window.SateCuposVista.riesgo(c));
+ $('#sel').innerHTML=sel.map(c=>`<div class="sel-item${!inscrito&&window.SateCuposVista?.riesgo(c)?' cupos-riesgo':''}"><div class="sel-row"><span class="sw" style="--h:${hue(c)}"></span><span class="grp">${esc(c[3])}</span><span class="sel-materia"><span class="sel-nombre">${esc(pretty(name(c)))}</span><small class="sel-prof" title="${esc(profs(c))}">${esc(profs(c))}</small></span><span class="sel-meta"><span class="cr">${esc(textoCreditos(c[8],c[7]))}</span>${!inscrito&&typeof CUPOS!=='undefined'?CUPOS.insignia(c):''}${ayudaCreditos(c[8])}<button class="x" data-toggle="${esc(keyOf(c))}" aria-label="${esc(txH('quitar',{nombre:name(c)}))}">×</button></span></div>${!inscrito?window.SateCuposVista?.avisoCarga(c)||'':''}${!inscrito?window.SateCuposVista?.sugerencias(c)||'':''}</div>`).join('')+
+ own.map(o=>{const r=plan().own[o.i];return `<div class="sel-item"><div class="sel-row"><span class="sw own"></span><span class="grp">${esc(txH('extra'))}</span><span class="sel-materia"><span class="sel-nombre">${esc(o.n)}</span><small class="sel-prof">${r.d.map(d=>DAYS[d]).join(' ')} ${hm(r.a)}–${hm(r.b)}</small></span><span class="sel-meta"><button class="x" data-unown="${o.i}" aria-label="${esc(txH('quitar',{nombre:o.n}))}">×</button></span></div></div>`}).join('');
+ montarAyudasCreditos();
+ window.SateCuposVista?.pintar();
 }
 function renderOwnForm(){$('#own-d').innerHTML=DAYS.map((d,i)=>`<button type="button" class="chip" data-oday="${i}" aria-pressed="${S.ownDays.includes(i)}">${d}</button>`).join('')}
 
-/* Zoom del mapa con pellizco (dos dedos) y con el trackpad o Ctrl + rueda, centrado en el punto del gesto.
-   Durante el pellizco solo se escala con CSS (instantáneo, sigue a los dedos); al soltar se redibuja una vez a la
-   escala final. La respuesta es proporcional y amplificada (exponente GAIN): un pellizco amplio acerca mucho más que
-   uno pequeño. Usa el mismo ZOOM que los botones +/−; desplazar con un dedo sigue siendo nativo. */
+
+
+
+
 
 SATE.pestana('horarios',{montar(){montarSemana();montarPropuestas();drawCals();renderGTime();SATE.cargarTemarios?.()?.then(()=>{if(SATE.actual?.pestana==='horarios')renderHor()})},mostrar(){const materia=new URLSearchParams(location.hash.split('?')[1]||'').get('materia');if(materia)S.q=materia;renderHor()},ocultar(){cancelarGeneracion();if($('#horario-compacto').open)$('#horario-compacto').close();S.hover=null}});
 
 $('#b-export').addEventListener('click', async () => {
-  try { await SATE.script('exportacion.js'); abrirExportacion(); }
-  catch (e) { SATE.error(e); }
+ try { await SATE.script('exportacion.js'); abrirExportacion(); }
+ catch (e) { SATE.error(e); }
 });

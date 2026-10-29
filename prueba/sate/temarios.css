@@ -1,10 +1,10 @@
-/* Programas en SATE: vista única de la unidad de aprendizaje, vistazo del Mapa curricular, selector y explorador por líneas.
-   Solo tokens --ipn-*; los componentes comunes (migas, buscador, segmentado, tarjeta de navegación) viven en componentes.css. */
+
+
 
 .insp-temario{margin:var(--ipn-esp-2) 0 0}
 .insp-temario a{color:var(--ipn-acento);text-decoration:underline}
 
-/* Ficha centrada; en teléfono ocupa la pantalla con cabecera fija. */
+ 
 .tmr-panel{position:fixed;z-index:60;inset-block:var(--ipn-esp-3);inset-inline:0;margin:auto;width:min(45rem,calc(100vw - 2 * var(--ipn-esp-3)));max-height:calc(100dvh - 2 * var(--ipn-esp-3));display:flex;flex-direction:column;background:var(--ipn-superficie);color:var(--ipn-texto);font-family:var(--ipn-fuente-texto);border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio);box-shadow:0 24px 60px -16px rgba(0,0,0,.45);overflow:hidden}
 .tmr-panel[hidden],.tmr-velo[hidden]{display:none}
 .tmr-velo{position:fixed;inset:0;z-index:59;background:rgba(20,12,16,.45)}
@@ -58,13 +58,13 @@
 .tmr-recurso small{color:var(--ipn-tenue)}
 .tmr-estado{margin:0;color:var(--ipn-tenue)}
 @media(max-width:639.98px){
-  .tmr-panel{inset:var(--ipn-esp-3);width:auto;height:auto;max-height:calc(100dvh - 2 * var(--ipn-esp-3));border-radius:var(--ipn-radio);box-sizing:border-box}
-  .tmr-panel-cuerpo{padding:var(--ipn-esp-4)}
-  .tmr-cifras{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .tmr-cifras div:last-child{grid-column:1 / -1}
+ .tmr-panel{inset:var(--ipn-esp-3);width:auto;height:auto;max-height:calc(100dvh - 2 * var(--ipn-esp-3));border-radius:var(--ipn-radio);box-sizing:border-box}
+ .tmr-panel-cuerpo{padding:var(--ipn-esp-4)}
+ .tmr-cifras{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .tmr-cifras div:last-child{grid-column:1 / -1}
 }
 
-/* ---------- página de programas ---------- */
+ 
 .tmr{--pc-fondo:var(--ipn-fondo);min-width:0;font-family:var(--ipn-fuente-texto);color:var(--ipn-texto)}
 .tmr-enc h2{margin:0 0 var(--ipn-esp-1);font-size:var(--ipn-tamano-xl);line-height:1.25}
 .tmr-intro{margin:0 0 var(--ipn-esp-4);color:var(--ipn-tenue)}
@@ -76,7 +76,7 @@
 .tmr-vacio{margin:0;color:var(--ipn-tenue)}
 @media(max-width:30rem){.tmr-enc h2{font-size:var(--ipn-tamano-xl);line-height:1.25}}
 
-/* ---------- vista única: la ficha completa va sobre el fondo de la página (sin bloque de otro color que se corte) ---------- */
+ 
 .tmr-pagina>.tmr-ficha{display:block;background:transparent}
 .tmr-principal{grid-area:principal;display:grid;gap:var(--ipn-esp-5);min-width:0}
 .tmr-col-resto{grid-area:resto;display:grid;gap:var(--ipn-esp-6);min-width:0}
@@ -96,7 +96,7 @@
 .tmr-pagina .tmr-cifras strong{font-size:var(--ipn-tamano-xl);line-height:1.1}
 @media(max-width:639.98px){.tmr-pagina .tmr-cifras strong{font-size:var(--ipn-tamano-l)}}
 
-/* ---------- explorador por líneas de aprendizaje ---------- */
+ 
 .guia{display:grid;gap:var(--ipn-esp-7)}
 .guia h3,.guia h4,.guia p{margin:0}
 .gd-explorar-enc p{color:var(--ipn-tenue);font-size:var(--ipn-tamano-s);max-width:56ch}
@@ -129,11 +129,11 @@
 .gd-esp-linea a{display:inline-flex;align-items:center;min-height:2.25rem;color:var(--ipn-texto)}
 .gd-esp-linea a:hover{color:var(--ipn-acento)}
 @media(max-width:1023.98px){
-  .gd-cols{grid-template-columns:repeat(var(--gd-niveles,5),minmax(6.5rem,1fr))}
+ .gd-cols{grid-template-columns:repeat(var(--gd-niveles,5),minmax(6.5rem,1fr))}
 }
 
 
-/* ---------- selector de unidad de aprendizaje (ventana amplia) ---------- */
+ 
 .sel{display:grid;gap:var(--ipn-esp-4);min-width:0;font-family:var(--ipn-fuente-texto);color:var(--ipn-texto)}
 .sel p,.sel h3{margin:0}
 .sel-controles{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:var(--ipn-esp-3) var(--ipn-esp-4);align-items:end}
@@ -157,7 +157,7 @@
 .sel-vacio{color:var(--ipn-tenue)}
 @media(max-width:639.98px){.sel-controles{grid-template-columns:minmax(0,1fr)}}
 
-/* ---------- ficha única: índice de la página ---------- */
+ 
 .tmr-indice{display:grid;gap:var(--ipn-esp-1)}
 .tmr-indice a{padding:var(--ipn-esp-2);border:0;border-radius:var(--ipn-radio);background:transparent;color:inherit;text-decoration:none}
 .tmr-indice a[aria-current]{background:var(--ipn-acento-suave);color:var(--ipn-acento);font-weight:600}
@@ -167,7 +167,7 @@
 .tmr-lateral-datos .tmr-rel-enlace{border:0;border-radius:0;padding:0}
 .tmr-bloque{scroll-margin-top:calc(var(--sate-barra-alto) + var(--ipn-esp-5))}
 
-/* Trayectoria escolar: una columna por semestre; ficha en ventana emergente */
+ 
 .gd-tray{min-width:0}
 .gd-tray-lista{display:none}
 @media(max-width:600px){.gd-tray .sate-mapa-consulta{display:none}.gd-tray-lista{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:var(--ipn-esp-4);align-items:start}}
@@ -178,7 +178,7 @@
 .tmr-dialogo .tmr-ficha{grid-template-columns:minmax(0,1fr);grid-template-areas:none;gap:var(--ipn-esp-5)}
 .tmr-dialogo .tmr-principal,.tmr-dialogo .tmr-lateral,.tmr-dialogo .tmr-col-resto{grid-area:auto;position:static;min-width:0}
 
-/* ---------- líneas y especializaciones: metro y matriz ---------- */
+ 
 .gd-lin{display:grid;gap:var(--ipn-esp-6);min-width:0}
 .gd-lin-barra{display:flex;justify-content:space-between;align-items:center;gap:var(--ipn-esp-3);flex-wrap:wrap}
 .gd-esp-seccion{display:grid;gap:var(--ipn-esp-4)}
@@ -213,6 +213,6 @@
 @media(max-width:639.98px){.gd-metro-lineas{width:9rem}.gd-metro-pildora{left:6px;right:6px;padding:var(--ipn-esp-1) 10px;font-size:.75rem}.gd-lin-barra{justify-content:stretch}.gd-lin-barra .sate-segmentado{width:100%}}
 @media(prefers-reduced-motion:no-preference){.gd-estacion,.gd-metro-trasbordo{transition:opacity .15s}}
 .gd-tray[hidden],.gd-lin[hidden],.gd-metro[hidden],.gd-mapa[hidden],.gd-esp[hidden]{display:none}
-/* El temario se lee por secciones, sin bandas ni encabezados que cubran su contenido. */
+ 
 .tmr-pagina .rgl-encabezado{position:static;background:transparent;border:0;padding:0;margin-bottom:var(--ipn-esp-4)}
 .tmr-pagina .rgl-indice-titulo[aria-current]{background:var(--ipn-acento-suave);color:var(--ipn-acento);font-weight:600;border-radius:var(--ipn-radio)}

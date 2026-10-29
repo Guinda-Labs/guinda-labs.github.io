@@ -1,14 +1,14 @@
-/* R2-ENC: mismos ejes para identidad, navegación y panel; sin superficie adicional. */
+ 
 :root{
-  --ipn-contenido-ancho:1480px;
-  --ipn-contenido-margen:var(--ipn-esp-4);
-  --ipn-objetivo-tactil:44px;
-  --ipn-linea-fina:1px;
-  --ipn-linea-foco:2px;
-  --ipn-interlineado-titulo:1.25;
-  --ipn-logo-ipn-alto:calc(var(--ipn-esp-7) + var(--ipn-esp-2));
-  --ipn-logo-unidad-alto:calc(var(--ipn-esp-6) + var(--ipn-esp-2));
-  --ipn-espacio-bajo-encabezado:calc(var(--ipn-esp-6) + var(--ipn-esp-2));
+ --ipn-contenido-ancho:1480px;
+ --ipn-contenido-margen:var(--ipn-esp-4);
+ --ipn-objetivo-tactil:44px;
+ --ipn-linea-fina:1px;
+ --ipn-linea-foco:2px;
+ --ipn-interlineado-titulo:1.25;
+ --ipn-logo-ipn-alto:calc(var(--ipn-esp-7) + var(--ipn-esp-2));
+ --ipn-logo-unidad-alto:calc(var(--ipn-esp-6) + var(--ipn-esp-2));
+ --ipn-espacio-bajo-encabezado:calc(var(--ipn-esp-6) + var(--ipn-esp-2));
 }
 .sate-contenedor{box-sizing:border-box;width:100%;max-width:calc(var(--ipn-contenido-ancho) + var(--ipn-contenido-margen) * 2);margin-inline:auto;padding-inline:var(--ipn-contenido-margen)}
 header.sate-encabezado{position:relative;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) auto;grid-template-areas:"marca contexto acciones" "nav nav nav" "avisos avisos avisos";align-items:center;column-gap:var(--ipn-esp-5);max-width:var(--ipn-contenido-ancho);margin:var(--ipn-esp-5) auto var(--ipn-espacio-bajo-encabezado);padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;font-family:var(--ipn-fuente-texto);color:var(--ipn-texto)}
@@ -61,54 +61,54 @@ header.sate-encabezado{position:relative;display:grid;grid-template-columns:minm
 @media(min-width:768px){html{scroll-padding-top:calc(var(--sate-barra-alto) + var(--ipn-esp-4))}.sate-barra-flotante{box-sizing:border-box;position:fixed;z-index:20;inset:0 0 auto;display:flex;align-items:center;gap:var(--ipn-esp-6);min-height:var(--ipn-control-alto);padding:0 max(var(--ipn-contenido-margen),calc((100vw - var(--ipn-contenido-ancho))/2));background:var(--ipn-superficie);color:var(--ipn-texto);box-shadow:0 2px 10px color-mix(in srgb,var(--ipn-texto) 12%,transparent);font-family:var(--ipn-fuente-texto);transform:translateY(0);opacity:1;transition:transform .16s ease,opacity .16s ease}.sate-barra-flotante[hidden]{display:flex!important;visibility:hidden;transform:translateY(-100%);opacity:0;pointer-events:none}.sate-barra-marca{flex:none;color:var(--ipn-marca);font-weight:700;font-size:var(--ipn-tamano-s)}.sate-barra-flotante nav{min-width:0;flex:1}.sate-barra-flotante .sate-enlaces{gap:var(--ipn-esp-6)}.sate-barra-flotante .sate-pestana{min-height:var(--ipn-objetivo-tactil)}.sate-barra-acciones{display:flex;flex:none;gap:var(--ipn-esp-1)}.sate-barra-acciones button{box-sizing:border-box;display:grid;place-items:center;width:var(--ipn-objetivo-tactil);height:var(--ipn-objetivo-tactil);padding:0;border:0;border-radius:var(--ipn-radio);background:transparent;color:var(--ipn-texto);cursor:pointer}.sate-barra-acciones button:hover{background:var(--ipn-acento-suave)}.sate-barra-flotante :is(a,button):focus-visible{outline:var(--ipn-linea-foco) solid var(--ipn-acento);outline-offset:var(--ipn-linea-foco)}}
 @media(prefers-reduced-motion:reduce){.sate-barra-flotante{transition:none}}
 @media(min-width:768px) and (max-width:1023px){
-  /* Compacto: la leyenda larga cede su espacio al nombre de la carrera, que no se corta. */
-  header.sate-encabezado{grid-template-columns:auto minmax(0,1fr) auto}
-  .sate-marca #sate-nombre{display:none}
-  .sate-contexto{justify-content:center}
-  .sate-encabezado{--ipn-logo-ipn-alto:var(--ipn-esp-7);--ipn-logo-unidad-alto:var(--ipn-esp-6)}
-  .sate-encabezado .header-actions .saes-open .sate-texto-largo{display:none!important}
-  .sate-encabezado .header-actions .saes-open .sate-texto-corto{display:none}
-  .sate-encabezado .header-actions .saes-open{width:var(--ipn-objetivo-tactil);padding:0}
-  .sate-encabezado .header-actions .sate-opinar span{display:none}
+  
+ header.sate-encabezado{grid-template-columns:auto minmax(0,1fr) auto}
+ .sate-marca #sate-nombre{display:none}
+ .sate-contexto{justify-content:center}
+ .sate-encabezado{--ipn-logo-ipn-alto:var(--ipn-esp-7);--ipn-logo-unidad-alto:var(--ipn-esp-6)}
+ .sate-encabezado .header-actions .saes-open .sate-texto-largo{display:none!important}
+ .sate-encabezado .header-actions .saes-open .sate-texto-corto{display:none}
+ .sate-encabezado .header-actions .saes-open{width:var(--ipn-objetivo-tactil);padding:0}
+ .sate-encabezado .header-actions .sate-opinar span{display:none}
 }
 @media(max-width:767px){
-  header.sate-encabezado{--ipn-logo-ipn-alto:calc(var(--ipn-esp-6) + var(--ipn-esp-2));--ipn-logo-unidad-alto:var(--ipn-esp-6);grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"marca acciones" "contexto contexto" "nav nav" "avisos avisos";column-gap:var(--ipn-esp-3);row-gap:var(--ipn-esp-4);margin-top:var(--ipn-esp-4)}
-  .sate-marca #sate-nombre{display:none}
-  .sate-menu>summary{display:flex}
-  .sate-menu[open]>.header-actions{position:absolute;right:0;top:100%;z-index:2;max-width:calc(100vw - var(--ipn-contenido-margen) * 2);padding:var(--ipn-esp-2);background:var(--ipn-superficie);border:var(--ipn-linea-fina) solid var(--ipn-linea);border-radius:var(--ipn-radio)}
-  /* Al abrir el menú se reserva su alto: no tapa la carrera ni la navegación. */
-  .sate-encabezado:has(.sate-menu[open]) .sate-contexto{margin-top:calc(var(--ipn-objetivo-tactil) + var(--ipn-esp-5))}
-  .sate-encabezado .header-actions :is(.theme-btn,.ipnt-btn,.saes-open,.sate-opinar,.sate-ayuda-recorrido){width:var(--ipn-objetivo-tactil);padding:0}
-  .sate-encabezado .header-actions .saes-open :is(.sate-texto-largo,.sate-texto-corto),.sate-encabezado .sate-opinar span{display:none!important}
-  .header-actions{gap:0}
-  .sate-encabezado>.sate-navegacion{margin-top:var(--ipn-esp-3)}
-  .sate-encabezado .sate-enlaces{overflow-x:auto}
+ header.sate-encabezado{--ipn-logo-ipn-alto:calc(var(--ipn-esp-6) + var(--ipn-esp-2));--ipn-logo-unidad-alto:var(--ipn-esp-6);grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"marca acciones" "contexto contexto" "nav nav" "avisos avisos";column-gap:var(--ipn-esp-3);row-gap:var(--ipn-esp-4);margin-top:var(--ipn-esp-4)}
+ .sate-marca #sate-nombre{display:none}
+ .sate-menu>summary{display:flex}
+ .sate-menu[open]>.header-actions{position:absolute;right:0;top:100%;z-index:2;max-width:calc(100vw - var(--ipn-contenido-margen) * 2);padding:var(--ipn-esp-2);background:var(--ipn-superficie);border:var(--ipn-linea-fina) solid var(--ipn-linea);border-radius:var(--ipn-radio)}
+  
+ .sate-encabezado:has(.sate-menu[open]) .sate-contexto{margin-top:calc(var(--ipn-objetivo-tactil) + var(--ipn-esp-5))}
+ .sate-encabezado .header-actions :is(.theme-btn,.ipnt-btn,.saes-open,.sate-opinar,.sate-ayuda-recorrido){width:var(--ipn-objetivo-tactil);padding:0}
+ .sate-encabezado .header-actions .saes-open :is(.sate-texto-largo,.sate-texto-corto),.sate-encabezado .sate-opinar span{display:none!important}
+ .header-actions{gap:0}
+ .sate-encabezado>.sate-navegacion{margin-top:var(--ipn-esp-3)}
+ .sate-encabezado .sate-enlaces{overflow-x:auto}
 }
-/* Revisión R2 (orquestador): pestañas a su ancho natural, primera alineada al eje izquierdo de la marca. */
+ 
 @media(min-width:768px){
-  #sate-tabs .sate-pestanas{width:auto;justify-content:flex-start;gap:var(--ipn-esp-6)}
-  /* Pestañas como enlaces (páginas hermanas, p. ej. Grupos): misma separación. */
-  .sate-encabezado .sate-enlaces{gap:var(--ipn-esp-6)}
-  #sate-tabs .sate-pestana{flex:none;min-width:0;padding-inline:0}
-  /* Sin ícono en escritorio: su caja vacía corría el texto, el subrayado y el punto de la pestaña activa. */
-  #sate-tabs .sate-pestana__icono{display:none}
+ #sate-tabs .sate-pestanas{width:auto;justify-content:flex-start;gap:var(--ipn-esp-6)}
+  
+ .sate-encabezado .sate-enlaces{gap:var(--ipn-esp-6)}
+ #sate-tabs .sate-pestana{flex:none;min-width:0;padding-inline:0}
+  
+ #sate-tabs .sate-pestana__icono{display:none}
 }
-/* En teléfono la barra de pestañas es fija abajo: su renglón y el de avisos vacíos no dejan hueco. */
+ 
 @media(max-width:767px){
-  header.sate-encabezado{row-gap:0;margin-bottom:var(--ipn-esp-5)}
-  .sate-encabezado .sate-contexto{margin-top:var(--ipn-esp-4)}
-  .sate-encabezado>.sate-navegacion{margin-top:0}
+ header.sate-encabezado{row-gap:0;margin-bottom:var(--ipn-esp-5)}
+ .sate-encabezado .sate-contexto{margin-top:var(--ipn-esp-4)}
+ .sate-encabezado>.sate-navegacion{margin-top:0}
 }
-/* «Fase de prueba» nunca baja de renglón: en anchos medios se encoge el selector (con puntos suspensivos), no la etiqueta. */
+ 
 @media(min-width:768px){
-  .sate-contexto{flex-wrap:nowrap}
-  .sate-contexto .sate-controles{flex:0 1 auto}
-  #sate-leyenda{flex:none}
+ .sate-contexto{flex-wrap:nowrap}
+ .sate-contexto .sate-controles{flex:0 1 auto}
+ #sate-leyenda{flex:none}
 }
 
-/* Marca «SATE | UPIITA-IPN» (dueño, 2026-10-17): siglas en el acento, separador fino y la unidad con punteado sutil. */
+ 
 .sate-marca #sate-titulo{gap:0}
-/* Guinda institucional del IPN en claro y blanco (el del isologo calado) en oscuro: SATE no toma el color de la unidad. */
+ 
 :root{--ipn-marca:#7A1F45}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--ipn-marca:#ffffff}}
 :root[data-theme="dark"]{--ipn-marca:#ffffff}
@@ -117,7 +117,7 @@ header.sate-encabezado{position:relative;display:grid;grid-template-columns:minm
 .sate-marca :is(.sate-unidad-btn,.sate-unidad-nombre){color:var(--ipn-texto);font-weight:600;text-decoration:underline dotted;text-decoration-color:var(--ipn-tenue);text-decoration-thickness:var(--ipn-linea-fina);text-underline-offset:.25em}
 .sate-marca .sate-unidad-nombre{text-decoration:none}
 .sate-marca .sate-unidad-btn:hover{text-decoration-color:currentColor}
-/* SATE: la barra flotante conserva el aspecto de la barra de pestañas normal (nombres completos, subrayado del activo; sin pastilla) */
+ 
 .sate-barra-flotante .sate-pestanas{display:flex;flex-wrap:nowrap;gap:var(--ipn-esp-1);overflow:hidden;background:transparent;border:0;border-radius:0;box-shadow:none;backdrop-filter:none;margin:0;padding:0}
 .sate-barra-flotante .sate-pestana{flex:0 0 auto;background:transparent;border:0;border-radius:0;box-shadow:none;padding:var(--ipn-esp-2);color:var(--ipn-tenue);font-size:var(--ipn-tamano-s);font-weight:400;cursor:pointer}
 .sate-barra-flotante .sate-pestana[aria-current=page]{color:var(--ipn-acento);font-weight:600;border-bottom:2px solid var(--ipn-acento)}
@@ -126,22 +126,22 @@ header.sate-encabezado{position:relative;display:grid;grid-template-columns:minm
 .sate-barra-flotante .sate-pestana{padding-block:var(--ipn-esp-1)}
 .sate-barra-flotante :is(button,a){min-height:var(--ipn-control-alto)}
 :root{--sate-barra-alto:0px;--ipn-radio-pastilla:999px;--ipn-radio-circulo:50%;--ipn-control-alto:var(--ipn-objetivo-tactil,44px);--ipn-filtros-alto:6rem}
-/* El puente conserva una sola franja superior desde 1024 px; la Guía no usa la fila de pestañas. */
+ 
 @media(min-width:1024px){
-  header.sate-encabezado:has(#b-plataforma){grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"marca contexto acciones" "nav nav nav" "avisos avisos avisos";column-gap:var(--ipn-esp-4)}
-  .sate-encabezado:has(#b-plataforma) .sate-contexto{flex-wrap:nowrap;justify-content:flex-start;gap:var(--ipn-esp-2)}
-  .sate-encabezado:has(#b-plataforma) .sate-contexto .sate-controles{flex:1 1 auto;min-width:0}
-  .sate-encabezado:has(#b-plataforma) .sate-contexto select{width:100%;max-width:22rem}
-  .sate-encabezado:has(#b-plataforma) #sate-leyenda{flex:none}
-  .sate-encabezado:has(#b-plataforma) .sate-unidad-nombre{max-width:9ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ header.sate-encabezado:has(#b-plataforma){grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"marca contexto acciones" "nav nav nav" "avisos avisos avisos";column-gap:var(--ipn-esp-4)}
+ .sate-encabezado:has(#b-plataforma) .sate-contexto{flex-wrap:nowrap;justify-content:flex-start;gap:var(--ipn-esp-2)}
+ .sate-encabezado:has(#b-plataforma) .sate-contexto .sate-controles{flex:1 1 auto;min-width:0}
+ .sate-encabezado:has(#b-plataforma) .sate-contexto select{width:100%;max-width:22rem}
+ .sate-encabezado:has(#b-plataforma) #sate-leyenda{flex:none}
+ .sate-encabezado:has(#b-plataforma) .sate-unidad-nombre{max-width:9ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 }
-/* Escalón corto: 1024–1199 prioriza carrera y acciones reconocibles frente a los logotipos. */
+ 
 @media(min-width:1024px) and (max-width:1199px){
-  .sate-encabezado:has(#b-plataforma) :is(.sate-logo-slot,.sate-logo-ipn){display:none}
-  .sate-encabezado:has(#b-plataforma) #sate-leyenda{width:var(--ipn-esp-4);overflow:hidden;color:transparent;white-space:nowrap}
-  .sate-encabezado:has(#b-plataforma) #sate-leyenda .sate-ayuda__btn{position:relative;width:var(--ipn-esp-4);overflow:hidden;color:transparent}
-  .sate-encabezado:has(#b-plataforma) #sate-leyenda .sate-ayuda__btn::before{content:"•";position:absolute;inset:0;display:grid;place-items:center;color:var(--ipn-tenue)}
-  .sate-encabezado:has(#b-plataforma) .header-actions .saes-open .sate-texto-largo{display:none!important}
-  .sate-encabezado:has(#b-plataforma) .header-actions .saes-open .sate-texto-corto{display:inline}
-  .sate-encabezado:has(#b-plataforma) .header-actions .sate-opinar span{display:none}
+ .sate-encabezado:has(#b-plataforma) :is(.sate-logo-slot,.sate-logo-ipn){display:none}
+ .sate-encabezado:has(#b-plataforma) #sate-leyenda{width:var(--ipn-esp-4);overflow:hidden;color:transparent;white-space:nowrap}
+ .sate-encabezado:has(#b-plataforma) #sate-leyenda .sate-ayuda__btn{position:relative;width:var(--ipn-esp-4);overflow:hidden;color:transparent}
+ .sate-encabezado:has(#b-plataforma) #sate-leyenda .sate-ayuda__btn::before{content:"•";position:absolute;inset:0;display:grid;place-items:center;color:var(--ipn-tenue)}
+ .sate-encabezado:has(#b-plataforma) .header-actions .saes-open .sate-texto-largo{display:none!important}
+ .sate-encabezado:has(#b-plataforma) .header-actions .saes-open .sate-texto-corto{display:inline}
+ .sate-encabezado:has(#b-plataforma) .header-actions .sate-opinar span{display:none}
 }
