@@ -166,3 +166,11 @@ body>main{display:flex;min-height:0;overflow:hidden}
 body:has(.instrumento-panel:not([hidden])) .inspector{right:376px}
 .inspector{top:108px}
 @media(max-width:1100px){.work.con-instrumento{--panel:320px}.instrumento-panel{width:320px}.lab-barra #tabs button{padding:0 6px}body>header.lab-barra{gap:6px}body:has(.instrumento-panel:not([hidden])) .inspector{right:336px}}
+/* Las etiquetas pertenecen al lienzo y conservan espacio al abrir un instrumento. */
+#scheme{min-width:0;--svg-font:20px}
+#scheme text,#scheme.practice-scheme text,#scheme text.component-label,#scheme text.practice-probe,#scheme text.dc-label{font-size:20px;font-family:var(--aulac-mono)}
+#scheme .label-guide{fill:none;stroke:var(--aulac-tenue);stroke-width:1;pointer-events:none}
+.probe-readings{width:100%;border-collapse:collapse;font-size:var(--aulac-t1);margin-top:var(--aulac-s4)}
+.probe-readings caption{text-align:left;color:var(--aulac-tenue);padding-bottom:var(--aulac-s2)}
+.probe-readings th,.probe-readings td{padding:var(--aulac-s2);border-bottom:1px solid var(--aulac-linea);text-align:left;overflow-wrap:anywhere}
+.probe-readings td:last-child{white-space:nowrap;font-family:var(--aulac-mono)}

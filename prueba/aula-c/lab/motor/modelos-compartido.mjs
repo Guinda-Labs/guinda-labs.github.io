@@ -1,0 +1,15 @@
+import {MotorNgspiceBase} from './spice-compartido.mjs';
+import {validarComponente,instanciaSpice} from '../componentes.mjs';
+// Gear y parásitos mínimos evitan singularidades de fuentes de medida al conmutar.
+const control=command=>`.options method=gear maxord=2 itl4=200 rshunt=1e12 cshunt=1p\n.control\nset noaskquit\nset filetype=ascii\nsave all\n${command}\nwrite resultado.raw all\nquit\n.endc\n.end`;
+// Las terminaciones resistivas referencian entradas flotantes sin cortocircuitar
+// salidas activas ni crear lazos de fuentes ideales dentro de los macromodelos.
+export function deckPrueba(component){let c=validarComponente(component),nodes=c.package.pins.map(p=>'p'+p.number);return ['AULA-C prueba mínima '+c.id,c.spice.text,...nodes.map((n,i)=>`RTEST${i} ${n} 0 1meg`),instanciaSpice(c,'TEST',nodes),control('op')].join('\n');}
+export class MotorComponentesBase{
+ constructor(components){this.c=components;if(!Array.isArray(components)||components.length>100)throw Error('Circuito inválido');}
+ deck(command){let native=this.c.filter(p=>!p.definition),base=native.length?new MotorNgspiceBase(native).deck(command).split('.control')[0]:'AULA-C componentes\n',lines=[],models=new Map();for(let p of this.c.filter(p=>p.definition)){let c=validarComponente(p.definition);if(!/^X\w+$/i.test(p.id)||!Array.isArray(p.nodes)||p.nodes.length!==c.package.pins.length||p.nodes.some(n=>!/^\w+$/.test(n)))throw Error('Instancia o nodos inválidos');let key=c.spice.name.toLowerCase();if(models.has(key)&&models.get(key)!==c.spice.text)throw Error('Modelos distintos con el mismo nombre: '+key);models.set(key,c.spice.text);let inner=p.nodes.map((n,i)=>'lab9_'+p.id+'_'+i);lines.push(...p.nodes.map((n,i)=>`Vlab9_${p.id}_${i} ${n} ${inner[i]} 0`),instanciaSpice(c,p.id,inner));}return [base,...models.values(),...lines,control(command)].join('\n');}
+ async run(command){let rows=await this.raw(command);return rows.map(raw=>{let voltages={'0':[0,0]},currents={},terminalCurrents={};for(let [k,v] of Object.entries(raw))if(k.startsWith('v('))voltages[k.slice(2,-1)]=v;for(let p of this.c){if(p.definition){let arr=p.nodes.map((_,i)=>raw[`i(vlab9_${p.id.toLowerCase()}_${i})`]||raw[`vlab9_${p.id.toLowerCase()}_${i}#branch`]||[0,0]);currents[p.id]=arr[0];terminalCurrents[p.id]=arr.map(v=>v[0]);}else{let a=voltages[p.a]||[0,0],b=voltages[p.b]||[0,0];currents[p.id]=raw[`i(${p.id.toLowerCase()})`]||raw[p.id.toLowerCase()+'#branch']||(p.type==='R'?a.map((v,i)=>(v-b[i])/p.value):[0,0]);}}return {t:raw.time?.[0]||0,f:raw.frequency?.[0]||0,voltages,currents,terminalCurrents};});}
+ dc(){return this.run('op').then(r=>r[0]);}
+ ac({start=10,stop=1e6,points=161}={}){if(!(Number.isFinite(start)&&Number.isFinite(stop)&&Number.isFinite(points)&&start>0&&stop>start&&points>=2&&points<=2000))throw Error('Barrido AC inválido');return this.run(`ac dec ${Math.max(1,Math.ceil((points-1)/Math.log10(stop/start)))} ${start} ${stop}`);}
+ transitorio({dt=1e-6,stop=.002}={}){if(!(Number.isFinite(dt)&&Number.isFinite(stop)&&dt>0&&stop>0&&stop/dt<=50000))throw Error('Paso inválido o más de 50000 pasos');return this.run(`tran ${dt} ${stop} 0 ${dt}\nlinearize`);}
+}

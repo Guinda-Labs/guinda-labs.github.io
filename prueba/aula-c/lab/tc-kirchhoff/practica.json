@@ -1,0 +1,88 @@
+{
+  "id": "tc-kirchhoff",
+  "title": "TC · Leyes de Kirchhoff",
+  "course": "Teoría de los Circuitos",
+  "analysis": {
+    "dt": 0.0001,
+    "stop": 0.001,
+    "start": 1,
+    "end": 1000
+  },
+  "probes": [
+    {
+      "id": "PR1",
+      "kind": "current",
+      "component": "R1",
+      "direction": "N1 → N2",
+      "x": 280,
+      "y": 135
+    },
+    {
+      "id": "PR2",
+      "kind": "current",
+      "component": "R4",
+      "direction": "N2 → T",
+      "x": 690,
+      "y": 135
+    },
+    {
+      "id": "PR3",
+      "kind": "current",
+      "component": "R6",
+      "direction": "N2 → GND",
+      "x": 640,
+      "y": 245
+    },
+    {
+      "id": "PR4",
+      "kind": "current",
+      "component": "R3",
+      "direction": "N2 → GND",
+      "x": 310,
+      "y": 245
+    },
+    {
+      "id": "PR5",
+      "kind": "voltage",
+      "plus": "R3:0",
+      "minus": "G1:0",
+      "x": 480,
+      "y": 150
+    },
+    {
+      "id": "PR6",
+      "kind": "voltage",
+      "plus": "V3:0",
+      "minus": "G1:0",
+      "x": 820,
+      "y": 85
+    },
+    {
+      "id": "nodo 1",
+      "kind": "voltage",
+      "plus": "V1:0",
+      "minus": "G1:0",
+      "x": 120,
+      "y": 85
+    },
+    {
+      "id": "VR2",
+      "kind": "voltage",
+      "plus": "V1:1",
+      "minus": "G1:0",
+      "x": 75,
+      "y": 260
+    }
+  ],
+  "license": "CC0-1.0",
+  "reference": {
+    "PR1": 0.009294,
+    "PR2": -0.004983,
+    "PR3": 0.009712,
+    "PR4": 0.004565,
+    "nodo1": 8.933,
+    "PR5": 4.565,
+    "PR6": 6.209,
+    "VR2": -3.067
+  }
+}

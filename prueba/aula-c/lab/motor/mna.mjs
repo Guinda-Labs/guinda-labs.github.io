@@ -7,7 +7,7 @@ function solve(A,z){let n=z.length;for(let k=0;k<n;k++){let p=k;for(let i=k+1;i<
 export class Motor {dc(){throw Error('Implementar DC');} ac(){throw Error('Implementar AC');} transitorio(){throw Error('Implementar transitorio');}}
 export class Ngspice extends Motor {
  constructor(c){super();if(!c)throw Error('Circuito pendiente');this.c=c;}
- async motor(){let {MotorNgspice}=await import('./ngspice.mjs');return new MotorNgspice(this.c);}
+ async motor(){throw Error('Use MotorNgspiceWeb para ngspice en web');}
  async dc(){return (await this.motor()).dc();}async ac(o){return (await this.motor()).ac(o);}async transitorio(o){return (await this.motor()).transitorio(o);}
 }
 class Lineal extends Motor {

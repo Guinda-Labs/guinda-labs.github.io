@@ -1,8 +1,9 @@
+import {MotorNgspiceWeb} from './motor/ngspice-web.mjs';
 import {velocidadCorriente,preferenciasCorriente} from './instrumentos.mjs';
 import {bibliotecaUI} from './componentes-ui.mjs';
 import {paletaUI} from './paleta.mjs';
-import {asignarDivision,configurarAnalisis,simularDocumento,sondasPractica,autoescalaPractica} from './simulacion-ui.mjs';
-import {prepararEsquema,simboloPractica,rotuloEsquema,encuadreEsquema,unidades,objetivos,cargarCuaderno,seleccionarINA} from './b309-presentacion.mjs';
+import {asignarDivision,configurarAnalisis,simularDocumento,sondasPractica,autoescalaPractica,lecturasSondas} from './simulacion-ui.mjs';
+import {prepararEsquema,simboloPractica,rotuloEsquema,encuadreEsquema,cajasEsquema,distribuirEtiquetas,unidades,objetivos,cargarCuaderno,seleccionarINA} from './b309-presentacion.mjs';
 import {simboloEncapsulado,validarComponente} from './componentes.mjs';
 import {editorFisico} from './protoboard-ui.mjs';
 import {arteFisico} from './arte-fisico.mjs';
@@ -21,6 +22,13 @@ import {pasos125,paso125,division,barrer,alimentar} from './instrumentos.mjs';
 import {ejemplo,compilar,texto,editar,validar,bandas,formato,etiqueta,montaje} from './circuito.mjs';
 const $=id=>document.getElementById(id),NS='http://www.w3.org/2000/svg';
 const webStatic=window.AULAC_WEB===true;
+const webMotor=webStatic?new MotorNgspiceWeb({peso:window.AULAC_MOTOR?.bytes,estado:message=>{$('aulac-state').textContent=message;}}):null;
+let webReady=null;
+if(webStatic){
+ webReady=webMotor.iniciar();
+ webReady.then(()=>{engine.value='ngspice';if(result&&!dirty&&!calculando)simulate();}).catch(e=>console.warn('[ngspice web]',e.message));
+ if('serviceWorker' in navigator){const previo=navigator.serviceWorker.controller;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!previo||document.getElementById('aulac-version-nueva'))return;const b=document.createElement('button');b.id='aulac-version-nueva';b.type='button';b.textContent='Versión nueva del laboratorio · Recargar';b.style.cssText='position:fixed;right:16px;bottom:40px;z-index:50';b.onclick=()=>location.reload();document.body.append(b);});navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(e=>console.warn('[Caché lab]',e.message));}
+}
 let circuit=ejemplo(),selected=null,wiring=false,pending=null,drag=null,result=null,dirty=true,paused=false,calculando=false,phase=0,last=0;
 const movimiento=preferenciasCorriente(()=>localStorage),reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 function el(tag,attrs={},parent){let e=document.createElementNS(NS,tag);for(let [k,v] of Object.entries(attrs))e.setAttribute(k,v);parent?.append(e);return e;}
@@ -191,7 +199,7 @@ let wireColor=control(physicalControls,'input','wireColor','',{type:'color',valu
 let spanLabel=control(physicalControls,'label','leadSpanLabel','Separación de patillas (×2.54 mm) ');let leadSpan=control(spanLabel,'input','leadSpan','',{type:'number',min:1,max:62,value:4});
 control(physicalControls,'button','setGround','Referencia 0').onclick=()=>{if(circuit.mode!=='board')return;preguntarTexto('Agujero de referencia 0, por ejemplo a:15 o b-:1',circuit.physical.ground||'b-:1',h=>{try{agujero(h);circuit.physical.ground=h;physicalChange=true;sincronizar(circuit);change();physicalChange=false;}catch(e){physicalChange=false;fail(e);throw e;}});};
 let header=document.querySelector('header'),engine=control(header,'select','engine','');engine.setAttribute('aria-label','Motor de simulación');engine.add(new Option('mna propio','mna'));engine.add(new Option('ngspice 47','ngspice'));
-if(webStatic){engine.value='mna';engine.querySelector('[value="ngspice"]').disabled=true;$('aulac-state').textContent='Simulación en tu navegador (motor MNA)';}else fetch('./motor').then(r=>r.ok?r.json():{}).then(info=>{engine.value=info.ngspice?'ngspice':'mna';dirty=true;simulate();}).catch(e=>console.info('[Motor local]',e.message));
+if(webStatic){engine.value=webMotor.listo?'ngspice':'mna';}else fetch('./motor').then(r=>r.ok?r.json():{}).then(info=>{engine.value=info.ngspice?'ngspice':'mna';dirty=true;simulate();}).catch(e=>console.info('[Motor local]',e.message));
 engine.onchange=()=>{dirty=true;result=null;status('Motor cambiado. Pulse Simular.');};
 let createMode=control(header,'select','createMode','');createMode.setAttribute('aria-label','Modo del circuito nuevo');createMode.add(new Option('Solo esquemático','scheme'));createMode.add(new Option('Protoboard','board'));
 control(header,'button','newCircuit','Nuevo circuito').onclick=()=>{circuit={version:1,mode:createMode.value,components:[],wires:[],...(createMode.value==='board'?{physical:documento()}: {})};selected=null;physicalEditor.cancel();change();};
@@ -264,29 +272,34 @@ let activeView='scheme';for(let id of ['scheme','board'])for(let event of ['poin
 leadSpan.onchange=()=>{let v=circuit.physical?.placements[selected];if(v){try{colocar(circuit,selected,v.holes[0],v.rotation,Number(leadSpan.value));sincronizar(circuit);physicalChange=true;change();physicalChange=false;}catch(e){fail(e);}}};
 let simulationTicket=0;
 simulate=async()=>{let ticket=++simulationTicket;try{
- if(webStatic){const unsupported=compilar(circuit).components.filter(p=>!['R','C','L','V','I','D','Q'].includes(p.type));if(unsupported.length)throw Error('Simulación en tu navegador (motor MNA): este circuito requiere modelos de servidor: '+unsupported.map(p=>p.id+' ('+(p.definition?.name||p.type)+')').join(', ')+'.');}
+
  const snapshot=JSON.stringify(circuit),settings=Object.fromEntries(['dt','tdiv','fstart','fstop','psuSource','psuVoltage','psuLimit'].map(id=>[id,$(id).value]));settings.psuEnabled=$('psuEnabled').checked;
  // La ventana del osciloscopio no acorta la adquisición ni elimina el asentamiento.
  if(circuit.b309?.analysis)settings.tdiv=String(Math.max(Number(settings.tdiv),circuit.b309.analysis.stop/10));
  calculando=true;$('simulate').textContent='Ⅱ Pausar';paused=false;status('Calculando el circuito…');
- const {result:data,supply}=await simularDocumento(circuit,settings,{engine:engine.value});
+ if(webStatic){
+  const needsSpice=compilar(circuit).components.some(p=>p.definition);
+  if(needsSpice&&!webMotor.listo){status('Esperando al motor ngspice…');await webReady;if(ticket!==simulationTicket)return;}
+  engine.value=webMotor.listo?'ngspice':'mna';
+ }
+ const {result:data,supply}=await simularDocumento(circuit,settings,{engine:engine.value,...(webStatic?{request:webMotor.request.bind(webMotor)}:{})});
  if(ticket!==simulationTicket)return;
  if(snapshot!==JSON.stringify(circuit)){$('simulate').textContent='▶ Simular';return;}
  result=data;const first=dirty;dirty=false;
  if(circuit.b309){configurePracticeInstruments(circuit);autoescalaPractica(circuit,result,Object.fromEntries(['vdiv','vdiv2','position1','position2','tdiv'].map(id=>[id,$(id)])));instruments();}
- else if(first)$('autoscale').click();else instruments();
+ else {configurePracticeInstruments(circuit);if(first&&sondasPractica(circuit).instrument!=='meter')$('autoscale').click();else instruments();}
  $('psuReading').textContent=supply?`${supply.limited?'CC':'CV'} · ${formato(supply.voltage,'V')} · límite DC calculado por MNA`:'Fuente de banco desconectada';
- $('simulate').textContent=paused?'▶ Simular':'Ⅱ Pausar';status(paused?'Pausado':webStatic?'Simulación en tu navegador (motor MNA) · resultados listos':'Simulando · resultados listos');console.info('[AULA-C simulación]',{motor:engine.value,pasos:data.tran.length,frecuencias:data.ac.length,ticket});
+ $('simulate').textContent=paused?'▶ Simular':'Ⅱ Pausar';status(paused?'Pausado':webStatic?'Simulación en tu navegador (motor '+engine.value+') · resultados listos':'Simulando · resultados listos');console.info('[AULA-C simulación]',{motor:engine.value,pasos:data.tran.length,frecuencias:data.ac.length,ticket});
  }catch(e){if(ticket!==simulationTicket)return;result=null;$('simulate').textContent='▶ Simular';if(webStatic&&e.message.includes('requiere modelos de servidor'))status('Aviso: '+e.message);else fail(e);}finally{if(ticket===simulationTicket)calculando=false;}};$('simulate').onclick=simulate;
 let customLibrary=null;
 function addDefined(def,x=470,y=200,hole=null){let p={id:next('X'),type:'X',definition:structuredClone(validarComponente(def)),value:0,x,y,rotation:0,tray:circuit.mode==='board'};try{circuit.components.push(p);if(hole){colocar(circuit,p.id,hole,0,p.definition.package.drawing.span||1);sincronizar(circuit);}selected=p.id;engine.value='ngspice';change();}catch(e){circuit.components=circuit.components.filter(c=>c!==p);fail(e);}}
 const libraryReady=bibliotecaUI({catalog:$('catalog'),status,add:addDefined}).then(lib=>{customLibrary=lib;organizarPaleta();return lib;});libraryReady.catch(fail);
 let dropWithLibrary=$('scheme').ondrop;$('scheme').ondrop=e=>{let [type,id]=e.dataTransfer.getData('text/plain').split(':');if(type!=='X')return dropWithLibrary(e);e.preventDefault();let def=customLibrary?.get(id);if(def){let q=point(e);addDefined(def,Math.round(q.x/20)*20,Math.round(q.y/20)*20);}};
 $('board').addEventListener('drop',e=>{let [type,id]=e.dataTransfer.getData('text/plain').split(':');if(type!=='X'||circuit.mode!=='board')return;e.preventDefault();let def=customLibrary?.get(id);if(!def)return;let svg=$('board'),q=svg.createSVGPoint();q.x=e.clientX;q.y=e.clientY;q=q.matrixTransform(svg.getScreenCTM().inverse());let h=anclar(q.x,q.y);if(!h)return status('Suelte el componente sobre un agujero');addDefined(def,470,390,h);});
-const resize=new ResizeObserver(entries=>{for(let {target} of entries){let scale=Math.min(target.clientWidth/target.viewBox.baseVal.width,target.clientHeight/target.viewBox.baseVal.height);if(scale>0)target.style.setProperty('--svg-font',`${13/scale}px`);}});for(let id of ['scheme','board','scope','bode','sweepPlot'])resize.observe($(id));$('nodes').onchange=render;syncBench();render();simulate();requestAnimationFrame(animate);
+const resize=new ResizeObserver(entries=>{for(let {target} of entries){let scale=Math.min(target.clientWidth/target.viewBox.baseVal.width,target.clientHeight/target.viewBox.baseVal.height);if(scale>0)target.style.setProperty('--svg-font',`${13/scale}px`);}});for(let id of ['board','scope','bode','sweepPlot'])resize.observe($(id));$('nodes').onchange=render;syncBench();render();simulate();requestAnimationFrame(animate);
 
 const cellId=webStatic?null:new URLSearchParams(location.search).get('celda');
-if(cellId){fetch('./api/circuito?id='+encodeURIComponent(cellId)).then(r=>{if(!r.ok)throw Error('No se pudo abrir el circuito');return r.json();}).then(async c=>{if(c.components){validar(c);circuit=c;if(c.b309){await libraryReady;customLibrary.activate(c.b309.package);configurePractice(c,c.b309.analysis);}else change();}}).catch(fail);
+if(cellId){fetch('./api/circuito?id='+encodeURIComponent(cellId)).then(r=>{if(!r.ok)throw Error('No se pudo abrir el circuito');return r.json();}).then(async c=>{if(c.components){validar(c);circuit=c;if(c.b309){await libraryReady;customLibrary.activate(c.b309.package);configurePractice(c,c.b309.analysis);}else if(c.analysis)configurePractice(c,c.analysis);else change();}}).catch(fail);
 const saveDownload=$('save').onclick;$('save').onclick=async()=>{try{const r=await fetch('./api/circuito',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:cellId,circuit})});if(!r.ok)throw Error(await r.text());saveDownload();status('Celda de circuito actualizada');}catch(e){fail(e);}};}
 
 // Toda simulación del escritorio publica sim por la misma cola de Octave.
@@ -314,7 +327,9 @@ const examplesMenu=control(header,'details','examplesMenu','');control(examplesM
 header.querySelector('strong').textContent='LAB';$('save').textContent='Guardar';$('newCircuit').textContent='Nuevo';$('tabs').append($('octave'));
 const exampleGroup=control(examplesMenu,'div','exampleGroup','');control(exampleGroup,'strong','examplesTitle','Ejemplos');
 for(const id of ['example','commonEmitter','ledExample','dividerExample']){const b=$(id),action=b.onclick;b.onclick=()=>{practiceCard.hidden=true;examplesMenu.open=false;action();};exampleGroup.append(b);}
-const practiceMenu=control(examplesMenu,'select','b309Practice','');practiceMenu.setAttribute('aria-label','Prácticas · B309');practiceMenu.add(new Option('Elegir práctica B309',''));
+const practiceMenu=control(examplesMenu,'select','b309Practice','');practiceMenu.setAttribute('aria-label','Elegir práctica');practiceMenu.add(new Option('Elegir práctica',''));
+const tcGroup=control(practiceMenu,'optgroup','tcPractices','',{label:'Teoría de los Circuitos'});tcGroup.append(new Option('TC · Leyes de Kirchhoff','tc-kirchhoff'));
+const b309Group=control(practiceMenu,'optgroup','b309Practices','',{label:'B309 · Electrónica Analógica y de Potencia'});
 const practiceCard=control(document.querySelector('.work'),'details','practiceCard','');practiceCard.hidden=true;document.querySelector('.work').prepend(practiceCard);
 const practiceSummary=control(practiceCard,'summary','practiceSummary','');
 const practiceView=selectField(practiceCard,'b309View','Montaje');practiceView.setAttribute('aria-label','Montaje de práctica B309');practiceView.add(new Option('Esquemático','esquema.aulac.json'));practiceView.add(new Option('Protoboard manual','protoboard.aulac.json'));
@@ -329,11 +344,21 @@ practiceNotebook.target='_blank';
 const practiceNotice=control(practiceCard,'output','b309Notice','');practiceNotice.setAttribute('role','status');
 function showPractice(c){const p=practiceIndex.find(p=>p.id===c.b309?.practice);practiceCard.hidden=!p;if(!p)return;practiceChip.parentElement.hidden=p.id!=='v-instrumentacion';if(p.id==='v-instrumentacion')practiceChip.value=c.components.find(p=>p.id==='XI').definition.id;practiceTitle.textContent=p.unit+' · '+p.title;practiceObjective.textContent=objetivos[p.id];practiceUnit.textContent='Unidad '+p.unit+' · «'+unidades[p.unit]+'»';practiceNotebook.href='/cuaderno/';practiceNotebook.onclick=async e=>{e.preventDefault();const target=abrirVentana('cuaderno','about:blank');try{const url=await cargarCuaderno(p.unit);if(target)target.location.href=url;else location.href=url;}catch(error){target?.close();fail(error);}};}
 const renderPresentation=render;render=()=>{prepararEsquema(circuit);renderPresentation();showPractice(circuit);const svg=$('scheme');svg.classList.toggle('practice-scheme',!!circuit.b309);if(!circuit.b309)return;for(const p of circuit.components){const g=svg.querySelector(`[data-component="${p.id}"]`),symbol=simboloPractica(p);if(symbol){let body=g.querySelector('.body');body.innerHTML=symbol.svg;let b=body.getBBox();body.prepend(el('rect',{x:b.x-6,y:b.y-6,width:b.width+12,height:b.height+12,fill:'transparent',stroke:'none',class:'hit-area'}));}for(const t of g.querySelectorAll(':scope > text'))t.remove();const r=rotuloEsquema(p);text(g,r.x,r.y,r.text,{'text-anchor':'middle',class:'component-label'});}svg.setAttribute('viewBox',encuadreEsquema(circuit).join(' '));};
-function fitPractice(){$('scheme').setAttribute('viewBox',circuit.components.length?encuadreEsquema(circuit).join(' '):'0 0 960 420');}
+function fitPractice(){
+ const svg=$('scheme');svg.querySelectorAll('.label-guide').forEach(e=>e.remove());
+ const elements=[...svg.querySelectorAll('text')].filter(e=>!e.closest('.body'));
+ const labels=elements.map(e=>{e.removeAttribute('transform');const b=e.getBBox();return {x:b.x-3,y:b.y-3,width:b.width+6,height:b.height+6};});
+ const obstacles=cajasEsquema(circuit).filter(b=>b.kind==='symbol');
+ for(const w of circuit.wires){const pts=ruta(circuit,w);for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i];obstacles.push({x:Math.min(a[0],b[0])-2,y:Math.min(a[1],b[1])-2,width:Math.abs(a[0]-b[0])+4,height:Math.abs(a[1]-b[1])+4});}}
+ const placed=distribuirEtiquetas(labels,obstacles);
+ placed.forEach((b,i)=>{elements[i].setAttribute('transform',`translate(${b.dx} ${b.dy})`);if(Math.hypot(b.dx,b.dy)>12){const a=labels[i],x=a.x+a.width/2,y=a.y+a.height/2;el('path',{d:`M${x} ${y}L${Math.max(b.x,Math.min(x,b.x+b.width))} ${Math.max(b.y,Math.min(y,b.y+b.height))}`,class:'label-guide'},svg);}});
+ svg.setAttribute('viewBox',encuadreEsquema(circuit,placed).join(' '));
+}
 control($('tabs'),'button','schemeFit','Ajustar a la vista').onclick=fitPractice;
 new ResizeObserver(()=>fitPractice()).observe($('schemePane'));
 let practiceIndex=[];
 async function openPractice(){if(!practiceMenu.value)return;try{
+ if(practiceMenu.value==='tc-kirchhoff'){const response=await fetch('./tc-kirchhoff/esquema.aulac.json');if(!response.ok)throw Error('No se pudo abrir TC · Leyes de Kirchhoff');circuit=validar(await response.json());selected=null;physicalEditor.cancel();configurePractice(circuit,circuit.analysis);examplesMenu.open=false;status('TC · Leyes de Kirchhoff: pulse Simular; las ocho sondas indican su referencia.');return;}
  const [id,variant]=practiceMenu.value.split(':');const p=practiceIndex.find(p=>p.id===id);if(!p)throw Error('Práctica desconocida');
  if(!p.board)practiceView.value='esquema.aulac.json';practiceView.disabled=!p.board;
  const file=variant==='media'?(practiceView.value==='protoboard.aulac.json'?'media-onda-protoboard.aulac.json':'media-onda.aulac.json'):practiceView.value;
@@ -346,7 +371,7 @@ async function openPractice(){if(!practiceMenu.value)return;try{
  }catch(e){fail(e);}}
 practiceMenu.onchange=openPractice;practiceView.onchange=openPractice;
 practiceChip.onchange=()=>{if(circuit.b309?.practice==='v-instrumentacion')practiceMenu.value='v-instrumentacion';openPractice();};
-fetch('./b309/indice.json').then(async r=>{if(!r.ok)throw Error('No se pudo leer el índice B309');practiceIndex=await r.json();for(const unit of Object.keys(unidades)){const group=control(practiceMenu,'optgroup','unit'+unit,'',{label:'Prácticas B309 · Unidad '+unit});for(const p of practiceIndex.filter(p=>p.unit===unit)){group.append(new Option(p.title,p.id));if(p.id==='ii-rectificador')group.append(new Option('Rectificador de media onda',p.id+':media'));}}showPractice(circuit);const requested=new URLSearchParams(location.search).get('practica');if(requested&&[...practiceMenu.options].some(p=>p.value===requested)){practiceMenu.value=requested;await openPractice();}}).catch(fail);
+fetch('./b309/indice.json').then(async r=>{if(!r.ok)throw Error('No se pudo leer el índice B309');practiceIndex=await r.json();for(const unit of Object.keys(unidades)){for(const p of practiceIndex.filter(p=>p.unit===unit)){b309Group.append(new Option(unit+' · '+p.title,p.id));if(p.id==='ii-rectificador')b309Group.append(new Option('II · Rectificador de media onda',p.id+':media'));}}showPractice(circuit);const requested=new URLSearchParams(location.search).get('practica');if(requested&&[...practiceMenu.options].some(p=>p.value===requested)){practiceMenu.value=requested;await openPractice();}}).catch(fail);
 simulate=async()=>{await simulateIntegrated();publishSimulation();};
 $('simulate').onclick=simulate;
 if(!cellId)publishSimulation();
@@ -364,8 +389,25 @@ function medirSeleccion(){let p=circuit.components.find(q=>q.id===selected),dc=r
  if(!dc){meterPick.textContent=`${p.id}: puntas en ${a} (+) y ${b} (−). Pulse Simular para medir.`;return;}let V=(dc.voltages[a]?.[0]??0)-(dc.voltages[b]?.[0]??0),I=dc.currents[p.id]?.[0]??0;meterPick.textContent=`${p.id} · ${a} (+) → ${b} (−)\nV = ${formato(V,'V')} · I = ${formato(I,'A')} · P = ${formato(V*I,'W')} absorbida`;}
 let renderSinDC=render;render=()=>{renderSinDC();anotarDC();medirSeleccion();};
 let instrumentsSinDC=instruments;instruments=()=>{instrumentsSinDC();anotarDC();medirSeleccion();};
-$('dcValues').onchange=()=>{anotarDC();if($('dcValues').checked&&!result)status('Pulse Simular para ver los valores DC');};
+$('dcValues').onchange=()=>{anotarDC();fitPractice();if($('dcValues').checked&&!result)status('Pulse Simular para ver los valores DC');};
 medirSeleccion();
+
+function dibujarSondas(){
+ const svg=$('scheme');svg.querySelectorAll('.practice-probe').forEach(e=>e.remove());
+ let table=$('probeReadings');if(!table){table=control($('meter').parentElement,'table','probeReadings','');table.className='probe-readings';}
+ table.replaceChildren();const readings=lecturasSondas(circuit,result?.dc);table.hidden=!readings.length;
+ if(readings.length){control(table,'caption','','Lecturas DC de sondas');const head=control(table,'thead','',''),row=control(head,'tr','','');for(const title of ['Sonda','Referencia / sentido','Lectura']){const cell=control(row,'th','',title);cell.scope='col';}const body=control(table,'tbody','','');for(const p of readings){const row=control(body,'tr','','');control(row,'th','',p.id).scope='row';control(row,'td','',p.kind==='current'?p.direction:`${p.plus} (+), ${p.minus} (−)`);control(row,'td','',p.value===null?'Pendiente':formato(p.value,p.unit));}}
+ if(circuit.mode==='board'){fitPractice();return;}
+ for(const p of readings){
+  const direction=p.kind==='current'?(p.direction.includes('GND')?'↓':'→'):'+';
+  const label=`${p.id} ${direction}`+(p.value===null?'':` ${formato(p.value,p.unit)}`);
+  const t=text(svg,p.x,p.y,label,{class:'practice-probe',fill:'var(--aulac-canal2)','text-anchor':'middle','font-size':13});
+  const title=el('title',{},t);title.textContent=p.kind==='current'?p.direction:`${p.plus} (+), ${p.minus} (−)`;
+ }
+ fitPractice();
+}
+const renderSinSondas=render;render=()=>{renderSinSondas();dibujarSondas();};
+const instrumentsSinSondas=instruments;instruments=()=>{instrumentsSinSondas();dibujarSondas();};
 
 // Barra única de 48 px y fichas dentro del lienzo (R20).
 {
@@ -385,6 +427,6 @@ medirSeleccion();
  work.append(paleta);work.append(visor.raiz);
  $('simulate').textContent=result?'Ⅱ Pausar':'▶ Simular';
  const pausar=()=>{paused=!paused;$('simulate').textContent=paused?'▶ Simular':'Ⅱ Pausar';status(paused?'Pausado':calculando?'Calculando el circuito…':'Simulando · resultados listos');};
- $('simulate').onclick=()=>{if(calculando||result&&!dirty)pausar();else simulate();};$('pause').onclick=()=>{movimiento.paused=!movimiento.paused;pausaCorriente();guardarMovimiento();};
+ $('simulate').onclick=()=>{if(calculando&&webStatic){++simulationTicket;calculando=false;change();webReady=webMotor.cancelar();webReady.catch(fail);status('Simulación cancelada; reiniciando ngspice…');$('simulate').textContent='▶ Simular';}else if(calculando||result&&!dirty)pausar();else simulate();};$('pause').onclick=()=>{movimiento.paused=!movimiento.paused;pausaCorriente();guardarMovimiento();};
  document.addEventListener('click',e=>{if(!e.target.closest('details.menu-barra'))for(let o of barra.querySelectorAll('details.menu-barra[open]'))o.open=false;});
 }

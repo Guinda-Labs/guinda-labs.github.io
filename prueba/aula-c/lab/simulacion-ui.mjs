@@ -3,6 +3,12 @@ import {avisos} from './protoboard.mjs';
 import {MNA,valor} from './motor/mna.mjs';
 import {alimentar,autoescala,canal,pasos125} from './instrumentos.mjs';
 
+// Sondas ideales: observan el resultado sin insertar impedancias en el circuito.
+export function lecturasSondas(c,dc){
+ const model=compilar(c);
+ return (c.probes||[]).map(p=>({...p,unit:p.kind==='current'?'A':'V',value:!dc?null:p.kind==='current'?dc.currents[p.component][0]:dc.voltages[model.node(p.plus)][0]-dc.voltages[model.node(p.minus)][0]}));
+}
+
 // La excitación lenta es la señal de interés, aunque el modo común sea mayor.
 export function frecuenciaPractica(c){
  const frequencies=c.components.map(p=>p.wave?.type==='sin'?p.wave.args[2]:p.wave?.type==='pulse'?1/p.wave.args[6]:NaN).filter(f=>Number.isFinite(f)&&f>0);
@@ -56,6 +62,7 @@ export async function simularDocumento(c,settings,{engine='ngspice',request=fetc
 }
 
 export function sondasPractica(c){
+ if(!c.b309){const model=compilar(c),pins=c.probes?.find(p=>p.kind==='voltage'),input=pins?model.node(pins.plus):(model.components.find(p=>p.type==='V')?.a??model.components[0]?.a??'0'),output=pins?model.node(pins.plus):(model.components.find(p=>p.type==='C')?.a??model.components.find(p=>p.type==='R')?.b??input),dc=c.analysis?.type==='dc'||(!c.components.some(p=>p.wave||['C','L'].includes(p.type))&&c.analysis?.type!=='ac');return {input,output,instrument:dc?'meter':'scope',coupling:'DC'};}
  const model=compilar(c),[input,output]=c.b309.probes.map(pin=>model.node(pin));
  return {input,output,instrument:c.b309.practice==='i-aislamiento'?'meter':c.b309.practice==='v-sallen-key'?'bode':'scope',coupling:['iii-emisor-comun','iv-fuente-comun','v-instrumentacion'].includes(c.b309.practice)?'AC':'DC'};
 }

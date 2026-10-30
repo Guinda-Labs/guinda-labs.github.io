@@ -97,7 +97,23 @@ export function rotuloEsquema(p){
  return {text:label,x:p.x+dx,y:p.y+dy,width:label.length*9.6+6,height:22};
 }
 export function cajasEsquema(c){return c.components.flatMap(p=>{const s=simboloPractica(p),b=s?.box??(p.type==='Q'?[-40,-30,35,30]:p.type==='G'?[-20,0,20,28]:[-40,-22,40,22]),a=p.rotation*Math.PI/180,pts=[[b[0],b[1]],[b[2],b[1]],[b[2],b[3]],[b[0],b[3]]].map(([x,y])=>[p.x+x*Math.cos(a)-y*Math.sin(a),p.y+x*Math.sin(a)+y*Math.cos(a)]),r=rotuloEsquema(p);return [{id:p.id,kind:'symbol',x:Math.min(...pts.map(p=>p[0]))-3,y:Math.min(...pts.map(p=>p[1]))-3,width:Math.max(...pts.map(p=>p[0]))-Math.min(...pts.map(p=>p[0]))+6,height:Math.max(...pts.map(p=>p[1]))-Math.min(...pts.map(p=>p[1]))+6},{id:p.id,kind:'label',x:r.x-r.width/2,y:r.y-17,width:r.width,height:r.height}];});}
-export function encuadreEsquema(c){const boxes=cajasEsquema(c),pts=c.wires.flatMap(w=>w.points||[]),xs=[...boxes.flatMap(b=>[b.x,b.x+b.width]),...pts.map(p=>p[0])],ys=[...boxes.flatMap(b=>[b.y,b.y+b.height]),...pts.map(p=>p[1])],x=Math.min(...xs)-30,y=Math.min(...ys)-30;return [x,y,Math.max(...xs)-x+30,Math.max(...ys)-y+30];}
+export function encuadreEsquema(c,labels=null){const boxes=labels===null?cajasEsquema(c):[...cajasEsquema(c).filter(b=>b.kind==='symbol'),...labels],pts=c.wires.flatMap(w=>w.points||[]),xs=[...boxes.flatMap(b=>[b.x,b.x+b.width]),...pts.map(p=>p[0])],ys=[...boxes.flatMap(b=>[b.y,b.y+b.height]),...pts.map(p=>p[1])];if(!xs.length)return [0,0,960,420];const x=Math.min(...xs)-30,y=Math.min(...ys)-30;return [x,y,Math.max(...xs)-x+30,Math.max(...ys)-y+30];}
+// Cajas en unidades SVG: la misma geometría sirve al DOM y a las pruebas sin navegador.
+export function distribuirEtiquetas(labels,obstacles=[],gap=6){
+ const occupied=[...obstacles],placed=[];
+ const intersects=(a,b)=>a.x<b.x+b.width+gap&&a.x+a.width+gap>b.x&&a.y<b.y+b.height+gap&&a.y+a.height+gap>b.y;
+ for(const label of labels){
+  let box={...label,dx:0,dy:0};
+  if(occupied.some(o=>intersects(box,o))){
+   const xs=[label.x,...occupied.flatMap(o=>[o.x-label.width-gap,o.x+o.width+gap])],ys=[label.y,...occupied.flatMap(o=>[o.y-label.height-gap,o.y+o.height+gap])];
+   const candidates=[...new Set(xs)].flatMap(x=>[...new Set(ys)].map(y=>({x,y,d:(x-label.x)**2+(y-label.y)**2}))).sort((a,b)=>a.d-b.d);
+   const free=candidates.find(p=>!occupied.some(o=>intersects({...label,...p},o)));
+   box={...label,x:free.x,y:free.y,dx:free.x-label.x,dy:free.y-label.y};
+  }
+  occupied.push(box);placed.push(box);
+ }
+ return placed;
+}
 export async function cargarCuaderno(unit,request=fetch){
  if(!Object.hasOwn(unidades,unit))throw Error('Unidad B309 desconocida');
  const source=await request('/cuaderno/ejemplos/b309-'+unit.toLowerCase()+'.aulac.json');if(!source.ok)throw Error('No se pudo leer el cuaderno B309');

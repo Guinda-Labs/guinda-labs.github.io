@@ -1,0 +1,362 @@
+{
+  "version": 1,
+  "mode": "scheme",
+  "components": [
+    {
+      "id": "V1",
+      "type": "V",
+      "value": 12,
+      "x": 120,
+      "y": 190,
+      "rotation": 90
+    },
+    {
+      "id": "R1",
+      "type": "R",
+      "value": 470,
+      "x": 280,
+      "y": 100,
+      "rotation": 0
+    },
+    {
+      "id": "R2",
+      "type": "R",
+      "value": 330,
+      "x": 120,
+      "y": 310,
+      "rotation": 270
+    },
+    {
+      "id": "R3",
+      "type": "R",
+      "value": 1000,
+      "x": 400,
+      "y": 240,
+      "rotation": 90
+    },
+    {
+      "id": "R6",
+      "type": "R",
+      "value": 470,
+      "x": 560,
+      "y": 240,
+      "rotation": 90
+    },
+    {
+      "id": "R4",
+      "type": "R",
+      "value": 330,
+      "x": 690,
+      "y": 100,
+      "rotation": 0
+    },
+    {
+      "id": "V3",
+      "type": "V",
+      "value": 9,
+      "x": 820,
+      "y": 190,
+      "rotation": 90
+    },
+    {
+      "id": "R5",
+      "type": "R",
+      "value": 560,
+      "x": 820,
+      "y": 310,
+      "rotation": 90
+    },
+    {
+      "id": "G1",
+      "type": "G",
+      "value": 0,
+      "x": 480,
+      "y": 390,
+      "rotation": 0
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "a": "V1:0",
+      "b": "R1:0",
+      "points": [
+        [
+          120,
+          150
+        ],
+        [
+          120,
+          100
+        ],
+        [
+          240,
+          100
+        ]
+      ]
+    },
+    {
+      "id": "w2",
+      "a": "V1:1",
+      "b": "R2:1",
+      "points": [
+        [
+          120,
+          230
+        ],
+        [
+          120,
+          270
+        ]
+      ]
+    },
+    {
+      "id": "w3",
+      "a": "R1:1",
+      "b": "R3:0",
+      "points": [
+        [
+          320,
+          100
+        ],
+        [
+          400,
+          100
+        ],
+        [
+          400,
+          200
+        ]
+      ]
+    },
+    {
+      "id": "w4",
+      "a": "R3:0",
+      "b": "R6:0",
+      "points": [
+        [
+          400,
+          200
+        ],
+        [
+          400,
+          100
+        ],
+        [
+          560,
+          100
+        ],
+        [
+          560,
+          200
+        ]
+      ]
+    },
+    {
+      "id": "w5",
+      "a": "R6:0",
+      "b": "R4:0",
+      "points": [
+        [
+          560,
+          200
+        ],
+        [
+          560,
+          100
+        ],
+        [
+          650,
+          100
+        ]
+      ]
+    },
+    {
+      "id": "w6",
+      "a": "R4:1",
+      "b": "V3:0",
+      "points": [
+        [
+          730,
+          100
+        ],
+        [
+          820,
+          100
+        ],
+        [
+          820,
+          150
+        ]
+      ]
+    },
+    {
+      "id": "w7",
+      "a": "V3:1",
+      "b": "R5:0",
+      "points": [
+        [
+          820,
+          230
+        ],
+        [
+          820,
+          270
+        ]
+      ]
+    },
+    {
+      "id": "w8",
+      "a": "R2:0",
+      "b": "G1:0",
+      "points": [
+        [
+          120,
+          350
+        ],
+        [
+          120,
+          390
+        ],
+        [
+          480,
+          390
+        ]
+      ]
+    },
+    {
+      "id": "w9",
+      "a": "R3:1",
+      "b": "G1:0",
+      "points": [
+        [
+          400,
+          280
+        ],
+        [
+          400,
+          390
+        ],
+        [
+          480,
+          390
+        ]
+      ]
+    },
+    {
+      "id": "w10",
+      "a": "R6:1",
+      "b": "G1:0",
+      "points": [
+        [
+          560,
+          280
+        ],
+        [
+          560,
+          390
+        ],
+        [
+          480,
+          390
+        ]
+      ]
+    },
+    {
+      "id": "w11",
+      "a": "R5:1",
+      "b": "G1:0",
+      "points": [
+        [
+          820,
+          350
+        ],
+        [
+          820,
+          390
+        ],
+        [
+          480,
+          390
+        ]
+      ]
+    }
+  ],
+  "provenance": {
+    "source": "Topología y mediciones proporcionadas en el encargo R21-KIR (2026-10-29). Esquema y ecuaciones originales AULA-C.",
+    "license": "CC0-1.0",
+    "engine": "Motores existentes del repositorio; consultar sus licencias."
+  },
+  "probes": [
+    {
+      "id": "PR1",
+      "kind": "current",
+      "component": "R1",
+      "direction": "N1 → N2",
+      "x": 280,
+      "y": 135
+    },
+    {
+      "id": "PR2",
+      "kind": "current",
+      "component": "R4",
+      "direction": "N2 → T",
+      "x": 690,
+      "y": 135
+    },
+    {
+      "id": "PR3",
+      "kind": "current",
+      "component": "R6",
+      "direction": "N2 → GND",
+      "x": 640,
+      "y": 245
+    },
+    {
+      "id": "PR4",
+      "kind": "current",
+      "component": "R3",
+      "direction": "N2 → GND",
+      "x": 310,
+      "y": 245
+    },
+    {
+      "id": "PR5",
+      "kind": "voltage",
+      "plus": "R3:0",
+      "minus": "G1:0",
+      "x": 480,
+      "y": 150
+    },
+    {
+      "id": "PR6",
+      "kind": "voltage",
+      "plus": "V3:0",
+      "minus": "G1:0",
+      "x": 820,
+      "y": 85
+    },
+    {
+      "id": "nodo 1",
+      "kind": "voltage",
+      "plus": "V1:0",
+      "minus": "G1:0",
+      "x": 120,
+      "y": 85
+    },
+    {
+      "id": "VR2",
+      "kind": "voltage",
+      "plus": "V1:1",
+      "minus": "G1:0",
+      "x": 75,
+      "y": 260
+    }
+  ],
+  "analysis": {
+    "dt": 0.0001,
+    "stop": 0.001,
+    "start": 1,
+    "end": 1000
+  }
+}
