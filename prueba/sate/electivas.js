@@ -84,6 +84,53 @@
  return {actividades:acts,formulario:{...inicial().formulario,...viejo?.f,confirmada:false}};
  }
  const tx=(k,v)=>SATE.texto('sate.electivas.'+k,v);
+ const filasMapa=(unidad,car,plan)=>recursos?.mapas?.[unidad]?.rows.filter(r=>r[0]===car&&r[1]===plan)||[];
+ const origenDe=(unidad,car,plan,row)=>({unidad,car,plan,clave:row[3]});
+ const origenId=o=>o?[o.unidad,o.car||o.carrera,o.plan,o.clave].join('|'):'';
+ const actividadMapa=(unidad,car,plan,row)=>({k:'CC',desc:`${row[3]} · ${row[4]}`,inst:'',folio:'',fecha:'',firma:'',h:'',ht:row[7],hp:row[8],ev:'boleta',origen:{unidad,carrera:car,plan,clave:row[3]}});
+ function normalizarKardexAnterior(d){
+ const filas=[];for(const a of d?.acreditadas||[]){if(!Array.isArray(a)||!a[0]||a[1]==null||!Number.isFinite(+a[1])||+a[1]<6)continue;
+ const clave=String(a[0]).trim().toUpperCase(),m=d.materias?.[clave];filas.push([clave,String(m?.[0]||clave),String(a[2]||'')]);}
+ return {unidad:String(d.unidad||SATE_CONFIG.unidadPredeterminada||SATE_UNIDAD),carrera:String(d.carrera||''),plan:String(d.plan||''),leido:String(d.leido||''),materias:filas};
+ }
+ function materiasAnteriores(k,mapas=recursos?.mapas){return (k?.materias||[]).map(([clave,nombre,periodo])=>{const row=mapas?.[k.unidad]?.rows?.find(r=>r[0]===k.carrera&&r[1]===k.plan&&r[3]===clave);return {clave,nombre:nombre&&nombre!==clave?nombre:row?.[4]||nombre||clave,periodo,row,ht:row?.[7]??'',hp:row?.[8]??'',sinHoras:!row}})}
+ const mismoPlan=(k,car,plan)=>k?.carrera===car&&String(k?.plan||'')===String(plan||'');
+ const actsOrigen=datos=>new Set((datos?.actividades||[]).map(a=>origenId(a.origen)).filter(Boolean));
+ function propuestaMaterias(materias,datos,car=carrera()){
+ const req=R.REQ[car],t=req?R.totals({car,acts:datos.actividades||[],f:datos.formulario||{}},liberadas):null,faltante=req?Math.max(0,R.floor2((req.n-(t?.r.lib||0))*req.c-(t?.all||0))):0;
+ const candidatas=materias.map((m,i)=>({i,c:R.credOf({k:'CC',ht:m.ht,hp:m.hp})})).filter(x=>x.c>0);
+ const totalOfrecido=materias.reduce((s,m)=>s+R.credOf({k:'CC',ht:m.ht,hp:m.hp}),0);
+ if(!req||totalOfrecido<=faltante)return materias.map((_,i)=>i);
+ let dp=new Map([[0,[]]]);
+ for(const x of candidatas)for(const [s,ix] of [...dp]){const n=R.floor2(s+x.c),ruta=[...ix,x.i];if(!dp.has(n)||ruta.length<dp.get(n).length)dp.set(n,ruta)}
+ return [...dp].filter(([s])=>s>=faltante).sort((a,b)=>a[0]-b[0]||a[1].length-b[1].length)[0]?.[1]||[];
+ }
+ function selectorMaterias(box,ctx,datos){
+ const panel=nodo('details',null,'electivas-cc');panel.appendChild(nodo('summary',tx('cc_seleccionar')));
+ panel.appendChild(nodo('p',tx('cc_instrucciones')));const abrir=nodo('button',tx('cc_abrir_marcador'),'sate-btn');abrir.type='button';abrir.setAttribute('data-saes-open','');panel.appendChild(abrir);
+ const entrada=nodo('div',null,'electivas-cc-entrada'),pegado=nodo('textarea'),estado=nodo('p'),origen=nodo('p',null,'electivas-cc-origen');pegado.setAttribute('aria-label',tx('cc_pegar'));entrada.append(pegado,estado);panel.append(entrada,origen);
+ const lista=nodo('div',null,'electivas-cc-lista'),resumenElegidas=nodo('p'),propuesta=nodo('p',null,'electivas-cc-propuesta');resumenElegidas.setAttribute('aria-live','polite');propuesta.setAttribute('aria-live','polite');panel.appendChild(nodo('p',tx('cc_aviso'),'electivas-cc-aviso'));panel.appendChild(lista);panel.append(resumenElegidas,propuesta);
+ let marcadas=new Set(),kardex=datos.kardexAnterior;
+ const actualizarEntrada=()=>{entrada.hidden=!!kardex;origen.replaceChildren();if(kardex){origen.appendChild(nodo('span',tx('cc_origen',{unidad:kardex.unidad.toUpperCase(),carrera:kardex.carrera,plan:kardex.plan})));origen.appendChild(boton(tx('cc_quitar'),()=>{delete datos.kardexAnterior;kardex=null;marcadas.clear();ctx.cambiar();pintar();actualizarEntrada()}))}};
+ const pintar=()=>{lista.replaceChildren();let elegidas=0,ht=0,hp=0,creditos=0;
+ const materias=materiasAnteriores(kardex),origenes=actsOrigen(datos);
+ for(const m of materias){const o={unidad:kardex.unidad,car:kardex.carrera,plan:kardex.plan,clave:m.clave},id=origenId(o),ya=origenes.has(id),sel=ya||marcadas.has(id),label=nodo('label',null,'electivas-cc-fila'),cb=nodo('input');cb.type='checkbox';cb.checked=sel;cb.disabled=ya;cb.onchange=()=>{cb.checked?marcadas.add(id):marcadas.delete(id);pintar()};
+ const nombre=nodo('span',null,'electivas-cc-nombre');nombre.appendChild(nodo('span',tx('cc_materia',{clave:m.clave,nombre:m.nombre,agregada:ya?tx('cc_ya_agregada'):''})));label.append(cb,nombre);
+ const h=m.sinHoras?tx('cc_sin_horas'):tx('cc_horas',{ht:R.fmt(m.ht),hp:R.fmt(m.hp),creditos:R.fmt(R.credOf({k:'CC',ht:m.ht,hp:m.hp}))});nombre.appendChild(nodo('small',h));lista.appendChild(label);
+ if(sel){elegidas++;ht+=+m.ht||0;hp+=+m.hp||0;creditos+=R.credOf({k:'CC',ht:m.ht,hp:m.hp})}}
+ resumenElegidas.textContent=tx('cc_resumen',{n:elegidas,ht:R.fmt(ht),hp:R.fmt(hp),creditos:R.fmt(creditos)});
+ const indices=propuestaMaterias(materias,datos),cr=indices.reduce((s,i)=>s+R.credOf({k:'CC',ht:materias[i].ht,hp:materias[i].hp}),0),req=R.REQ[carrera()],t=totales(datos),faltante=req?Math.max(0,(req.n-(t?.r.lib||0))*req.c-(t?.all||0)):0;
+ propuesta.textContent=tx('cc_propuesta',{n:indices.length,creditos:R.fmt(cr),faltan:R.fmt(Math.max(0,faltante-cr))});
+ };
+ const aceptar=()=>{const d=SAES.parse(pegado.value);if(!d){estado.textContent=tx('cc_json_invalido');return}
+ const actual=identidad(),perfil=alumno(),car=carrera()||actual?.carrera||perfil?.carrera,plan=actual?.plan||perfil?.plan;
+ if(mismoPlan(d,car,plan)){estado.textContent=tx('cc_mismo_plan');return}
+ kardex=datos.kardexAnterior=normalizarKardexAnterior(d);const materias=materiasAnteriores(kardex);marcadas=new Set(propuestaMaterias(materias,datos).map(i=>origenId({unidad:kardex.unidad,car:kardex.carrera,plan:kardex.plan,clave:materias[i].clave})));pegado.value='';estado.textContent=tx('cc_leido');ctx.cambiar();actualizarEntrada();pintar();};
+ pegado.addEventListener('paste',e=>{e.preventDefault();pegado.value=e.clipboardData.getData('text');aceptar()});pegado.addEventListener('input',()=>{if(pegado.value.trim().startsWith('{'))aceptar()});
+ const acciones=nodo('div',null,'electivas-cc-acciones'),agregar=boton(tx('cc_agregar'),()=>{for(const m of materiasAnteriores(kardex)){const o={unidad:kardex.unidad,car:kardex.carrera,plan:kardex.plan,clave:m.clave},id=origenId(o);if(!marcadas.has(id)||actsOrigen(datos).has(id))continue;const row=m.row||[kardex.carrera,kardex.plan,'',m.clave,m.nombre,'','','',''];agregarMapa(datos,o,row)}marcadas.clear();ctx.cambiar();ctx.repintar()});agregar.classList.add('sate-btn--primario');acciones.appendChild(agregar);panel.appendChild(acciones);
+ actualizarEntrada();if(kardex)pintar();box.appendChild(panel);
+ }
+ function agregarMapa(datos,o,row){if(actsOrigen(datos).has(origenId(o)))return;datos.actividades.push(actividadMapa(o.unidad,o.car,o.plan,row));}
  function campo(box,texto,valor,cambiar,{tipo='text',opciones,validar=textoValido,ayuda}={}){
  const l=nodo('label',null,'tramite-campo'),n=nodo(opciones?'select':tipo==='textarea'?'textarea':'input'),error=nodo('small','');
  if(opciones)for(const [v,t] of opciones){const o=nodo('option',t);o.value=v;n.appendChild(o)}else if(tipo!=='textarea')n.type=tipo;
@@ -107,6 +154,7 @@
  invitacion.appendChild(boton('Importar lo que llenaste en Electivas',()=>decidir(true)));invitacion.appendChild(boton('Seguir sin importar',()=>decidir(false)));box.appendChild(invitacion);
  }
  const sum=nodo('p',null,'electivas-resumen');sum.setAttribute('aria-live','polite');box.appendChild(sum);resumen(sum,d);
+ selectorMaterias(box,ctx,d);
  const resultados=nodo('div');const buscar=campo(box,'Busca una actividad por nombre o clave','',q=>{
  resultados.replaceChildren();for(const c of R.search(q))resultados.appendChild(elegir(c));
  });buscar.type='search';box.appendChild(resultados);
@@ -192,5 +240,5 @@
  {titulo:SATE.texto('sate.ventanilla.electivas_paso_formulario'),campos:[{id:'formulario',texto:'Formulario',render:formulario,validar:validarFormulario,revision:revisionFormulario}]}
  ]};
  SateTramites.registrar(def);
- raiz.SateElectivas={preparar,inscrito,inicial,importar,validarActividad,validarActividades,validarFormulario,medir,totales,generar,def};
+ raiz.SateElectivas={preparar,inscrito,inicial,importar,validarActividad,validarActividades,validarFormulario,medir,totales,generar,actividadMapa,origenId,normalizarKardexAnterior,materiasAnteriores,mismoPlan,propuestaMaterias,def};
 })(globalThis);
