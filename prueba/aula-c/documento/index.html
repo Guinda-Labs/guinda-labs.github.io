@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documento AULA-C (prototipo)</title>
+<style>
+:root{--f-fondo:#171819;--f-s1:#1e2022;--f-s2:#272a2d;--f-s3:#323639;--f-linea:#4b5054;--f-texto:#f1eee8;--f-tenue:#bec1c3;--guinda:#7a1f45;--guinda-h:#8d2753;color-scheme:dark}
+@media(prefers-color-scheme:light){:root{--f-fondo:#f5f4f0;--f-s1:#fff;--f-s2:#ecece7;--f-s3:#dedfd9;--f-linea:#d3d5cf;--f-texto:#242724;--f-tenue:#4c534e;color-scheme:light}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--f-fondo);color:var(--f-texto);font:14px/1.4 "Segoe UI",Arial,sans-serif;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:8px;height:48px;padding:0 16px;background:var(--f-s1);border-bottom:1px solid var(--f-linea);flex:0 0 auto;white-space:nowrap}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;letter-spacing:.02em}
+.brand i{width:10px;height:18px;background:var(--guinda);border-radius:2px;display:block}
+.doc{color:var(--f-tenue);padding-left:12px;border-left:1px solid var(--f-linea);overflow:hidden;text-overflow:ellipsis}
+.sp{flex:1}
+.estado{color:var(--f-tenue);font-size:12px;overflow:hidden;text-overflow:ellipsis}
+.btn{cursor:pointer;border:1px solid var(--f-linea);background:none;color:var(--f-texto);padding:6px 12px;border-radius:6px;font:inherit}
+.btn:hover{background:var(--f-s3)}
+.btn.pri{background:var(--guinda);border-color:var(--guinda);color:#fff;font-weight:600}
+.btn.pri:hover{background:var(--guinda-h)}
+input[type=file]{display:none}
+.cols{flex:1;min-height:0;display:grid;grid-template-columns:minmax(300px,34%) 1fr}
+.izq{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--f-linea);background:var(--f-s1)}
+.izq h2{margin:0;padding:10px 14px 6px;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--f-tenue);font-weight:600}
+#fuente{flex:1 1 55%;min-height:140px;margin:0 14px;padding:10px;background:var(--f-fondo);color:var(--f-texto);border:1px solid var(--f-linea);border-radius:6px;font:12px/1.5 Consolas,"Cascadia Mono",monospace;resize:none;tab-size:2}
+#resumen{padding:0 14px 6px;color:var(--f-tenue);font-size:12px}
+#verif{flex:1 1 35%;min-height:80px;overflow:auto;list-style:none;margin:0;padding:0 14px 14px}
+#verif li{display:flex;gap:8px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--f-linea);font-size:13px}
+#verif .ic{width:16px;flex:0 0 16px;text-align:center;font-weight:700}
+#verif .error .ic{color:#ff8a80}#verif .aviso .ic{color:#e8c25a}#verif .ok .ic{color:#7fd09a}
+#verif .msg{flex:1;min-width:0;overflow-wrap:anywhere}
+#verif .ln{border:0;background:var(--f-s3);color:var(--f-tenue);border-radius:10px;padding:0 8px;font:11px inherit;cursor:pointer}
+.der{overflow:auto;min-height:0;background:#e6e8ec}
+.der .documento{padding-top:20px}
+.zoombar{position:sticky;top:0;z-index:5;display:flex;gap:6px;align-items:center;justify-content:center;padding:6px;background:var(--f-s1);border-bottom:1px solid var(--f-linea)}
+.zoombar .z{padding:2px 10px;min-width:32px}
+.zoombar .z[aria-pressed=true]{background:var(--f-s3)}
+.zv{min-width:96px;text-align:center;color:var(--f-tenue);font-size:12px}
+.dnd{padding:6px 14px;color:var(--f-tenue);font-size:12px}
+@media (max-width:860px){body{height:auto}.cols{display:block}.izq{border-right:0;border-bottom:1px solid var(--f-linea)}#fuente{height:220px}.estado{display:none}}
+@media print{
+  html,body{height:auto;background:#fff;display:block}
+  .bar,.izq,.zoombar{display:none!important}
+  #doc{zoom:1!important}
+  .cols{display:block}.der{overflow:visible;background:#fff}
+}
+</style>
+</head>
+<body>
+<header class="bar">
+  <span class="brand"><i aria-hidden="true"></i>AULA-C</span>
+  <span class="doc" id="nombre">kirchhoff.aulac.md</span>
+  <span class="sp"></span>
+  <span class="estado" id="estado" aria-live="polite"></span>
+  <label class="btn" for="abrir">Abrir .aulac.md</label><input type="file" id="abrir" accept=".md,.txt,text/markdown">
+  <label class="btn" for="vars">Variables…</label><input type="file" id="vars" accept=".json,application/json">
+  <button type="button" class="btn" id="ejemplo">Ejemplo</button>
+  <button type="button" class="btn pri" id="pdf">Exportar PDF</button>
+</header>
+<div class="cols">
+  <section class="izq" aria-label="Fuente y verificación">
+    <h2>Fuente</h2>
+    <textarea id="fuente" spellcheck="false" aria-label="Fuente .aulac.md"></textarea>
+    <div class="dnd">Arrastre aquí un .aulac.md o un .json de variables.</div>
+    <h2>Verificación</h2>
+    <div id="resumen"></div>
+    <ul id="verif" aria-live="polite"></ul>
+  </section>
+  <main class="der">
+    <div class="zoombar" role="group" aria-label="Zoom del documento">
+      <button type="button" class="btn z" id="zoommenos" aria-label="Alejar" title="Alejar">−</button>
+      <span id="zoomval" class="zv" aria-live="polite">Ancho</span>
+      <button type="button" class="btn z" id="zoommas" aria-label="Acercar" title="Acercar">+</button>
+      <button type="button" class="btn z" id="zoomfit" aria-pressed="true" title="Ajustar al ancho">Ajustar</button>
+    </div>
+    <div id="doc"></div>
+  </main>
+</div>
+<script type="module" src="app.mjs"></script>
+</body>
+</html>

@@ -1,0 +1,412 @@
+{
+ "PR1": {
+  "valor": 9.294,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "PR1@nominal": {
+  "valor": 9.294,
+  "unidad": "mA",
+  "origen": "ngspice · Simulación nominal DC 14:32"
+ },
+ "PR1@medido": {
+  "valor": 9.21,
+  "unidad": "mA",
+  "origen": "ngspice · Simulación con valores medidos 14:41"
+ },
+ "PR1:med": {
+  "valor": 8.5,
+  "unidad": "mA",
+  "origen": "Medido con multímetro"
+ },
+ "PR2": {
+  "valor": -4.983,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "PR2@nominal": {
+  "valor": -4.983,
+  "unidad": "mA",
+  "origen": "ngspice · Simulación nominal DC 14:32"
+ },
+ "PR2@medido": {
+  "valor": -5.016,
+  "unidad": "mA",
+  "origen": "ngspice · Simulación con valores medidos 14:41"
+ },
+ "PR2:med": {
+  "valor": -4.77,
+  "unidad": "mA",
+  "origen": "Medido con multímetro"
+ },
+ "PR3": {
+  "valor": 9.712,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "PR3@nominal": {
+  "valor": 9.712,
+  "unidad": "mA",
+  "origen": "ngspice · Simulación nominal DC 14:32"
+ },
+ "PR3@medido": {
+  "valor": 9.574,
+  "unidad": "mA",
+  "origen": "ngspice · Simulación con valores medidos 14:41"
+ },
+ "PR3:med": {
+  "valor": 9.66,
+  "unidad": "mA",
+  "origen": "Medido con multímetro"
+ },
+ "PR4": {
+  "valor": 4.565,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "PR4@nominal": {
+  "valor": 4.565,
+  "unidad": "mA",
+  "origen": "ngspice · Simulación nominal DC 14:32"
+ },
+ "PR4@medido": {
+  "valor": 4.651,
+  "unidad": "mA",
+  "origen": "ngspice · Simulación con valores medidos 14:41"
+ },
+ "PR4:med": {
+  "valor": 4.59,
+  "unidad": "mA",
+  "origen": "Medido con multímetro"
+ },
+ "nodo1": {
+  "valor": 8.933,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "nodo1@nominal": {
+  "valor": 8.933,
+  "unidad": "V",
+  "origen": "ngspice · Simulación nominal DC 14:32"
+ },
+ "nodo1@medido": {
+  "valor": 8.942,
+  "unidad": "V",
+  "origen": "ngspice · Simulación con valores medidos 14:41"
+ },
+ "nodo1:med": {
+  "valor": 8.71,
+  "unidad": "V",
+  "origen": "Medido con multímetro"
+ },
+ "PR5": {
+  "valor": 4.565,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "PR5@nominal": {
+  "valor": 4.565,
+  "unidad": "V",
+  "origen": "ngspice · Simulación nominal DC 14:32"
+ },
+ "PR5@medido": {
+  "valor": 4.586,
+  "unidad": "V",
+  "origen": "ngspice · Simulación con valores medidos 14:41"
+ },
+ "PR5:med": {
+  "valor": 4.37,
+  "unidad": "V",
+  "origen": "Medido con multímetro"
+ },
+ "PR6": {
+  "valor": 6.209,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "PR6@nominal": {
+  "valor": 6.209,
+  "unidad": "V",
+  "origen": "ngspice · Simulación nominal DC 14:32"
+ },
+ "PR6@medido": {
+  "valor": 6.221,
+  "unidad": "V",
+  "origen": "ngspice · Simulación con valores medidos 14:41"
+ },
+ "PR6:med": {
+  "valor": 5.89,
+  "unidad": "V",
+  "origen": "Medido con multímetro"
+ },
+ "VR2": {
+  "valor": -3.067,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "VR2@nominal": {
+  "valor": -3.067,
+  "unidad": "V",
+  "origen": "ngspice · Simulación nominal DC 14:32"
+ },
+ "VR2@medido": {
+  "valor": -3.058,
+  "unidad": "V",
+  "origen": "ngspice · Simulación con valores medidos 14:41"
+ },
+ "VR2:med": {
+  "valor": -2.93,
+  "unidad": "V",
+  "origen": "Medido con multímetro"
+ },
+ "R1": {
+  "valor": 470,
+  "unidad": "Ω",
+  "origen": "Valor propuesto"
+ },
+ "R1:med": {
+  "valor": 473,
+  "unidad": "Ω",
+  "origen": "Medido con óhmetro"
+ },
+ "R2": {
+  "valor": 330,
+  "unidad": "Ω",
+  "origen": "Valor propuesto"
+ },
+ "R2:med": {
+  "valor": 332,
+  "unidad": "Ω",
+  "origen": "Medido con óhmetro"
+ },
+ "R3": {
+  "valor": 1000,
+  "unidad": "Ω",
+  "origen": "Valor propuesto"
+ },
+ "R3:med": {
+  "valor": 986,
+  "unidad": "Ω",
+  "origen": "Medido con óhmetro"
+ },
+ "R4": {
+  "valor": 330,
+  "unidad": "Ω",
+  "origen": "Valor propuesto"
+ },
+ "R4:med": {
+  "valor": 326,
+  "unidad": "Ω",
+  "origen": "Medido con óhmetro"
+ },
+ "R5": {
+  "valor": 560,
+  "unidad": "Ω",
+  "origen": "Valor propuesto"
+ },
+ "R5:med": {
+  "valor": 554,
+  "unidad": "Ω",
+  "origen": "Medido con óhmetro"
+ },
+ "R6": {
+  "valor": 470,
+  "unidad": "Ω",
+  "origen": "Valor propuesto"
+ },
+ "R6:med": {
+  "valor": 479,
+  "unidad": "Ω",
+  "origen": "Medido con óhmetro"
+ },
+ "V1": {
+  "valor": 12,
+  "unidad": "V",
+  "origen": "Valor propuesto"
+ },
+ "V3": {
+  "valor": 9,
+  "unidad": "V",
+  "origen": "Valor propuesto"
+ },
+ "I1": {
+  "valor": 9.294,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "I3": {
+  "valor": 4.565,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "I4": {
+  "valor": -4.983,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "I6": {
+  "valor": 9.712,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "V(R1)": {
+  "valor": 4.368,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "I(R1)": {
+  "valor": 9.294,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "P(R1)": {
+  "valor": 0.0406,
+  "unidad": "W",
+  "origen": "Octave · celda Solución"
+ },
+ "V(R2)": {
+  "valor": 3.067,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "I(R2)": {
+  "valor": 9.294,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "P(R2)": {
+  "valor": 0.0285,
+  "unidad": "W",
+  "origen": "Octave · celda Solución"
+ },
+ "V(R3)": {
+  "valor": 4.565,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "I(R3)": {
+  "valor": 4.565,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "P(R3)": {
+  "valor": 0.0208,
+  "unidad": "W",
+  "origen": "Octave · celda Solución"
+ },
+ "V(R4)": {
+  "valor": -1.644,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "I(R4)": {
+  "valor": -4.983,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "P(R4)": {
+  "valor": 0.0082,
+  "unidad": "W",
+  "origen": "Octave · celda Solución"
+ },
+ "V(R5)": {
+  "valor": -2.791,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "I(R5)": {
+  "valor": -4.983,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "P(R5)": {
+  "valor": 0.0139,
+  "unidad": "W",
+  "origen": "Octave · celda Solución"
+ },
+ "V(R6)": {
+  "valor": 4.565,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "I(R6)": {
+  "valor": 9.712,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "P(R6)": {
+  "valor": 0.0443,
+  "unidad": "W",
+  "origen": "Octave · celda Solución"
+ },
+ "V(V1)": {
+  "valor": 12,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "I(V1)": {
+  "valor": 9.294,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "P(V1)": {
+  "valor": -0.1115,
+  "unidad": "W",
+  "origen": "Octave · celda Solución"
+ },
+ "V(V3)": {
+  "valor": 9,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "I(V3)": {
+  "valor": 4.983,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "P(V3)": {
+  "valor": -0.0449,
+  "unidad": "W",
+  "origen": "Octave · celda Solución"
+ },
+ "sum(P)": {
+  "valor": 1e-12,
+  "unidad": "W",
+  "origen": "Octave · celda Solución"
+ },
+ "suma(lck2)": {
+  "valor": 1e-12,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "suma(lvk1)": {
+  "valor": 1e-12,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "suma(lvk2)": {
+  "valor": 1e-12,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "suma(lvk3)": {
+  "valor": 1e-12,
+  "unidad": "V",
+  "origen": "Octave · celda Solución"
+ },
+ "suma(lckA)": {
+  "valor": 0,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "suma(lckB)": {
+  "valor": 0,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ },
+ "suma(lckC)": {
+  "valor": 0,
+  "unidad": "mA",
+  "origen": "Octave · celda Solución"
+ }
+}
