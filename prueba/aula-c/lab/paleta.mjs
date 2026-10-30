@@ -19,9 +19,9 @@ export function moverSeleccion(i,n,tecla){if(!n)return -1;if(tecla==='ArrowDown'
 
 // Controlador de DOM: reordena los botones del catálogo, maneja ↑↓/Enter y la pieza pegada al cursor.
 export function paletaUI({catalog,search,scheme,storage,cerrar,status=()=>{}}){
- const rec=crearRecientes(storage),clave=b=>b.dataset.libraryId||b.textContent.trim();
+ const rec=crearRecientes(storage),nombre=b=>b.dataset.nombre||b.dataset.libraryId||'',clave=b=>b.dataset.libraryId||nombre(b);
  let armada=null,fantasma=null,idx=-1,busy=false;
- const piezasDe=()=>[...catalog.querySelectorAll('button:not([data-proxy])')].map(b=>({id:clave(b),nombre:b.textContent.trim(),grupo:b.dataset.grupo||(b.closest('details.resto')?'resto':'activo'),b}));
+ const piezasDe=()=>[...catalog.querySelectorAll('button:not([data-proxy])')].map(b=>({id:clave(b),nombre:nombre(b),grupo:b.dataset.grupo||(b.closest('details.resto')?'resto':'activo'),b}));
  const visibles=()=>[...catalog.querySelectorAll('button')].filter(b=>!b.hidden&&!b.closest('details:not([open])'));
  function marcar(){let v=visibles();v.forEach((b,i)=>b.setAttribute('aria-selected',String(i===idx)));v[idx]?.scrollIntoView?.({block:'nearest'});}
  function refrescar(){
@@ -45,7 +45,7 @@ export function paletaUI({catalog,search,scheme,storage,cerrar,status=()=>{}}){
   if(!v){origen.click();return;}
   cancelar();armada=v;scheme.classList.add('colocando');
   fantasma=document.createElement('div');fantasma.className='pieza-pegada';let svg=origen.querySelector('svg');if(svg)fantasma.append(svg.cloneNode(true));fantasma.hidden=true;document.body.append(fantasma);
-  status('Haga clic en el esquemático para colocar «'+origen.textContent.trim()+'». Esc cancela.');
+  status('Haga clic en el esquemático para colocar «'+nombre(origen)+'». Esc cancela.');
  }
  document.addEventListener('pointermove',e=>{if(!fantasma)return;fantasma.hidden=false;fantasma.style.transform=`translate(${e.clientX+8}px,${e.clientY+8}px)`;});
  scheme.addEventListener('click',e=>{if(!armada)return;e.stopPropagation();e.preventDefault();let v=armada;cancelar();scheme.ondrop?.({clientX:e.clientX,clientY:e.clientY,preventDefault(){},dataTransfer:{getData:()=>v}});},true);

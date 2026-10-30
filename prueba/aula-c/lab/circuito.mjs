@@ -34,7 +34,7 @@ export function amplificador(){
  let bends=[[[80,40],[350,40]],[[80,40],[555,40]],[[80,370],[180,370]],[[80,370],[350,370]],[[80,370],[555,370]],[[80,370],[700,370]],[[80,370],[860,370]],[[80,380]],[[180,220]],[[350,220]],[[350,220]],[],[],[[620,170],[620,190]],[],[[555,250],[700,250]],[[860,190]]];
  c.wires.forEach((w,i)=>{w.points=[terminal(c,w.a),...bends[i],terminal(c,w.b)];});return c;
 }
-export function terminal(c,key){let [id,i]=key.split(':'),p=c.components.find(p=>p.id===id),a=p.rotation*Math.PI/180,[x,y]=p.schematic?.pins?.[+i]??(p.definition?terminalEncapsulado(p.definition.package,+i):p.type==='Q'?[[35,-30],[-40,0],[35,30]][+i]:[p.type==='G'?0:(+i?40:-40),0]);return [Math.round(p.x+x*Math.cos(a)-y*Math.sin(a)),Math.round(p.y+x*Math.sin(a)+y*Math.cos(a))];}
+export function terminal(c,key){let [id,i]=key.split(':'),p=c.components.find(p=>p.id===id),a=p.rotation*Math.PI/180,[x,y]=p.schematic?.pins?.[+i]??(p.definition?terminalEncapsulado(p.definition.package,+i):p.type==='Q'?[[35,-30],[-40,0],[35,30]][+i]:[p.type==='G'?0:(+i?40:-40),0]);if(p.flipped)y=-y;return [Math.round(p.x+x*Math.cos(a)-y*Math.sin(a)),Math.round(p.y+x*Math.sin(a)+y*Math.cos(a))];}
 // Extremos de cable: terminal «R1:0» o punto libre «@x,y» (uniones y cables trazados a mano, como en xschem).
 export const libre=k=>/^@-?\d+,-?\d+$/.test(k);
 export function extremo(c,k){return libre(k)?k.slice(1).split(',').map(Number):terminal(c,k);}

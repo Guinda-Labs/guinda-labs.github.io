@@ -21,12 +21,12 @@ export function crearVisor({destino,formato,trazas,quitar,resultado}){
  const el=(t,c,p,txt)=>{let e=document.createElement(t);if(c)e.className=c;if(txt)e.textContent=txt;p?.append(e);return e;};
  let raiz=el('section','visor',destino);raiz.hidden=true;raiz.setAttribute('aria-label','Visor de ondas');
  let cab=el('header','',raiz),titulo=el('strong','',cab,'Ondas'),plegar=el('button','',cab,'Plegar');plegar.type='button';plegar.setAttribute('aria-expanded','true');
- let cuerpo=el('div','visor-cuerpo',raiz),ca=0.25,cb=0.75;
+ let cuerpo=el('div','visor-cuerpo',raiz),ca=0.25,cb=0.75,forzado=false;
  let cur=el('div','visor-cursores',raiz);
  for(let [n,v,f] of [['A',ca,x=>ca=x],['B',cb,x=>cb=x]]){let l=el('label','',cur,'Cursor '+n+' '),r=el('input','',l);r.type='range';r.min=0;r.max=1000;r.value=v*1000;r.oninput=()=>{f(r.value/1000);dibujar();};}
  plegar.onclick=()=>{let a=cuerpo.hidden;cuerpo.hidden=!a;cur.hidden=!a;plegar.textContent=a?'Plegar':'Desplegar';plegar.setAttribute('aria-expanded',String(a));};
  function dibujar(){
-  raiz.hidden=!trazas.visible;cuerpo.replaceChildren();if(!trazas.visible)return;
+  raiz.hidden=!trazas.visible&&!forzado;cuerpo.replaceChildren();if(!trazas.visible){titulo.textContent='Ondas';if(forzado)el('p','',cuerpo,'Coloca una sonda (S) en un nodo para ver su señal.');return;}
   let r=resultado();titulo.textContent='Ondas · '+trazas.lista.length+' de '+MAX_TRAZAS;
   trazas.lista.forEach((n,i)=>{
    let carril=el('div','visor-carril',cuerpo),info=el('div','visor-info',carril),q=el('button','',info,'×');q.type='button';q.setAttribute('aria-label','Quitar traza '+n);q.onclick=()=>quitar(n);
@@ -40,5 +40,5 @@ export function crearVisor({destino,formato,trazas,quitar,resultado}){
   });
   if(r?.tran?.length){let t0=r.tran[0].t,t1=r.tran.at(-1).t;cur.querySelector('span')?.remove();el('span','',cur,`Δt ${formato(Math.abs(cb-ca)*(t1-t0),'s')}`);}
  }
- return {dibujar,raiz};
+ return {dibujar,raiz,mostrar(visible){forzado=visible;dibujar();}};
 }
