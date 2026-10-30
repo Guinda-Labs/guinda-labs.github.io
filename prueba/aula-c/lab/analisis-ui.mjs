@@ -1,4 +1,4 @@
-import {analizarNodos,thevenin,admitirCD} from './analisis.mjs';
+import {analizarNodos,thevenin,admitirCD,analizarMallas} from './analisis.mjs';
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
 const f=(n,u)=>Number.isFinite(n)?`${Number(n.toPrecision(5)).toLocaleString('es-MX')} ${u}`:'Sin camino de CD';
 const name=i=>'V'+String.fromCharCode(97+i%26)+(i>=26?Math.floor(i/26):'');
@@ -11,7 +11,25 @@ export function crearAnalisis({contenedor,svg,leer,fit,estado}){
  const root=document.createElement('section');root.id='analisisContenido';root.hidden=true;contenedor.append(root);
  const clear=()=>{svg.classList?.remove('analisis-recorrido');svg.querySelectorAll('.analisis-capa').forEach(e=>e.remove());svg.querySelectorAll('.analisis-resaltado,.analisis-apagado').forEach(e=>e.classList.remove('analisis-resaltado','analisis-apagado'));};
  const layer=()=>{const g=document.createElementNS(svg.namespaceURI,'g');g.classList.add('analisis-capa');g.setAttribute('pointer-events','none');svg.append(g);return g;};
- const label=(g,x,y,s)=>{const t=document.createElementNS(svg.namespaceURI,'text');t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('class','analisis-chip');t.textContent=s;g.append(t);};
+ const label=(g,x,y,s)=>{const t=document.createElementNS(svg.namespaceURI,'text');t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('class','analisis-chip');t.textContent=s;g.append(t);return t;};
+ const tabs=()=>`<div class="ana-tabs" role="tablist" aria-label="Tipos de análisis">${[['nodos','Nodos'],['mallas','Mallas'],['thevenin','Thévenin/Norton']].map(([id,title])=>`<button role="tab" data-tab="${id}" aria-selected="${active===id}">${title}</button>`).join('')}</div>`;
+ const bindTabs=()=>root.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>estado(b.dataset.tab));
+ const combination=coeff=>coeff.map((v,i)=>v?(v<0?' − ':i&&coeff.slice(0,i).some(Boolean)?' + ':'')+'I'+(i+1):'').join('').trim()||'0';
+ function pintarMallas(data){
+  clear();const g=layer();
+  data.meshes.forEach((m,i)=>{
+   const shape=document.createElementNS(svg.namespaceURI,'path');shape.setAttribute('d','M'+m.points.map(p=>p.join(' ')).join('L')+'Z');shape.setAttribute('class','analisis-malla');shape.dataset.malla=String(i);g.append(shape);
+   // El centroide de área evita que los vértices repetidos de cables sesguen la flecha.
+   let x=0,y=0;m.points.forEach((p,k)=>{const q=m.points[(k+1)%m.points.length],a=p[0]*q[1]-q[0]*p[1];x+=(p[0]+q[0])*a;y+=(p[1]+q[1])*a;});x/=6*m.area;y/=6*m.area;
+   const arrow=document.createElementNS(svg.namespaceURI,'path');arrow.setAttribute('d',`M${x-18} ${y-18}A25 25 0 1 1 ${x-25} ${y}m-5 7 5-7 7 5`);arrow.setAttribute('class','analisis-malla-flecha');g.append(arrow);label(g,x,y+5,'I'+(i+1)).setAttribute('text-anchor','middle');
+  });
+  root.querySelectorAll('[data-malla]').forEach(row=>{const highlight=on=>{g.querySelectorAll('[data-malla]').forEach(p=>p.classList.toggle('activa',on&&p.dataset.malla===row.dataset.malla));};row.onmouseenter=()=>highlight(true);row.onmouseleave=()=>highlight(false);row.onfocus=()=>highlight(true);row.onblur=()=>highlight(false);});
+ }
+ function panelMallas(ctx){
+  const d=analizarMallas(ctx.esquema,ctx.dc,ctx.components);cache=d;
+  root.innerHTML=tabs()+'<p>Sentido horario. Cada ventana del esquema es una malla. Al pasar el cursor por una fila se ilumina su malla.</p><table class="ana-voltajes"><caption>Corrientes de malla</caption><tbody>'+d.currents.map((v,i)=>`<tr data-malla="${i}" tabindex="0"><th scope="row">I${i+1}</th><td>${f(v*1000,'mA')}</td></tr>`).join('')+'</tbody></table><p>Una corriente de malla no siempre es la de un elemento.</p><table class="ana-voltajes ana-ramas"><caption>Corrientes de rama · de terminal 0 a terminal 1</caption><tbody>'+d.branches.map(b=>`<tr><th scope="row">I_${esc(b.id)}<small>${combination(b.coeff)}</small></th><td>${f(b.current*1000,'mA')}</td></tr>`).join('')+'</tbody></table>'+`<details id="ana-ecuaciones" ${expanded?'open':''}><summary>Ecuaciones de malla (Ω, mA, V)</summary><p>R · I = V. Con I en mA: Ω · mA / 1000 = V. Las restricciones de corriente se expresan en mA.</p><div class="ana-matriz" tabindex="0" role="region" aria-label="Matriz de mallas"><table><thead><tr><th>Ecuación</th>${d.currents.map((_,i)=>`<th>I${i+1}</th>`).join('')}<th>Resultado</th></tr></thead><tbody>${d.matrix.map((row,i)=>`<tr><th>${esc(d.kinds[i])}</th>${row.map(v=>`<td>${Number(v.toPrecision(5))}</td>`).join('')}<td>${f(d.rhs[i]*(d.kinds[i].startsWith('Restricción')?1000:1),d.kinds[i].startsWith('Restricción')?'mA':'V')}</td></tr>`).join('')}</tbody></table></div>${d.kinds.some(k=>k.includes('supermalla'))?'<p>Si una rama compartida tiene fuente de corriente, las dos mallas forman una supermalla y se agrega la ecuación Ia − Ib = Is.</p>':''}${d.branches.filter(b=>ctx.components.find(p=>p.id===b.id)?.type==='I').map(b=>`<p>${combination(b.coeff)} = ${esc(b.id)} = ${f(b.current*1000,'mA')}</p>`).join('')}</details>`;
+  bindTabs();root.querySelector('#ana-ecuaciones').ontoggle=e=>expanded=e.target.open;pintarMallas(d);
+ }
  function pintar(data,r){
   clear();const g=layer(),seen=new Set();
   for(const p of svg.querySelectorAll('[data-node]')){const n=p.dataset.node;if(seen.has(n)||!data.dc.voltages[n])continue;const box=p.getBBox();seen.add(n);let x=box.x+box.width/2,y=box.y-16;
@@ -32,10 +50,9 @@ export function crearAnalisis({contenedor,svg,leer,fit,estado}){
  function actualizar(){
   if(!active){clear();return;}
   let ctx;try{
-   ctx=leer();const aviso=admitirCD(ctx.components);cache=analizarNodos(ctx.components,ctx.dc);const data=cache;
+   ctx=leer();if(active==='mallas'){panelMallas(ctx);return;}const aviso=admitirCD(ctx.components);cache=analizarNodos(ctx.components,ctx.dc);const data=cache;
    if(!data.nodes.includes(A))A=data.nodes[0];if(!['0',...data.nodes].includes(B))B='0';
-   const tabs=`<div class="ana-tabs" role="tablist" aria-label="Tipos de análisis"><button role="tab" data-tab="nodos" aria-selected="${active==='nodos'}">Nodos</button><button role="tab" data-tab="thevenin" aria-selected="${active==='thevenin'}">Thévenin/Norton</button></div>`;
-   let html=tabs+(aviso?`<p role="status">${aviso}</p>`:'');let r=null;
+   let html=tabs()+(aviso?`<p role="status">${aviso}</p>`:'');let r=null;
    if(active==='nodos'){
     html+='<table class="ana-voltajes"><caption>Voltajes respecto a tierra</caption><tbody>'+data.nodes.map((n,i)=>`<tr><th scope="row">${name(i)} <small>· nodo ${esc(n)}${data.known[n]!==undefined?' · dato':''}</small></th><td>${f(data.dc.voltages[n][0],'V')}</td></tr>`).join('')+'</tbody></table><p>El voltaje de un nodo se mide respecto a tierra; el de un elemento es la diferencia entre dos nodos:</p><math display="block"><msub><mi>V</mi><mi>AB</mi></msub><mo>=</mo><msub><mi>V</mi><mi>A</mi></msub><mo>−</mo><msub><mi>V</mi><mi>B</mi></msub></math>';
     const vn=n=>name(data.nodes.indexOf(n));
@@ -61,8 +78,8 @@ export function crearAnalisis({contenedor,svg,leer,fit,estado}){
    on('ana-carga',e=>{carga=e.target.value;paso=0;actualizar();fit();},'onchange');
    on('ana-pick',()=>{seleccion=seleccion==='A'?'B':'A';actualizar();});
    on('ana-prev',()=>{paso--;actualizar();fit();});on('ana-next',()=>{paso++;actualizar();fit();});on('ana-overlay',()=>{overlay=!overlay;actualizar();fit();});
-  }catch(e){cache=null;clear();root.innerHTML='<p role="status">'+esc(e.message)+'</p>';console.error('[AULA-C análisis]',{error:e.message,terminales:{A,B},carga,componentes:ctx?.components});}
+  }catch(e){cache=null;clear();root.innerHTML=tabs()+'<p role="status">'+esc(e.message)+'</p>';bindTabs();console.error('[AULA-C análisis]',{error:e.message,tipo:active,terminales:{A,B},carga,componentes:ctx?.components,cables:ctx?.esquema?.wires});}
  }
  svg.addEventListener('click',e=>{if(active!=='thevenin'||!cache)return;const n=e.target.closest('[data-node]')?.dataset.node;if(n===undefined)return;e.preventDefault();e.stopImmediatePropagation();if(seleccion==='A'){A=n;seleccion='B';}else{B=n;seleccion='A';}paso=0;actualizar();fit();},true);
- return {actualizar,seleccionar(id){active=['nodos','thevenin'].includes(id)?id:null;root.hidden=!active;actualizar();},get activo(){return !!active;}};
+ return {actualizar,seleccionar(id){active=['nodos','thevenin','mallas'].includes(id)?id:null;root.hidden=!active;actualizar();},get activo(){return !!active;}};
 }
