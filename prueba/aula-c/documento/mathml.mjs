@@ -1,10 +1,11 @@
 // LaTeX (subconjunto) → MathML. Sin dependencias. Si algo no se entiende, devuelve <code> con el texto.
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const GRIEGAS = { alpha: 'α', beta: 'β', gamma: 'γ', delta: 'δ', epsilon: 'ε', theta: 'θ', lambda: 'λ', mu: 'μ', pi: 'π', rho: 'ρ', sigma: 'σ', tau: 'τ', phi: 'φ', omega: 'ω', Delta: 'Δ', Omega: 'Ω', Sigma: 'Σ', Phi: 'Φ', Pi: 'Π' };
-const OPERADORES = { cdot: '·', times: '×', pm: '±', Rightarrow: '⇒', rightarrow: '→', to: '→', Leftrightarrow: '⇔', approx: '≈', leq: '≤', geq: '≥', le: '≤', ge: '≥', neq: '≠', infty: '∞', partial: '∂', sum: '∑', prod: '∏', ldots: '…', dots: '…', circ: '∘', angle: '∠', deg: '°' };
+const OPERADORES = { cdot: '·', times: '×', pm: '±', Rightarrow: '⇒', rightarrow: '→', to: '→', Leftrightarrow: '⇔', approx: '≈', leq: '≤', geq: '≥', le: '≤', ge: '≥', neq: '≠', infty: '∞', partial: '∂', sum: '∑', prod: '∏', ldots: '…', parallel: '∥', dots: '…', circ: '∘', angle: '∠', deg: '°' };
 const ESPACIOS = { ',': '0.17em', ':': '0.22em', ';': '0.28em', ' ': '0.28em', quad: '1em', qquad: '2em', '!': '-0.17em' };
 
-export function latexAMathML(latex, display = false) {
+/** Convierte y devuelve {mathml, error}: error es el motivo si el LaTeX no se soporta (null si todo bien). */
+export function convertirLatex(latex, display = false) {
   const s = String(latex);
   let i = 0;
   const peek = () => s[i];
@@ -20,7 +21,7 @@ export function latexAMathML(latex, display = false) {
     if (c === undefined) throw Error('fin');
     if (c === '\\') {
       const n = cmdNombre();
-      if (n === 'frac') return `<mfrac>${grupo()}${grupo()}</mfrac>`;
+      if (n === 'frac' || n === 'dfrac') return `<mfrac>${grupo()}${grupo()}</mfrac>`;
       if (n === 'sqrt') return `<msqrt>${grupo()}</msqrt>`;
       if (n === 'mathrm' || n === 'operatorname' || n === 'mathbf' || n === 'mathit') {
         const g = grupo().replace(/<[^>]+>/g, '');
@@ -55,11 +56,14 @@ export function latexAMathML(latex, display = false) {
   };
   try {
     const cuerpo = fila(undefined);
-    return `<math xmlns="http://www.w3.org/1998/Math/MathML" display="${display ? 'block' : 'inline'}" aria-label="${esc(s.trim())}"><mrow>${cuerpo}</mrow></math>`;
-  } catch {
-    return `<code class="mate-error">${esc(s)}</code>`;
+    return { mathml: `<math xmlns="http://www.w3.org/1998/Math/MathML" display="${display ? 'block' : 'inline'}" aria-label="${esc(s.trim())}"><mrow>${cuerpo}</mrow></math>`, error: null };
+  } catch (e) {
+    return { mathml: `<code class="mate-error">${esc(s)}</code>`, error: e.message };
   }
 }
+export const latexAMathML = (latex, display = false) => convertirLatex(latex, display).mathml;
+/** null si el LaTeX se entiende; si no, el motivo («comando foo», «entorno»…). */
+export const errorLatex = (latex) => convertirLatex(latex).error;
 
 /** Matriz/columna de MathML a partir de filas de fragmentos MathML ya construidos. */
 export const matrizMathML = (filas) =>

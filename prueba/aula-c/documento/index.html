@@ -38,6 +38,7 @@ input[type=file]{display:none}
 .zoombar .z{padding:2px 10px;min-width:32px}
 .zoombar .z[aria-pressed=true]{background:var(--f-s3)}
 .zv{min-width:96px;text-align:center;color:var(--f-tenue);font-size:12px}
+.gal{display:flex;flex-wrap:wrap;gap:6px 12px;padding:8px 14px 0;font-size:12px;color:var(--f-tenue)}.gal .chip{cursor:pointer}
 .dnd{padding:6px 14px;color:var(--f-tenue);font-size:12px}
 @media (max-width:860px){body{height:auto}.cols{display:block}.izq{border-right:0;border-bottom:1px solid var(--f-linea)}#fuente{height:220px}.estado{display:none}}
 @media print{
@@ -56,6 +57,7 @@ input[type=file]{display:none}
   <span class="estado" id="estado" aria-live="polite"></span>
   <label class="btn" for="abrir">Abrir .aulac.md</label><input type="file" id="abrir" accept=".md,.txt,text/markdown">
   <label class="btn" for="vars">Variables…</label><input type="file" id="vars" accept=".json,application/json">
+  <label class="btn" for="portada-docx" title="La portada se lee en este navegador; nada se sube">Importar mi portada (.docx)</label><input type="file" id="portada-docx" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
   <button type="button" class="btn" id="ejemplo">Ejemplo</button>
   <button type="button" class="btn pri" id="pdf">Exportar PDF</button>
 </header>
@@ -63,6 +65,7 @@ input[type=file]{display:none}
   <section class="izq" aria-label="Fuente y verificación">
     <h2>Fuente</h2>
     <textarea id="fuente" spellcheck="false" aria-label="Fuente .aulac.md"></textarea>
+    <div class="gal" id="galeria" role="radiogroup" aria-label="Portada"></div>
     <div class="dnd">Arrastre aquí un .aulac.md o un .json de variables.</div>
     <h2>Verificación</h2>
     <div id="resumen"></div>

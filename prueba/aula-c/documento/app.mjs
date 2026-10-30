@@ -3,13 +3,14 @@
 import { parse, verificar } from './formato.mjs';
 import { renderDocumento, ESTILOS, activarEscenarios, ajustarPaginas } from './render.mjs';
 import { calcularOctave, medidosDeTablas, propuestos, simularCircuito, componentes, sustituciones, reemplazarCelda } from './simulacion.mjs';
+import { importarDocx, camposDePortada } from './portada-docx.mjs';
 import { motorMNA, motorNgspice } from './motores.mjs';
 import { MotorNgspiceWeb } from '../lab/motor/ngspice-web.mjs';
 
 const $ = (s) => document.querySelector(s);
 const fuente = $('#fuente'), lista = $('#verif'), hoja = $('#doc'), estado = $('#estado'), resumen = $('#resumen'), der = $('.der');
 const VER = 3; // sube al cambiar los ejemplos para no restaurar copias viejas
-const CLAVE = 'aulac-documento', CLAVE_ZOOM = 'aulac-zoom';
+const CLAVE = 'aulac-documento', CLAVE_ZOOM = 'aulac-zoom', CLAVE_PORTADAS = 'aulac-portadas';
 let baseVars = {}, esquemas = {}, nombre = 'sin-titulo.aulac.md', origen = 'archivo', temporizador = 0;
 const cache = new Map(); // clave de circuito+valores → {vars, diag, motor, hora}
 const simEstado = {}; // idCircuito → {estado, motor, hora, mensaje}
@@ -24,6 +25,32 @@ const estilo = document.createElement('style');
 estilo.textContent = ESTILOS;
 document.head.appendChild(estilo);
 activarEscenarios(hoja);
+
+// ---------- portadas importadas (.docx), solo en este navegador ----------
+let portadas = almacen.leer(CLAVE_PORTADAS);
+if (!portadas || typeof portadas.items !== 'object' || !portadas.items) portadas = { sel: '', items: {} };
+function dibujarGaleria() {
+  const g = $('#galeria'); g.replaceChildren();
+  const opcion = (valor, texto) => {
+    const l = document.createElement('label'); l.className = 'chip';
+    const r = document.createElement('input'); r.type = 'radio'; r.name = 'portada'; r.value = valor; r.checked = (portadas.sel || '') === valor;
+    r.addEventListener('change', () => { portadas.sel = valor; almacen.guardar(CLAVE_PORTADAS, portadas); dibujar(false); });
+    l.append(r, document.createTextNode(' ' + texto)); g.append(l);
+  };
+  opcion('', 'Clásica UPIITA');
+  for (const n of Object.keys(portadas.items)) opcion(n, n);
+}
+async function importarPortada(f) {
+  try {
+    const doc = parse(fuente.value);
+    const r = await importarDocx(new Uint8Array(await f.arrayBuffer()), camposDePortada(doc.meta.portada));
+    portadas.items[f.name] = r.html; portadas.sel = f.name;
+    almacen.guardar(CLAVE_PORTADAS, portadas);
+    dibujarGaleria(); dibujar(false);
+    estado.textContent = `Portada «${f.name}» importada · campos: ${r.campos.join(', ') || 'ninguno'}${r.avisos.length ? ' · ' + r.avisos.join('; ') : ''}`;
+  } catch (e) { estado.textContent = 'No se pudo importar la portada: ' + e.message; }
+}
+$('#portada-docx').addEventListener('change', (e) => { if (e.target.files[0]) importarPortada(e.target.files[0]); e.target.value = ''; });
 
 const ICONO = { error: '✗', aviso: '⚠', ok: '✓' };
 
@@ -102,9 +129,9 @@ function dibujar(simular = true) {
   const sondas = new Set(doc.sondas);
   const base = Object.fromEntries(Object.entries(baseVars).filter(([k]) => !(k.includes('@') && sondas.has(k.split('@')[0]))));
   const variables = { ...base, ...propuestos(doc), ...medidosDeTablas(doc), ...oct.vars, ...simVars };
-  const items = verificar(doc, variables, { ejecutadas: oct.ejecutadas, extra: [...oct.diag, ...simDiag] });
+  const items = verificar(doc, variables, { ejecutadas: oct.ejecutadas, extra: [...oct.diag, ...simDiag], portadas });
   const y = der.scrollTop;
-  hoja.innerHTML = renderDocumento(doc, { variables, esquemas, salidas: oct.salidas, simulacion: simEstado });
+  hoja.innerHTML = renderDocumento(doc, { variables, esquemas, salidas: oct.salidas, simulacion: simEstado, portadas });
   requestAnimationFrame(() => { ajustarPaginas(hoja); aplicarZoom(); der.scrollTop = y; });
   const cuenta = (n) => items.filter((x) => x.nivel === n).length;
   resumen.textContent = `${cuenta('error')} errores · ${cuenta('aviso')} avisos · ${cuenta('ok')} correctos`;
@@ -186,6 +213,7 @@ async function cargarEjemplo(conTexto = true) {
 // ---------- arranque: último documento o ejemplo ----------
 const previo = almacen.leer(CLAVE);
 aplicarZoom();
+dibujarGaleria();
 if (previo && previo.ver === VER && typeof previo.texto === 'string' && previo.texto.trim()) {
   fuente.value = previo.texto; nombre = previo.nombre || nombre; origen = previo.origen || 'archivo';
   if (origen === 'ejemplo') cargarEjemplo(false); else { baseVars = previo.vars || {}; dibujar(); }

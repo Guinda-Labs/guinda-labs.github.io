@@ -1,6 +1,7 @@
 // Parser puro de .aulac.md (ver coordinacion/ipn-folio/diseno/r21-doc/FORMATO.md).
 // parse(texto) → {meta, bloques, diagnosticos, vivos, circuitos, tablas, nombres}
 // verificar(doc, variables) → lista [{nivel:'error'|'aviso'|'ok', linea, mensaje}]
+import { errorLatex } from './mathml.mjs';
 import { parseValor, unidadValida, evaluar, partirEsc, nombreVivo } from './valores.mjs';
 
 export const CAMPOS_PORTADA = ['numero', 'subtitulo', 'grupo', 'curso', 'alumno', 'profesora', 'carrera', 'unidad', 'fecha'];
@@ -411,7 +412,7 @@ export function parse(texto) {
   if (p !== undefined) {
     const mapa = typeof p === 'string' ? { plantilla: p } : p;
     const pl = mapa.plantilla || mapa.archivo;
-    if (mapa.archivo) av(1, `Portada desde archivo «${mapa.archivo}»: aún no se importa; se usa la clásica`);
+    if (mapa.archivo) av(1, `Portada desde archivo «${mapa.archivo}»: impórtela con «Importar mi portada (.docx)»; mientras tanto se usa la clásica`);
     else if (pl && !PLANTILLAS_PORTADA.includes(pl)) err(1, `Plantilla de portada «${pl}» no existe (${PLANTILLAS_PORTADA.join(', ')})`);
     for (const k of ['numero', 'alumno', 'grupo', 'fecha']) if (mapa[k] === undefined || mapa[k] === '') av(1, `Campo de portada sin dato: ${k}`);
   }
@@ -447,8 +448,8 @@ export function estadoEscenario(doc, esc) {
   return { total, con, faltan };
 }
 
-export function verificar(doc, variables = {}, { ejecutadas = new Set(), extra = [] } = {}) {
-  const out = [...doc.diagnosticos.map((d) => ({ ...d })), ...extra.map((d) => ({ linea: 1, ...d }))];
+export function verificar(doc, variables = {}, { ejecutadas = new Set(), extra = [], portadas = null } = {}) {
+  const out = [...doc.diagnosticos.map((d) => ({ ...d })).filter((d) => !(portadas && /^Portada desde archivo/.test(d.mensaje) && portadas.items && portadas.items[doc.meta.portada && doc.meta.portada.archivo])), ...extra.map((d) => ({ linea: 1, ...d }))];
   const ok = (linea, mensaje) => out.push({ nivel: 'ok', linea, mensaje });
   for (const c of doc.circuitos) {
     const errs = doc.diagnosticos.filter((d) => d.nivel === 'error' && d.mensaje.includes(`«${c.id}»`));
@@ -473,7 +474,21 @@ export function verificar(doc, variables = {}, { ejecutadas = new Set(), extra =
     else if (e.estado === 'unidad') out.push({ nivel: 'aviso', linea: r.linea, mensaje: `Unidad distinta a la de la clave en {{${r.crudo}}}: ${e.razon}` });
     else { pendientes++; out.push({ nivel: 'aviso', linea: r.linea, mensaje: `Valor pendiente {{${r.crudo}}} (${e.razon})` }); }
   }
-  for (const t of doc.tablas) for (const f of t.filas) for (const c of f.celdas) if (c.trim() === '?') out.push({ nivel: 'aviso', linea: f.linea, mensaje: 'Valor «por medir» (?)' });
+  const porMedir = [];
+  for (const t of doc.tablas) for (const f of t.filas) for (const c of f.celdas) if (c.trim() === '?') porMedir.push(f.linea);
+  if (porMedir.length) out.push({ nivel: 'aviso', linea: porMedir[0], mensaje: `${porMedir.length} ${porMedir.length === 1 ? 'valor «por medir» (?)' : 'valores «por medir» (?)'} en las tablas` });
+  // LaTeX que el visor no soporta: se avisa en vez de caer a código en silencio
+  const malos = new Map();
+  const revisar = (latex, linea) => { const e = errorLatex(latex); if (e && !malos.has(e)) malos.set(e, { linea, ej: latex }); };
+  const recorrer = (v, linea, clave) => {
+    if (typeof v === 'string') {
+      if (clave === 'ecuacion' && !v.includes('$')) { revisar(v, linea); return; }
+      for (const sg of segmentos(v)) if (sg.t === 'mate') revisar(sg.v, linea);
+    } else if (Array.isArray(v)) v.forEach((x) => recorrer(x, linea, clave));
+    else if (v && typeof v === 'object' && !(v instanceof Set)) for (const [k, x] of Object.entries(v)) if (k !== 'codigo' && k !== 'circuito') recorrer(x, typeof v.linea === 'number' ? v.linea : linea, k);
+  };
+  for (const b of doc.bloques) recorrer(b, b.linea || 1, '');
+  for (const [e, { linea, ej }] of malos) out.push({ nivel: 'aviso', linea, mensaje: `Ecuación no soportada (${e}): se muestra como código · ${ej.length > 40 ? ej.slice(0, 40) + '…' : ej}` });
   for (const c of doc.codigos) {
     if (c.produce.length && !ejecutadas.has(c.nombre)) ok(c.linea, `Celda ${c.nombre || c.lenguaje} produce ${c.produce.join(', ')}${Object.keys(variables).length ? '' : ''}`);
     if (c.ejecuta && ejecutadas.has(c.nombre)) continue;

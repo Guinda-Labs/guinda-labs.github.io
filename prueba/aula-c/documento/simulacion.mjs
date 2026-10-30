@@ -152,10 +152,19 @@ export function calcularOctave(doc) {
   return { vars, salidas, diag, ejecutadas };
 }
 
-/** Elementos del netlist como variables propuestas («R1»: 470 Ω). */
+/**
+ * Elementos del netlist como variables propuestas («R1»: 470 Ω).
+ * Si un elemento se repite en varios circuitos, cada circuito conserva el suyo bajo «id/R1»;
+ * la clave sin prefijo es la del primer circuito que lo define (no la pisa el último).
+ */
 export function propuestos(doc) {
   const vars = {};
-  for (const c of doc.circuitos) for (const e of c.elementos) if (Number.isFinite(e.valor)) vars[e.nombre] = { valor: e.valor, unidad: UNIDAD_ELEM[e.nombre[0].toUpperCase()] || '', origen: `Netlist ${c.id}` };
+  for (const c of doc.circuitos) for (const e of c.elementos) {
+    if (!Number.isFinite(e.valor)) continue;
+    const v = { valor: e.valor, unidad: UNIDAD_ELEM[e.nombre[0].toUpperCase()] || '', origen: `Netlist ${c.id}` };
+    if (!(e.nombre in vars)) vars[e.nombre] = v;
+    if (c.id) vars[`${c.id}/${e.nombre}`] = v;
+  }
   return vars;
 }
 

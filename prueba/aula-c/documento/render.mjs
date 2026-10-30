@@ -2,6 +2,7 @@
 import { segmentos } from './formato.mjs';
 import { evaluar, formatear, bandasColor, parseValor } from './valores.mjs';
 import { latexAMathML } from './mathml.mjs';
+import { portadaImportada, llenarPortada, camposDePortada } from './portada-docx.mjs';
 import { tablasDeEscenarios, filaMedida, numeroDeCelda } from './simulacion.mjs';
 
 const esc = (s) => String(s ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
@@ -112,6 +113,8 @@ export const ESTILOS = `
 .documento .mate-error{color:#a33}
 .documento .cont-h{font-size:9pt;color:var(--gray);padding:5px 12px;border-bottom:1px solid var(--grid);background:#f6f9fc}
 .documento .sol{font-size:9.5pt;color:var(--gray);margin:2px 0 6px}
+.documento .cover.imp{display:block;font-family:"Segoe UI",Arial,sans-serif;font-size:12pt;line-height:1.3;color:#000;text-align:left}
+.documento .cover.imp p{margin:0}.documento .cover.imp [data-campo]:empty::before{content:attr(data-ph);color:#98a1af}
 @media (max-width:8.9in){.documento .page{width:100%;max-width:8.5in;padding:.7in 7vw .9in}}
 @media (max-width:720px){
   .documento{padding:12px 6px 40px}
@@ -144,6 +147,7 @@ function crearCtx(opciones) {
   const variables = opciones.variables || {};
   return {
     variables,
+    portadas: opciones.portadas || null,
     esquemas: opciones.esquemas || {},
     salidas: opciones.salidas || {},
     sim: opciones.simulacion || {},
@@ -367,6 +371,8 @@ function desarrolloHTML(ctx, doc, b) {
 function portadaHTML(doc, ctx) {
   const p0 = doc.meta.portada;
   const p = typeof p0 === 'string' ? { plantilla: p0 } : p0 || {};
+  const imp = portadaImportada(doc.meta, ctx.portadas);
+  if (imp) return `<section class="page cover imp" aria-label="Portada" data-plantilla="importada" data-archivo="${esc(imp.nombre)}">${llenarPortada(imp.html, camposDePortada(p))}</section>`;
   const ed = (txt, ph) => `<span contenteditable="plaintext-only" data-ph="${esc(ph)}">${esc(txt ?? '')}</span>`;
   const [u1, u2] = p.unidad ? String(p.unidad).split(/\s+en\s+/) : [];
   return `<section class="page cover" aria-label="Portada" data-plantilla="${esc(p.plantilla || 'clasica-upiita')}"><div class="logos"><div class="logo">logo<br>UPIITA</div><div class="logo">logo<br>IPN</div></div>
