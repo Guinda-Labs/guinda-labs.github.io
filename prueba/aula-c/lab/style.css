@@ -168,9 +168,20 @@ body:has(.instrumento-panel:not([hidden])) .inspector{right:376px}
 @media(max-width:1100px){.work.con-instrumento{--panel:320px}.instrumento-panel{width:320px}.lab-barra #tabs button{padding:0 6px}body>header.lab-barra{gap:6px}body:has(.instrumento-panel:not([hidden])) .inspector{right:336px}}
 /* Las etiquetas pertenecen al lienzo y conservan espacio al abrir un instrumento. */
 #scheme{min-width:0;--svg-font:20px}
-#scheme text,#scheme.practice-scheme text,#scheme text.component-label,#scheme text.practice-probe,#scheme text.dc-label{font-size:20px;font-family:var(--aulac-mono)}
+#scheme text,#scheme.practice-scheme text,#scheme text.component-label,#scheme text.practice-probe,#scheme text.dc-label{font-size:var(--svg-font);font-family:var(--aulac-mono)}
 #scheme .label-guide{fill:none;stroke:var(--aulac-tenue);stroke-width:1;pointer-events:none}
 .probe-readings{width:100%;border-collapse:collapse;font-size:var(--aulac-t1);margin-top:var(--aulac-s4)}
 .probe-readings caption{text-align:left;color:var(--aulac-tenue);padding-bottom:var(--aulac-s2)}
 .probe-readings th,.probe-readings td{padding:var(--aulac-s2);border-bottom:1px solid var(--aulac-linea);text-align:left;overflow-wrap:anywhere}
 .probe-readings td:last-child{white-space:nowrap;font-family:var(--aulac-mono)}
+/* Coordenadas de ventana: también sirve a menús dentro de Archivo. */
+.lab-barra .menu-popup{position:fixed;left:auto;right:auto;width:280px;min-width:0;max-width:calc(100vw - 16px);overflow:auto;overscroll-behavior:contain}
+.menu-popup>*{min-width:0}.menu-popup label{white-space:normal}.menu-popup select{width:100%;min-width:0}
+.menu-popup #examplesMenu>select,.menu-popup #exampleGroup{width:100%;max-width:100%;min-width:0}
+.current-legend{position:absolute;bottom:6px;left:64px;max-width:calc(100% - 76px);color:var(--aulac-tenue);font-size:11px;pointer-events:none;z-index:23;background:var(--aulac-fondo)}
+@media(max-width:600px){body>header.lab-barra{height:auto;min-height:48px;flex-basis:auto;flex-wrap:wrap;padding:6px 8px}.lab-barra #tabs{order:2;width:100%}.lab-barra .barra-estado{display:none}.lab-barra .menu-barra:last-child{margin-left:auto}}
+
+#scheme .dot,#board .dot,#scheme .probe-mark *,#board .probe-mark *,#board .physical-label,#board .physical-label *,#scheme .label-guide{pointer-events:none}
+.terminal-hit{cursor:crosshair}.terminal-destino{fill:var(--aulac-acento);stroke-width:4}#wire[aria-pressed=true]{background:var(--aulac-acento);color:var(--aulac-fondo)}
+
+#board.wiring .hole-hit{pointer-events:all;cursor:crosshair}

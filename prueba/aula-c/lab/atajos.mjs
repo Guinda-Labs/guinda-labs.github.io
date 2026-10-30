@@ -1,6 +1,6 @@
 // Atajos del laboratorio (R19). Devuelve la acción, sin tocar el DOM.
 export const AYUDA=[
- ['A o /','Paleta de componentes'],['R · C · L','Insertar resistencia, capacitor, inductor'],['W','Cable (o sonda sobre un nodo)'],
+ ['A o /','Paleta de componentes'],['R · C · L','Insertar resistencia, capacitor, inductor'],['W','Cable'],['S','Sonda'],
  ['M','Mover piezas'],['Ctrl+R','Rotar la pieza seleccionada'],['Supr','Borrar selección'],['Esc','Salir de cualquier modo y quitar la selección'],
  ['Ctrl+Z / Ctrl+Y','Deshacer / rehacer'],['?','Esta ayuda'],['Clic en el valor','Editar con prefijos: 4.7k, 4k7, 2.2u, 100n']
 ];
@@ -12,6 +12,7 @@ export function accionTecla(e){
  if(e.key==='Escape')return 'salir';
  if(k==='a'||e.key==='/')return 'paleta';
  if(k==='w')return 'cable';
+ if(k==='s')return 'sonda';
  if(k==='m')return 'mover';
  if(['r','c','l'].includes(k))return 'insertar:'+k.toUpperCase();
  if(e.key==='?')return 'ayuda';

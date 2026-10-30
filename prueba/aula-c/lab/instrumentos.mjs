@@ -1,16 +1,48 @@
-// Normal limita la rama máxima a un cuarto del antiguo tope de 200 px/s.
-export function velocidadCorriente(current,max,speed=1){
+// La magnitud ilustra corriente; no representa velocidad física de electrones.
+export function velocidadCorriente(current,max,speed=.5){
  if(!Number.isFinite(current)||!Number.isFinite(max)||Math.abs(current)<=1e-12||max<=1e-12)return 0;
- return Math.sign(current)*Math.max(6.25,50*Math.min(1,Math.abs(current)/max))*speed;
+ return Math.sign(current)*Math.min(60,Math.max(6,40*Math.sqrt(Math.abs(current)/max)))*speed;
 }
 export function preferenciasCorriente(storage,guardar){
- const defecto={speed:1,paused:false};
+ const defecto={speed:.5,paused:false};
  try{
   const s=storage(),p=guardar??JSON.parse(s?.getItem('lab.corriente.v1')||'null');
-  const value={speed:[.5,1,2].includes(p?.speed)?p.speed:1,paused:p?.paused===true};
+  const value={speed:[.25,.5,1,2].includes(p?.speed)?p.speed:.5,paused:p?.paused===true};
   if(guardar)s?.setItem('lab.corriente.v1',JSON.stringify(value));
   return value;
  }catch(error){console.warn('[AULA-C corriente: almacenamiento]',error.message);return guardar??defecto;}
+}
+export function posicionMenu(button,width,height,viewportWidth,viewportHeight){
+ const margin=8,w=Math.min(width,Math.max(0,viewportWidth-2*margin)),h=Math.min(height,Math.max(0,viewportHeight-2*margin));
+ return {left:Math.max(margin,Math.min(button.right-w,viewportWidth-margin-w)),top:Math.max(margin,Math.min(button.bottom+4,viewportHeight-margin-h)),width:w,maxHeight:viewportHeight-2*margin};
+}
+// Un único instante interpolado conserva LCK: todas las corrientes usan el mismo peso.
+export function muestraCorriente(rows,t){
+ if(!rows?.length)return null;
+ let lo=0,hi=rows.length-1;
+ if(t<=rows[lo].t)return rows[lo];if(t>=rows[hi].t)return rows[hi];
+ while(hi-lo>1){const mid=(lo+hi)>>1;if(rows[mid].t<=t)lo=mid;else hi=mid;}
+ const a=rows[lo],b=rows[hi],u=(t-a.t)/(b.t-a.t),mix=(x,y)=>Array.isArray(x)?x.map((v,i)=>mix(v,y[i])):x+(y-x)*u;
+ const field=key=>Object.fromEntries(Object.entries(a[key]??{}).map(([id,v])=>[id,mix(v,b[key][id])]));
+ return {t,voltages:field('voltages'),currents:field('currents'),terminalCurrents:field('terminalCurrents')};
+}
+export function escalaTiempo(circuit){
+ const f=Math.max(0,...circuit.components.map(p=>p.wave?.type==='sin'?p.wave.args[2]:p.wave?.type==='pulse'?1/p.wave.args[6]:0).filter(Number.isFinite));
+ return f>2?2*f:1;
+}
+// Corte orientado a→b del árbol de cables: incluye todas las patillas del nodo.
+// En lazos ideales el reparto es indeterminado y se oculta la animación.
+function terminalesCorte(w,model,wires){
+ let seen=new Set([w.a]),todo=[w.a];
+ while(todo.length){let a=todo.pop();for(let edge of wires){if(edge===w)continue;let b=edge.a===a?edge.b:edge.b===a?edge.a:null;if(b&&!seen.has(b)){seen.add(b);todo.push(b);}}}
+ if(seen.has(w.b))return [];
+ return model.components.flatMap(p=>(p.nodes??(p.type==='Q'?[p.a,p.b,p.e]:[p.a,p.b])).flatMap((_,i)=>seen.has(p.id+':'+i)?[{id:p.id,i}]:[]));
+}
+function sumarCorte(terminals,r){return terminals.reduce((sum,{id,i})=>{const value=r.terminalCurrents?.[id]?.[i]??((r.currents[id]?.[0]??0)*(i===0?1:-1));return sum-(Array.isArray(value)?value[0]:value);},0);}
+export function corrienteCable(w,r,model,wires){return sumarCorte(terminalesCorte(w,model,wires),r);}
+export function flujosCorriente(model,wires){
+ const cuts=wires.map(w=>[w.id,terminalesCorte(w,model,wires)]);
+ return row=>new Map(cuts.map(([id,terminals])=>[id,sumarCorte(terminals,row)]));
 }
 export function medir(rows,node){
  let y=rows.map(r=>r.voltages[node][0]),min=Math.min(...y),max=Math.max(...y),level=(min+max)/2,cross=[];
