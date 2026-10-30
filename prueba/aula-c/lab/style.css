@@ -374,7 +374,8 @@ body>header.lab-barra{z-index:80;overflow:visible}
  .lab-barra .selector-vistas{display:block;margin-left:auto;flex:none;white-space:nowrap}
  .lab-barra>details.distribucion{display:block}
 }
-@media(max-width:599px){.lab-barra #tabs,.lab-barra #tabs.vistas-abiertas,.lab-barra>.distribucion{display:none}}
+@media(max-width:599px){.lab-barra #tabs,.lab-barra #tabs.vistas-abiertas{display:none}.lab-barra .selector-vistas{display:block;margin-left:auto;flex:none;white-space:nowrap}.lab-barra>details.distribucion{display:block}.distribuciones{display:none}}
+#scheme text.tray-warning{font:13px/1.5 var(--aulac-sans);fill:var(--aulac-tenue);opacity:.82}
 /* Menú AULA-C como los demás: filas, sin subrayado, estado del motor con punto de color. */
 .cambiador-app .menu-popup button:disabled{opacity:.55;cursor:default}
 .menu-estado{display:flex;align-items:center;gap:8px;min-height:32px;padding:6px 10px;color:var(--aulac-tenue);font-size:12px}
