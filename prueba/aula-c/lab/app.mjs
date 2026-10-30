@@ -249,7 +249,13 @@ panelPlegar.onclick=()=>{const plegado=work.classList.toggle('panel-plegado');pa
 const instrumentoContenido=control(instrumentosDock,'div','instrumentoContenido','');
 instrumentoContenido.append(document.querySelector('.instruments'),document.querySelector('.bench'));
 const instrumentosMenu=control(work,'nav','instrumentosRail','');instrumentosMenu.className='instrumentos-rail';instrumentosMenu.setAttribute('aria-label','Instrumentos');
+const panelTabs=control(instrumentosDock,'nav','panelTabs','');panelTabs.setAttribute('aria-label','Paneles abiertos');panelTabs.setAttribute('role','tablist');
+instrumentosDock.append(panelTabs,instrumentoContenido);
+let ultimoAnalisis=null,ultimoInstrumento=null;
 const instrumentosUno=selectorUno(HERRAMIENTAS,id=>{
+ if(!id){ultimoAnalisis=null;ultimoInstrumento=null;}else if(['nodos','thevenin','mallas'].includes(id))ultimoAnalisis=id;else ultimoInstrumento=id;
+ panelTabs.replaceChildren();
+ for(const abierto of [ultimoAnalisis,ultimoInstrumento].filter(Boolean)){const b=control(panelTabs,'button','',abierto===ultimoAnalisis?'Análisis':INSTRUMENTOS.find(i=>i.id===abierto).nombre,{type:'button'});b.setAttribute('role','tab');b.setAttribute('aria-selected',String(abierto===id));b.onclick=()=>instrumentosUno.abrir(abierto);}
  work.classList.toggle('panel-plegado',false);panelPlegar.textContent='Plegar';panelPlegar.setAttribute('aria-expanded','true');
  aplicarVisibilidad(instrumentoContenido,HERRAMIENTAS,id);instrumentosDock.hidden=!id;work.classList.toggle('con-instrumento',!!id);
  if(['nodos','thevenin','mallas'].includes(id)){
@@ -514,6 +520,9 @@ const instrumentosExistentes=[...rail.querySelectorAll('button')];rail.replaceCh
 const construir=grupo('Construir');
 for(const [b,label,icon] of [[paletaBoton,'Componentes A','⊞'],[botonCable0,'Cable W','⌁'],[sondaBoton,'Sonda S','⌖']]){b.replaceChildren();const i=document.createElement('b');i.textContent=icon;const s=document.createElement('span');s.textContent=label;b.append(i,s);b.title=label;b.setAttribute('aria-label',label);construir.append(b);}
 const favoritos=document.createElement('div');favoritos.className='riel-favoritos';construir.append(favoritos);
+const masFavoritos=document.createElement('button');masFavoritos.className='riel-mas';masFavoritos.textContent='Más ▾';masFavoritos.title='Favoritos';masFavoritos.setAttribute('aria-expanded','false');construir.append(masFavoritos);
+masFavoritos.onclick=()=>{const abierto=rail.classList.toggle('favoritos-abiertos');masFavoritos.setAttribute('aria-expanded',String(abierto));};
+document.addEventListener('click',e=>{if(!e.target.closest('.riel-favoritos,.riel-mas')){rail.classList.remove('favoritos-abiertos');masFavoritos.setAttribute('aria-expanded','false');}});
 const instrumentsGroup=grupo('Instrumentos'),analysisGroup=grupo('Análisis');
 for(const b of instrumentosExistentes){const i=HERRAMIENTAS.find(i=>i.id===b.dataset.instrumento);const s=document.createElement('span');s.textContent=i.nombre;b.append(s);(['bode','barrido','nodos','thevenin','mallas'].includes(i.id)?analysisGroup:instrumentsGroup).append(b);}
 function abrirDistribucion(){
@@ -524,6 +533,8 @@ function abrirDistribucion(){
 }
 const ver=grupo('Ver');for(const [label,icon,fn] of [['Volver a centrar','⤢',()=> (activeView==='board'?physicalEditor.navigation:schemeNavigation).run('centrar')],['Distribución','▦',abrirDistribucion]]){const b=document.createElement('button'),s=document.createElement('span'),i=document.createElement('b');s.textContent=label;i.textContent=icon;b.append(i,s);b.title=label;b.setAttribute('aria-label',label);b.onclick=fn;ver.append(b);}
 document.querySelector('.lienzo-fichas')?.remove();
+// La leyenda comparte el pie del lienzo y deja libre la zona de zoom.
+$('schemePane').append(document.querySelector('.current-legend'));
 await libraryReady;
 catalogoCtl=catalogoUI({catalog:$('catalog'),paleta,controlador:()=>paletaCtl,storage:(()=>{try{return localStorage;}catch{return null;}})(),status,riel:favoritos});
 paleta.hidden=true;work.classList.remove('con-paleta');

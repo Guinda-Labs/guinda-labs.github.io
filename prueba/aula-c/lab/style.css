@@ -277,3 +277,60 @@ dialog.catalogo-popup{width:min(960px,calc(100vw - 48px));max-width:calc(100vw -
 .contexto-lab button[data-separador]{border-top:1px solid var(--aulac-linea);margin-top:4px;padding-top:10px}
 @supports(backdrop-filter:blur(20px)){.contexto-lab,.menu-popup{background:color-mix(in srgb,var(--aulac-superficie1) 96%,transparent);backdrop-filter:blur(20px)}}
 @media(max-width:599px){dialog.catalogo-popup{width:calc(100vw - 24px);max-width:calc(100vw - 24px)}.catalogo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.catalogo-grid article{grid-template-columns:minmax(0,1fr)}.catalogo-grid article>button:not(.catalogo-insertar){text-align:center}}
+
+/* R23-UX4: altura acotada del riel y una columna compartida por los paneles. */
+.instrumentos-rail{overflow:visible;padding:4px;gap:0;bottom:24px}
+.instrumentos-rail section{flex:none;padding:1px 0;gap:0}
+.instrumentos-rail section>strong{height:11px;line-height:11px;flex:none}
+.instrumentos-rail button{box-sizing:border-box;flex:none;height:24px;min-height:24px;padding:1px 2px;gap:0;font-size:9px;line-height:10px;position:relative}
+.instrumentos-rail button b{font-size:12px;line-height:12px}
+.instrumentos-rail button svg,.instrumentos-rail .riel-favoritos .catalogo-arte,.instrumentos-rail .riel-favoritos .catalogo-arte svg{width:12px;height:12px}
+.instrumentos-rail button span{white-space:nowrap;overflow-wrap:normal;line-height:10px;overflow:hidden;text-overflow: ellipsis}
+.instrumentos-rail .riel-favoritos{gap:0}
+.instrumentos-rail .riel-mas{display:none}
+.instrumentos-rail section:last-child button:last-child span{font-size:8px}
+.riel-favoritos kbd{box-sizing:border-box;right:1px;top:1px;max-width:12px;line-height:10px;font-size:8px}
+#panelTabs{position:sticky;top:53px;z-index:2;display:flex;gap:4px;padding:4px 8px;background:var(--aulac-superficie1);border-bottom:1px solid var(--aulac-linea)}
+#panelTabs:empty{display:none}#panelTabs button{flex:1;min-width:0;padding:6px 2px;white-space:normal;font-size:12px}
+.panel-plegado #panelTabs{display:none}
+#panelTabs [aria-selected=true]{color:var(--aulac-acento);background:var(--aulac-superficie3)}
+.work.con-instrumento:not(.panel-plegado) #views,.work.con-analisis.panel-flotante:not(.panel-plegado) #views{margin-right:var(--columna-panel,360px);margin-left:0;margin-bottom:0}
+.work.con-instrumento:not(.panel-plegado) .instrumento-panel,.work.con-analisis.panel-flotante:not(.panel-plegado) .instrumento-panel{left:auto;right:0;top:0;bottom:24px;width:var(--columna-panel,360px);max-width:none;height:auto;border-radius:0;box-shadow:none}
+.work.con-instrumento:not(.panel-plegado) .visor{margin-right:var(--columna-panel,360px);margin-left:0}
+.work.con-instrumento.con-paleta>aside.paleta{left:auto;right:0;top:0;width:var(--columna-panel,360px);max-width:none;max-height:40%;z-index:26}
+.work.con-instrumento.con-paleta .instrumento-panel{top:40%}
+.work.con-instrumento.con-paleta #views{margin-top:0}
+.work .current-legend{display:block;position:absolute;left:12px;right:12px;bottom:48px;max-width:none;line-height:14px;white-space:normal;background:none;z-index:20}
+.work #schemePane{padding-bottom:72px}
+@media(min-width:900px) and (max-width:1399px){.work.con-instrumento #views.both{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(400px,1fr) minmax(280px,1fr);overflow-y:auto}.work.con-instrumento #views.both .separador-lienzos{display:none}}
+@media(max-width:899px){
+ .instrumentos-rail{width:48px}.instrumentos-rail button{width:38px;height:24px;min-height:24px;padding:3px}
+ .instrumentos-rail button span,.instrumentos-rail section>strong,.instrumentos-rail .riel-favoritos .catalogo-arte{display:none}
+ .instrumentos-rail .riel-favoritos .catalogo-arte{display:block;width:18px;height:18px}
+ .instrumentos-rail .riel-favoritos .catalogo-arte svg,.instrumentos-rail button svg{width:18px;height:18px}
+ .instrumentos-rail button b{font-size:18px;line-height:18px}.riel-favoritos kbd{right:0;top:0}
+}
+@media(max-height:719px){
+ .instrumentos-rail .riel-favoritos{display:none}.instrumentos-rail .riel-mas{display:block}
+ .instrumentos-rail.favoritos-abiertos .riel-favoritos{display:flex;position:fixed;left:84px;top:96px;width:160px;padding:8px;gap:4px;background:var(--aulac-superficie1);border:1px solid var(--aulac-linea);border-radius:8px;box-shadow:0 4px 20px #0003;max-height:calc(100dvh - 112px);overflow-y:auto}
+ .instrumentos-rail.favoritos-abiertos .riel-favoritos button{width:100%;height:32px;min-height:32px;flex-direction:row;gap:8px;font-size:11px}.instrumentos-rail.favoritos-abiertos .riel-favoritos button>span:not(.catalogo-arte){display:block}
+}
+@media(max-width:899px) and (max-height:719px){.instrumentos-rail.favoritos-abiertos .riel-favoritos{left:48px}}
+.work.panel-inferior.con-instrumento:not(.panel-plegado) #views{margin-right:0;margin-bottom:0;flex-basis:60%;min-height:320px}
+.work.panel-inferior.con-instrumento:not(.panel-plegado){overflow-y:auto}
+.work.panel-inferior.con-instrumento:not(.panel-plegado) .instrumento-panel{position:relative;flex:none;left:auto;right:auto;top:auto;bottom:auto;width:100%;height:300px;max-width:100%}
+.work.panel-inferior.con-instrumento.con-paleta>aside.paleta{position:relative;right:auto;top:auto;width:100%;max-height:240px;flex:none}
+@media(max-width:599px){.instrumentos-rail{bottom:76px}.work .current-legend{font-size:10px;bottom:48px}}
+
+/* R23: riel con aire según el alto disponible y panel sin desplazamiento horizontal. */
+.instrumentos-rail button{height:clamp(26px,calc((100dvh - 230px)/18),40px);min-height:0;font-size:10px;line-height:11px;gap:2px}
+.instrumentos-rail button svg,.instrumentos-rail .riel-favoritos .catalogo-arte,.instrumentos-rail .riel-favoritos .catalogo-arte svg{width:16px;height:16px}
+.instrumentos-rail button b{font-size:15px;line-height:15px}
+.instrumentos-rail section>strong{height:14px;line-height:14px;font-size:10px}
+.instrumentos-rail section{padding:3px 0}
+.instrumento-panel{overflow-x:hidden}
+.instrumento-panel [role=tablist],.instrumento-panel .ana-tabs{flex-wrap:wrap}
+.instrumento-panel table{width:100%;table-layout:fixed}.instrumento-panel td,.instrumento-panel th{overflow-wrap:anywhere}
+.instrumento-panel .ana-tabs button{flex:1 1 auto;min-width:0;white-space:normal;line-height:1.2}
+.instrumentos-rail section:first-child button:first-child{height:auto;min-height:40px}
+.instrumentos-rail section:first-child button:first-child span{white-space:normal;text-overflow:clip}

@@ -12,7 +12,7 @@ export function crearAnalisis({contenedor,svg,leer,fit,estado}){
  const clear=()=>{svg.classList?.remove('analisis-recorrido');svg.querySelectorAll('.analisis-capa').forEach(e=>e.remove());svg.querySelectorAll('.analisis-resaltado,.analisis-apagado').forEach(e=>e.classList.remove('analisis-resaltado','analisis-apagado'));};
  const layer=()=>{const g=document.createElementNS(svg.namespaceURI,'g');g.classList.add('analisis-capa');g.setAttribute('pointer-events','none');svg.append(g);return g;};
  const label=(g,x,y,s)=>{const t=document.createElementNS(svg.namespaceURI,'text');t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('class','analisis-chip');t.textContent=s;g.append(t);return t;};
- const tabs=()=>`<div class="ana-tabs" role="tablist" aria-label="Tipos de análisis">${[['nodos','Nodos'],['mallas','Mallas'],['thevenin','Thévenin/Norton']].map(([id,title])=>`<button role="tab" data-tab="${id}" aria-selected="${active===id}">${title}</button>`).join('')}</div>`;
+ const tabs=()=>`<div class="ana-tabs" role="tablist" aria-label="Tipos de análisis">${[['nodos','Nodos'],['mallas','Mallas'],['thevenin','Thévenin/<wbr>Norton']].map(([id,title])=>`<button role="tab" data-tab="${id}" aria-selected="${active===id}">${title}</button>`).join('')}</div>`;
  const bindTabs=()=>root.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>estado(b.dataset.tab));
  const combination=coeff=>coeff.map((v,i)=>v?(v<0?' − ':i&&coeff.slice(0,i).some(Boolean)?' + ':'')+'I'+(i+1):'').join('').trim()||'0';
  function pintarMallas(data){

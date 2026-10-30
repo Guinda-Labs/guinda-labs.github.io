@@ -4,6 +4,9 @@ export function leerMenus(source){return Object.fromEntries(source.split(/\r?\n/
 export const DISTRIBUCIONES={armar:{paleta:0,panel:360},protoboard:{paleta:0,panel:360,proporcion:66},medir:{paleta:0,panel:360},analizar:{paleta:0,panel:55}};
 export function anchoPanel(value,total){return Math.max(240,Math.min(Math.max(240,total-480),value));}
 export function panelFlotante(total,panel,ambas=false){const disponible=total-(total>=900?84:48),minimo=ambas&&disponible>=960?960:480;return disponible-panel<minimo;}
+// Una sola columna lateral; si no quedan 520 px, el banco pasa debajo.
+// Kirchhoff con etiquetas: 932 × 0.60 + 24 de padding + 17 de scrollbar < 604 px.
+export function espacioLaboratorio(total,panel=360){const riel=total>=900?84:48,minimo=Math.max(604,total*.55),disponible=total-riel,ancho=Math.min(panel,disponible-minimo);return {riel,panel:ancho>=224?ancho:0,lienzo:ancho>=224?disponible-ancho:disponible};}
 export async function crearBarra(ctx){
  const {work,paleta,paletaBoton,ayudaBoton,sondaBoton,botonCable,visor,instrumentosUno,alternarPaleta,alternarAyuda,botones,createMode,examplesMenu,practiceMenu,practiceInfo,engine,simularPausar,openPractice,agregarTabla,zoom,status}=ctx;
  const $=id=>document.getElementById(id),make=(tag,parent,text)=>{const e=document.createElement(tag);if(text)e.textContent=text;parent?.append(e);return e;};
@@ -47,7 +50,7 @@ export async function crearBarra(ctx){
  };
  const panelHandle=handle($('instrumentoPanel'),'panel'),paletteHandle=handle(paleta,'paleta'),canvasHandle=handle($('views'),'lienzos');
  function distribuir(id){distribution=id;visor.mostrar?.(id==='medir');const preset=DISTRIBUCIONES[id];work.dataset.distribucion=id;delete work.dataset.modificada;work.style.setProperty('--panel',id==='analizar'?Math.max(240,(work.clientWidth-52)*.55)+'px':preset.panel+'px');work.style.setProperty('--proporcion',proporcion(preset.proporcion||50)+'%');alternarPaleta(false);if(id==='armar')document.activeElement?.blur();work.style.setProperty('--paleta',preset.paleta+'px');if(id==='medir')instrumentosUno.abrir('osciloscopio');else if(id==='analizar')instrumentosUno.abrir('bode');else instrumentosUno.cerrar();for(const b of bottom.children)b.setAttribute('aria-pressed',String(b.dataset.distribution===id));distro.querySelector('summary').textContent=menus.Distribución.find(r=>r[0]===id)[1]+' ▾';panelHandle.setAttribute('aria-valuenow',String(id==='analizar'?(work.clientWidth-52)*.55:preset.panel));paletteHandle.setAttribute('aria-valuenow',String(preset.paleta));canvasHandle.setAttribute('aria-valuenow',String(preset.proporcion||50));actualizarPanel();}
- function actualizarPanel(){const panel=Number.parseFloat(work.style.getPropertyValue?.('--panel')||'360');work.classList.toggle('panel-flotante',panelFlotante(work.clientWidth,panel,$('views').classList.contains('both')));}
+ function actualizarPanel(){const panel=Number.parseFloat(work.style.getPropertyValue?.('--panel')||'360'),espacio=espacioLaboratorio(work.clientWidth,panel);work.classList.toggle('panel-flotante',panelFlotante(work.clientWidth,panel,$('views').classList.contains('both')));work.style.setProperty('--columna-panel',espacio.panel+'px');work.classList.toggle('panel-inferior',!espacio.panel);}
  tabs.addEventListener('click',actualizarPanel);
  const ro=new ResizeObserver(()=>{for(const d of popups)place(d);actualizarPanel();});ro.observe(barra);ro.observe(work);window.addEventListener('resize',()=>popups.forEach(place));
  document.addEventListener('click',e=>{if(!e.target.closest('.menu-barra,.menu-hamburguesa,.menus-principales')){popups.forEach(d=>d.open=false);menusRoot.classList.remove('hoja-abierta');burger.setAttribute('aria-expanded','false');}});
