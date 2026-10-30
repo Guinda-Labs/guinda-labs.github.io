@@ -1,4 +1,7 @@
 import {navegar} from './navegacion.mjs';
+import {crearAnalisis} from './analisis-ui.mjs';
+var analisisCtl=null;
+const HERRAMIENTAS=[...INSTRUMENTOS,{id:'nodos',nombre:'Nodos',selectores:['#analisisContenido']},{id:'thevenin',nombre:'Thévenin',selectores:['#analisisContenido']}];
 import {crearBarra} from './menus.mjs';
 var schemeNavigation=null,schemeBounds=null,distribuir=null;
 import {MotorNgspiceWeb} from './motor/ngspice-web.mjs';
@@ -246,17 +249,22 @@ panelPlegar.onclick=()=>{const plegado=work.classList.toggle('panel-plegado');pa
 const instrumentoContenido=control(instrumentosDock,'div','instrumentoContenido','');
 instrumentoContenido.append(document.querySelector('.instruments'),document.querySelector('.bench'));
 const instrumentosMenu=control(work,'nav','instrumentosRail','');instrumentosMenu.className='instrumentos-rail';instrumentosMenu.setAttribute('aria-label','Instrumentos');
-const instrumentosUno=selectorUno(INSTRUMENTOS,id=>{
+const instrumentosUno=selectorUno(HERRAMIENTAS,id=>{
  work.classList.toggle('panel-plegado',false);panelPlegar.textContent='Plegar';panelPlegar.setAttribute('aria-expanded','true');
- aplicarVisibilidad(instrumentoContenido,INSTRUMENTOS,id);instrumentosDock.hidden=!id;work.classList.toggle('con-instrumento',!!id);
- panelTitulo.textContent=INSTRUMENTOS.find(i=>i.id===id)?.nombre||'';
+ aplicarVisibilidad(instrumentoContenido,HERRAMIENTAS,id);instrumentosDock.hidden=!id;work.classList.toggle('con-instrumento',!!id);
+ if(['nodos','thevenin'].includes(id)){
+  if(wiring)botonCable0.click();if(modoSonda)sondaBoton.click();
+  if($('views').classList.contains('board'))document.querySelector('#tabs [data-view="scheme"]').click();
+ }
+ analisisCtl?.seleccionar(id);work.classList.toggle('con-analisis',!!analisisCtl?.activo);
+ panelTitulo.textContent=['nodos','thevenin'].includes(id)?'Análisis':INSTRUMENTOS.find(i=>i.id===id)?.nombre||'';
  for(let b of instrumentosMenu.querySelectorAll('button'))if(b.dataset.instrumento)b.setAttribute('aria-pressed',String(b.dataset.instrumento===id));
  if(id)instruments();requestAnimationFrame(()=>{fitPractice();physicalEditor.fit();});
 });
 const dibujos=['M3 12h3l3-6 5 12 3-6h4','M3 12q3-10 6 0t6 0t6 0','M5 8h8m-4-4v8m6 4h5','M5 3h14v18H5zM8 7h8M9 12h6M12 12v5','M4 3v17h17M7 8h6l7 9','M3 18l4-4v4l5-9v9l5-13v13l4-7'];
-for(let [n,i] of INSTRUMENTOS.entries()){
+for(let [n,i] of HERRAMIENTAS.entries()){
  let b=control(instrumentosMenu,'button','instr-'+i.id,'',{type:'button',title:i.nombre});b.dataset.instrumento=i.id;b.setAttribute('aria-label',i.nombre);b.setAttribute('aria-pressed','false');
- let svg=el('svg',{viewBox:'0 0 24 24','aria-hidden':'true'},b);el('path',{d:dibujos[n]},svg);b.onclick=()=>instrumentosUno.alternar(i.id);
+ let svg=el('svg',{viewBox:'0 0 24 24','aria-hidden':'true'},b);el('path',{d:dibujos[n]||(i.id==='nodos'?'M12 3v6m0 6v6M3 12h6m6 0h6M9 9h6v6H9z':'M3 6h5m8 0h5M8 3h8v6H8zM3 18h18M5 6v12')},svg);b.onclick=()=>instrumentosUno.alternar(i.id);
 }
 panelCerrar.onclick=()=>instrumentosUno.cerrar();
 instrumentosDock.addEventListener('keydown',e=>{if(e.key==='Escape'&&!/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))instrumentosUno.cerrar();});
@@ -390,8 +398,8 @@ function fitPractice(){
  const svg=$('scheme');svg.querySelectorAll('.label-guide').forEach(e=>e.remove());
  // Las etiquetas escalan con el símbolo: compensarlas por el zoom causa solapamientos.
  svg.style?.setProperty('--svg-font','20px');
- const elements=[...svg.querySelectorAll('text')].filter(e=>!e.closest('.body'));
- const labels=elements.map(e=>{e.removeAttribute('transform');const b=e.getBBox();return {x:b.x-3,y:b.y-3,width:b.width+6,height:b.height+6};});
+ const elements=[...svg.querySelectorAll('text')].filter(e=>!e.closest('.body,.analisis-equivalente'));
+ const labels=elements.map(e=>{e.removeAttribute('transform');const b=e.getBBox(),pad=e.closest('.analisis-chip')?8:3;return {x:b.x-pad,y:b.y-pad,width:b.width+2*pad,height:b.height+2*pad};});
  const obstacles=cajasEsquema(circuit).filter(b=>b.kind==='symbol');
  for(const w of circuit.wires){const pts=ruta(circuit,w);for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i];obstacles.push({x:Math.min(a[0],b[0])-2,y:Math.min(a[1],b[1])-2,width:Math.abs(a[0]-b[0])+4,height:Math.abs(a[1]-b[1])+4});}}
  const placed=distribuirEtiquetas(labels,obstacles);
@@ -507,7 +515,7 @@ const construir=grupo('Construir');
 for(const [b,label,icon] of [[paletaBoton,'Componentes A','⊞'],[botonCable0,'Cable W','⌁'],[sondaBoton,'Sonda S','⌖']]){b.replaceChildren();const i=document.createElement('b');i.textContent=icon;const s=document.createElement('span');s.textContent=label;b.append(i,s);b.title=label;b.setAttribute('aria-label',label);construir.append(b);}
 const favoritos=document.createElement('div');favoritos.className='riel-favoritos';construir.append(favoritos);
 const instrumentsGroup=grupo('Instrumentos'),analysisGroup=grupo('Análisis');
-for(const b of instrumentosExistentes){const i=INSTRUMENTOS.find(i=>i.id===b.dataset.instrumento);const s=document.createElement('span');s.textContent=i.nombre;b.append(s);(i.id==='bode'||i.id==='barrido'?analysisGroup:instrumentsGroup).append(b);}
+for(const b of instrumentosExistentes){const i=HERRAMIENTAS.find(i=>i.id===b.dataset.instrumento);const s=document.createElement('span');s.textContent=i.nombre;b.append(s);(['bode','barrido','nodos','thevenin'].includes(i.id)?analysisGroup:instrumentsGroup).append(b);}
 function abrirDistribucion(){
  const menu=document.querySelector('.fila-vistas .menu-barra');if(innerWidth>=600){menu?.querySelector('summary').click();return;}
  // La fila no existe visualmente en móvil; reutilizar sus acciones evita un control inerte.
@@ -540,3 +548,10 @@ const menu=menuContextual({lienzos:[$('scheme'),$('board'),rail],status,objeto:(
 }});
 // Voltear cambia el dibujo y la geometría de las patillas en la misma operación.
 const renderVolteo=render;render=()=>{renderVolteo();for(const p of circuit.components){if(!p.flipped)continue;const body=$('scheme').querySelector('[data-component="'+p.id+'"] .body');if(body)body.setAttribute('transform',body.getAttribute('transform')+' scale(1 -1)');}};
+analisisCtl=crearAnalisis({contenedor:instrumentoContenido,svg:$('scheme'),leer:()=>{
+ let components=compilar(circuit).components;
+ if($('psuEnabled').checked)components=alimentar(components,$('psuSource').value,valor($('psuVoltage').value),valor($('psuLimit').value),MNA).components;
+ return {components,dc:result?.dc};
+},fit:()=>fitPractice(),estado:id=>instrumentosUno.abrir(id)});
+const renderAnalisis=render;render=()=>{renderAnalisis();analisisCtl.actualizar();if(analisisCtl.activo)fitPractice();};
+const instrumentosAnalisis=instruments;instruments=()=>{instrumentosAnalisis();analisisCtl.actualizar();if(analisisCtl.activo)fitPractice();};

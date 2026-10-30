@@ -260,6 +260,18 @@ dialog.catalogo-popup{width:min(960px,calc(100vw - 48px));max-width:calc(100vw -
 .work.panel-plegado .instrumento-panel{left:auto;right:8px;top:8px;bottom:auto;width:32px;min-width:0;max-width:32px;height:auto;padding:0}
 .panel-plegado #instrumentoContenido,.panel-plegado #instrumentoTitulo,.panel-plegado #instrumentoCerrar,.panel-plegado .separador-panel{display:none}
 .panel-plegado #instrumentoCab{padding:0;display:block}.panel-plegado #instrumentoPlegar{writing-mode:vertical-rl;padding:12px 6px;width:32px;min-height:140px;border:0}
+/* El análisis reserva lienzo incluso cuando los instrumentos usan ventana flotante. */
+.work.con-analisis.panel-flotante:not(.panel-plegado) #views{margin-right:min(360px,50%)}
+.work.con-analisis.panel-flotante:not(.panel-plegado) .instrumento-panel{width:min(360px,50%);right:0;top:0;border-radius:0;box-shadow:none}
+#analisisContenido{display:grid;gap:16px;min-width:0}#analisisContenido[hidden]{display:none}
+#analisisContenido p{margin:0;line-height:1.5}#analisisContenido button{white-space:normal}
+.ana-tabs{display:flex;gap:4px;background:var(--aulac-superficie2);padding:3px;border-radius:var(--aulac-r2)}.ana-tabs button{flex:1;min-width:0}
+.ana-terminales{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ana-resultados{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.ana-resultados>div{padding:6px;background:var(--aulac-superficie2);border-radius:var(--aulac-r2)}.ana-resultados output{color:var(--aulac-acento);overflow-wrap:anywhere}
+.ana-voltajes{width:100%;border-collapse:collapse}.ana-voltajes caption{text-align:left;color:var(--aulac-tenue);padding-bottom:12px}.ana-voltajes th{text-align:left;font-weight:500}.ana-voltajes td{text-align:right;font-family:var(--aulac-mono);color:var(--aulac-acento);white-space:nowrap}.ana-voltajes th,.ana-voltajes td{padding:9px 3px;border-bottom:1px solid var(--aulac-linea)}.ana-voltajes small{display:block}
+#analisisContenido details summary{cursor:pointer;padding:8px 0}#analisisContenido details p{margin:12px 0}.ana-matriz{overflow-x:auto;max-width:100%;padding:6px 0}.ana-matriz table{border-collapse:collapse;font:11px var(--aulac-mono);white-space:nowrap}.ana-matriz td,.ana-matriz th{padding:6px;text-align:right;border-bottom:1px solid var(--aulac-linea)}.ana-matriz th:first-child{text-align:left}.ana-paso{display:grid;gap:8px;border-top:1px solid var(--aulac-linea);padding-top:16px}
+#analisisContenido svg text{font-size:13px}.analisis-chip{font-size:20px!important;fill:var(--aulac-acento);stroke:var(--aulac-fondo);stroke-width:12px;stroke-linejoin:round;paint-order:stroke}.analisis-resaltado .body,.analisis-resaltado{stroke:var(--aulac-acento)}.analisis-apagado{opacity:.3}.analisis-corto{stroke:var(--aulac-acento);stroke-width:3;stroke-dasharray:6 5;fill:none}
+#scheme.analisis-recorrido .dot{opacity:.15}
+@media(max-width:599px){.work.con-analisis.panel-flotante:not(.panel-plegado) #views{margin-right:0;margin-bottom:45dvh}.work.con-analisis.panel-flotante:not(.panel-plegado) .instrumento-panel{left:48px;right:0;top:auto;width:auto;height:45dvh;max-width:none}}
 .contexto-lab button{display:flex;align-items:center;justify-content:space-between;gap:20px}.contexto-lab kbd{margin-left:auto;font:11px var(--aulac-mono);color:var(--aulac-tenue);white-space:nowrap}
 .contexto-lab button[data-separador]{border-top:1px solid var(--aulac-linea);margin-top:4px;padding-top:10px}
 @supports(backdrop-filter:blur(20px)){.contexto-lab,.menu-popup{background:color-mix(in srgb,var(--aulac-superficie1) 96%,transparent);backdrop-filter:blur(20px)}}
