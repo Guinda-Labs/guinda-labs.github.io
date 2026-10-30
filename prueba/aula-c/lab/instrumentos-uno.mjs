@@ -7,6 +7,7 @@ export const INSTRUMENTOS=[
  {id:'bode',nombre:'Bode',selectores:['.aux-panel','.aux-panel details:nth-of-type(2)']},
  {id:'barrido',nombre:'Barrido',selectores:['#parameterSweep']}
 ];
+export function mostrarPuntas({hayMultimetro=false,panelAbierto=false,positiva='',negativa=''}){return (hayMultimetro||panelAbierto)&&Boolean(positiva)&&Boolean(negativa);}
 export function selectorUno(lista=INSTRUMENTOS,alCambiar=()=>{}){
  let actual=null;
  const ids=lista.map(i=>i.id);

@@ -2,17 +2,19 @@ import {analizarNodos,thevenin,admitirCD,analizarMallas} from './analisis.mjs';
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
 const f=(n,u)=>Number.isFinite(n)?`${Number(n.toPrecision(5)).toLocaleString('es-MX')} ${u}`:'Sin camino de CD';
 const name=i=>'V'+String.fromCharCode(97+i%26)+(i>=26?Math.floor(i/26):'');
+const AVISO_CAMPO='No se pudo cargar la escena 3D. Revisa que tu navegador admita WebGL. El resto del laboratorio sigue funcionando.';
 export function equivalente(r,norton=false){
  const source=norton?f(r.In*1000,'mA'):f(r.Vth,'V'),res=f(r.Rth,'Ω');
  return `<svg viewBox="0 0 280 160" role="img" aria-label="Equivalente de ${norton?'Norton':'Thévenin'}"><g fill="none" stroke="var(--aulac-acento)" stroke-width="2"><circle cx="55" cy="80" r="22"/><path d="${norton?'M55 58V30H250':'M55 58V30H92m56 0h102'}M55 102v28h195"/>${norton?'<path d="M180 30v25m0 50v25m-8-75h16v50h-16zM55 94V66l-6 8m6-8 6 8"/>':'<path d="M92 22h56v16H92zM49 73h12m-6-6v12m-6 12h12"/>'}<circle cx="250" cy="30" r="3"/><circle cx="250" cy="130" r="3"/></g><g font-size="13"><text x="252" y="23">A</text><text x="252" y="150">B</text><text x="6" y="150">${esc(source)}</text><text x="${norton?190:90}" y="${norton?85:17}">${esc(res)}</text></g></svg>`;
 }
 export function crearAnalisis({contenedor,svg,leer,fit,estado}){
- let active=null,A=null,B='0',carga='',paso=0,overlay=false,forma='th',seleccion='A',expanded=false,cache=null;
+ let active=null,A=null,B='0',carga='',paso=0,overlay=false,forma='th',seleccion='A',expanded=false,cache=null,campoHost=null,campoCarga=0,campoVivo=null;
  const root=document.createElement('section');root.id='analisisContenido';root.hidden=true;contenedor.append(root);
  const clear=()=>{svg.classList?.remove('analisis-recorrido');svg.querySelectorAll('.analisis-capa').forEach(e=>e.remove());svg.querySelectorAll('.analisis-resaltado,.analisis-apagado').forEach(e=>e.classList.remove('analisis-resaltado','analisis-apagado'));};
  const layer=()=>{const g=document.createElementNS(svg.namespaceURI,'g');g.classList.add('analisis-capa');g.setAttribute('pointer-events','none');svg.append(g);return g;};
  const label=(g,x,y,s)=>{const t=document.createElementNS(svg.namespaceURI,'text');t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('class','analisis-chip');t.textContent=s;g.append(t);return t;};
- const tabs=()=>`<div class="ana-tabs" role="tablist" aria-label="Tipos de análisis">${[['nodos','Nodos'],['mallas','Mallas'],['thevenin','Thévenin/<wbr>Norton']].map(([id,title])=>`<button role="tab" data-tab="${id}" aria-selected="${active===id}">${title}</button>`).join('')}</div>`;
+ const soltarCampo=()=>{campoCarga++;campoHost=null;campoVivo?.destruir();campoVivo=null;};
+ const tabs=()=>`<div class="ana-tabs" role="tablist" aria-label="Tipos de análisis">${[['nodos','Nodos'],['mallas','Mallas'],['thevenin','Thévenin/<wbr>Norton'],['campo','Campo']].map(([id,title])=>`<button role="tab" data-tab="${id}" aria-selected="${active===id}">${title}</button>`).join('')}</div>`;
  const bindTabs=()=>root.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>estado(b.dataset.tab));
  const combination=coeff=>coeff.map((v,i)=>v?(v<0?' − ':i&&coeff.slice(0,i).some(Boolean)?' + ':'')+'I'+(i+1):'').join('').trim()||'0';
  function pintarMallas(data){
@@ -47,8 +49,17 @@ export function crearAnalisis({contenedor,svg,leer,fit,estado}){
   if(paso===2){const terminals=[A,B].map(n=>svg.querySelector('[data-pin][data-node="'+CSS.escape(n)+'"]')).filter(Boolean);if(terminals.length===2){const path=document.createElementNS(svg.namespaceURI,'path');path.setAttribute('d','M'+terminals.map(t=>[t.getAttribute('cx'),t.getAttribute('cy')].join(' ')).join('L'));path.setAttribute('class','analisis-corto');g.append(path);}}
   if(overlay){const bounds=svg.querySelectorAll('[data-component]'),bottom=Math.max(100,...[...bounds].map(e=>{const b=e.getBBox();return b.y+b.height;}));const nested=document.createElementNS(svg.namespaceURI,'svg');nested.classList.add('analisis-equivalente');nested.setAttribute('x','100');nested.setAttribute('y',bottom+50);nested.setAttribute('width','280');nested.setAttribute('height','160');nested.innerHTML=equivalente(r,forma==='no'&&r.In!==null);g.append(nested);label(g,100,bottom+240,'equivalente superpuesto · el circuito no cambió');}
  }
+ // Pestaña Campo: la escena 3D se carga al abrirla y se destruye al salir; no se repinta con cada render del circuito.
+ function panelCampo(){
+  if(campoHost&&root.contains(campoHost))return;
+  soltarCampo();clear();root.innerHTML=tabs();bindTabs();
+  const host=document.createElement('div');host.className='campo';root.append(host);campoHost=host;const token=campoCarga;
+  import('./campo3d.mjs').then(m=>m.montarCampo(host)).then(c=>{if(token!==campoCarga){c.destruir();return;}campoVivo=c;},e=>{if(token!==campoCarga)return;host.innerHTML='<p role="status">'+AVISO_CAMPO+'</p>';console.error('[AULA-C campo 3D]',e);});
+ }
  function actualizar(){
+  if(active!=='campo')soltarCampo();
   if(!active){clear();return;}
+  if(active==='campo'){panelCampo();return;}
   let ctx;try{
    ctx=leer();if(active==='mallas'){panelMallas(ctx);return;}const aviso=admitirCD(ctx.components);cache=analizarNodos(ctx.components,ctx.dc);const data=cache;
    if(!data.nodes.includes(A))A=data.nodes[0];if(!['0',...data.nodes].includes(B))B='0';
@@ -81,5 +92,5 @@ export function crearAnalisis({contenedor,svg,leer,fit,estado}){
   }catch(e){cache=null;clear();root.innerHTML=tabs()+'<p role="status">'+esc(e.message)+'</p>';bindTabs();console.error('[AULA-C análisis]',{error:e.message,tipo:active,terminales:{A,B},carga,componentes:ctx?.components,cables:ctx?.esquema?.wires});}
  }
  svg.addEventListener('click',e=>{if(active!=='thevenin'||!cache)return;const n=e.target.closest('[data-node]')?.dataset.node;if(n===undefined)return;e.preventDefault();e.stopImmediatePropagation();if(seleccion==='A'){A=n;seleccion='B';}else{B=n;seleccion='A';}paso=0;actualizar();fit();},true);
- return {actualizar,seleccionar(id){active=['nodos','thevenin','mallas'].includes(id)?id:null;root.hidden=!active;actualizar();},get activo(){return !!active;}};
+ return {actualizar,seleccionar(id){active=['nodos','thevenin','mallas','campo'].includes(id)?id:null;root.hidden=!active;actualizar();},get activo(){return !!active;}};
 }

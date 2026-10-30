@@ -1,47 +1,12 @@
-// Importa una portada .docx en el navegador (todo local): lector ZIP mínimo + XML mínimo → HTML de hoja carta.
+// Importa una portada .docx en el navegador (todo local): ZIP común + XML mínimo → HTML de hoja carta.
 // Sin dependencias; usa DecompressionStream('deflate-raw') (navegadores actuales y Node ≥ 18).
 // El HTML guardado lleva marcadores {{campo}} que se llenan con los valores del front matter (llenarPortada).
+import { leerZip } from '../nucleo/aulac-archivo.mjs';
 
-const MAX_TOTAL = 24 * 1024 * 1024;
 const dec = new TextDecoder('utf-8');
 const esc = (s) => String(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 
-// ---------- ZIP ----------
-/** bytes de un .zip → Map nombre → Uint8Array (store y deflate). */
-export async function leerZip(bytes) {
-  const u8 = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
-  const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
-  let eocd = -1;
-  for (let i = u8.length - 22; i >= Math.max(0, u8.length - 22 - 65535); i--) if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
-  if (eocd < 0) throw new Error('No es un archivo ZIP/.docx válido');
-  const n = dv.getUint16(eocd + 10, true);
-  let p = dv.getUint32(eocd + 16, true);
-  const out = new Map(); let total = 0;
-  for (let k = 0; k < n; k++) {
-    if (dv.getUint32(p, true) !== 0x02014b50) throw new Error('Directorio ZIP dañado');
-    const metodo = dv.getUint16(p + 10, true), comp = dv.getUint32(p + 20, true), real = dv.getUint32(p + 24, true);
-    const ln = dv.getUint16(p + 28, true), le = dv.getUint16(p + 30, true), lc = dv.getUint16(p + 32, true), off = dv.getUint32(p + 42, true);
-    const nombre = dec.decode(u8.subarray(p + 46, p + 46 + ln));
-    p += 46 + ln + le + lc;
-    if (nombre.endsWith('/')) continue;
-    total += real;
-    if (total > MAX_TOTAL) throw new Error('El .docx descomprimido es demasiado grande');
-    if (dv.getUint32(off, true) !== 0x04034b50) throw new Error('Entrada ZIP dañada: ' + nombre);
-    const ini = off + 30 + dv.getUint16(off + 26, true) + dv.getUint16(off + 28, true);
-    const datos = u8.subarray(ini, ini + comp);
-    if (metodo === 0) out.set(nombre, datos.slice());
-    else if (metodo === 8) out.set(nombre, await inflar(datos, real));
-    else throw new Error(`Método de compresión ${metodo} no soportado (${nombre})`);
-  }
-  return out;
-}
-async function inflar(datos, esperado) {
-  if (typeof DecompressionStream === 'undefined') throw new Error('Este navegador no puede descomprimir .docx (falta DecompressionStream)');
-  const flujo = new Blob([datos]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
-  const r = new Uint8Array(await new Response(flujo).arrayBuffer());
-  if (esperado && r.length !== esperado) throw new Error('Tamaño descomprimido inesperado');
-  return r;
-}
+export { leerZip };
 
 // ---------- XML mínimo ----------
 const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };

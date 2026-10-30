@@ -18,9 +18,10 @@ export function agrupar({piezas,recientes=[],consulta=''}){
 export function moverSeleccion(i,n,tecla){if(!n)return -1;if(tecla==='ArrowDown')return i<0?0:(i+1)%n;if(tecla==='ArrowUp')return i<0?n-1:(i-1+n)%n;return i;}
 
 // Controlador de DOM: reordena los botones del catálogo, maneja ↑↓/Enter y la pieza pegada al cursor.
-export function paletaUI({catalog,search,scheme,storage,cerrar,status=()=>{}}){
+// vistaPrevia(origen, carga) puede devolver {svg, tam()} con la pieza al tamaño real del lienzo; board es el lienzo físico.
+export function paletaUI({catalog,search,scheme,board=null,storage,cerrar,status=()=>{},vistaPrevia=null}){
  const rec=crearRecientes(storage),nombre=b=>b.dataset.nombre||b.dataset.libraryId||'',clave=b=>b.dataset.libraryId||nombre(b);
- let armada=null,fantasma=null,idx=-1,busy=false;
+ let armada=null,fantasma=null,real=null,idx=-1,busy=false;
  const piezasDe=()=>[...catalog.querySelectorAll('button:not([data-proxy])')].map(b=>({id:clave(b),nombre:nombre(b),grupo:b.dataset.grupo||(b.closest('details.resto')?'resto':'activo'),b}));
  const visibles=()=>[...catalog.querySelectorAll('button')].filter(b=>!b.hidden&&!b.closest('details:not([open])'));
  function marcar(){let v=visibles();v.forEach((b,i)=>b.setAttribute('aria-selected',String(i===idx)));v[idx]?.scrollIntoView?.({block:'nearest'});}
@@ -39,16 +40,23 @@ export function paletaUI({catalog,search,scheme,storage,cerrar,status=()=>{}}){
   }finally{busy=false;}
  }
  function payload(b){let e={dataTransfer:{setData:(k,v)=>{e.v=v;}}};b.ondragstart?.(e);return e.v;}
- function cancelar(){armada=null;fantasma?.remove();fantasma=null;scheme.classList.remove('colocando');}
+ function cancelar(){armada=null;fantasma?.remove();fantasma=null;real=null;scheme.classList.remove('colocando');board?.classList?.remove('colocando');}
  function elegir(b){
   let origen=b.proxyDe||b;rec.agregar(clave(origen));let v=payload(origen);cerrar?.();
   if(!v){origen.click();return;}
-  cancelar();armada=v;scheme.classList.add('colocando');
-  fantasma=document.createElement('div');fantasma.className='pieza-pegada';let svg=origen.querySelector('svg');if(svg)fantasma.append(svg.cloneNode(true));fantasma.hidden=true;document.body.append(fantasma);
-  status('Haga clic en el esquemático para colocar «'+nombre(origen)+'». Esc cancela.');
+  cancelar();armada=v;scheme.classList.add('colocando');board?.classList?.add('colocando');
+  fantasma=document.createElement('div');fantasma.className='pieza-pegada';
+  try{real=vistaPrevia?vistaPrevia(origen,v):null;}catch{real=null;}
+  if(real){fantasma.className='pieza-pegada real';fantasma.append(real.svg);}else{let svg=origen.querySelector('svg');if(svg)fantasma.append(svg.cloneNode(true));}
+  fantasma.hidden=true;document.body.append(fantasma);
+  status('Haga clic en el lienzo para colocar «'+nombre(origen)+'». Esc cancela.');
  }
- document.addEventListener('pointermove',e=>{if(!fantasma)return;fantasma.hidden=false;fantasma.style.transform=`translate(${e.clientX+8}px,${e.clientY+8}px)`;});
+ document.addEventListener('pointermove',e=>{if(!fantasma)return;fantasma.hidden=false;if(real){const [w,h]=real.tam();fantasma.style.transform=`translate(${e.clientX-w/2}px,${e.clientY-h/2}px)`;}else fantasma.style.transform=`translate(${e.clientX+8}px,${e.clientY+8}px)`;});
  scheme.addEventListener('click',e=>{if(!armada)return;e.stopPropagation();e.preventDefault();let v=armada;cancelar();scheme.ondrop?.({clientX:e.clientX,clientY:e.clientY,preventDefault(){},dataTransfer:{getData:()=>v}});},true);
+ board?.addEventListener('click',e=>{if(!armada)return;e.stopPropagation();e.preventDefault();let v=armada;cancelar();
+  try{const dt=new DataTransfer();dt.setData('text/plain',v);board.dispatchEvent(new DragEvent('drop',{bubbles:true,cancelable:true,clientX:e.clientX,clientY:e.clientY,dataTransfer:dt}));}
+  catch{board.ondrop?.({clientX:e.clientX,clientY:e.clientY,preventDefault(){},dataTransfer:{getData:()=>v}});}
+ },true);
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&armada){cancelar();status('Colocación cancelada.');}},true);
  catalog.addEventListener('click',e=>{let b=e.target.closest('button');if(b)rec.agregar(clave(b.proxyDe||b));});
  search.oninput=refrescar;

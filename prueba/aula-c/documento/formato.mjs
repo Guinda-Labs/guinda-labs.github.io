@@ -1,4 +1,4 @@
-// Parser puro de .aulac.md (ver coordinacion/ipn-folio/diseno/r21-doc/FORMATO.md).
+// Parser puro de .aulac (ver coordinacion/ipn-folio/diseno/r21-doc/FORMATO.md).
 // parse(texto) → {meta, bloques, diagnosticos, vivos, circuitos, tablas, nombres}
 // verificar(doc, variables) → lista [{nivel:'error'|'aviso'|'ok', linea, mensaje}]
 import { errorLatex } from './mathml.mjs';

@@ -2,14 +2,14 @@
 export function encuadre(inicial=[0,0,960,420]){
  let frame=[...inicial],auto=true,size=[960,420],bounds=[...inicial],oculto=0;
  // El viewBox conserva el tamaño total; el circuito se centra antes de la zona tapada.
- const fit=f=>{const visible=size[0]-oculto,s=Math.min(visible/f[2],size[1]/f[3]),w=size[0]/s,h=size[1]/s;return [f[0]+(f[2]-visible/s)/2,f[1]+(f[3]-h)/2,w,h];};
+ const fit=f=>{const visible=size[0]-oculto,s=Math.min(2,visible/f[2],size[1]/f[3]),w=size[0]/s,h=size[1]/s;return [f[0]+(f[2]-visible/s)/2,f[1]+(f[3]-h)/2,w,h];};
  return {
   get frame(){return [...frame];},get auto(){return auto;},get escala(){return size[0]/frame[2];},
-  ajustar(f){bounds=[...f];if(auto)frame=fit(f);return this.frame;},
+  ajustar(f){bounds=[...f];if(auto){const dentro=f[0]>=frame[0]&&f[1]>=frame[1]&&f[0]+f[2]<=frame[0]+frame[2]&&f[1]+f[3]<=frame[1]+frame[3];if(!dentro)frame=fit(f);}return this.frame;},
   centrar(f){auto=true;bounds=[...f];frame=fit(f);return this.frame;},
   zoom(f,a=[frame[0]+frame[2]/2,frame[1]+frame[3]/2]){const scale=this.escala,next=Math.max(.1,Math.min(8,scale/f)),r=scale/next;frame=[a[0]+(frame[0]-a[0])*r,a[1]+(frame[1]-a[1])*r,frame[2]*r,frame[3]*r];auto=false;return this.frame;},
   mover(dx,dy){for(const [axis,d] of [[0,dx],[1,dy]]){const overlap=Math.min(bounds[axis+2],frame[axis+2])*.25;frame[axis]=Math.max(bounds[axis]+overlap-frame[axis+2],Math.min(bounds[axis]+bounds[axis+2]-overlap,frame[axis]+d));}auto=false;return this.frame;},
-  resize(w,h,derecha=0){if(!(w>0&&h>0))return this.frame;const cx=frame[0]+frame[2]/2,cy=frame[1]+frame[3]/2,s=this.escala;size=[w,h];oculto=Math.max(0,Math.min(w-1,derecha));if(!auto)frame=[cx-w/s/2,cy-h/s/2,w/s,h/s];return this.frame;},
+  resize(w,h,derecha=0){if(!(w>0&&h>0))return this.frame;const cx=frame[0]+frame[2]/2,cy=frame[1]+frame[3]/2,s=this.escala;size=[w,h];oculto=Math.max(0,Math.min(w-1,derecha));if(!auto)frame=[cx-w/s/2,cy-h/s/2,w/s,h/s];else if(size[0]/frame[2]>2)frame=fit(bounds);return this.frame;},
   seleccionar(f){auto=false;frame=fit(f);return this.frame;}
  };
 }

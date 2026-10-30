@@ -52,21 +52,22 @@ input[type=file]{display:none}
 <body>
 <header class="bar">
   <span class="brand"><i aria-hidden="true"></i>AULA-C</span>
-  <span class="doc" id="nombre">kirchhoff.aulac.md</span>
+  <span class="doc" id="nombre">kirchhoff.aulac</span>
   <span class="sp"></span>
   <span class="estado" id="estado" aria-live="polite"></span>
-  <label class="btn" for="abrir">Abrir .aulac.md</label><input type="file" id="abrir" accept=".md,.txt,text/markdown">
+  <label class="btn" for="abrir">Abrir .aulac</label><input type="file" id="abrir" accept=".aulac,.md,.txt,text/markdown">
   <label class="btn" for="vars">Variables…</label><input type="file" id="vars" accept=".json,application/json">
   <label class="btn" for="portada-docx" title="La portada se lee en este navegador; nada se sube">Importar mi portada (.docx)</label><input type="file" id="portada-docx" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
   <button type="button" class="btn" id="ejemplo">Ejemplo</button>
+  <button type="button" class="btn" id="guardar">Guardar .aulac</button>
   <button type="button" class="btn pri" id="pdf">Exportar PDF</button>
 </header>
 <div class="cols">
   <section class="izq" aria-label="Fuente y verificación">
     <h2>Fuente</h2>
-    <textarea id="fuente" spellcheck="false" aria-label="Fuente .aulac.md"></textarea>
+    <textarea id="fuente" spellcheck="false" aria-label="Fuente .aulac"></textarea>
     <div class="gal" id="galeria" role="radiogroup" aria-label="Portada"></div>
-    <div class="dnd">Arrastre aquí un .aulac.md o un .json de variables.</div>
+    <div class="dnd">Arrastre aquí un .aulac, .aulac heredado o .json de variables.</div>
     <h2>Verificación</h2>
     <div id="resumen"></div>
     <ul id="verif" aria-live="polite"></ul>

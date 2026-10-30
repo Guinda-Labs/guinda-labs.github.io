@@ -1,9 +1,10 @@
-// Interfaz del prototipo: abre un .aulac.md, muestra fuente + verificación a la izquierda y el documento a la derecha.
+// Interfaz del prototipo: abre un .aulac, muestra fuente + verificación a la izquierda y el documento a la derecha.
 // Calcula en el navegador: celdas Octave (evaluador JS), medidos desde las tablas y simulación DC (ngspice-web o MNA).
 import { parse, verificar } from './formato.mjs';
 import { renderDocumento, ESTILOS, activarEscenarios, ajustarPaginas } from './render.mjs';
 import { calcularOctave, medidosDeTablas, propuestos, simularCircuito, componentes, sustituciones, reemplazarCelda } from './simulacion.mjs';
 import { importarDocx, camposDePortada } from './portada-docx.mjs';
+import { leerAulac, escribirAulac } from '../nucleo/aulac-archivo.mjs';
 import { motorMNA, motorNgspice } from './motores.mjs';
 import { MotorNgspiceWeb } from '../lab/motor/ngspice-web.mjs';
 
@@ -11,7 +12,7 @@ const $ = (s) => document.querySelector(s);
 const fuente = $('#fuente'), lista = $('#verif'), hoja = $('#doc'), estado = $('#estado'), resumen = $('#resumen'), der = $('.der');
 const VER = 3; // sube al cambiar los ejemplos para no restaurar copias viejas
 const CLAVE = 'aulac-documento', CLAVE_ZOOM = 'aulac-zoom', CLAVE_PORTADAS = 'aulac-portadas';
-let baseVars = {}, esquemas = {}, nombre = 'sin-titulo.aulac.md', origen = 'archivo', temporizador = 0;
+let baseVars = {}, esquemas = {}, adjuntos = { circuitos: {}, capturas: {} }, nombre = 'sin-titulo.aulac', origen = 'archivo', temporizador = 0;
 const cache = new Map(); // clave de circuito+valores → {vars, diag, motor, hora}
 const simEstado = {}; // idCircuito → {estado, motor, hora, mensaje}
 let motorElegido = null, clienteNgspice = null, genSim = 0;
@@ -183,9 +184,16 @@ hoja.addEventListener('click', (e) => {
 
 // ---------- archivos ----------
 async function abrirArchivo(f) {
-  const texto = await f.text();
-  if (/\.json$/i.test(f.name)) { try { baseVars = JSON.parse(texto); } catch { alert('El JSON de variables no es válido.'); return; } }
-  else { fuente.value = texto; nombre = f.name; origen = 'archivo'; esquemas = {}; }
+  const bytes = new Uint8Array(await f.arrayBuffer());
+  if (/\.json$/i.test(f.name)) { try { baseVars = JSON.parse(new TextDecoder().decode(bytes)); } catch { alert('El JSON de variables no es válido.'); return; } }
+  else {
+    try {
+      const a = await leerAulac(bytes);
+      if (!/\.aulac(?:\.md)?$/i.test(f.name)) throw new Error('Elija un archivo .aulac o .aulac');
+      fuente.value = a.documento; nombre = f.name; origen = 'archivo'; esquemas = {};
+      adjuntos = { circuitos: a.circuitos, capturas: a.capturas };
+    } catch (e) { alert(`No se pudo abrir el documento: ${e.message}`); return; }
+  }
   dibujar();
 }
 $('#abrir').addEventListener('change', (e) => { if (e.target.files[0]) abrirArchivo(e.target.files[0]); e.target.value = ''; });
@@ -193,17 +201,25 @@ $('#vars').addEventListener('change', (e) => { if (e.target.files[0]) abrirArchi
 window.addEventListener('dragover', (e) => e.preventDefault());
 window.addEventListener('drop', (e) => { e.preventDefault(); for (const f of e.dataTransfer.files) abrirArchivo(f); });
 $('#pdf').addEventListener('click', () => window.print());
+$('#guardar').addEventListener('click', async () => {
+  try {
+    const bytes = await escribirAulac({ documento: fuente.value, ...adjuntos });
+    const url = URL.createObjectURL(new Blob([bytes], { type: 'application/vnd.aulac+zip' }));
+    const a = document.createElement('a'); a.href = url; a.download = `${nombre.replace(/\.aulac(?:\.md)?$/i, '') || 'documento'}.aulac`; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (e) { alert(`No se pudo guardar el documento: ${e.message}`); }
+});
 $('#ejemplo').addEventListener('click', () => cargarEjemplo(true));
 
 async function cargarEjemplo(conTexto = true) {
   try {
     const [md, vars, svg] = await Promise.all([
-      conTexto ? fetch('ejemplos/kirchhoff.aulac.md').then((r) => r.text()) : Promise.resolve(null),
+      conTexto ? fetch('ejemplos/kirchhoff.aulac').then((r) => r.text()) : Promise.resolve(null),
       fetch('ejemplos/kirchhoff.variables.json').then((r) => r.json()),
       fetch('ejemplos/kirchhoff.circ1.svg').then((r) => r.text()),
     ]);
-    if (md !== null) { fuente.value = md; nombre = 'kirchhoff.aulac.md'; }
-    baseVars = vars; esquemas = { circ1: svg }; origen = 'ejemplo';
+    if (md !== null) { fuente.value = md; nombre = 'kirchhoff.aulac'; }
+    baseVars = vars; esquemas = { circ1: svg }; adjuntos = { circuitos: {}, capturas: {} }; origen = 'ejemplo';
     dibujar();
   } catch {
     estado.textContent = 'No se pudo leer el ejemplo: abra esta página desde un servidor estático (no file://).';

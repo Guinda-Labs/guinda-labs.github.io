@@ -15,3 +15,7 @@ El módulo distribuido también incorpora modelos PDK: conserva sus cabeceras or
 # 4. Pendiente de distribución
 
 El paquete npm instalado sólo aporta LICENSE del envoltorio, no el conjunto completo de avisos de ngspice ni los textos separados de los PDK. Falta obtenerlos del proveedor y comprobarlos antes de publicar. No se descargaron archivos ni se afirma que MIT cubra todo el binario.
+
+# 5. three.js 0.170.0 · MIT
+
+MIT, Copyright (c) 2010-2024 three.js authors. Texto original: [LICENSE](vendor/three/LICENSE). Se incluyen solo build/three.module.min.js y examples/jsm/controls/OrbitControls.js (import reescrito a ruta relativa). Sirven a la pestaña Campo del panel de Análisis y se cargan solo al abrirla.

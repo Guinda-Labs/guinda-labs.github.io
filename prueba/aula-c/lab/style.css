@@ -10,6 +10,7 @@ header strong{display:inline}svg text{font-family:var(--aulac-sans)}
 .physical-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.physical-controls input[type=number]{width:65px}.physical-controls input[type=color]{padding:2px;width:45px}#board{touch-action:none}#board [data-hole]:focus{outline:none;stroke:#087f6c;stroke-width:3}#board [data-physical-wire]{cursor:pointer}#board .component-label{stroke:none}
 #views.scheme-only{grid-template-columns:1fr;grid-template-rows:1fr}#views.scheme-only #boardPane{display:none}#views.scheme-only #schemePane{display:flex}
 #board{min-width:0;min-height:0;--svg-font:13px}#board text{font-size:13px;fill:#202830}#boardPane{overflow:hidden!important}#views{height:360px}.physical-controls{gap:4px}.physical-controls label{font-size:13px}
+#board .board-notice{fill:var(--aulac-tenue)}
 .instruments{height:600px}.scope-panel{grid-template-rows:20px 104px minmax(360px,1fr) 24px 24px 38px}.scope-panel .controls{display:flex;flex-direction:column;gap:2px;overflow:auto}.scope-panel .controls fieldset{display:flex;flex-direction:row;align-items:center;gap:8px;padding:0 4px;border:0;min-height:24px}.scope-panel .controls legend{float:left;width:78px;font-size:13px}.scope-panel .controls label{justify-content:flex-start}.scope-panel .controls input,.scope-panel .controls select{width:76px;min-height:22px;padding:1px 3px}.scope-panel .controls button{min-height:22px;padding:1px 4px}
 .work{overflow:hidden}#views{flex:1;min-height:0;height:auto;overflow:hidden}#views>section{min-height:0}#scheme,#board{min-width:0;min-height:0}#views.both{grid-template-rows:minmax(0,1fr)}
 .bank-dock{flex:none;min-height:0;border:1px solid var(--aulac-linea);border-radius:6px;background:var(--aulac-superficie1)}.bank-content{overflow:auto;max-height:calc(100dvh - 280px);padding:6px}
@@ -58,7 +59,7 @@ header #engine{width:108px;max-width:108px}header #createMode{width:132px;max-wi
 .edit-tools{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-left:12px}.edit-tools output{order:1;color:var(--aulac-tenue);padding:0 6px;white-space:nowrap}
 input[type=checkbox]{width:16px;height:16px;min-height:0;padding:0;margin:0 4px 0 0;accent-color:var(--aulac-acento);cursor:pointer}
 #scheme .body text{stroke:none;fill:var(--aulac-texto);font:11px var(--aulac-mono)}#scheme .body .chip-label{font-size:10px}
-.wire-draft{stroke:var(--aulac-acento);stroke-width:3;stroke-dasharray:8 5;fill:none;pointer-events:none}#scheme.wiring{cursor:crosshair}
+.wire-draft{stroke:var(--aulac-exito);stroke-width:2;stroke-dasharray:6 4;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.7;fill:none;pointer-events:none}#scheme.wiring{cursor:crosshair}
 .wire-hit{stroke:transparent;stroke-width:16;fill:none;cursor:pointer}#scheme.wiring .wire-hit{cursor:crosshair}#scheme .dc-label{font:12px var(--aulac-mono);paint-order:stroke;stroke:var(--aulac-fondo);stroke-width:4px;pointer-events:none}#scheme .dc-volt{fill:var(--aulac-canal1,var(--aulac-acento))}#scheme .dc-amp{fill:var(--aulac-canal2,var(--aulac-exito))}#meterPick{white-space:pre-line;margin:4px 0 8px;color:var(--aulac-texto);font:13px/1.5 var(--aulac-mono)}
 
 /* Inspector flotante (R19): no ocupa lugar en la rejilla */
@@ -225,11 +226,7 @@ dialog{max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);overflow:auto
 }
 @media(min-width:900px){.distribuciones{display:none}.work{padding-bottom:24px}.instrumento-panel{bottom:24px}.work>aside.paleta{bottom:24px}.work .barra-estado{position:absolute;top:auto;bottom:0;left:52px;right:0;max-width:none}.current-legend{bottom:28px}}
 
-/* R22-UX2: Variante A reserva su propia fila desde 600 px. */
-.selector-vistas{display:none!important}.fila-vistas{display:flex;align-items:center;justify-content:center;gap:16px;height:40px;min-height:40px;background:var(--aulac-superficie1);border-bottom:1px solid var(--aulac-linea);z-index:40}
-.fila-vistas #tabs,.fila-vistas #tabs.vistas-abiertas{display:flex!important;position:static;width:auto;margin:0;padding:2px;border:1px solid var(--aulac-linea);border-radius:8px;background:var(--aulac-superficie2)}
-.fila-vistas #tabs button{min-height:30px;padding:3px 12px;font-size:13px;border:0;background:none}.fila-vistas #tabs [aria-selected=true]{background:var(--aulac-superficie1);color:var(--aulac-acento);box-shadow:0 1px 3px #0002;border-radius:6px}
-.fila-vistas summary{cursor:pointer;font-size:13px;list-style:none}.fila-vistas .menu-popup{position:fixed;z-index:75;background:var(--aulac-superficie1);border:1px solid var(--aulac-linea);border-radius:8px}
+/* R23-UX5: las vistas y la distribución viven en la barra superior; no hay segunda franja. */
 .work{padding-left:84px}.instrumentos-rail{width:84px;overflow-y:auto;overflow-x:hidden;gap:0;padding:8px 4px;box-sizing:border-box}.instrumentos-rail section{width:100%;display:flex;flex-direction:column;align-items:center;padding:6px 0;gap:4px}.instrumentos-rail section+section{border-top:1px solid var(--aulac-linea)}.instrumentos-rail section>strong{font:10px var(--aulac-sans);color:var(--aulac-tenue);text-transform:uppercase;letter-spacing:.02em}.instrumentos-rail button{width:74px;height:auto;min-height:48px;padding:4px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;line-height:1.15}.instrumentos-rail button b{font-size:22px;line-height:24px;font-weight:400}.instrumentos-rail button span{max-width:100%;overflow-wrap:anywhere}.instrumentos-rail .riel-favoritos{width:100%;display:flex;flex-direction:column;align-items:center}.instrumentos-rail button svg{width:24px;height:24px;flex:none}
 .work.panel-flotante.con-instrumento #views,.work.panel-flotante.con-instrumento .visor{margin-right:0;margin-bottom:0}.work.panel-flotante .instrumento-panel{left:auto;right:8px;top:8px;bottom:32px;width:min(360px,calc(100% - 100px));height:auto;max-width:calc(100% - 100px);border:1px solid var(--aulac-linea);border-radius:10px;box-shadow:0 8px 32px #0003}.panel-flotante .separador-panel{display:none}
 .contexto-lab{position:fixed;z-index:120;display:grid;min-width:240px;max-width:calc(100vw - 16px);padding:6px;overflow:auto;background:var(--aulac-superficie1);color:var(--aulac-texto);border:1px solid var(--aulac-linea);border-radius:10px;box-shadow:0 10px 40px #0004}.contexto-lab button{text-align:left;min-height:32px;border:0;background:none;padding:6px 12px}.contexto-lab button:hover,.contexto-lab button:focus-visible{background:var(--aulac-superficie3)}.contexto-lab button:last-child{border-top:1px solid var(--aulac-linea);margin-top:4px}.contexto-aviso{position:fixed;z-index:125;width:240px;padding:12px;background:var(--aulac-superficie1);color:var(--aulac-texto);border:1px solid var(--aulac-linea);border-radius:8px;box-shadow:0 4px 20px #0003}
@@ -238,18 +235,21 @@ dialog.catalogo-popup{width:880px;padding:24px;background:var(--aulac-superficie
 .catalogo-popup>input{width:100%;min-height:44px;box-sizing:border-box;background:var(--aulac-fondo);color:var(--aulac-texto);border:1px solid var(--aulac-linea);border-radius:8px;padding:10px 12px}.catalogo-popup input::placeholder{color:var(--aulac-texto);opacity:.8}.catalogo-popup nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.catalogo-popup nav [aria-pressed=true]{background:var(--aulac-acento);color:var(--aulac-fondo)}.catalogo-lista{display:block!important}.catalogo-lista h3{font-size:13px;margin:16px 0 8px}.catalogo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.catalogo-grid article{min-width:0;border:1px solid var(--aulac-linea);border-radius:10px;padding:10px;background:var(--aulac-superficie1);display:flex;flex-wrap:wrap;gap:6px;align-content:start}.catalogo-grid button{font-size:12px;min-width:0;white-space:normal;color:var(--aulac-texto)}.catalogo-grid .catalogo-insertar{width:100%;display:flex;align-items:center;gap:8px;text-align:left;min-height:54px;border:0;background:none}.catalogo-insertar svg{width:32px;height:32px;flex:none}.catalogo-insertar span{flex:1}.catalogo-insertar kbd{border:1px solid var(--aulac-linea);padding:2px 5px;border-radius:4px}.catalogo-grid article p{font-size:12px;margin:0}.catalogo-grid article input{width:48px}.catalogo-pie{font-size:12px;color:var(--aulac-texto);margin-bottom:0}
 @media(min-width:600px){.work .distribuciones{display:none}.work{padding-bottom:24px}.work .barra-estado{bottom:0;left:84px}.instrumento-panel{bottom:24px}}
 @media(max-width:899px){.work{padding-left:48px}.instrumentos-rail{width:48px;padding:4px}.instrumentos-rail button{width:38px;min-height:38px;height:38px;padding:6px}.instrumentos-rail button span,.instrumentos-rail section>strong{display:none}.work .barra-estado{left:48px}.distribuciones{left:48px}.work.con-instrumento #views{margin-bottom:0}.work.panel-flotante .instrumento-panel{max-width:calc(100% - 64px);width:min(360px,calc(100% - 64px))}}
-@media(max-width:599px){.fila-vistas{display:none}.work{padding-bottom:76px}.work .barra-estado{bottom:52px}.distribuciones{display:flex;height:52px}.instrumento-panel{bottom:76px}.catalogo-popup{padding:12px!important}.catalogo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.catalogo-grid article{padding:8px}.catalogo-grid .catalogo-insertar{flex-wrap:wrap}.catalogo-grid button{font-size:11px}}
+@media(max-width:599px){.work{padding-bottom:76px}.work .barra-estado{bottom:52px}.distribuciones{display:flex;height:52px}.instrumento-panel{bottom:76px}.catalogo-popup{padding:12px!important}.catalogo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.catalogo-grid article{padding:8px}.catalogo-grid .catalogo-insertar{flex-wrap:wrap}.catalogo-grid button{font-size:11px}}
 
 @media(min-width:900px) and (max-width:1043px){.work #views.both{grid-template-columns:minmax(0,1fr);grid-template-rows:repeat(2,minmax(0,1fr))}}
 .instrumentos-rail section:last-child{margin-top:auto}.instrumentos-rail .riel-favoritos button{position:relative}.riel-favoritos kbd{position:absolute;right:2px;top:2px;font-size:9px;color:var(--aulac-texto)}
 /* R22-UX3: fichas esquemáticas y espacio visible del lienzo. */
 dialog.catalogo-popup{width:min(960px,calc(100vw - 48px));max-width:calc(100vw - 48px);max-height:80vh;margin:auto;overflow-y:auto;overflow-x:hidden;min-width:0}
 .catalogo-popup>header{padding:0 0 16px;overflow:visible}.catalogo-popup>header strong{margin-right:auto}
-.catalogo-grid{grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));min-width:0}
+.catalogo-grid{grid-template-columns:repeat(auto-fill,minmax(min(180px,100%),1fr));min-width:0}
 .catalogo-grid article{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:14px;align-content:start}
 .catalogo-grid .catalogo-insertar{grid-column:1/-1;min-height:112px;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:16px 0 0;gap:12px}
+.catalogo-insertar{height:112px}
 .catalogo-insertar .catalogo-arte{flex:none;width:52px;height:42px;display:grid;place-items:center}
+.catalogo-insertar .catalogo-arte.fisico{width:64px;height:48px}
 .catalogo-arte svg{width:52px;height:42px;display:block}
+.catalogo-arte.fisico svg{width:64px;height:48px}
 .catalogo-insertar>span:not(.catalogo-arte){flex:none;min-height:2.5em;width:100%;line-height:1.25;word-break:normal;overflow-wrap:normal;hyphens:none}
 .catalogo-insertar kbd{position:absolute;right:10px;top:10px;font:11px var(--aulac-mono);color:var(--aulac-tenue)}
 .catalogo-grid article>button:not(.catalogo-insertar){min-height:28px;padding:3px 0;border:0;background:none;font-size:11px;color:var(--aulac-tenue);text-align:left}
@@ -334,3 +334,75 @@ dialog.catalogo-popup{width:min(960px,calc(100vw - 48px));max-width:calc(100vw -
 .instrumento-panel .ana-tabs button{flex:1 1 auto;min-width:0;white-space:normal;line-height:1.2}
 .instrumentos-rail section:first-child button:first-child{height:auto;min-height:40px}
 .instrumentos-rail section:first-child button:first-child span{white-space:normal;text-overflow:clip}
+/* R23 · pestaña Campo (escena 3D en el panel de Análisis; cabe a 210–300 px) */
+#analisisContenido .campo{display:grid;gap:12px;min-width:0}
+#analisisContenido .campo-lienzo{display:block;width:100%;aspect-ratio:4/3;min-height:0;border-radius:var(--aulac-r2);background:var(--aulac-superficie2);touch-action:none;cursor:grab}
+#analisisContenido .campo-lienzo:active{cursor:grabbing}
+#analisisContenido .campo-vistas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;padding:3px;background:var(--aulac-superficie2);border-radius:var(--aulac-r2)}
+#analisisContenido .campo-vistas button{min-width:0;padding:0 4px;white-space:nowrap;border:0;border-radius:6px;background:none;color:var(--aulac-tenue);font-size:var(--aulac-t1)}
+#analisisContenido .campo-vistas button[aria-pressed=true]{background:var(--aulac-superficie1);color:var(--aulac-texto);box-shadow:0 0 0 1px var(--aulac-linea)}
+#analisisContenido .campo-vista{font-weight:600}
+#analisisContenido .campo-leyenda{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:var(--aulac-t1)}
+#analisisContenido .campo-ley{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+#analisisContenido .campo-ley i{width:10px;height:10px;border-radius:50%;background:currentColor}
+#analisisContenido .campo-ley-e i{background:var(--aulac-canal4)}#analisisContenido .campo-ley-b i{background:var(--aulac-canal3)}#analisisContenido .campo-ley-s i{background:var(--aulac-python)}
+#analisisContenido .campo-nota{color:var(--aulac-tenue);font-size:var(--aulac-t1);text-wrap:balance}
+#analisisContenido .campo-acciones{display:flex;gap:8px}#analisisContenido .campo-acciones button{flex:1 1 0;min-width:0;white-space:nowrap}#analisisContenido .campo-acciones [hidden]{display:none}
+@media(prefers-reduced-motion:reduce){#analisisContenido .campo-lienzo{cursor:default}}
+
+/* R23-UX5 */
+/* Menús por encima de todo: la barra crea su propio contexto de apilamiento y no recorta. */
+body>header.lab-barra{z-index:80;overflow:visible}
+.lab-barra .menu-popup{z-index:90}
+.lab-barra .menus-principales,.lab-barra .menu-barra{overflow:visible}
+/* Cable en construcción: fino y con punto en el cursor (el tamaño no depende del zoom). */
+#wire-draft{pointer-events:none}
+.wire-draft-punto{fill:var(--aulac-exito);opacity:.85;stroke:var(--aulac-fondo);stroke-width:1;vector-effect:non-scaling-stroke;pointer-events:none}
+.physical-wire-draft{vector-effect:non-scaling-stroke}
+/* Puntas del multímetro con rótulo y guías de etiqueta solo al pasar el mouse. */
+#scheme .probe-label,#board .probe-label{font-weight:700;paint-order:stroke;stroke:var(--aulac-fondo);stroke-width:4px;stroke-linejoin:round}
+#scheme .label-guide{opacity:0;stroke-dasharray:2 3;transition:opacity .12s}
+#scheme .label-guide.visible{opacity:.9}
+/* Vistas (pestañas) y Distribución en la barra: ancho completo, desplegable debajo de 1100 px. */
+.lab-barra #tabs{display:flex;margin-left:auto}
+.lab-barra .selector-vistas{display:none}
+.lab-barra>.distribucion{flex:none}
+.lab-barra #tabs button{min-height:28px;padding:0 12px;font-size:13px}
+@media(min-width:600px) and (max-width:1099px){
+ .lab-barra #tabs{display:none}
+ .lab-barra #tabs.vistas-abiertas{display:flex;position:fixed;top:48px;right:8px;width:auto;background:var(--aulac-superficie1);z-index:95;padding:2px;border:1px solid var(--aulac-linea);border-radius:8px;box-shadow:0 10px 30px #0005}
+ .lab-barra .selector-vistas{display:block;margin-left:auto;flex:none;white-space:nowrap}
+ .lab-barra>details.distribucion{display:block}
+}
+@media(max-width:599px){.lab-barra #tabs,.lab-barra #tabs.vistas-abiertas,.lab-barra>.distribucion{display:none}}
+/* Menú AULA-C como los demás: filas, sin subrayado, estado del motor con punto de color. */
+.cambiador-app .menu-popup button:disabled{opacity:.55;cursor:default}
+.menu-estado{display:flex;align-items:center;gap:8px;min-height:32px;padding:6px 10px;color:var(--aulac-tenue);font-size:12px}
+.menu-estado i{width:8px;height:8px;border-radius:50%;background:var(--aulac-tenue);flex:none}
+.menu-estado[data-nivel=ok] i{background:var(--aulac-exito)}
+.menu-estado[data-nivel=espera] i{background:#d8a13a}
+.menu-estado[data-nivel=error] i{background:var(--aulac-error)}
+.dialogo-nuevo .nuevo-lista{display:grid;gap:8px;min-width:240px}
+/* Lienzo en blanco: una sola línea discreta. */
+.lienzo-vacio{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);margin:0;color:var(--aulac-tenue);font-size:var(--aulac-t1);pointer-events:none;z-index:2}
+.lienzo-vacio[hidden]{display:none}
+#schemePane{position:relative}
+/* Riel sin etiquetas: solo íconos (tooltip por título); el riel se angosta a 48 px a cualquier ancho. */
+.work.riel-angosto{padding-left:48px}
+.work.riel-angosto .instrumentos-rail{width:48px;padding:4px}
+.work.riel-angosto .instrumentos-rail button{width:38px;height:24px;min-height:24px;padding:3px}
+.work.riel-angosto .instrumentos-rail button span,.work.riel-angosto .instrumentos-rail section>strong,.work.riel-angosto .instrumentos-rail .riel-favoritos .catalogo-arte{display:none}
+.work.riel-angosto .instrumentos-rail .riel-favoritos .catalogo-arte{display:block;width:18px;height:18px}
+.work.riel-angosto .instrumentos-rail .riel-favoritos .catalogo-arte svg,.work.riel-angosto .instrumentos-rail button svg{width:18px;height:18px}
+.work.riel-angosto .instrumentos-rail button b{font-size:18px;line-height:18px}
+.work.riel-angosto .riel-favoritos kbd{right:0;top:0}
+@media(min-width:900px){.work.riel-angosto .barra-estado{left:48px}.work.riel-angosto .instrumentos-rail.favoritos-abiertos .riel-favoritos{left:48px}}
+/* Conmutador del catálogo y vista previa al tamaño real. */
+.catalogo-vista{display:inline-flex;gap:2px;padding:2px;border:1px solid var(--aulac-linea);border-radius:8px;background:var(--aulac-superficie2);margin:8px 0}
+.catalogo-vista button{min-height:28px;padding:0 12px;border:0;border-radius:6px;background:none;font-size:13px}
+.catalogo-vista button[aria-pressed=true]{background:var(--aulac-superficie1);color:var(--aulac-acento);box-shadow:0 0 0 1px var(--aulac-linea)}
+.catalogo-arte svg{overflow:visible}
+.pieza-pegada.real{width:auto;height:auto;opacity:.8}
+.pieza-pegada.real svg{width:auto;height:auto;overflow:visible;color:var(--aulac-texto)}
+/* Montaje físico sin protoboard: patillas sueltas visibles. */
+#board .pin-libre{cursor:crosshair}
