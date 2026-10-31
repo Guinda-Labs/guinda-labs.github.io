@@ -26,7 +26,7 @@ export const ESTILOS = `
 .documento .ident th,.documento .ident td{border:1px solid var(--grid);padding:5px 9px;text-align:left;font-weight:400}
 .documento .ident th{background:var(--th);width:26%;font-weight:600}
 .documento .ident td{min-height:26px}
-.documento .req{background:var(--req);border-left:4px solid var(--blue);padding:9px 14px;margin:14px 0 6px;border-radius:0 3px 3px 0}
+.documento .req{background:var(--req);border:1px solid var(--grid);padding:9px 14px;margin:14px 0 6px;border-radius:var(--aulac-radio-superficie)}
 .documento .req b:first-child{color:var(--blue-d)}
 .documento table.grid{width:100%;border-collapse:collapse;margin:6px 0 2px;font-size:10pt;break-inside:avoid;page-break-inside:avoid;table-layout:auto}
 .documento table.grid th,.documento table.grid td{border:1px solid var(--grid);padding:5px 7px;text-align:center;vertical-align:middle}
@@ -42,26 +42,26 @@ export const ESTILOS = `
 .documento math{font-family:"Cambria Math","STIX Two Math","Latin Modern Math","Noto Sans Math",serif;font-size:1.05em}
 .documento .cap{font-style:italic;color:var(--gray);font-size:9pt;margin:3px 0 12px}
 .documento .sws{display:flex;justify-content:center;gap:2px;margin-bottom:3px}
-.documento .sws i{width:10px;height:10px;border-radius:2px;border:1px solid rgba(0,0,0,.35);display:block}
+.documento .sws i{width:10px;height:10px;border-radius:var(--aulac-radio-control);border:1px solid rgba(0,0,0,.35);display:block}
 .documento .cn{font-size:8.5pt;line-height:1.2;display:inline-block}
 .documento .tol{font-size:8.5pt;color:var(--gray)}
 .documento .pend{color:var(--pend);font-style:italic;font-size:9pt}
-.documento .pendv{color:var(--pend);background:#eceef1;border-radius:3px;padding:0 6px;font-style:italic;font-size:9pt}
+.documento .pendv{color:var(--pend);background:#eceef1;border-radius:var(--aulac-radio-control);padding:0 6px;font-style:italic;font-size:9pt}
 .documento .med{color:var(--ink)}
 .documento .v{position:relative;cursor:default;border-bottom:1px dotted transparent}
 .documento .v:hover,.documento .v:focus-visible{border-bottom-color:#7f93b0}
-.documento .v::after{content:attr(data-src);position:absolute;left:50%;bottom:calc(100% + 5px);transform:translateX(-50%);white-space:nowrap;font:11px/1.3 "Segoe UI",Arial,sans-serif;font-style:normal;font-weight:400;color:#fff;background:#2b3445;padding:3px 8px;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .12s;z-index:12;text-align:left}
+.documento .v::after{content:attr(data-src);position:absolute;left:50%;bottom:calc(100% + 5px);transform:translateX(-50%);white-space:nowrap;font:11px/1.3 "Segoe UI",Arial,sans-serif;font-style:normal;font-weight:400;color:#fff;background:#2b3445;padding:3px 8px;border-radius:var(--aulac-radio-control);opacity:0;pointer-events:none;transition:opacity .12s;z-index:12;text-align:left}
 .documento .v:hover::after,.documento .v:focus-visible::after{opacity:1}
-.documento [contenteditable]{border-radius:3px}
+.documento [contenteditable]{border-radius:var(--aulac-radio-control)}
 .documento [contenteditable]:hover{background:#f6f8fb}
 .documento [contenteditable]:focus{background:#f1f5fb;outline:1px solid #c5d3e6}
 .documento [contenteditable]:empty::before{content:attr(data-ph);color:#8a93a1}
-.documento details.calc{margin:10px 0;border:1px solid #d7dde6;border-radius:6px;background:#fafbfc}
+.documento details.calc{margin:10px 0;border:1px solid #d7dde6;border-radius:var(--aulac-radio-control);background:#fafbfc}
 .documento details.calc summary{cursor:pointer;list-style:none;padding:6px 12px;color:var(--gray);font:12.5px "Segoe UI",Arial,sans-serif;display:flex;align-items:center;gap:8px}
 .documento details.calc summary::-webkit-details-marker{display:none}
 .documento .car{display:inline-block;transition:transform .15s;font-size:11px}
 .documento details[open]>summary .car{transform:rotate(90deg)}
-.documento .cs{margin-left:auto;font-size:11px;color:#6a7280;background:#edf0f4;border-radius:10px;padding:1px 9px}
+.documento .cs{margin-left:auto;font-size:11px;color:#6a7280;background:#edf0f4;border-radius:var(--aulac-radio-control);padding:1px 9px}
 .documento .cb{padding:2px 14px 12px;border-top:1px solid #e3e7ed}
 .documento pre{margin:8px 0 0;font:12px/1.55 Consolas,"Cascadia Mono","Courier New",monospace;white-space:pre-wrap;overflow-wrap:anywhere}
 .documento pre .c{color:#6b7a6b}
@@ -69,26 +69,26 @@ export const ESTILOS = `
 .documento figure.fig{position:relative;margin:8px 0 4px;padding:0}
 .documento figure.fig svg,.documento .dev-fig svg{display:block;width:100%;height:auto}
 .documento .fig-head{display:flex;justify-content:space-between;align-items:center;gap:6px 10px;flex-wrap:wrap;min-height:28px;margin-bottom:2px}
-.documento .seg{display:inline-flex;border:1px solid #d3dbe7;border-radius:12px;overflow:hidden;background:#fff}
-.documento .seg button{border:0;border-radius:0;background:#fff;color:#4b5666;padding:2px 10px;font:11.5px "Segoe UI",Arial,sans-serif;white-space:nowrap;cursor:pointer}
+.documento .seg{display:inline-flex;border:1px solid #d3dbe7;border-radius:var(--aulac-radio-control);overflow:hidden;background:#fff}
+.documento .seg button{border:0;border-radius:var(--aulac-radio-control);background:#fff;color:#4b5666;padding:2px 10px;font:11.5px "Segoe UI",Arial,sans-serif;white-space:nowrap;cursor:pointer}
 .documento .seg button[aria-pressed=true]{background:#eef3fa;color:#173a5c;font-weight:600}
 .documento .ed{display:inline-block;min-width:4ch;border-bottom:1px dashed #b4bdca}
 .documento .simbar{display:inline-flex;gap:8px;align-items:center;font:11.5px "Segoe UI",Arial,sans-serif;color:var(--gray)}
-.documento .sim-btn{border:1px solid #c9b4c0;background:#fff;color:#7a1f45;border-radius:12px;padding:2px 11px;font:inherit;cursor:pointer}
+.documento .sim-btn{border:1px solid #c9b4c0;background:#fff;color:#7a1f45;border-radius:var(--aulac-radio-control);padding:2px 11px;font:inherit;cursor:pointer}
 .documento .sim-btn:hover{background:#f7edf1}
-.documento .snap{border:1px solid #d3dbe7;background:#fff;border-radius:12px;padding:2px 10px;font:11.5px "Segoe UI",Arial,sans-serif;color:var(--gray);white-space:nowrap}
+.documento .snap{border:1px solid #d3dbe7;background:#fff;border-radius:var(--aulac-radio-control);padding:2px 10px;font:11.5px "Segoe UI",Arial,sans-serif;color:var(--gray);white-space:nowrap}
 .documento .cover{display:flex;flex-direction:column;min-height:11in;font-family:"Courier New",Courier,monospace;text-align:center}
 .documento .logos{display:flex;justify-content:flex-end;gap:12px;margin-top:-.25in}
-.documento .logo{width:74px;height:74px;border:1px dashed #b4bdca;border-radius:4px;color:#8a93a1;font:8pt "Segoe UI",Arial,sans-serif;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.2}
+.documento .logo{width:74px;height:74px;border:1px dashed #b4bdca;border-radius:var(--aulac-radio-control);color:#8a93a1;font:8pt "Segoe UI",Arial,sans-serif;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.2}
 .documento .cv-title{font:700 48pt/1.1 "Courier New",Courier,monospace;margin:1.7in 0 .25in;color:#000}
 .documento .cv-sub{font:16pt/1.35 "Courier New",Courier,monospace;text-decoration:underline;text-underline-offset:5px;margin:0 auto;max-width:5.6in;color:#000}
 .documento .cv-mid{margin-top:1.2in;font-size:14pt;line-height:1.8;color:#000}
 .documento .cv-low{margin-top:.8in;font-size:13pt;line-height:1.7;color:#000}
 .documento .cv-date{margin-top:auto;font-size:13pt;padding-bottom:.1in;color:#000}
 .documento .qa{margin:0 0 14px}
-.documento .ans{border-left:3px solid #cdd7e6;padding:6px 12px;min-height:56px;color:var(--ink);background:#fcfdfe}
-.documento .concl{border:1px solid var(--grid);border-radius:3px;min-height:3in;padding:10px 14px;margin-top:8px}
-.documento .dev-box{position:relative;border:1.5px solid var(--ink2);border-radius:4px;margin:16px 0 12px}
+.documento .ans{border:1px solid var(--grid);padding:6px 12px;min-height:56px;color:var(--ink);background:#fcfdfe;border-radius:var(--aulac-radio-superficie)}
+.documento .concl{border:1px solid var(--grid);border-radius:var(--aulac-radio-control);min-height:3in;padding:10px 14px;margin-top:8px}
+.documento .dev-box{position:relative;border:1.5px solid var(--ink2);border-radius:var(--aulac-radio-control);margin:16px 0 12px}
 .documento .dev-box .num{position:absolute;top:-13px;left:12px;background:#fff;padding:0 6px;font-size:17pt;color:var(--blue-d);line-height:1}
 .documento .dev-grid{display:grid;grid-template-columns:48% 1fr}
 .documento .dev-fig{padding:14px 8px 10px 10px;border-right:1px solid var(--grid);margin:0}

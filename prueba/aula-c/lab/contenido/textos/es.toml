@@ -3,9 +3,26 @@
 Archivo = [["nuevo", "Nuevo", "Alt+N"], ["abrir", "Abrir…", "Ctrl+O"], ["ejemplo", "Abrir ejemplo…", ""], ["practica", "Abrir práctica…", ""], ["save", "Guardar", "Ctrl+S"], ["netlist", "Exportar netlist SPICE…", ""], ["octave", "Llevar a Octave", ""]]
 Editar = [["undo", "Deshacer", "Ctrl+Z"], ["redo", "Rehacer", "Ctrl+Y"], ["edit", "Propiedades…", "Enter"], ["delete", "Borrar", "Supr"], ["rotate", "Girar", "R"], ["mover", "Seleccionar y mover", "M"], ["izquierda", "Girar a la izquierda", "Mayús+R"], ["copiar", "Copiar", "Ctrl+C"], ["pegar", "Pegar", "Ctrl+V"], ["duplicar", "Duplicar", "Ctrl+D"], ["todo", "Seleccionar todo", "Ctrl+A"]]
 Insertar = [["componentes", "Componente…", "A"], ["cable", "Cable", "W"], ["sonda", "Sonda", "S"], ["tabla830", "Protoboard 830", ""], ["tabla400", "Protoboard 400", ""], ["referencia", "Referencia 0…", ""]]
-"Simulación" = [["simular", "Simular / Pausar", "Ctrl+Enter"], ["corriente", "Pausar corriente", "P"], ["v025", "Velocidad de corriente ×¼", ""], ["v05", "Velocidad de corriente ×½", ""], ["v1", "Velocidad de corriente ×1", ""], ["v2", "Velocidad de corriente ×2", ""], ["instrumentos", "Instrumentos…", "I"], ["analisis", "Configurar análisis…", ""], ["auto", "Motor automático (avanzado)", ""], ["mna", "Motor MNA (avanzado)", ""], ["ngspice", "Motor ngspice (avanzado)", ""]]
-Ver = [["centrar", "Volver a centrar", "Mayús+1"], ["seleccion", "Centrar en la selección", "Mayús+2"], ["real", "100 %", "Mayús+0"], ["acercar", "Acercar", "+"], ["alejar", "Alejar", "−"], ["nodes", "Mostrar nodos", ""], ["dcValues", "Mostrar valores DC", ""], ["rotulos", "Mostrar rótulos", ""], ["cuadricula", "Mostrar cuadrícula", ""], ["etiquetas-riel", "Etiquetas del riel", ""], ["componentes", "Panel de componentes", ""], ["instrumentos", "Panel de instrumentos", ""], ["ondas", "Panel de ondas", ""]]
+"Simulación" = [["simular", "Simular / Pausar", "Ctrl+Enter"], ["ideal", "Ideal", ""], ["experimental", "Experimental", ""], ["condiciones", "Condiciones experimentales…", ""], ["corriente", "Pausar corriente", "P"], ["v025", "Velocidad de corriente ×¼", ""], ["v05", "Velocidad de corriente ×½", ""], ["v1", "Velocidad de corriente ×1", ""], ["v2", "Velocidad de corriente ×2", ""], ["instrumentos", "Instrumentos…", "I"], ["analisis", "Configurar análisis…", ""], ["auto", "Motor automático (avanzado)", ""], ["mna", "Motor MNA (avanzado)", ""], ["ngspice", "Motor ngspice (avanzado)", ""]]
+Ver = [["centrar", "Volver a centrar", "Mayús+1"], ["seleccion", "Centrar en la selección", "Mayús+2"], ["real", "100 %", "Mayús+0"], ["acercar", "Acercar", "+"], ["alejar", "Alejar", "−"], ["nodes", "Mostrar nodos", ""], ["dcValues", "Mostrar valores DC", ""], ["rotulos", "Mostrar rótulos", ""], ["cuadricula", "Mostrar cuadrícula", ""], ["etiquetas-riel", "Etiquetas de la barra", ""], ["componentes", "Panel de componentes", ""], ["instrumentos", "Panel de instrumentos", ""], ["ondas", "Panel de ondas", ""]]
 Ayuda = [["atajos", "Atajos de teclado", "?"], ["guia", "Guía B309 de la práctica", ""], ["uso", "Cómo usar el laboratorio", ""]]
 "Distribución" = [["armar", "Armar", "1"], ["medir", "Medir", "3"], ["analizar", "Analizar", "4"], ["restablecer", "Restablecer distribución", ""]]
+
+thermal.panel = "Condiciones experimentales"
+thermal.close = "Cerrar"
+thermal.mode = "Modo"
+thermal.seed = "Semilla"
+thermal.ambient = "Temperatura ambiente (°C)"
+thermal.parts = "Tolerancias por pieza"
+thermal.nominal = "Nominal"
+thermal.actual = "Real"
+thermal.tolerance = "Tolerancia (%)"
+thermal.power = "Lectura de potencia por pieza"
+thermal.pending = "Potencias por componente tras simular"
+thermal.warning = "Excede la potencia nominal"
+thermal.scale = "Escala de potencia"
+thermal.cold = "Frío"
+thermal.hot = "Caliente"
+thermal.experimental = "Experimental"
 # Menú de la marca: fila [acción, texto, atajo, nota]. «_estado» es la fila del motor.
 AULA-C = [["acerca", "Acerca de AULA-C", ""], ["app-octave", "Octave (app de escritorio)", "", "Solo escritorio"], ["app-cuaderno", "Cuaderno (app de escritorio)", "", "Solo escritorio"], ["_estado", "Motor", ""], ["licencias", "Licencias", ""]]

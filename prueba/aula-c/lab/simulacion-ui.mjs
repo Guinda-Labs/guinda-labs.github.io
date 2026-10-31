@@ -41,7 +41,7 @@ export function configurarAnalisis(controls,analysis,option){
  controls.fstart.value=String(analysis.start);controls.fstop.value=String(analysis.end);
 }
 // Ruta del botón: documento → validación → compilación → motor inyectado.
-export async function simularDocumento(c,settings,{engine='ngspice',request=fetch}={}){
+export async function simularDocumento(c,settings,{engine='ngspice',request=fetch,componentesPreparados}={}){
  for(const p of c.components){
   if(!Number.isFinite(p.value)||('RCL'.includes(p.type)&&p.value<=0))throw Error(`Componente ${p.id}: valor inválido ${JSON.stringify(p.value)}`);
   if(p.wave&&(!['sin','pulse'].includes(p.wave.type)||!Array.isArray(p.wave.args)||!p.wave.args.every(Number.isFinite)))throw Error(`Componente ${p.id}: fuente inválida ${JSON.stringify(p.wave)}`);
@@ -49,7 +49,7 @@ export async function simularDocumento(c,settings,{engine='ngspice',request=fetc
  validar(c);const warnings=avisos(c);if(warnings.length)throw Error(warnings.join('; '));
  if(!c.components.length)throw Error('Agregue componentes');
  if(engine==='mna'&&c.components.some(p=>p.definition))throw Error('Los componentes SPICE requieren seleccionar ngspice.');
- let components=compilar(c).components,supply=null;
+ let components=componentesPreparados??compilar(c).components,supply=null;
  if(settings.psuEnabled){
   if(components.some(p=>p.definition))throw Error('Para componentes SPICE use una fuente V en el circuito; desconecte el límite de banco MNA.');
   supply=alimentar(components,settings.psuSource,numeroControl('Fuente V',settings.psuVoltage),numeroControl('Límite A',settings.psuLimit),MNA);components=supply.components;

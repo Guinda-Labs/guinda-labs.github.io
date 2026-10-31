@@ -26,7 +26,7 @@ class Lineal extends Motor {
 }
 // Corrientes terminales de Ebers-Moll: a=C, b=B, e=E; D: a=ánodo.
 export function semiconductor(c,v){
- const Is=c.Is??(c.type==='D'?2.52e-9:1e-14),n=c.n??(c.type==='D'?1.752:1),vt=.02585*n;
+ const Is=c.Is??(c.type==='D'?2.52e-9:1e-14),n=c.n??(c.type==='D'?1.752:1),vt=8.617333262e-5*((c.tempC??25)+273.15)*n;
  if(!(Is>0&&n>0))throw Error('Is y n deben ser positivos: '+c.id);
  const junction=x=>Is*Math.expm1(Math.max(-80,Math.min(40,x/vt)));
  if(c.type==='D'){let i=junction(v[0]-v[1]);return [i,-i];}

@@ -32,5 +32,5 @@ export function arteFisico(p){
  if(t==='button')shape='<rect x="-21" y="-21" width="42" height="42" rx="5" fill="#a6b6ca"/><circle r="14" fill="#f24962"/><circle cx="-14" cy="-14" r="2" fill="#26323d"/><circle cx="14" cy="14" r="2" fill="#26323d"/>';
  if(t==='switch')shape='<rect x="-23" y="-15" width="46" height="30" rx="4" fill="#3da9a3"/><rect x="-16" y="-9" width="32" height="18" rx="3" fill="#26323d"/><rect x="-14" y="-8" width="13" height="16" rx="2" fill="#f8ca53"/>';
  if(p.type==='X')shape=shape.replace(/<text\b[^>]*>[\s\S]*?<\/text>/g,'');
- return `<g data-art="${t}" class="physical-art" stroke="#26323d" stroke-width="1.3" stroke-linejoin="round">${shape}</g>`;
+ return `<g data-art="${t}" class="physical-art" aria-label="${escapar(label)}" stroke="#26323d" stroke-width="1.3" stroke-linejoin="round">${shape}</g>`;
 }

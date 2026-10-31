@@ -12,11 +12,11 @@ html,body{height:100%}
 body{margin:0;background:var(--f-fondo);color:var(--f-texto);font:14px/1.4 "Segoe UI",Arial,sans-serif;display:flex;flex-direction:column}
 .bar{display:flex;align-items:center;gap:8px;height:48px;padding:0 16px;background:var(--f-s1);border-bottom:1px solid var(--f-linea);flex:0 0 auto;white-space:nowrap}
 .brand{display:flex;align-items:center;gap:8px;font-weight:700;letter-spacing:.02em}
-.brand i{width:10px;height:18px;background:var(--guinda);border-radius:2px;display:block}
+.brand i{width:10px;height:18px;background:var(--guinda);border-radius:var(--aulac-radio-control);display:block}
 .doc{color:var(--f-tenue);padding-left:12px;border-left:1px solid var(--f-linea);overflow:hidden;text-overflow:ellipsis}
 .sp{flex:1}
 .estado{color:var(--f-tenue);font-size:12px;overflow:hidden;text-overflow:ellipsis}
-.btn{cursor:pointer;border:1px solid var(--f-linea);background:none;color:var(--f-texto);padding:6px 12px;border-radius:6px;font:inherit}
+.btn{cursor:pointer;border:1px solid var(--f-linea);background:none;color:var(--f-texto);padding:6px 12px;border-radius:var(--aulac-radio-control);font:inherit}
 .btn:hover{background:var(--f-s3)}
 .btn.pri{background:var(--guinda);border-color:var(--guinda);color:#fff;font-weight:600}
 .btn.pri:hover{background:var(--guinda-h)}
@@ -24,14 +24,14 @@ input[type=file]{display:none}
 .cols{flex:1;min-height:0;display:grid;grid-template-columns:minmax(300px,34%) 1fr}
 .izq{display:flex;flex-direction:column;min-height:0;border-right:1px solid var(--f-linea);background:var(--f-s1)}
 .izq h2{margin:0;padding:10px 14px 6px;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--f-tenue);font-weight:600}
-#fuente{flex:1 1 55%;min-height:140px;margin:0 14px;padding:10px;background:var(--f-fondo);color:var(--f-texto);border:1px solid var(--f-linea);border-radius:6px;font:12px/1.5 Consolas,"Cascadia Mono",monospace;resize:none;tab-size:2}
+#fuente{flex:1 1 55%;min-height:140px;margin:0 14px;padding:10px;background:var(--f-fondo);color:var(--f-texto);border:1px solid var(--f-linea);border-radius:var(--aulac-radio-control);font:12px/1.5 Consolas,"Cascadia Mono",monospace;resize:none;tab-size:2}
 #resumen{padding:0 14px 6px;color:var(--f-tenue);font-size:12px}
 #verif{flex:1 1 35%;min-height:80px;overflow:auto;list-style:none;margin:0;padding:0 14px 14px}
 #verif li{display:flex;gap:8px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--f-linea);font-size:13px}
 #verif .ic{width:16px;flex:0 0 16px;text-align:center;font-weight:700}
 #verif .error .ic{color:#ff8a80}#verif .aviso .ic{color:#e8c25a}#verif .ok .ic{color:#7fd09a}
 #verif .msg{flex:1;min-width:0;overflow-wrap:anywhere}
-#verif .ln{border:0;background:var(--f-s3);color:var(--f-tenue);border-radius:10px;padding:0 8px;font:11px inherit;cursor:pointer}
+#verif .ln{border:0;background:var(--f-s3);color:var(--f-tenue);border-radius:var(--aulac-radio-control);padding:0 8px;font:11px inherit;cursor:pointer}
 .der{overflow:auto;min-height:0;background:#e6e8ec}
 .der .documento{padding-top:20px}
 .zoombar{position:sticky;top:0;z-index:5;display:flex;gap:6px;align-items:center;justify-content:center;padding:6px;background:var(--f-s1);border-bottom:1px solid var(--f-linea)}
