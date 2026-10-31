@@ -1792,7 +1792,7 @@ document.addEventListener('click',e=>{
  const bx=e.target.closest('[data-box]');
  if(bx){S.mapHover=bx.dataset.box;S.mapFocus=true;S.reqHover=null;resaltarMapa();toggleBox(bx.dataset.box);return}
   
- if(S.mapFocus||S.reqHover){S.mapFocus=false;S.mapHover=null;S.reqHover=null;resaltarMapa()}
+ if((S.mapFocus||S.reqHover||S.mapHover)&&!e.target.closest('#insp')){S.mapFocus=false;S.mapHover=null;S.reqHover=null;resaltarMapa()}
  if(li){pick(+li.dataset.i);return}
  const requisito=e.target.closest('[data-req]');
  if(requisito){S.mapHover=requisito.dataset.req;S.reqHover=requisito.dataset.piden.split(' ');S.mapFocus=true;resaltarMapa();return}
@@ -1845,7 +1845,7 @@ const salirRequisitos=()=>{if(S.reqHover&&!S.mapFocus){S.mapHover=null;S.reqHove
 $('#chosen-req').addEventListener('toggle',e=>{if(!e.target.open&&S.reqHover){S.mapFocus=false;salirRequisitos()}},true);
 $('#chosen-req').addEventListener('pointerleave',salirRequisitos);
 $('#chosen-req').addEventListener('focusout',e=>{if(!e.relatedTarget?.closest('[data-req]'))salirRequisitos()});
-$('#map').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse'||S.mapFocus)return;const b=e.target.closest('[data-box]');const k=b?b.dataset.box:null;if(k!==S.mapHover||S.reqHover){S.reqHover=null;S.mapHover=k;pedirResalte()}});
+$('#map').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse')return;const b=e.target.closest('[data-box]');const k=b?b.dataset.box:null;if(k!==S.mapHover||S.reqHover){S.reqHover=null;S.mapHover=k;pedirResalte()}});
 $('#lineas').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse')return;const b=e.target.closest('[data-obox]');const k=b?b.dataset.obox:null;if(k!==S.mapHover||S.reqHover){S.reqHover=null;S.mapHover=k;pedirResalte()}});
 $('#lineas').addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'&&S.mapHover&&!S.mapFocus){S.mapHover=null;pedirResalte()}});
 $('#map').addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'&&S.mapHover&&!S.mapFocus){S.mapHover=null;pedirResalte()}});
