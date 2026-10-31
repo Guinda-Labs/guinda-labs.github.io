@@ -1,85 +1,57 @@
-document.getElementById('v-hor').innerHTML="\n    <div hidden><p id=\"cupos-ayuda\"></p><a id=\"cupos-instalar\" class=\"saes-bm\" href=\"javascript:(function(){var s=document.createElement(&#x27;script&#x27;);s.src=&#x27;https://guinda-labs.github.io/prueba/sate.js?v=&#x27;+Date.now();document.head.appendChild(s)})()\" draggable=\"true\" onclick=\"event.preventDefault()\"></a></div>\n    <div class=\"est-eqv\" id=\"est-eqv\" hidden></div>\n    <div id=\"hor-desfase\"></div>\n    <section class=\"filters\" id=\"filters\" aria-label=\"Filtros\">\n      <div class=\"field\"><span>Turno</span><div class=\"chips\" id=\"f-turno\"></div></div>\n      <div class=\"field\"><span>Nivel</span><div class=\"chips\" id=\"f-nivel\"></div></div>\n      <div class=\"field search\">\n        <span id=\"q-lbl\">Buscar</span>\n        <input id=\"f-q\" type=\"search\" role=\"combobox\" aria-autocomplete=\"list\" aria-expanded=\"false\" aria-controls=\"ac\" aria-labelledby=\"q-lbl\" placeholder=\"Materia, clave, profesor o grupo\" autocomplete=\"off\">\n        <ul class=\"ac\" id=\"ac\" role=\"listbox\" hidden></ul>\n      </div>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-want\"> <span id=\"f-want-l\">Solo las elegidas en el Mapa curricular</span></label>\n      <details id=\"f-more\"><summary id=\"f-more-title\" data-htexto=\"mas_filtros\">Más filtros</summary><div class=\"more-filters\">\n      <div class=\"field\"><span>Ver por</span><div class=\"seg\" role=\"group\" aria-label=\"Agrupar oferta\">\n        <button data-view=\"materia\">Materia</button><button data-view=\"grupo\">Grupo</button>\n      </div></div>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-hide\"> Ocultar las marcadas como No</label>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-done\" checked> <span data-htexto=\"ocultar_acreditadas\">Ocultar las ya acreditadas</span></label>\n      <label class=\"check\"><input type=\"checkbox\" id=\"f-cupo\"> <span data-htexto=\"solo_cupo\">Solo con cupo</span></label><small id=\"f-cupo-ayuda\" aria-live=\"polite\"></small>\n      <label class=\"check\" title=\"Muestra los grupos de la carrera compatibles con el horario actual\"><input type=\"checkbox\" id=\"f-fit\"> Solo lo que cabe en mi horario</label>\n      <div class=\"field\" id=\"g-window\"><div class=\"trange\"><label class=\"field\"><span data-htexto=\"d_entrada\"></span><select id=\"g-from\" aria-label=\"Llegar desde\"></select></label><label class=\"field\"><span data-htexto=\"d_salida\"></span><select id=\"g-to\" aria-label=\"Salir a más tardar\"></select></label></div></div>\n      <label class=\"field\"><span>Excluir profesores</span><input type=\"text\" id=\"g-avoid\" list=\"proflist\" autocomplete=\"off\"></label>\n      <button type=\"button\" class=\"btn\" id=\"b-reset\" title=\"Regresa a su valor inicial los filtros de la oferta, los profesores excluidos, el horario en la escuela y las preferencias del generador, y quita las marcas «Sí / Quizá / No». No borra tus horarios.\">Restablecer filtros</button>\n      </div></details>\n      <div class=\"active\" id=\"active\"></div>\n    </section>\n\n    <button type=\"button\" class=\"btn horario-flotante\" id=\"b-horario\" data-htexto=\"horario_ver\" aria-haspopup=\"dialog\">Ver horario</button>\n    <div class=\"hlayout\">\n      <section aria-labelledby=\"h-offer\">\n        <details class=\"box2\" id=\"mi-semana\" hidden>\n          <summary id=\"semana-resumen\" data-htexto=\"semana_titulo\"></summary>\n          <p data-htexto=\"semana_subtitulo\"></p>\n          <p data-htexto=\"semana_privacidad\"></p>\n          <div id=\"semana-campos\">\n            <div id=\"semana-principales\" class=\"semana-campos\"></div>\n            <div id=\"semana-form\"></div>\n            <details id=\"semana-opciones\">\n              <summary data-htexto=\"semana_mas_opciones\"></summary>\n              <div id=\"semana-secundarios\" class=\"semana-campos\"></div>\n            </details>\n          </div>\n          <div id=\"semana-bloques\"></div>\n          <div id=\"semana-presupuesto\" aria-live=\"polite\"></div>\n          <div class=\"ownrow\"><button type=\"button\" class=\"btn\" id=\"semana-borrar\" data-htexto=\"semana_borrar\"></button><span id=\"semana-borrar-ayuda\"></span></div>\n        </details>\n        <details class=\"box2\" id=\"gen\" style=\"margin-bottom:var(--ipn-esp-3)\">\n          <summary>Generar horarios automáticamente</summary>\n          <p style=\"font-size:var(--ipn-tamano-s);margin:var(--ipn-esp-2) 0 0\">Genera combinaciones sin traslapes con los grupos de las materias seleccionadas. Prioriza los grupos marcados con «Sí» y los profesores indicados; omite los marcados con «No», los profesores excluidos y los grupos fuera del horario definido en los filtros.</p>\n          <div class=\"genrow\">\n            <div class=\"field\"><span>Turno preferido</span><div class=\"seg\" role=\"group\" aria-label=\"Turno preferido\">\n              <button aria-pressed=\"true\" data-gt=\"*\">Cualquiera</button><button aria-pressed=\"false\" data-gt=\"M\">Matutino</button><button aria-pressed=\"false\" data-gt=\"V\">Vespertino</button>\n            </div></div>\n            <label class=\"field\"><span>Priorizar profesor</span><input type=\"text\" id=\"g-pref\" list=\"proflist\" autocomplete=\"off\"></label>\n            <datalist id=\"proflist\"></datalist>\n            <label class=\"check\" title=\"Prioriza horarios con menos tiempo libre entre clases y menos días en la escuela\"><input type=\"checkbox\" id=\"g-compact\" checked> Menos tiempo libre entre clases</label>\n            <label class=\"check\"><input type=\"checkbox\" id=\"cupos-omitir\" disabled aria-describedby=\"cupos-omitir-ayuda\"><span id=\"cupos-omitir-texto\"></span></label>\n            <small id=\"cupos-omitir-ayuda\" class=\"cupos-antigua\"></small>\n            <button class=\"btn primary\" id=\"b-gen\">Generar</button>\n            <button class=\"btn\" type=\"button\" id=\"b-gen-clear\" data-htexto=\"generador_borrar\" hidden>Borrar opciones generadas</button>\n          </div>\n          <div class=\"gtime\">\n            <div class=\"field\"><span>Días a la semana</span><div class=\"seg\" role=\"group\" aria-label=\"Días a la semana en la escuela\" id=\"g-days\">\n              <button type=\"button\" aria-pressed=\"true\" data-gdays=\"\">Sin límite</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"3\">3</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"4\">4</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"5\">5</button></div></div>\n            <div class=\"field\"><span>Base para generar</span><div class=\"seg\" role=\"group\" aria-label=\"Base para generar\" id=\"g-src\">\n              <button type=\"button\" aria-pressed=\"true\" data-gsrc=\"\" title=\"Usa las materias y grupos que muestra la oferta con los filtros actuales\">Filtros de la oferta</button><button type=\"button\" aria-pressed=\"false\" data-gsrc=\"todo\" title=\"Usa todas las materias elegidas y todos sus grupos, sin los filtros de la oferta (se respetan las marcas «No» y los profesores excluidos)\">Todas las elegidas</button></div></div>\n            <div class=\"field\"><span>Materias por horario</span><div class=\"seg\" role=\"group\" aria-label=\"Materias por horario\" id=\"g-n\">\n              <button type=\"button\" aria-pressed=\"false\" data-gn=\"auto\" title=\"El generador elige cuántas y cuáles materias, buscando la carga media y un horario saludable: permanencia razonable, espacio para comer y sin bloques largos sin descanso\">Automático</button><button type=\"button\" aria-pressed=\"true\" data-gn=\"\">Todas</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"3\">3</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"4\">4</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"5\">5</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"6\">6</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"7\">7</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"8\">8</button></div></div>\n            <div class=\"field\"><span>Descansos</span><div class=\"gbreaks\" id=\"gbreaks\"></div></div>\n          </div>\n          <div class=\"active\" id=\"gprefs\" style=\"padding-top:var(--ipn-esp-2)\"></div>\n          <p id=\"gen-status\" role=\"status\" aria-live=\"polite\"></p>\n          <div class=\"genres\" id=\"genres\"></div>\n        </details>\n        <details class=\"box2\" id=\"equiv\" style=\"margin-bottom:var(--ipn-esp-3)\" hidden>\n          <summary>Ver equivalencias con otras carreras de tu unidad académica</summary>\n          <div id=\"equiv-body\"></div>\n        </details>\n        <div class=\"colhead\"><h2 id=\"h-offer\">Oferta</h2><span class=\"count\" id=\"offer-count\"></span></div>\n        <div class=\"cupos-cabecera\"><span id=\"cupos-estado\" role=\"status\"></span><button class=\"btn sate-cupos-consultar\" type=\"button\" data-cupos-ayuda><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M4 4h16v16H4zM4 10h16M10 10v10\"/></svg><span data-cupos-etiqueta></span></button></div>\n        <div class=\"offer\" id=\"offer\"></div>\n      </section>\n      <section class=\"planner\" aria-labelledby=\"h-plan\">\n        <div class=\"cupos-cabecera\"><span id=\"cupos-estado-horario\"></span></div>\n        <p id=\"cupos-llenos\" hidden><span id=\"cupos-llenos-texto\"></span> <button class=\"link\" type=\"button\" id=\"cupos-alternativas\"></button></p>\n        <div class=\"colhead\"><h2 id=\"h-plan\">Mi horario</h2>\n          <div class=\"actions\">\n            <div class=\"seg calview\" role=\"group\" aria-label=\"Vista del horario\"><button type=\"button\" data-cview=\"semana\">Semana</button><button type=\"button\" data-cview=\"dia\">Por día</button></div>\n            <label class=\"check\"><input type=\"checkbox\" id=\"f-weekend\"> Mostrar fin de semana</label>\n            <button class=\"btn\" id=\"b-export\" type=\"button\" aria-haspopup=\"dialog\">Exportar horario</button>\n            <button class=\"btn\" id=\"b-propuestas\" type=\"button\" aria-haspopup=\"dialog\"><span class=\"sate-pestana__icono\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg></span><span data-htexto=\"d_propuestas\"></span></button>\n            <button class=\"btn\" id=\"b-saeshor\" hidden title=\"Carga en la versión seleccionada el horario inscrito según el SAES\">Traer horario inscrito (SAES)</button>\n            <button class=\"btn\" id=\"b-clear\">Vaciar</button>\n          </div>\n        </div>\n        <p class=\"muted\" id=\"exp-msg\" aria-live=\"polite\" style=\"margin:0 0 var(--ipn-esp-2);font-size:var(--ipn-tamano-s);min-height:1.3em\"></p>\n        <div class=\"plans\" id=\"plans\" role=\"group\" aria-label=\"Versiones de horario\"></div>\n        <div class=\"calwrap\"><div class=\"cal\" id=\"cal\"></div></div>\n        <div class=\"agenda\" id=\"agenda\" hidden></div>\n        <div class=\"summary\">\n          <div class=\"stats\" id=\"stats\"></div>\n          <div class=\"load\" id=\"load\"></div>\n          <p id=\"cupos-alerta\" hidden><button type=\"button\" class=\"link\" data-cupos-riesgos></button></p>\n          <div id=\"cupos-resultado\"><p id=\"cupos-cambio\" role=\"status\" aria-live=\"polite\"></p><button type=\"button\" class=\"btn\" id=\"cupos-deshacer\" data-cupos-deshacer hidden></button></div>\n          <div class=\"sel\" id=\"sel\"></div>\n          <div id=\"cupos-opciones\"></div>\n          <div class=\"aviso-deshacer\" id=\"own-deshacer\" role=\"status\" aria-live=\"polite\" hidden><span id=\"own-deshacer-txt\"></span> <button type=\"button\" class=\"link\" id=\"own-deshacer-b\" data-htexto=\"semana_deshacer\"></button></div>\n          <details class=\"box2\" id=\"ownform\">\n            <summary>Agregar actividad extracurricular</summary>\n            <form class=\"ownrow\" id=\"own-f\">\n              <label class=\"field\"><span>Nombre</span><input type=\"text\" id=\"own-n\" placeholder=\"Inglés CELEX\" required></label>\n              <div class=\"field\"><span>Días</span><div class=\"daypick\" id=\"own-d\"></div></div>\n              <label class=\"field\"><span>De</span><select id=\"own-a\" required></select></label>\n              <label class=\"field\"><span>A</span><select id=\"own-b\" required></select></label>\n              <button class=\"btn primary\" type=\"submit\">Agregar</button>\n            </form>\n          </details>\n          <textarea class=\"copy\" id=\"copybox\" readonly hidden></textarea>\n        </div>\n      </section>\n    </div>\n    <dialog class=\"horario-compacto\" id=\"horario-compacto\" aria-labelledby=\"horario-compacto-titulo\">\n      <div class=\"dl-head\"><h2 id=\"horario-compacto-titulo\" data-htexto=\"horario_ver\">Ver horario</h2><button class=\"btn\" type=\"button\" id=\"horario-compacto-cerrar\" data-htexto=\"horario_cerrar\">Cerrar</button></div>\n      <div id=\"horario-compacto-cuerpo\"></div>\n    </dialog>\n  ";
+document.getElementById('v-hor').innerHTML="\n    <div hidden><p id=\"cupos-ayuda\"></p><a id=\"cupos-instalar\" class=\"saes-bm\" href=\"javascript:(function(){var s=document.createElement(&#x27;script&#x27;);s.src=&#x27;https://guinda-labs.github.io/prueba/sate.js?v=&#x27;+Date.now();document.head.appendChild(s)})()\" draggable=\"true\" onclick=\"event.preventDefault()\"></a></div>\n    <div class=\"est-eqv\" id=\"est-eqv\" hidden></div>\n    <div id=\"hor-desfase\"></div>\n    <section class=\"filters filtros-d\" id=\"filters\" aria-label=\"Filtros\">\n      <div class=\"field search\">\n        <span id=\"q-lbl\">Buscar</span>\n        <input id=\"f-q\" type=\"search\" role=\"combobox\" aria-autocomplete=\"list\" aria-expanded=\"false\" aria-controls=\"ac\" aria-labelledby=\"q-lbl\" placeholder=\"Materia, clave, profesor o grupo\" autocomplete=\"off\">\n        <ul class=\"ac\" id=\"ac\" role=\"listbox\" hidden></ul>\n      </div>\n      <div class=\"field\"><span id=\"f-turno-l\" data-htexto=\"d_turno_titulo\">Turno</span><div class=\"seg\" id=\"f-turno\" role=\"group\" aria-labelledby=\"f-turno-l\"></div></div>\n      <div class=\"field\"><span>Nivel</span><div class=\"chips\" id=\"f-nivel\"></div></div>\n      <div class=\"field\"><span data-htexto=\"d_dia_titulo\">Día</span><div class=\"chips\" id=\"f-dia\" role=\"group\"></div></div>\n      <div class=\"field\" id=\"g-window\"><div class=\"trange\"><label class=\"field\"><span data-htexto=\"d_entrada\"></span><select id=\"g-from\" aria-label=\"Llegar desde\"></select></label><label class=\"field\"><span data-htexto=\"d_salida\"></span><select id=\"g-to\" aria-label=\"Salir a más tardar\"></select></label></div></div>\n      <label class=\"field\"><span>Excluir profesores</span><input type=\"text\" id=\"g-avoid\" list=\"proflist\" autocomplete=\"off\"></label>\n      <div class=\"field\"><span data-htexto=\"d_otros_titulo\">Otros criterios</span><div class=\"filtros-checks\">\n        <label class=\"check\"><input type=\"checkbox\" id=\"f-cupo\"> <span data-htexto=\"solo_cupo\">Solo con cupo</span></label>\n        <label class=\"check\"><input type=\"checkbox\" id=\"f-curs\"> <span data-htexto=\"d_cursables\">Solo cursables</span></label>\n        <label class=\"check\"><input type=\"checkbox\" id=\"f-want\"> <span id=\"f-want-l\">Solo las elegidas en el Mapa curricular</span></label>\n        <label class=\"check\"><input type=\"checkbox\" id=\"f-done\" checked> <span data-htexto=\"ocultar_acreditadas\">Ocultar las ya acreditadas</span></label>\n      </div><small id=\"f-cupo-ayuda\" aria-live=\"polite\"></small></div>\n      <div class=\"field\"><span>Ver por</span><div class=\"seg\" role=\"group\" aria-label=\"Agrupar oferta\">\n        <button data-view=\"materia\">Materia</button><button data-view=\"grupo\">Grupo</button>\n      </div></div>\n      <div hidden>\n        <input type=\"checkbox\" id=\"f-hide\"><input type=\"checkbox\" id=\"f-fit\">\n        <button type=\"button\" id=\"b-reset\" title=\"Regresa a su valor inicial los filtros de la oferta, los profesores excluidos, el horario en la escuela y las preferencias del generador, y quita las marcas «Sí / Quizá / No». No borra tus horarios.\">Restablecer filtros</button>\n      </div>\n      <div class=\"active\" id=\"active\"></div>\n    </section>\n    <section class=\"filtros-d-impacto\" aria-label=\"Resultado de los filtros\">\n      <div class=\"filtros-d-resumen\"><strong id=\"d-cuenta\" role=\"status\"></strong><button type=\"button\" class=\"link\" id=\"d-traslapes\" aria-expanded=\"false\" aria-controls=\"d-traslape-lista\" hidden></button><button type=\"button\" class=\"link\" id=\"d-no-ocultos\" hidden></button></div>\n      <ul id=\"d-traslape-lista\" class=\"filtros-d-traslapes\" hidden></ul>\n      <details><summary data-htexto=\"d_por_que\">¿Por qué veo estos grupos?</summary><ul id=\"d-reglas\"></ul></details>\n      <div id=\"d-activos\" class=\"active\"></div>\n    </section>\n\n    <button type=\"button\" class=\"btn horario-flotante\" id=\"b-horario\" data-htexto=\"horario_ver\" aria-haspopup=\"dialog\">Ver horario</button>\n    <div class=\"hlayout\">\n      <section aria-labelledby=\"h-offer\">\n        <details class=\"box2\" id=\"mi-semana\" hidden>\n          <summary id=\"semana-resumen\" data-htexto=\"semana_titulo\"></summary>\n          <p data-htexto=\"semana_subtitulo\"></p>\n          <p data-htexto=\"semana_privacidad\"></p>\n          <div id=\"semana-campos\">\n            <div id=\"semana-principales\" class=\"semana-campos\"></div>\n            <div id=\"semana-form\"></div>\n            <details id=\"semana-opciones\">\n              <summary data-htexto=\"semana_mas_opciones\"></summary>\n              <div id=\"semana-secundarios\" class=\"semana-campos\"></div>\n            </details>\n          </div>\n          <div id=\"semana-bloques\"></div>\n          <div id=\"semana-presupuesto\" aria-live=\"polite\"></div>\n          <div class=\"ownrow\"><button type=\"button\" class=\"btn\" id=\"semana-borrar\" data-htexto=\"semana_borrar\"></button><span id=\"semana-borrar-ayuda\"></span></div>\n        </details>\n        <details class=\"box2\" id=\"gen\" style=\"margin-bottom:var(--ipn-esp-3)\">\n          <summary>Generar horarios automáticamente</summary>\n          <p style=\"font-size:var(--ipn-tamano-s);margin:var(--ipn-esp-2) 0 0\">Genera combinaciones sin traslapes con los grupos de las materias seleccionadas. Prioriza los grupos marcados con «Sí» y los profesores indicados; omite los marcados con «No», los profesores excluidos y los grupos fuera del horario definido en los filtros.</p>\n          <div class=\"genrow\">\n            <div class=\"field\"><span>Turno preferido</span><div class=\"seg\" role=\"group\" aria-label=\"Turno preferido\">\n              <button aria-pressed=\"true\" data-gt=\"*\">Cualquiera</button><button aria-pressed=\"false\" data-gt=\"M\">Matutino</button><button aria-pressed=\"false\" data-gt=\"V\">Vespertino</button>\n            </div></div>\n            <label class=\"field\"><span>Priorizar profesor</span><input type=\"text\" id=\"g-pref\" list=\"proflist\" autocomplete=\"off\"></label>\n            <datalist id=\"proflist\"></datalist>\n            <label class=\"check\" title=\"Prioriza horarios con menos tiempo libre entre clases y menos días en la escuela\"><input type=\"checkbox\" id=\"g-compact\" checked> Menos tiempo libre entre clases</label>\n            <label class=\"check\"><input type=\"checkbox\" id=\"cupos-omitir\" disabled aria-describedby=\"cupos-omitir-ayuda\"><span id=\"cupos-omitir-texto\"></span></label>\n            <small id=\"cupos-omitir-ayuda\" class=\"cupos-antigua\"></small>\n            <button class=\"btn primary\" id=\"b-gen\">Generar</button>\n            <button class=\"btn\" type=\"button\" id=\"b-gen-clear\" data-htexto=\"generador_borrar\" hidden>Borrar opciones generadas</button>\n          </div>\n          <div class=\"gtime\">\n            <div class=\"field\"><span>Días a la semana</span><div class=\"seg\" role=\"group\" aria-label=\"Días a la semana en la escuela\" id=\"g-days\">\n              <button type=\"button\" aria-pressed=\"true\" data-gdays=\"\">Sin límite</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"3\">3</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"4\">4</button><button type=\"button\" aria-pressed=\"false\" data-gdays=\"5\">5</button></div></div>\n            <div class=\"field\"><span>Base para generar</span><div class=\"seg\" role=\"group\" aria-label=\"Base para generar\" id=\"g-src\">\n              <button type=\"button\" aria-pressed=\"true\" data-gsrc=\"\" title=\"Usa las materias y grupos que muestra la oferta con los filtros actuales\">Filtros de la oferta</button><button type=\"button\" aria-pressed=\"false\" data-gsrc=\"todo\" title=\"Usa todas las materias elegidas y todos sus grupos, sin los filtros de la oferta (se respetan las marcas «No» y los profesores excluidos)\">Todas las elegidas</button></div></div>\n            <div class=\"field\"><span>Materias por horario</span><div class=\"seg\" role=\"group\" aria-label=\"Materias por horario\" id=\"g-n\">\n              <button type=\"button\" aria-pressed=\"false\" data-gn=\"auto\" title=\"El generador elige cuántas y cuáles materias, buscando la carga media y un horario saludable: permanencia razonable, espacio para comer y sin bloques largos sin descanso\">Automático</button><button type=\"button\" aria-pressed=\"true\" data-gn=\"\">Todas</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"3\">3</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"4\">4</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"5\">5</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"6\">6</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"7\">7</button><button type=\"button\" aria-pressed=\"false\" data-gn=\"8\">8</button></div></div>\n            <div class=\"field\"><span>Descansos</span><div class=\"gbreaks\" id=\"gbreaks\"></div></div>\n          </div>\n          <div class=\"active\" id=\"gprefs\" style=\"padding-top:var(--ipn-esp-2)\"></div>\n          <p id=\"gen-status\" role=\"status\" aria-live=\"polite\"></p>\n          <div class=\"genres\" id=\"genres\"></div>\n        </details>\n        <details class=\"box2\" id=\"equiv\" style=\"margin-bottom:var(--ipn-esp-3)\" hidden>\n          <summary>Ver equivalencias con otras carreras de tu unidad académica</summary>\n          <div id=\"equiv-body\"></div>\n        </details>\n        <div class=\"colhead\"><h2 id=\"h-offer\">Oferta</h2><span class=\"count\" id=\"offer-count\"></span></div>\n        <div class=\"cupos-cabecera\"><span id=\"cupos-estado\" role=\"status\"></span><button class=\"btn sate-cupos-consultar\" type=\"button\" data-cupos-ayuda><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M4 4h16v16H4zM4 10h16M10 10v10\"/></svg><span data-cupos-etiqueta></span></button></div>\n        <div class=\"offer\" id=\"offer\"></div>\n      </section>\n      <section class=\"planner\" aria-labelledby=\"h-plan\">\n        <div class=\"cupos-cabecera\"><span id=\"cupos-estado-horario\"></span></div>\n        <p id=\"cupos-llenos\" hidden><span id=\"cupos-llenos-texto\"></span> <button class=\"link\" type=\"button\" id=\"cupos-alternativas\"></button></p>\n        <div class=\"colhead\"><h2 id=\"h-plan\">Mi horario</h2>\n          <div class=\"actions\">\n            <div class=\"seg calview\" role=\"group\" aria-label=\"Vista del horario\"><button type=\"button\" data-cview=\"semana\">Semana</button><button type=\"button\" data-cview=\"dia\">Por día</button></div>\n            <label class=\"check\"><input type=\"checkbox\" id=\"f-weekend\"> Mostrar fin de semana</label>\n            <button class=\"btn\" id=\"b-export\" type=\"button\" aria-haspopup=\"dialog\">Exportar horario</button>\n            <button class=\"btn\" id=\"b-propuestas\" type=\"button\" aria-haspopup=\"dialog\"><span class=\"sate-pestana__icono\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg></span><span data-htexto=\"d_propuestas\"></span></button>\n            <button class=\"btn\" id=\"b-saeshor\" hidden title=\"Carga en la versión seleccionada el horario inscrito según el SAES\">Traer horario inscrito (SAES)</button>\n            <button class=\"btn\" id=\"b-clear\">Vaciar</button>\n          </div>\n        </div>\n        <p class=\"muted\" id=\"exp-msg\" aria-live=\"polite\" style=\"margin:0 0 var(--ipn-esp-2);font-size:var(--ipn-tamano-s);min-height:1.3em\"></p>\n        <div class=\"plans\" id=\"plans\" role=\"group\" aria-label=\"Versiones de horario\"></div>\n        <div class=\"calwrap\"><div class=\"cal\" id=\"cal\"></div></div>\n        <div class=\"agenda\" id=\"agenda\" hidden></div>\n        <div class=\"summary\">\n          <div class=\"stats\" id=\"stats\"></div>\n          <div class=\"load\" id=\"load\"></div>\n          <p id=\"cupos-alerta\" hidden><button type=\"button\" class=\"link\" data-cupos-riesgos></button></p>\n          <div id=\"cupos-resultado\"><p id=\"cupos-cambio\" role=\"status\" aria-live=\"polite\"></p><button type=\"button\" class=\"btn\" id=\"cupos-deshacer\" data-cupos-deshacer hidden></button></div>\n          <div class=\"sel\" id=\"sel\"></div>\n          <div id=\"cupos-opciones\"></div>\n          <div class=\"aviso-deshacer\" id=\"own-deshacer\" role=\"status\" aria-live=\"polite\" hidden><span id=\"own-deshacer-txt\"></span> <button type=\"button\" class=\"link\" id=\"own-deshacer-b\" data-htexto=\"semana_deshacer\"></button></div>\n          <details class=\"box2\" id=\"ownform\">\n            <summary>Agregar actividad extracurricular</summary>\n            <form class=\"ownrow\" id=\"own-f\">\n              <label class=\"field\"><span>Nombre</span><input type=\"text\" id=\"own-n\" placeholder=\"Inglés CELEX\" required></label>\n              <div class=\"field\"><span>Días</span><div class=\"daypick\" id=\"own-d\"></div></div>\n              <label class=\"field\"><span>De</span><select id=\"own-a\" required></select></label>\n              <label class=\"field\"><span>A</span><select id=\"own-b\" required></select></label>\n              <button class=\"btn primary\" type=\"submit\">Agregar</button>\n            </form>\n          </details>\n          <textarea class=\"copy\" id=\"copybox\" readonly hidden></textarea>\n        </div>\n      </section>\n    </div>\n    <dialog class=\"horario-compacto\" id=\"horario-compacto\" aria-labelledby=\"horario-compacto-titulo\">\n      <div class=\"dl-head\"><h2 id=\"horario-compacto-titulo\" data-htexto=\"horario_ver\">Ver horario</h2><button class=\"btn\" type=\"button\" id=\"horario-compacto-cerrar\" data-htexto=\"horario_cerrar\">Cerrar</button></div>\n      <div id=\"horario-compacto-cuerpo\"></div>\n    </dialog>\n  ";
 const txH=(clave,vars)=>SATE.texto('sate.horarios.'+clave,vars);
  
-const FILTROS_D=(()=>{const url=globalThis.SATE_CONFIG?.pruebaFiltrosD||globalThis.location?.hash?.includes('#filtros-d');try{return url||localStorage.getItem('sate.prueba.filtrosD')==='1'}catch{return !!url}})();
-function montarFiltrosD(){
- if(!FILTROS_D||$('#filters').classList.contains('filtros-d'))return;
- const filtros=$('#filters'),mas=$('#f-more .more-filters');
- filtros.classList.add('filtros-d');
- filtros.prepend($('#f-q').closest('.field'));
- mas.prepend($('#f-nivel').closest('.field'));
- for(const id of ['f-cupo','f-fit'])filtros.insertBefore($('#'+id).closest('label'),$('#f-more'));
- $('#f-fit').closest('label').lastChild.textContent=txH('d_sin_choques');
- const impacto=document.createElement('section');impacto.className='filtros-d-impacto';
- impacto.innerHTML=`<strong id="d-cuenta" role="status"></strong><details><summary>${esc(txH('d_por_que'))}</summary><ul id="d-reglas"></ul></details><div id="d-activos" class="active"></div>`;
- filtros.after(impacto);
- $('#active').hidden=true;
- $('#f-hide').closest('label').hidden=true;
- $('#b-reset').hidden=true;
- for(const id of ['g-src'])$('#'+id).closest('.field').hidden=true;
- $('[data-gt]').closest('.field').hidden=true;
- $('#cupos-omitir').closest('label').hidden=true;
- $('#cupos-omitir-ayuda').hidden=true;
- $('#h-offer').parentElement.appendChild($('[data-view]').closest('.field'));
- filtros.insertBefore($('#g-window'),$('#f-more'));
- const panel=document.createElement('dialog');panel.className='filtros-d-panel';panel.setAttribute('aria-label',txH('mas_filtros'));
- const cerrar=document.createElement('button');cerrar.type='button';cerrar.className='btn';cerrar.textContent=txH('d_cerrar');
- const cab=document.createElement('header');cab.className='tramite-encabezado';
- const titulo=document.createElement('h2');titulo.textContent=txH('d_filtros');
- cerrar.textContent='×';cerrar.setAttribute('aria-label',txH('d_cerrar'));
- cab.append(titulo,cerrar);panel.append(cab,mas);$('#v-hor').appendChild(panel);
- const resumen=document.createElement('p');resumen.id='d-panel-resumen';resumen.setAttribute('role','status');
- panel.insertBefore(resumen,mas);
- const grupo=(clave,elementos)=>{
- const seccion=document.createElement('section'),titulo=document.createElement('h3');
- titulo.textContent=txH(clave);seccion.appendChild(titulo);
- for(const el of elementos)seccion.appendChild(el);
- mas.appendChild(seccion);
- };
- const cupo=document.createElement('div');cupo.className='d-cupo';cupo.append($('#f-cupo').closest('label'),$('#f-cupo-ayuda'));
- grupo('d_que',[$('#f-nivel').closest('.field'),$('#f-done').closest('label'),cupo]);
- const horas=document.createElement('div');horas.className='trange';
- for(const [id,k] of [['d-from','d_entrada'],['d-to','d_salida']]){
- const campo=document.createElement('label');campo.className='field';
- campo.innerHTML=`<span>${esc(txH(k))}</span><select id="${id}" aria-label="${esc(txH(k))}"></select>`;horas.appendChild(campo);
- }
- grupo('d_cuando',[horas,$('#f-fit').closest('label')]);
- grupo('d_quien',[$('#g-avoid').closest('.field')]);
- for(const [id,k] of [['#d-from','a'],['#d-to','b']])$(id).addEventListener('change',e=>{GT[k]=e.target.value;renderGTime();gtChanged()});
- $('#f-more-title').addEventListener('click',e=>{e.preventDefault();SateUI.abrirVentana(panel);cerrar.focus()});
- cerrar.addEventListener('click',()=>SateUI.cerrarVentana(panel));
- panel.addEventListener('cancel',()=>$('#f-more-title').focus());
- const limpiar=document.createElement('button');limpiar.type='button';limpiar.className='link';limpiar.textContent=txH('d_limpiar');
- const activos=document.createElement('div');activos.className='active';
- panel.insertBefore(activos,mas);activos.append(resumen,limpiar);
- limpiar.addEventListener('click',()=>{
- Object.assign(S,{tur:'*',niv:'*',q:'',chips:[],onlyWant:false,hideDone:false,soloCupo:false,fit:false,gap:null,gavoid:[]});
+const FILTROS_D=true;
+function limpiarFiltrosD(){
+ Object.assign(S,{tur:'*',niv:'*',q:'',chips:[],onlyWant:false,hideDone:false,soloCupo:false,cursables:false,dias:[],fit:false,gap:null,gavoid:[]});
  store.set('excl',[]);
  Object.assign(GT,{a:'',b:''});gtSave();$('#f-q').value='';
- for(const k of ['tur','niv','onlyWant','hideDone','soloCupo'])store.set(k,S[k]);
+ for(const k of ['tur','niv','onlyWant','hideDone','soloCupo','cursables','dias'])store.set(k,S[k]);
  renderHFilters();renderGTime();renderOffer();
- });
- const quitar=e=>{
- const b=e.target.closest('[data-d-quitar]');if(!b)return;
- const k=b.dataset.dQuitar;
+}
+function quitarFiltroD(k){
  if(k.startsWith('chip:'))S.chips.splice(+k.slice(5),1);
  else if(k.startsWith('prof:')){S.gavoid.splice(+k.slice(5),1);store.set('excl',S.gavoid)}
  else if(k.startsWith('no:')){delete ws().marks[k.slice(3)];save()}
  else if(k==='a'||k==='b'){GT[k]='';gtSave()}
+ else if(k==='dias'){S.dias=[];store.set('dias',S.dias)}
  else{S[k]=['tur','niv'].includes(k)?'*':k==='q'?'':k==='gap'?null:false;store.set(k,S[k])}
  $('#f-q').value=S.q;renderHFilters();renderGTime();renderOffer();
+}
+function montarFiltrosD(){
+ const filtros=$('#filters');if(filtros.dataset.montado)return;
+ filtros.dataset.montado='1';
+ $('#active').hidden=true;
+ const ocultar=(sel,padre)=>{const e=$(sel)?.closest(padre);if(e)e.hidden=true};
+ ocultar('#g-src','.field');ocultar('[data-gt]','.field');ocultar('#cupos-omitir','label');
+ const ayuda=$('#cupos-omitir-ayuda');if(ayuda)ayuda.hidden=true;
+ $('#d-traslapes').addEventListener('click',e=>{const b=e.currentTarget,l=$('#d-traslape-lista');l.hidden=!l.hidden;b.setAttribute('aria-expanded',String(!l.hidden))});
+ $('#d-no-ocultos').addEventListener('click',()=>{for(const [k,m] of Object.entries(ws().marks))if(m.s==='no')delete ws().marks[k];save();renderOffer()});
+ const clic=e=>{
+ if(e.target.closest('[data-d-limpiar]'))return limpiarFiltrosD();
+ const b=e.target.closest('[data-d-quitar]');if(b)quitarFiltroD(b.dataset.dQuitar);
  };
- $('#d-activos').addEventListener('click',quitar);
- resumen.addEventListener('click',quitar);
- const oferta=$('#offer');oferta.addEventListener('click',quitar);
+ $('#d-activos').addEventListener('click',clic);
  if(typeof renderGTime==='function')renderGTime();
 }
+ 
+function choquesDe(c){
+ if(plan().sel.includes(keyOf(c)))return[];
+ const out=[];
+ for(const x of [...selected().filter(s=>s[4]!==c[4]),...ownAsClasses()])
+ if(overlaps(x,c))for(const [d,a,b] of slots(c))for(const [d2,a2,b2] of slots(x))
+ if(d===d2&&a<b2&&a2<b)out.push({con:x.own?x.n:name(x),d,a:Math.max(a,a2),b:Math.min(b,b2)});
+ return out;
+}
+const motivoChoque=ch=>txH('d_traslape_motivo',{con:ch.con,dia:DAYS[ch.d],desde:hm(ch.a),hasta:hm(ch.b)});
 function ocultosFiltrosD(list){
- const visibles=new Set(list.map(keyOf)),grupos=new Map();
+ const visibles=new Set(list.map(keyOf)),grupos=new Map(),traslapes=[];
  for(const c of classes().filter(c=>c[0]===S.car&&!visibles.has(keyOf(c)))){
  const r=[];
  if(S.tur!=='*'&&c[1]!==S.tur)r.push(['tur',txH('d_turno',{valor:TURNOS[S.tur]||S.tur})]);
  if(S.niv!=='*'&&c[2]!==S.niv)r.push(['niv',txH('nivel',{n:S.niv})]);
+ if(S.dias.length&&!c[6].every(([d])=>S.dias.includes(d)))r.push(['dias',txH('d_dias',{valor:S.dias.map(d=>DAYS[d]).join(', ')})]);
+ if(S.cursables&&isPersonal()&&!available(c[8]))r.push(['cursables',txH('d_cursables')]);
  if(S.onlyWant&&!tr().want.includes(c[8])&&!S.fit&&!S.gap)r.push(['onlyWant',txH('d_mis_materias')]);
  if(outWin(c))r.push([GT.b?'b':'a',txH('d_fuera_hora')]);
  if(isExcl(c))r.push(['prof:'+S.gavoid.findIndex(p=>c[5].some(i=>norm(DATA.prof[i]).includes(norm(p)))),txH('profesor_excluido')]);
@@ -93,7 +65,11 @@ function ocultosFiltrosD(list){
  if(!cabe)r.push([S.fit?'fit':'gap',txH('d_sin_choques')]);
  if(S.gap&&!c[6].some(([d,a,b])=>d===S.gap.d&&a<S.gap.b&&S.gap.a<b))r.push(['gap',txH('d_fuera_hueco')]);
  }
- if(!r.length)r.push(['chips',txH('d_seleccion_busqueda')]);
+ if(!r.length){
+ const ch=choquesDe(c);
+ if(ch.length){traslapes.push({c,motivo:motivoChoque(ch[0])});continue}
+ r.push(['chips',txH('d_seleccion_busqueda')]);
+ }
  const g=grupos.get(c[4])||{c,items:[]};g.items.push({c,r});grupos.set(c[4],g);
  }
  let ceros=0;
@@ -102,6 +78,14 @@ function ocultosFiltrosD(list){
  return `<article class="subj"><header><h3>${esc(name(c))}</h3></header>${cero?`<p>${esc(txH('d_cero',{n:items.length}))}</p>`:''}<details><summary>${esc(txH('d_ocultos',{n:items.length}))}</summary>${items.map(({c,r})=>`<p>${esc(c[3])} · ${esc(r.map(x=>x[1]).join(' · '))}${cero&&r[0][0]!=='chips'?` <button type="button" class="link" data-d-quitar="${esc(r[0][0])}">${esc(txH('d_quitar_regla',{nombre:r[0][1]}))}</button>`:''}</p>`).join('')}</details></article>`;
  }).join('');
  $('#d-cuenta').textContent=txH('d_cuenta',{n:list.length,total:classes().filter(c=>c[0]===S.car).length})+' · '+txH('d_sin_grupos',{n:ceros});
+ const bt=$('#d-traslapes');
+ if(bt){
+ bt.hidden=!traslapes.length;bt.textContent=txH('d_traslapes_n',{n:traslapes.length});
+ $('#d-traslape-lista').innerHTML=traslapes.map(({c,motivo})=>`<li><b>${esc(name(c))}</b> · ${esc(c[3])} · ${esc(motivo)}</li>`).join('');
+ if(!traslapes.length){$('#d-traslape-lista').hidden=true;bt.setAttribute('aria-expanded','false')}
+ }
+ const nos=Object.values(ws().marks).filter(m=>m.s==='no').length,bn=$('#d-no-ocultos');
+ if(bn){bn.hidden=!nos;bn.textContent=txH('d_no_ocultos',{n:nos})}
  return html;
 }
 function reglasFiltrosD(){
@@ -109,9 +93,11 @@ function reglasFiltrosD(){
  if(S.onlyWant)r.push(txH('d_mis_materias'));
  if(S.tur!=='*')r.push(txH('d_turno',{valor:TURNOS[S.tur]||S.tur}));
  if(S.niv!=='*')r.push(txH('nivel',{n:S.niv}));
+ if(S.dias.length)r.push(txH('d_dias',{valor:S.dias.map(d=>DAYS[d]).join(', ')}));
  if(S.q.trim())r.push(txH('d_busqueda',{valor:S.q.trim()}));
  for(const x of S.chips)r.push(x.t==='m'?DATA.asig[x.v]:x.t==='p'?DATA.prof[x.v]:x.v);
  if(S.soloCupo)r.push(txH('solo_cupo'));
+ if(S.cursables)r.push(txH('d_cursables'));
  if(S.fit)r.push(txH('d_sin_choques'));
  if(S.hideDone&&isPersonal())r.push(txH('ocultar_acreditadas'));
  if(GT.a)r.push(txH('d_desde',{hora:GT.a}));
@@ -122,11 +108,8 @@ function reglasFiltrosD(){
  return r;
 }
 function renderFiltrosD(){
- if(!FILTROS_D)return;
  montarFiltrosD();
  const reglas=reglasFiltrosD();
- $('#d-panel-resumen').textContent=reglas.join(' · ')||txH('d_sin_filtros');
- $('#f-want-l').textContent=txH('d_mis_materias');
  $('#d-cuenta').textContent=txH('d_cuenta',{n:filtered().length,total:classes().filter(c=>c[0]===S.car).length});
  $('#d-reglas').innerHTML=(reglas.length?reglas:[txH('d_sin_filtros')]).map(r=>`<li>${esc(r)}</li>`).join('');
  $('#d-reglas').innerHTML+=`<li>${esc(txH('d_fijos'))}</li>`;
@@ -135,13 +118,14 @@ function renderFiltrosD(){
  if(GT.n)generador.push(txH('d_gen_materias',{n:GT.n==='auto'?txH('d_automatico'):GT.n}));
  for(const b of GT.breaks||[])generador.push(txH('d_gen_descanso',{minutos:b.d,desde:b.a,hasta:b.b,dias:(b.days?.length?b.days.map(d=>DAYS[d]):DAYS.slice(0,5)).join(', ')}));
  $('#d-reglas').innerHTML+=generador.map(r=>`<li>${esc(r)}</li>`).join('');
- const claves=[...(S.onlyWant?['onlyWant']:[]),...(S.tur!=='*'?['tur']:[]),...(S.niv!=='*'?['niv']:[]),...(S.q.trim()?['q']:[]),...S.chips.map((_,i)=>'chip:'+i),...(S.soloCupo?['soloCupo']:[]),...(S.fit?['fit']:[]),...(S.hideDone&&isPersonal()?['hideDone']:[]),...(GT.a?['a']:[]),...(GT.b?['b']:[]),...S.gavoid.map((_,i)=>'prof:'+i),...Object.entries(ws().marks).filter(([,m])=>m.s==='no').map(([k])=>'no:'+k),...(S.gap?['gap']:[])];
- $('#d-activos').innerHTML=reglas.map((r,i)=>`<span class="chip">${esc(r)}<button type="button" data-d-quitar="${esc(claves[i])}" aria-label="${esc(txH('quitar_filtro',{nombre:r}))}">×</button></span>`).join('');
- $('#d-panel-resumen').innerHTML=$('#d-activos').innerHTML||esc(txH('d_sin_filtros'));
+ const claves=[...(S.onlyWant?['onlyWant']:[]),...(S.tur!=='*'?['tur']:[]),...(S.niv!=='*'?['niv']:[]),...(S.dias.length?['dias']:[]),...(S.q.trim()?['q']:[]),...S.chips.map((_,i)=>'chip:'+i),...(S.soloCupo?['soloCupo']:[]),...(S.cursables?['cursables']:[]),...(S.fit?['fit']:[]),...(S.hideDone&&isPersonal()?['hideDone']:[]),...(GT.a?['a']:[]),...(GT.b?['b']:[]),...S.gavoid.map((_,i)=>'prof:'+i),...Object.entries(ws().marks).filter(([,m])=>m.s==='no').map(([k])=>'no:'+k),...(S.gap?['gap']:[])];
+ $('#d-activos').innerHTML=reglas.map((r,i)=>`<span class="chip">${esc(r)}<button type="button" data-d-quitar="${esc(claves[i])}" aria-label="${esc(txH('quitar_filtro',{nombre:r}))}">×</button></span>`).join('')+(reglas.length?`<button type="button" class="link" data-d-limpiar>${esc(txH('d_limpiar_filtros'))}</button>`:'');
 }
 if(typeof CUPOS!=='undefined')CUPOS.montar();
 $('#offer').addEventListener('click',e=>{
  if(e.target.closest('[data-oferta-mapa]'))SATE.ir('mapa');
+ if(e.target.closest('[data-d-limpiar]'))return limpiarFiltrosD();
+ const quitar=e.target.closest('[data-d-quitar]');if(quitar)return quitarFiltroD(quitar.dataset.dQuitar);
  if(e.target.closest('[data-oferta-toda]')){S.onlyWant=false;store.set('onlyWant',false);renderHFilters();renderOffer()}
  const temario=e.target.closest('[data-temario]');
  if(temario){
@@ -162,6 +146,7 @@ $('#f-hide').addEventListener('change',e=>{S.hide=e.target.checked;store.set('hi
 $('#f-done').addEventListener('change',e=>{S.hideDone=e.target.checked;store.set('hideDone',S.hideDone);renderOffer()});
 $('#f-cupo').addEventListener('change',e=>{S.soloCupo=e.target.checked;store.set('soloCupo',S.soloCupo);renderOffer();if(S.gen||generacion)iniciarGeneracion()});
 $('#f-fit').addEventListener('change',e=>{S.fit=e.target.checked;renderOffer()});
+$('#f-curs').addEventListener('change',e=>{S.cursables=e.target.checked;store.set('cursables',S.cursables);renderOffer()});
 $('#f-want').addEventListener('change',e=>{S.onlyWant=e.target.checked;store.set('onlyWant',S.onlyWant);renderOffer()});
 $('#f-weekend').addEventListener('change',e=>{S.weekend=e.target.checked;store.set('weekend',S.weekend);renderCal()});
 $('#f-q').addEventListener('input',e=>{S.q=e.target.value;S.acIdx=-1;renderAC();renderOffer()});
@@ -187,9 +172,9 @@ const gtChanged=()=>{gtSave();renderOffer();if(S.gen||generacion)iniciarGeneraci
 $('#g-from').addEventListener('change',e=>{GT.a=e.target.value;renderGTime();gtChanged()});
 $('#g-to').addEventListener('change',e=>{GT.b=e.target.value;renderGTime();gtChanged()});
 $('#b-reset').addEventListener('click',()=>{
- Object.assign(S,{tur:'*',niv:'*',q:'',chips:[],hide:false,hideDone:true,soloCupo:false,fit:false,gap:null,onlyWant:true,gavoid:[],gt:'*',gpref:[],gen:null});S.expand=new Set();
+ Object.assign(S,{tur:'*',niv:'*',q:'',chips:[],hide:false,hideDone:true,soloCupo:false,cursables:false,dias:[],fit:false,gap:null,onlyWant:true,gavoid:[],gt:'*',gpref:[],gen:null});S.expand=new Set();
  ws().marks={};save();  
- ['tur','niv'].forEach(k=>store.set(k,'*'));store.set('hide',false);store.set('hideDone',true);store.set('soloCupo',false);store.set('onlyWant',true);store.set('excl',[]);
+ ['tur','niv'].forEach(k=>store.set(k,'*'));store.set('hide',false);store.set('hideDone',true);store.set('soloCupo',false);store.set('cursables',false);store.set('dias',[]);store.set('onlyWant',true);store.set('excl',[]);
  Object.assign(GT,{a:'',b:'',breaks:[],days:'',n:'',src:''});gtSave();$('#f-q').value='';$('#g-avoid').value='';$('#g-pref').value='';
  if($('#gen'))$('#gen').open=false;renderGTime();render()});
 $('#g-src').addEventListener('click',e=>{const b=e.target.closest('[data-gsrc]');if(!b)return;GT.src=b.dataset.gsrc;renderGTime();gtChanged()});
@@ -260,7 +245,7 @@ function filtered(){
  const fits=c=>c[6].length&&!have.has(c[4])&&!done.has(c[8])&&![...sel,...own].some(x=>overlaps(x,c))&&
  (!S.gap||c[6].some(([d,a,b])=>d===S.gap.d&&a<S.gap.b&&S.gap.a<b));
  const mine=new Set(plan().sel);
- return base().filter(c=>(mine.has(keyOf(c))||!outWin(c))&&(!(filtrosD||S.hide)||mine.has(keyOf(c))||!isExcl(c))&&(!S.soloCupo||mine.has(keyOf(c))||typeof CUPOS==='undefined'||!CUPOS.fila(c)||CUPOS.fila(c).disponibles>0)&&(hunt?(mine.has(keyOf(c))||fits(c)):(!S.onlyWant||want.has(c[8])))&&(!m.length||m.includes(c[4]))&&(!p.length||c[5].some(i=>p.includes(i)))&&(!g.length||g.includes(c[3]))&&
+ return base().filter(c=>(mine.has(keyOf(c))||!outWin(c))&&(!(filtrosD||S.hide)||mine.has(keyOf(c))||!isExcl(c))&&(!S.soloCupo||mine.has(keyOf(c))||typeof CUPOS==='undefined'||!CUPOS.fila(c)||CUPOS.fila(c).disponibles>0)&&(hunt?(mine.has(keyOf(c))||fits(c)):(!S.onlyWant||want.has(c[8])))&&(!S.dias.length||mine.has(keyOf(c))||c[6].every(([d])=>S.dias.includes(d)))&&(!S.cursables||!isPersonal()||mine.has(keyOf(c))||available(c[8]))&&(mine.has(keyOf(c))||![...sel.filter(s=>s[4]!==c[4]),...own].some(x=>overlaps(x,c)))&&(!m.length||m.includes(c[4]))&&(!p.length||c[5].some(i=>p.includes(i)))&&(!g.length||g.includes(c[3]))&&
  (!S.hideDone||mine.has(keyOf(c))||!done.has(c[8]))&&(!(filtrosD||S.hide)||marks[keyOf(c)]?.s!=='no'||mine.has(keyOf(c)))&&
  (!q||norm(name(c)+' '+c[8]+' '+profs(c)+' '+c[3]).includes(q)));
 }
@@ -298,7 +283,7 @@ function renderHFilters(){
  document.querySelectorAll('#v-hor [data-htexto]').forEach(el=>el.textContent=txH(el.dataset.htexto));
  document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.view===S.view));
  document.querySelectorAll('[data-gt]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.gt===S.gt));
- $('#f-hide').checked=S.hide;$('#f-done').checked=S.hideDone;$('#f-done').disabled=!isPersonal();$('#f-fit').checked=S.fit;$('#f-weekend').checked=S.weekend;
+ $('#f-curs').checked=S.cursables;$('#f-curs').disabled=!isPersonal();$('#f-hide').checked=S.hide;$('#f-done').checked=S.hideDone;$('#f-done').disabled=!isPersonal();$('#f-fit').checked=S.fit;$('#f-weekend').checked=S.weekend;
  const compatibles=typeof CUPOS!=='undefined'&&CUPOS.disponible, datos=compatibles?CUPOS.datos:null;
  $('#f-cupo').checked=S.soloCupo;$('#f-cupo').disabled=!compatibles;$('#f-cupo-ayuda').textContent=compatibles?SATE.texto('sate.horarios.cupo_ultima',{hora:CUPOS.fecha(datos)}):txH('cupo_sin_datos');
  const n=tr().want.length;$('#f-want').checked=S.onlyWant;$('#f-want').disabled=false;
@@ -306,20 +291,17 @@ function renderHFilters(){
  const mine=classes().filter(c=>c[0]===S.car);
  const turs=[...new Set(mine.map(c=>c[1]))].sort();
  if(S.tur!=='*'&&!turs.includes(S.tur)) S.tur='*';
- $('#f-turno').innerHTML=[['*',txH('todos')],...turs.map(t=>[t,TURNOS[t]||t])].map(([v,l])=>`<button class="chip" data-tur="${esc(v)}" aria-pressed="${v===S.tur}">${esc(l)}</button>`).join('');
+ $('#f-turno').innerHTML=[...turs,'*'].map(v=>[v,v==='*'?txH('todos'):TURNOS[v]||v]).map(([v,l])=>`<button type="button" data-tur="${esc(v)}" aria-pressed="${v===S.tur}">${esc(l)}</button>`).join('');
  const nivs=[...new Set(mine.map(c=>c[2]))].sort((a,b)=>a-b);
  if(S.niv!=='*'&&!nivs.includes(S.niv)) S.niv='*';
  $('#f-nivel').innerHTML=[['*',txH('todos')],...nivs.map(n=>[n,n])].map(([v,l])=>`<button class="chip" data-niv="${esc(v)}" aria-pressed="${v===S.niv}">${esc(l)}</button>`).join('');
+ const dias=[...new Set(mine.flatMap(c=>c[6].map(b=>b[0])))].sort((x,y)=>x-y);
+ $('#f-dia').innerHTML=dias.map(d=>`<button class="chip" type="button" data-dia="${d}" aria-pressed="${S.dias.includes(d)}" aria-label="${esc(DAYN[d])}">${esc(DAYS[d])}</button>`).join('');
  $('#proflist').innerHTML=[...new Set(mine.flatMap(c=>c[5]))].map(i=>`<option value="${esc(DATA.prof[i])}">`).join('');
  renderActive();renderGPrefs();
  renderGTime();
 }
-function renderMasFiltros(){
- if(typeof renderFiltrosD==='function')renderFiltrosD();
- const n=[S.hide,S.fit,!!(GT.a||GT.b),S.gavoid.length>0,S.hideDone&&isPersonal(),S.soloCupo].filter(Boolean).length;
- $('#f-more-title').textContent=txH(n?'mas_filtros_activos':'mas_filtros',{n});
- if(n&&(typeof FILTROS_D==='undefined'||!FILTROS_D))$('#f-more').open=true;
-}
+function renderMasFiltros(){renderFiltrosD()}
  
 const shortRoom=r=>String(r||'').replace(/^Aula\s+/,'');
 const roomAt=(c,d,a)=>{const i=(c[6]||[]).findIndex(x=>x[0]===d&&x[1]===a);return i>=0&&c[10]?c[10][i]||'':''};
@@ -341,7 +323,7 @@ function optRow(c,sel,inGroup){
  if(isExcl(c)) tags+=`<span class="tag soft">${esc(txH('profesor_excluido'))}</span>`;
  return `<div class="opt${mk.s==='no'||isExcl(c)?' no':''}" data-k="${esc(k)}"><span class="grp">${inGroup?'':esc(c[3])}</span><span class="who">${who}${inGroup?botonTemario(c):''}</span>
     <div class="right"><button class="add" data-toggle="${esc(k)}" aria-pressed="${on}">${esc(txH(on?'quitar_opcion':'agregar'))}</button>
-      <span class="marks" role="group" aria-label="${esc(txH('marcar'))}"${isExcl(c)?` title="${esc(txH('profesor_excluido_ayuda'))}"`:''}>${[['si',txH('si')],['quiza',txH('quiza')],['no',txH('no')]].map(([m,l])=>isExcl(c)?`<button disabled data-m="${m}" aria-pressed="${m==='no'}">${esc(l)}</button>`:`<button data-mark="${m}" data-m="${m}" data-k="${esc(k)}" aria-pressed="${mk.s===m}">${esc(l)}</button>`).join('')}</span></div>
+      <span class="marks" role="group" aria-label="${esc(txH('marcar'))}"${isExcl(c)?` title="${esc(txH('profesor_excluido_ayuda'))}"`:''}>${[['si',txH('si')],['quiza',txH('quiza')]].map(([m,l])=>isExcl(c)?`<button disabled data-m="${m}" aria-pressed="${m==='no'}">${esc(l)}</button>`:`<button data-mark="${m}" data-m="${m}" data-k="${esc(k)}" aria-pressed="${mk.s===m}">${esc(l)}</button>`).join('')}</span><button type="button" class="ocultar" data-mark="no" data-m="no" data-k="${esc(k)}" aria-pressed="${mk.s==='no'}" aria-label="${esc(txH('d_ocultar_grupo',{grupo:c[3]}))}" title="${esc(txH('d_ocultar_grupo',{grupo:c[3]}))}"${isExcl(c)?' disabled':''}><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 6.1A9.8 9.8 0 0 1 12 6c5 0 8.5 4 9.5 6a12 12 0 0 1-2.4 3.2M6.5 7.6A12 12 0 0 0 2.5 12c1 2 4.5 6 9.5 6 1.5 0 2.8-.4 4-.9"/></svg></button></div>
     <span class="when">${pattern(c).map(p=>`<span>${p}</span>`).join('')}${roomsTxt(c)?`<span class="room">${esc(txH('salon'))} ${roomsTxt(c)}</span>`:''}</span>
     ${tags?`<span class="tags">${tags}</span>`:''}
     ${mk.s?`<input class="note" type="text" data-note="${esc(k)}" value="${esc(mk.n||'')}" placeholder="${esc(txH('nota_placeholder'))}" aria-label="${esc(txH('nota'))}">`:''}</div>`;
@@ -886,7 +868,7 @@ function renderOffer(){
  const html=desfaseAcciones(k);if(html)avisadas.add(k);return html;
  };
  const pendientes=()=>{$('#hor-desfase').innerHTML=isPersonal()?desfaseAvisos(avisadas):''};
- if(S.onlyWant&&!tr().want.length&&!FILTROS_D){
+ if(S.onlyWant&&!tr().want.length){
  pendientes();
  $('#offer-count').textContent='';
  $('#offer').innerHTML=`<div class="empty"><p>${esc(SATE.texto('sate.planeacion.oferta_vacia'))}</p><div class="actions"><button class="btn" type="button" data-oferta-mapa>${esc(SATE.texto('sate.planeacion.elegir_mapa'))}</button><button class="btn" type="button" data-oferta-toda>${esc(SATE.texto('sate.planeacion.oferta_toda'))}</button></div></div>`;return;
