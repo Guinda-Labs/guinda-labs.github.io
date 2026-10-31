@@ -1,5 +1,5 @@
 // Escala en píxeles por unidad: resize conserva centro y escala del alumno.
-export function encuadre(inicial=[0,0,960,420]){
+export function encuadre(inicial=[0,0,960,420],{infinito=false}={}){
  let frame=[...inicial],auto=true,size=[960,420],bounds=[...inicial],oculto=0;
  // El viewBox conserva el tamaño total; el circuito se centra antes de la zona tapada.
  const fit=f=>{const visible=size[0]-oculto,s=Math.min(2,visible/f[2],size[1]/f[3]),w=size[0]/s,h=size[1]/s;return [f[0]+(f[2]-visible/s)/2,f[1]+(f[3]-h)/2,w,h];};
@@ -8,13 +8,13 @@ export function encuadre(inicial=[0,0,960,420]){
   ajustar(f){bounds=[...f];if(auto){const dentro=f[0]>=frame[0]&&f[1]>=frame[1]&&f[0]+f[2]<=frame[0]+frame[2]&&f[1]+f[3]<=frame[1]+frame[3];if(!dentro)frame=fit(f);}return this.frame;},
   centrar(f){auto=true;bounds=[...f];frame=fit(f);return this.frame;},
   zoom(f,a=[frame[0]+frame[2]/2,frame[1]+frame[3]/2]){const scale=this.escala,next=Math.max(.1,Math.min(8,scale/f)),r=scale/next;frame=[a[0]+(frame[0]-a[0])*r,a[1]+(frame[1]-a[1])*r,frame[2]*r,frame[3]*r];auto=false;return this.frame;},
-  mover(dx,dy){for(const [axis,d] of [[0,dx],[1,dy]]){const overlap=Math.min(bounds[axis+2],frame[axis+2])*.25;frame[axis]=Math.max(bounds[axis]+overlap-frame[axis+2],Math.min(bounds[axis]+bounds[axis+2]-overlap,frame[axis]+d));}auto=false;return this.frame;},
-  resize(w,h,derecha=0){if(!(w>0&&h>0))return this.frame;const cx=frame[0]+frame[2]/2,cy=frame[1]+frame[3]/2,s=this.escala;size=[w,h];oculto=Math.max(0,Math.min(w-1,derecha));if(!auto)frame=[cx-w/s/2,cy-h/s/2,w/s,h/s];else if(size[0]/frame[2]>2)frame=fit(bounds);return this.frame;},
+  mover(dx,dy){for(const [axis,d] of [[0,dx],[1,dy]]){const overlap=Math.min(bounds[axis+2],frame[axis+2])*.25;frame[axis]=infinito?frame[axis]+d:Math.max(bounds[axis]+overlap-frame[axis+2],Math.min(bounds[axis]+bounds[axis+2]-overlap,frame[axis]+d));}auto=false;return this.frame;},
+  resize(w,h,derecha=0){if(!(w>0&&h>0))return this.frame;const cx=frame[0]+frame[2]/2,cy=frame[1]+frame[3]/2,s=this.escala;size=[w,h];oculto=Math.max(0,Math.min(w-1,derecha));if(!auto||infinito)frame=[cx-w/s/2,cy-h/s/2,w/s,h/s];else if(size[0]/frame[2]>2)frame=fit(bounds);return this.frame;},
   seleccionar(f){auto=false;frame=fit(f);return this.frame;}
  };
 }
-export function navegar(svg,{ajuste,seleccion=()=>null,bloqueado=()=>false,cambio=()=>{},cancelarMovimiento=()=>{},controles=true}={}){
- const state=encuadre((svg.getAttribute?.('viewBox')||'0 0 960 420').split(/\s+/).map(Number));
+export function navegar(svg,{ajuste,seleccion=()=>null,bloqueado=()=>false,cambio=()=>{},cancelarMovimiento=()=>{},controles=true,infinito=false}={}){
+ const state=encuadre((svg.getAttribute?.('viewBox')||'0 0 960 420').split(/\s+/).map(Number),{infinito});
  let space=false,drag=null,pinch=null,moved=false;const touches=new Map(),doc=svg.ownerDocument;
  const point=(x,y)=>{const p=svg.createSVGPoint();p.x=x;p.y=y;const q=p.matrixTransform(svg.getScreenCTM().inverse());return [q.x,q.y];};
  let pct=null;
@@ -51,8 +51,8 @@ export function navegar(svg,{ajuste,seleccion=()=>null,bloqueado=()=>false,cambi
   const bar=doc.createElement('div');bar.className='zoom-lienzo';bar.setAttribute('aria-label','Zoom');
   const button=(label,action,title)=>{const b=doc.createElement('button');b.type='button';b.textContent=label;b.title=title||label;b.setAttribute('aria-label',title||label);b.onclick=()=>run(action);bar.append(b);return b;};
   button('−','alejar','Alejar');const details=doc.createElement('details'),summary=doc.createElement('summary');pct=summary;details.append(summary);bar.append(details);
-  for(const [label,action] of [['Volver a centrar','centrar'],['Centrar en la selección','seleccion'],['100 %','real']]){const b=button(label,action);b.onclick=()=>{run(action);details.open=false;};details.append(b);}
-  button('+','acercar','Acercar');const b=button('⤢','centrar','Volver a centrar (Mayús+1)'),span=doc.createElement('span');span.textContent=' Volver a centrar';b.append(span);svg.parentElement.append(bar);
+  for(const [label,action] of [['Ajustar a la vista','centrar'],['Centrar en la selección','seleccion'],['100 %','real']]){const b=button(label,action);b.onclick=()=>{run(action);details.open=false;};details.append(b);}
+  button('+','acercar','Acercar');const b=button('⤢','centrar','Ajustar a la vista (Mayús+1)'),span=doc.createElement('span');span.textContent=' Ajustar a la vista';b.append(span);svg.parentElement.append(bar);
  }
  if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>fit()).observe(svg);
  if(work&&typeof MutationObserver!=='undefined')new MutationObserver(()=>fit()).observe(work,{attributes:true,attributeFilter:['class','style']});
