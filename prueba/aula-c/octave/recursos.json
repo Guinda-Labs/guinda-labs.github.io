@@ -1,5 +1,5 @@
 {
-  "bytes": 136537863,
+  "bytes": 136540094,
   "files": [
     "estudio/app.mjs",
     "estudio/archivos.mjs",
@@ -554,5 +554,5 @@
     "index.html",
     "sw.js"
   ],
-  "revision": "b530b089ef08214d79989de97b3975fa5b6e03415f5eefab1e348fff745e573e"
+  "revision": "db097519b8304f58d3851ef5a8bc3ce7acd848f633c18bbe824c5c636d08ade6"
 }

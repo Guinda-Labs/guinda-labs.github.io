@@ -21,7 +21,9 @@ export function desempaquetarImagen(raw) {
   return {height,width,channels,data};
 }
 export async function decodificarImagen(file, env=globalThis) {
-  const bitmap=await env.createImageBitmap(file);
+  let bitmap;
+  try {bitmap=await env.createImageBitmap(file);}
+  catch(error) {throw Error(`AULA-C: no se pudo decodificar la imagen ${file.name || ''}. El formato no es compatible con el navegador o el archivo esta dañado. Use JPG, JPEG, PNG o BMP.`,{cause:error});}
   try {
     const canvas=new env.OffscreenCanvas(bitmap.width,bitmap.height), context=canvas.getContext('2d');
     context.drawImage(bitmap,0,0);

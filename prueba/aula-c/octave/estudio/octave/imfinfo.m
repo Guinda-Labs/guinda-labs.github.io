@@ -1,7 +1,4 @@
 function info = imfinfo (filename, varargin)
-  if exist('__magick_read__')
-    info = aulac_native('imfinfo',filename,varargin{:}); return;
-  endif
   image = imread(filename, varargin{:});
   [~,~,extension] = fileparts(filename);
   kind = 'grayscale'; if size(image,3) == 3, kind = 'truecolor'; endif
