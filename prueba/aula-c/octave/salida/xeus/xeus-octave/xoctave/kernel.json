@@ -1,0 +1,1 @@
+{"display_name": "Octave (xoctave)", "argv": ["xeus/xeus-octave/bin/xoctave.js", "-f", "{connection_file}"], "language": "Octave", "metadata": {"debugger": false, "shared": {"libxeus.so": "lib/libxeus.so", "libz.so": "lib/libz.so"}}, "resources": {"logo-32x32": "xeus\\xeus-octave\\xoctave\\logo-32x32.png", "logo-64x64": "xeus\\xeus-octave\\xoctave\\logo-64x64.png"}}
