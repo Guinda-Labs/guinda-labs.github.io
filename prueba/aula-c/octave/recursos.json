@@ -1,12 +1,21 @@
 {
-  "bytes": 136511220,
+  "bytes": 136537863,
   "files": [
     "estudio/app.mjs",
+    "estudio/archivos.mjs",
     "estudio/contenido/textos/es.toml",
     "estudio/editor.css",
+    "estudio/figuras.mjs",
     "estudio/GPL-3.0.txt",
     "estudio/index.html",
     "estudio/nucleo.mjs",
+    "estudio/octave/aulac_figuras.m",
+    "estudio/octave/aulac_native.m",
+    "estudio/octave/aulac_rawread.m",
+    "estudio/octave/aulac_rawwrite.m",
+    "estudio/octave/imfinfo.m",
+    "estudio/octave/imread.m",
+    "estudio/octave/imwrite.m",
     "estudio/style.css",
     "estudio/textos.mjs",
     "estudio/tokens.css",
@@ -545,5 +554,5 @@
     "index.html",
     "sw.js"
   ],
-  "revision": "1b9dbf73459b03d9a52dbfe40a378ccd0c823016f8e9410d114caccc2ea17e86"
+  "revision": "b530b089ef08214d79989de97b3975fa5b6e03415f5eefab1e348fff745e573e"
 }

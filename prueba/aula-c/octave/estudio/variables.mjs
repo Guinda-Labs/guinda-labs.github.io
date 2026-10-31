@@ -1,14 +1,16 @@
 // Protocolo de texto: una fila por variable, sin serializadores JSON en Octave.
 export const snapshotCode = `
 function __aulac_snapshot__()
+  had_ans = evalin('base', "exist('ans','var')");
+  if had_ans, saved_ans = evalin('base', 'ans'); endif
   info = evalin('base', 'whos');
   for k = 1:numel(info)
     v = info(k);
     short = '';
     try
-      if numel(v.size) <= 2 && prod(v.size) <= 6 && any(strcmp(v.class, {'double','single','logical','int8','uint8','int16','uint16','int32','uint32','int64','uint64','char'}))
+      if numel(v.size) <= 2 && (prod(v.size) <= 12 || all(v.size <= 4)) && any(strcmp(v.class, {'double','single','logical','int8','uint8','int16','uint16','int32','uint32','int64','uint64','char'}))
         value = evalin('base', v.name);
-        short = mat2str(value(:).');
+        short = mat2str(value);
       endif
     catch
       short = '';
@@ -18,6 +20,7 @@ function __aulac_snapshot__()
     short = regexprep(short, '[|\\r\\n]', ' ');
     fprintf('__AULAC_WHOS_ROW__%s|%s|%s|%s\\n', v.name, dims, v.class, short);
   endfor
+  if had_ans, assignin('base', 'ans', saved_ans); else evalin('base', 'clear ans'); endif
 endfunction
 __aulac_snapshot__();
 `;

@@ -91,6 +91,7 @@ export class NucleoWeb {
     this.log({event:'kernel-restart',kernel:this.kernel?.id});
     await this.kernel.restart();
     await this.ejecutar("cd('/drive'); more off; format short g;",()=>{},true);
+    await this.preparar?.();
   }
 }
 
