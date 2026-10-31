@@ -170,6 +170,9 @@ body:has(.instrumento-panel:not([hidden])) .inspector{right:376px}
 /* Las etiquetas pertenecen al lienzo y conservan espacio al abrir un instrumento. */
 #scheme{min-width:0;--svg-font:20px}
 #scheme text,#scheme.practice-scheme text,#scheme text.component-label,#scheme text.practice-probe,#scheme text.dc-label{font-size:var(--svg-font);font-family:var(--aulac-mono)}
+#scheme text.component-label{font-size:max(var(--aulac-t1),min(var(--svg-font),var(--aulac-t3)));paint-order:stroke;stroke:var(--aulac-fondo);stroke-width:5px;stroke-linejoin:round}
+#scheme .component>text:not(.component-label){font-size:max(var(--aulac-t1),min(var(--svg-font),var(--aulac-t3)));paint-order:stroke;stroke:var(--aulac-fondo);stroke-width:4px;stroke-linejoin:round}
+#scheme .wire-vertex{fill:var(--aulac-fondo);stroke:var(--aulac-acento);stroke-width:1.5;vector-effect:non-scaling-stroke;pointer-events:none}
 #scheme .label-guide{fill:none;stroke:var(--aulac-tenue);stroke-width:1;pointer-events:none}
 .probe-readings{width:100%;border-collapse:collapse;font-size:var(--aulac-t1);margin-top:var(--aulac-s4)}
 .probe-readings caption{text-align:left;color:var(--aulac-tenue);padding-bottom:var(--aulac-s2)}

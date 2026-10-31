@@ -4,7 +4,7 @@ AGPL-3.0-only. Código fuente en el repositorio AULA-C. Los modelos didácticos 
 
 # 2. EEcircuit Engine 1.9.0
 
-MIT, Copyright (c) 2024 EElab.dev. Paquete ausente en este build; no se distribuye ngspice WASM.
+MIT, Copyright (c) 2024 EElab.dev. Texto original: [LICENSE](vendor/eecircuit-engine/LICENSE).
 
 # 3. ngspice y componentes incorporados
 
@@ -18,4 +18,4 @@ El paquete npm instalado sólo aporta LICENSE del envoltorio, no el conjunto com
 
 # 5. three.js 0.170.0 · MIT
 
-MIT, Copyright (c) 2010-2024 three.js authors. Paquete ausente en este build; la pestaña Campo no se distribuye. Se incluyen solo build/three.module.min.js y examples/jsm/controls/OrbitControls.js (import reescrito a ruta relativa). Sirven a la pestaña Campo del panel de Análisis y se cargan solo al abrirla.
+MIT, Copyright (c) 2010-2024 three.js authors. Texto original: [LICENSE](vendor/three/LICENSE). Se incluyen solo build/three.module.min.js y examples/jsm/controls/OrbitControls.js (import reescrito a ruta relativa). Sirven a la pestaña Campo del panel de Análisis y se cargan solo al abrirla.
