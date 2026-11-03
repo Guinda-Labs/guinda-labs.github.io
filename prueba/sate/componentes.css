@@ -1177,9 +1177,9 @@ body.sate-flotante #v-tray{padding-bottom:calc(var(--sate-plan-alto,var(--ipn-es
  
 .tramite-rejilla{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin-top:var(--ipn-esp-4);background:var(--ipn-linea);border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio-superficie);overflow:hidden}
 @media(max-width:639px){.tramite-rejilla{grid-template-columns:minmax(0,1fr)}}
- 
-@media(min-width:640px){.tramite-rejilla{grid-auto-rows:1fr}}
 .tramite-rejilla .tramite-fila{border:0;display:flex;flex-direction:column}
+ 
+@media(min-width:640px){.tramite-rejilla{grid-auto-rows:1fr auto auto}.tramite-rejilla .tramite-fila{display:grid;grid-row:span 3;grid-template-rows:subgrid;row-gap:0;background:var(--ipn-superficie)}}
 .tramite-rejilla .sate-btn.tramite-fila-boton{flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:var(--ipn-esp-1);border:0;border-radius:0  ;background:var(--ipn-superficie);padding:var(--ipn-esp-4)}
 .tramite-rejilla .sate-btn.tramite-fila-boton:hover{background:var(--ipn-hundido)}
 .tramite-rejilla .tramite-estado{order:-1;align-self:flex-start}
