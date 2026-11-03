@@ -1,11 +1,11 @@
 (function(raiz){
-// «(excepto inglés)» es parte del nombre del catálogo; solo cuenta como inglés si lo menciona fuera de esa aclaración.
+ 
 const mencionIngles=t=>/ingl[eé]s|english/i.test(String(t||'').replace(/\(\s*excepto\s+ingl[eé]s\s*\)/ig,''));
 const CARN={B:'Ingeniería Biónica',M:'Ingeniería Mecatrónica',T:'Ingeniería Telemática',E:'Ingeniería en Energía',S:'Ing. en Sistemas Automotrices'};
 const REQ={B:{n:4,c:5},T:{n:4,c:5},M:{n:3,c:7}};
 const MOD={D:{n:'Docencia',h:16},C:{n:'Trabajo de campo supervisado',h:50},I:{n:'Actividades independientes',h:20}};
 const EJE={I:'Inquietudes vocacionales propias',II:'Énfasis en la profesión',III:'Complementarias a la formación'};
-// Catálogo: clave del instructivo, modalidad, título, palabras clave, evidencia, requisitos/condiciones y estado vigente (26-2)
+ 
 const CAT=[
  ['I.1.1.1','D','Materia de otra carrera de la UPIITA cursada como electiva','otra carrera optativa elegible materia die-01 sin registro saes','Calificación reportada por el profesor (formato DIE-01 entregado al inicio del semestre en que la cursaste)','Se tramita con el DIE-01 en los primeros 10 días hábiles del semestre; se libera el semestre siguiente. Máximo 7 solicitudes.',{die:'01'}],
  ['I.1.1.2','D','Curso en otra escuela del IPN (UPIBI, ESIME, ESCOM…)','otra escuela unidad academica ipn upibi esime escom esiqie curso materia movilidad interna','Constancia o boleta con calificación y horas','Requiere visto bueno del tutor y del jefe del Departamento de Tecnologías Avanzadas en la 5.ª–7.ª semana del semestre previo.'],
@@ -56,27 +56,27 @@ const fmt=x=>(+x).toFixed(2).replace(/\.?0+$/,'');
 function hoursOf(a){const c=CATK[a.k];let h=+a.h||0;if(c?.f.cap)h=Math.min(h,c.f.cap);return h}
 function credOf(a){const c=CATK[a.k];if(!c)return 0;if(c.f.cc)return floor2(((+a.ht||0)+(+a.hp||0))*18/16);return floor2(hoursOf(a)/MOD[c.m].h)}
 function warnOf(a){
-  const c=CATK[a.k], w=[];
-  if(c.f.off) w.push(['bad','Esta actividad ya no se acepta desde 26-2 (tiene retribución económica). No se incluirá en tus formatos.']);
-  if(c.f.noIngles&&mencionIngles(a.desc)) w.push(['bad','Los cursos de inglés no cuentan: el inglés es parte del mapa curricular.']);
-  if(c.f.cap&&(+a.h||0)>c.f.cap) w.push(['warn',`Se toman como máximo ${c.f.cap} horas por congreso; registra cada congreso por separado.`]);
-  if(!c.f.cc&&!(+a.h)) w.push(['warn','Escribe el número de horas que indica tu constancia.']);
-  return w;
+ const c=CATK[a.k], w=[];
+ if(c.f.off) w.push(['bad','Esta actividad ya no se acepta desde 26-2 (tiene retribución económica). No se incluirá en tus formatos.']);
+ if(c.f.noIngles&&mencionIngles(a.desc)) w.push(['bad','Los cursos de inglés no cuentan: el inglés es parte del mapa curricular.']);
+ if(c.f.cap&&(+a.h||0)>c.f.cap) w.push(['warn',`Se toman como máximo ${c.f.cap} horas por congreso; registra cada congreso por separado.`]);
+ if(!c.f.cc&&!(+a.h)) w.push(['warn','Escribe el número de horas que indica tu constancia.']);
+ return w;
 }
 const valid=a=>!CATK[a.k].f.off&&!warnOf(a).some(w=>w[0]==='bad');
 
-/* ---------- búsqueda ---------- */
+ 
 function search(q){
-  const t=norm(q).split(/\s+/).filter(Boolean);if(!t.length)return[];
-  return CAT.map(a=>{const hay=norm(a.k+' '+a.t+' '+a.kw);const s=t.reduce((n,w)=>n+(hay.includes(w)?(norm(a.t).includes(w)?3:1):0),0);return {a,s}})
-    .filter(x=>x.s>0).sort((x,y)=>y.s-x.s||(x.a.f.off?1:0)-(y.a.f.off?1:0)).slice(0,8).map(x=>x.a);
+ const t=norm(q).split(/\s+/).filter(Boolean);if(!t.length)return[];
+ return CAT.map(a=>{const hay=norm(a.k+' '+a.t+' '+a.kw);const s=t.reduce((n,w)=>n+(hay.includes(w)?(norm(a.t).includes(w)?3:1):0),0);return {a,s}})
+ .filter(x=>x.s>0).sort((x,y)=>y.s-x.s||(x.a.f.off?1:0)-(y.a.f.off?1:0)).slice(0,8).map(x=>x.a);
 }
 function hourOpt(h){const o=[{w:3,s:54,c:'3.37'},{w:4.5,s:81,c:'5.06'},{w:6,s:108,c:'6.75'}];return o.reduce((b,x)=>Math.abs(x.w-Math.min(h,6))<Math.abs(b.w-Math.min(h,6))?x:b)}
 function totals(S,liberadas=()=>0){
-  const ok=S.acts.filter(valid);
-  const cr=ok.reduce((s,a)=>s+credOf(a),0), sob=S.f.q1==='si'?(+S.f.sob||0):0;
-  const r0=REQ[S.car], lib=Math.min(r0.n,liberadas()), r={n:r0.n-lib,c:r0.c,lib,n0:r0.n}, all=floor2(cr+sob);
-  return {ok,cr:floor2(cr),sob,all,r,cubre:Math.min(r.n,Math.floor(all/r.c+1e-9)),rest:floor2(all-Math.min(r.n,Math.floor(all/r.c+1e-9))*r.c)};
+ const ok=S.acts.filter(valid);
+ const cr=ok.reduce((s,a)=>s+credOf(a),0), sob=S.f.q1==='si'?(+S.f.sob||0):0;
+ const r0=REQ[S.car], lib=Math.min(r0.n,liberadas()), r={n:r0.n-lib,c:r0.c,lib,n0:r0.n}, all=floor2(cr+sob);
+ return {ok,cr:floor2(cr),sob,all,r,cubre:Math.min(r.n,Math.floor(all/r.c+1e-9)),rest:floor2(all-Math.min(r.n,Math.floor(all/r.c+1e-9))*r.c)};
 }
 
 raiz.ElectivasReglas={CARN,REQ,MOD,EJE,CAT,CATK,norm,floor2,fmt,hoursOf,credOf,warnOf,valid,search,hourOpt,totals};

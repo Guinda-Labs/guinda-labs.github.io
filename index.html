@@ -42,43 +42,43 @@ main{max-width:760px;margin:0 auto;padding-block:48px 40px}
 .saes-tactil{display:none}
 @media(hover:none){.saes-arrastre{display:none}.saes-tactil{display:block}}
 .saes-videos{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:12px 0 2px;font-size:.88rem}
-.saes-vid{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--fg);font-weight:600;background:var(--surface)}
+.saes-vid{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid var(--line);border-radius:var(--ipn-radio-control,.5rem);text-decoration:none;color:var(--fg);font-weight:600;background:var(--surface)}
 .saes-vid:hover{border-color:var(--accent)}
 .saes-vlist{color:var(--accent);font-weight:600;margin-left:4px}
 .saes-vid svg{color:var(--accent)}
 .saes-vid.rec{border-color:var(--accent);background:var(--accent-soft,var(--surface));color:var(--accent)}
 .saes-open{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
-.saes-open::before{content:"";width:9px;height:9px;border-radius:50%;border:2px solid currentColor;flex:none}
+.saes-open::before{content:"";width:9px;height:9px;border-radius:50%/* forma: no-control */;border:2px solid currentColor;flex:none}
 .saes-open.on::before{background:var(--ok);border-color:var(--ok)}
-.saes-dlg{width:min(600px,calc(100vw / var(--ui-zoom,1) - 32px));max-height:calc(100vh / var(--ui-zoom,1) - 48px);overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--fg);padding:20px 22px;box-shadow:0 24px 60px -16px rgba(0,0,0,.45)}
+.saes-dlg{width:min(600px,calc(100vw / var(--ui-zoom,1) - 32px));max-height:calc(100vh / var(--ui-zoom,1) - 48px);overflow:auto;border:1px solid var(--line);border-radius:var(--ipn-radio-superficie,.75rem);background:var(--surface);color:var(--fg);padding:20px 22px;box-shadow:0 24px 60px -16px rgba(0,0,0,.45)}
 .saes-dlg::backdrop{background:rgba(20,12,16,.45)}
 .saes-dlg h2{margin:0;font-size:1.25rem}
 .saes-dlg .dl-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px}
 .saes-dlg .x{border:0;background:none;font-size:1.5rem;line-height:1;cursor:pointer;color:var(--muted);padding:2px 6px}
 .saes-dlg ol{margin:10px 0;padding-left:1.3rem;display:flex;flex-direction:column;gap:12px;font-size:.92rem}
 .saes-dlg li>p{margin:4px 0}
-.saes-dlg details{margin-top:6px;font-size:.86rem;border-left:3px solid var(--line);padding:2px 0 2px 10px}
+.saes-dlg details{margin-top:6px;font-size:.86rem;padding:2px 0 2px 10px}
 .saes-dlg summary{cursor:pointer;color:var(--accent);font-weight:600}
 .saes-dlg details ul{margin:6px 0;padding-left:1.1rem;display:flex;flex-direction:column;gap:4px}
-.saes-dlg kbd{font-family:var(--f-mono,ui-monospace,monospace);font-size:.8em;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 4px;background:var(--bg)}
-.saes-bm{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--accent-fg);border-radius:999px;padding:5px 14px;font-weight:600;text-decoration:none;cursor:grab}
+.saes-dlg kbd{font-family:var(--f-mono,ui-monospace,monospace);font-size:.8em;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px/* forma: no-control */;padding:0 4px;background:var(--bg)}
+.saes-bm{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--accent-fg);border-radius:var(--ipn-radio-control,.5rem);padding:5px 14px;font-weight:600;text-decoration:none;cursor:grab}
 .saes-paste{width:100%;min-height:2.8rem;resize:none;font-size:.9rem}
 .saes-note{font-size:.8rem;color:var(--muted)}
 .saes-code{display:flex;gap:8px;align-items:stretch;margin:6px 0 4px}
 .saes-code textarea{flex:1;min-width:0;font:12px/1.4 ui-monospace,Consolas,monospace;resize:vertical;word-break:break-all}
 .saes-mm[hidden]{display:none}
-.saes-mm{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:12px;padding:10px 12px 10px 14px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);background:var(--surface);font-size:.88rem}
+.saes-mm{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:12px;padding:10px 12px 10px 14px;border:1px solid var(--line);border-radius:var(--ipn-radio-superficie,.75rem);background:var(--surface);font-size:.88rem}
 .saes-mm p{margin:0;flex:1 1 360px;min-width:0}
 .saes-mm .mm-act{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .saes-mm .x{border:0;background:none;font-size:1.3rem;line-height:1;cursor:pointer;color:var(--muted);padding:2px 6px}
 #saes-msg .ok{color:var(--ok);font-weight:600} #saes-msg .bad{color:var(--bad);font-weight:600}
 
 
-.ipnt-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:4px 12px 4px 6px;font:inherit;font-size:.86rem;font-weight:600;cursor:pointer;white-space:nowrap;position:relative}
+.ipnt-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:var(--ipn-radio-control,.5rem);padding:4px 12px 4px 6px;font:inherit;font-size:.86rem;font-weight:600;cursor:pointer;white-space:nowrap;position:relative}
 .ipnt-btn:hover{border-color:var(--accent)}
 .ipnt-btn svg{flex:none;color:var(--muted)}
 .ipnt-btn.on svg{color:var(--ok)}
-.ipnt-btn.warn::after{content:"";position:absolute;top:1px;right:1px;width:8px;height:8px;border-radius:50%;background:var(--warn)}
+.ipnt-btn.warn::after{content:"";position:absolute;top:1px;right:1px;width:8px;height:8px;border-radius:50%/* forma: no-control */;background:var(--warn)}
 @media (max-width:600px){.ipnt-btn span{display:none}.ipnt-btn{padding:4px 6px}}
 .ipnt-dlg h3{margin:16px 0 6px;font-size:1rem}
 .ipnt-dlg .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
@@ -91,22 +91,22 @@ main{max-width:760px;margin:0 auto;padding-block:48px 40px}
 .ipnt-ms{display:inline-flex;align-items:center;gap:8px}
 .ipnt-dlg button:disabled{opacity:.5;cursor:not-allowed}
 .ipnt-conf-op{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:10px}
-.ipnt-conf-op .btn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:10px 14px;border-radius:10px;height:auto;white-space:normal}
+.ipnt-conf-op .btn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:10px 14px;border-radius:var(--ipn-radio-control,.5rem);height:auto;white-space:normal}
 .ipnt-conf-op small{font-weight:400;font-size:.8rem;color:inherit;opacity:.85}
-.ipnt-prueba{margin:10px 0 0;font-size:.84rem;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.ipnt-prueba{margin:10px 0 0;font-size:.84rem;padding:8px 12px;border:1px solid var(--line);border-radius:var(--ipn-radio-superficie,.75rem);background:var(--surface)}
 .ipnt-mig-link{margin:12px 0 0;font-size:.84rem}.ipnt-mig-link .link{white-space:normal;text-align:start}
-.ipnt-mig{margin:12px 0 0;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.ipnt-mig{margin:12px 0 0;padding:12px 14px;border:1px solid var(--line);border-radius:var(--ipn-radio-superficie,.75rem);background:var(--surface)}
 .ipnt-mig h3{margin:0 0 8px}
 .ipnt-mig ol{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:14px}
-.ipnt-mig li{display:grid;gap:4px;padding-left:12px;border-left:3px solid var(--line);opacity:.7}
-.ipnt-mig li.ahora{border-left-color:var(--accent);opacity:1}
-.ipnt-mig li.hecho{border-left-color:var(--ok)}
+.ipnt-mig li{display:grid;gap:4px;padding-left:12px;opacity:.7}
+.ipnt-mig li.ahora{opacity:1;font-weight:600}
+.ipnt-mig li.hecho{color:var(--ok)}
 .ipnt-mig li p{margin:0;font-size:.86rem;color:var(--muted)}
 .ipnt-mig li .row{margin-top:4px}
 .ipnt-hola{width:min(640px,calc(100vw / var(--ui-zoom,1) - 32px));max-height:calc(100dvh - 24px);overflow:auto}
 .ipnt-hola .lead{margin:0;font-size:.95rem;color:var(--muted)}
 .ipnt-unis{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
-.ipnt-uni{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;padding:10px 12px;font:inherit;cursor:pointer}
+.ipnt-uni{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:var(--ipn-radio-control,.5rem);padding:10px 12px;font:inherit;cursor:pointer}
 .ipnt-uni b{font-size:1rem} .ipnt-uni small{color:var(--muted);font-size:.78rem;line-height:1.3}
 .ipnt-uni em{font-style:normal;font-size:.72rem;font-weight:600;color:var(--warn)}
 .ipnt-uni[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
@@ -164,18 +164,18 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:v
   <div class="ipnt-mig-link" id="ipnt-mig"><button class="link" id="ipnt-mig-link" type="button" hidden>¿Guardaste tus datos con Google? Pásalos a Microsoft</button></div>
   <section class="ipnt-mig" id="ipnt-mig-panel" aria-labelledby="ipnt-mig-h" hidden>
     <h3 id="ipnt-mig-h">Pasa tus datos de Google a Microsoft</h3>
-    <p class="ipnt-state warn" id="ipnt-mig-aviso" hidden>Tu navegador recuerda una sesión de Google. Ya no sincronizamos con Google: pasa tus datos a Microsoft para seguir guardándolos en tu nube.</p>
+    <p class="ipnt-state warn" id="ipnt-mig-aviso" hidden>Tu navegador recuerda una sesión de Google. SATE ya no sincroniza con Google; pasa tus datos a Microsoft para seguir guardándolos en tu nube.</p>
     <ol id="ipnt-mig-pasos">
-      <li id="ipnt-mig-p1"><b>1. Trae tus datos de Google</b><p>Iniciarás sesión con Google solo para leer tu perfil guardado. No escribimos nada en tu Drive.</p>
-        <div class="row"><button class="btn ipnt-ms" id="ipnt-mig-1" type="button">Traer mis datos de Google</button></div></li>
+      <li id="ipnt-mig-p1"><b>1. Trae tus datos de Google</b><p>Iniciarás sesión con Google solo para leer tu perfil guardado. No se escriben datos en tu Drive.</p>
+        <div class="row"><button class="btn ipnt-ms" id="ipnt-mig-1" type="button">Importar datos de Google</button></div></li>
       <li id="ipnt-mig-p2"><b>2. Se guardan en este navegador</b><p>Tus datos quedan en este navegador, sin cambiar nada en Google.</p></li>
       <li id="ipnt-mig-p3"><b>3. Continúa con Microsoft</b><p>Inicia sesión con tu cuenta de Microsoft (Outlook, Hotmail o institucional) para guardarlos en tu OneDrive.</p>
         <div class="row"><button class="btn primary ipnt-ms" id="ipnt-mig-3" type="button"><svg viewBox="0 0 21 21" width="16" height="16" aria-hidden="true"><path fill="#f25022" d="M1 1h9v9H1z"/><path fill="#7fba00" d="M11 1h9v9h-9z"/><path fill="#00a4ef" d="M1 11h9v9H1z"/><path fill="#ffb900" d="M11 11h9v9h-9z"/></svg><span>Continuar con Microsoft</span></button></div></li>
     </ol>
     <p class="ipnt-state" id="ipnt-mig-msg" aria-live="polite"></p>
-    <div id="ipnt-mig-fin" hidden><p class="ipnt-state ok" style="margin:0">Listo: tus datos están en tu OneDrive. Ya no usaremos Google.</p>
+    <div id="ipnt-mig-fin" hidden><p class="ipnt-state ok" style="margin:0">Tus datos están en tu OneDrive. Ya no se usará Google.</p>
       <div class="row" style="margin-top:8px"><button class="btn" type="button" data-ipnt-reload>Recargar para verlos</button><button class="btn" id="ipnt-mig-x" type="button">Cerrar aviso</button></div></div>
-    <p class="saes-note" style="margin:10px 0 0">No borramos nada de tu Google Drive. Si quieres eliminar el archivo: en drive.google.com abre Configuración, luego Administrar aplicaciones, busca la aplicación y elige «Eliminar datos ocultos de la app».</p>
+    <p class="saes-note" style="margin:10px 0 0">No se borra nada de tu Google Drive. Para eliminar el archivo, entra a drive.google.com, abre Configuración, luego Administrar aplicaciones, busca la aplicación y elige «Eliminar datos ocultos de la app».</p>
   </section>
   <h3>En este navegador</h3>
   <label class="chk"><input type="checkbox" id="ipnt-mantener"><span>¿Mantener tu sesión y tus datos en este navegador?</span></label>
@@ -241,7 +241,7 @@ footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);color:v
 
 /* ---------- perfil IPN-tools: respaldo y sincronización con la cuenta institucional (tools/cuenta.py) ---------- */
 var IPNT=window.IPNT=(()=>{
-  const CFG={"clientId": "7e8e5a95-4337-4652-8b07-3450306cda8f", "tenant": "common", "googleClientId": "959269733-d3h3qm0dtqpshebnabum1jr2g0l6geoa.apps.googleusercontent.com", "unidades": [{"id": "upiita", "disponible": true, "url": "horarios-upiita.html", "siglas": "UPIITA", "nombre": "Unidad Profesional Interdisciplinaria en Ingenier\u00eda y Tecnolog\u00edas Avanzadas"}, {"id": "escom", "disponible": true, "url": "horarios-escom.html", "siglas": "ESCOM", "nombre": "Escuela Superior de C\u00f3mputo"}, {"id": "upibi", "disponible": true, "url": "horarios-upibi.html", "siglas": "UPIBI", "nombre": "Unidad Profesional Interdisciplinaria de Biotecnolog\u00eda"}], "googleSoloMigracion": true, "t": {"migracion.enlace": "\u00bfGuardaste tus datos con Google? P\u00e1salos a Microsoft", "migracion.titulo": "Pasa tus datos de Google a Microsoft", "migracion.aviso_sesion": "Tu navegador recuerda una sesi\u00f3n de Google. Ya no sincronizamos con Google: pasa tus datos a Microsoft para seguir guard\u00e1ndolos en tu nube.", "migracion.paso1_titulo": "Trae tus datos de Google", "migracion.paso1_detalle": "Iniciar\u00e1s sesi\u00f3n con Google solo para leer tu perfil guardado. No escribimos nada en tu Drive.", "migracion.paso1_boton": "Traer mis datos de Google", "migracion.paso2_titulo": "Se guardan en este navegador", "migracion.paso2_detalle": "Tus datos quedan en este navegador, sin cambiar nada en Google.", "migracion.paso3_titulo": "Contin\u00faa con Microsoft", "migracion.paso3_detalle": "Inicia sesi\u00f3n con tu cuenta de Microsoft (Outlook, Hotmail o institucional) para guardarlos en tu OneDrive.", "migracion.paso3_boton": "Continuar con Microsoft", "migracion.paso3_boton_sync": "Sincronizar con mi OneDrive", "migracion.abriendo": "Abriendo el inicio de sesi\u00f3n de Google\u2026", "migracion.leyendo": "Leyendo tu perfil guardado\u2026", "migracion.sin_perfil": "No encontramos un perfil guardado con esa cuenta de Google.", "migracion.traidos": "Listo: tus datos est\u00e1n guardados en este navegador. Falta el paso 3.", "migracion.listo": "Listo: tus datos est\u00e1n en tu OneDrive. Ya no usaremos Google.", "migracion.recargar": "Recargar para verlos", "migracion.cerrar": "Cerrar aviso", "migracion.borrar_archivo": "No borramos nada de tu Google Drive. Si quieres eliminar el archivo: en drive.google.com abre Configuraci\u00f3n, luego Administrar aplicaciones, busca la aplicaci\u00f3n y elige \u00abEliminar datos ocultos de la app\u00bb."}, "institucionalPendiente": true, "version": "1.2.0", "unidad": "upiita", "msal": "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.30.0/lib/msal-browser.min.js", "sri": "sha384-RGxxfG5yRS8DLU7ZJ8OoLhbV/BsJFHyPuMVHrTLbpj3t5Z15LnviJmaznKY/a7LZ"}, FILE='perfil.ipnt.json', MS_SCOPES=['Files.ReadWrite.AppFolder'],
+  const CFG={"clientId": "7e8e5a95-4337-4652-8b07-3450306cda8f", "tenant": "common", "googleClientId": "959269733-d3h3qm0dtqpshebnabum1jr2g0l6geoa.apps.googleusercontent.com", "unidades": [{"id": "upiita", "disponible": true, "url": "horarios-upiita.html", "siglas": "UPIITA", "nombre": "Unidad Profesional Interdisciplinaria en Ingenier\u00eda y Tecnolog\u00edas Avanzadas"}, {"id": "escom", "disponible": true, "url": "horarios-escom.html", "siglas": "ESCOM", "nombre": "Escuela Superior de C\u00f3mputo"}, {"id": "upibi", "disponible": true, "url": "horarios-upibi.html", "siglas": "UPIBI", "nombre": "Unidad Profesional Interdisciplinaria de Biotecnolog\u00eda"}], "googleSoloMigracion": true, "t": {"migracion.enlace": "\u00bfGuardaste tus datos con Google? P\u00e1salos a Microsoft", "migracion.titulo": "Pasa tus datos de Google a Microsoft", "migracion.aviso_sesion": "Tu navegador recuerda una sesi\u00f3n de Google. SATE ya no sincroniza con Google; pasa tus datos a Microsoft para seguir guard\u00e1ndolos en tu nube.", "migracion.paso1_titulo": "Trae tus datos de Google", "migracion.paso1_detalle": "Iniciar\u00e1s sesi\u00f3n con Google solo para leer tu perfil guardado. No se escriben datos en tu Drive.", "migracion.paso1_boton": "Importar datos de Google", "migracion.paso2_titulo": "Se guardan en este navegador", "migracion.paso2_detalle": "Tus datos quedan en este navegador, sin cambiar nada en Google.", "migracion.paso3_titulo": "Contin\u00faa con Microsoft", "migracion.paso3_detalle": "Inicia sesi\u00f3n con tu cuenta de Microsoft (Outlook, Hotmail o institucional) para guardarlos en tu OneDrive.", "migracion.paso3_boton": "Continuar con Microsoft", "migracion.paso3_boton_sync": "Sincronizar con OneDrive", "migracion.abriendo": "Abriendo el inicio de sesi\u00f3n de Google\u2026", "migracion.leyendo": "Leyendo tu perfil guardado\u2026", "migracion.sin_perfil": "No se encontr\u00f3 un perfil guardado con esa cuenta de Google.", "migracion.traidos": "Tus datos est\u00e1n guardados en este navegador. Falta el paso 3.", "migracion.listo": "Tus datos est\u00e1n en tu OneDrive. Ya no se usar\u00e1 Google.", "migracion.recargar": "Recargar para verlos", "migracion.cerrar": "Cerrar aviso", "migracion.borrar_archivo": "No se borra nada de tu Google Drive. Para eliminar el archivo, entra a drive.google.com, abre Configuraci\u00f3n, luego Administrar aplicaciones, busca la aplicaci\u00f3n y elige \u00abEliminar datos ocultos de la app\u00bb."}, "institucionalPendiente": true, "version": "1.2.0", "unidad": "upiita", "msal": "https://cdn.jsdelivr.net/npm/@azure/msal-browser@4.30.0/lib/msal-browser.min.js", "sri": "sha384-RGxxfG5yRS8DLU7ZJ8OoLhbV/BsJFHyPuMVHrTLbpj3t5Z15LnviJmaznKY/a7LZ"}, FILE='perfil.ipnt.json', MS_SCOPES=['Files.ReadWrite.AppFolder'],
     GO_SCOPES='openid email profile https://www.googleapis.com/auth/drive.appdata';
   // qué se guarda: todo lo de Horarios (hu.) y Electivas (ue.), menos el estado de pantalla de cada dispositivo
   const SYNC=/^(hu\.|ue\.)|^saes\.alumno$|^perfil\.opciones$/, LOCAL=/^hu\.(?:[a-z]+\.)?(tab|per|tur|niv|view|mview|cview|mobnote|cupos|cuposContexto)$/;
