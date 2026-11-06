@@ -1,0 +1,299 @@
+{
+ "version": 1,
+ "mode": "scheme",
+ "analysis": {
+  "dt": 1e-05,
+  "stop": 0.05,
+  "start": 10,
+  "end": 10000
+ },
+ "components": [
+  {
+   "id": "V1",
+   "type": "V",
+   "value": 0,
+   "wave": {
+    "type": "sin",
+    "args": [
+     0,
+     2.5,
+     100
+    ]
+   },
+   "x": 100,
+   "y": 240,
+   "rotation": 90
+  },
+  {
+   "id": "R1",
+   "type": "R",
+   "value": 1000,
+   "x": 300,
+   "y": 160,
+   "rotation": 0
+  },
+  {
+   "id": "R2",
+   "type": "R",
+   "value": 100000,
+   "x": 480,
+   "y": 80,
+   "rotation": 0
+  },
+  {
+   "id": "R3",
+   "type": "R",
+   "value": 1000,
+   "x": 300,
+   "y": 300,
+   "rotation": 0
+  },
+  {
+   "id": "R4",
+   "type": "R",
+   "value": 100000,
+   "x": 430,
+   "y": 400,
+   "rotation": 90
+  },
+  {
+   "id": "VEE",
+   "type": "V",
+   "value": -15,
+   "x": 520,
+   "y": 400,
+   "rotation": 90
+  },
+  {
+   "id": "VCC",
+   "type": "V",
+   "value": 15,
+   "x": 820,
+   "y": 240,
+   "rotation": 90
+  },
+  {
+   "id": "RL",
+   "type": "R",
+   "value": 10000,
+   "x": 720,
+   "y": 320,
+   "rotation": 90
+  },
+  {
+   "id": "X1",
+   "type": "X",
+   "value": 0,
+   "definition": {
+    "id": "LM741",
+    "name": "LM741 · macromodelo simplificado",
+    "package": {
+     "id": "DIP-8-300",
+     "name": "DIP-8-300",
+     "art": "dip",
+     "drawing": {
+      "pitchMm": 2.54,
+      "count": 8,
+      "width": 3,
+      "widthInches": 0.3
+     },
+     "pins": [
+      {
+       "number": 1,
+       "name": "NULL1",
+       "x": 0,
+       "y": 0
+      },
+      {
+       "number": 2,
+       "name": "INM",
+       "x": 1,
+       "y": 0
+      },
+      {
+       "number": 3,
+       "name": "INP",
+       "x": 2,
+       "y": 0
+      },
+      {
+       "number": 4,
+       "name": "VEE",
+       "x": 3,
+       "y": 0
+      },
+      {
+       "number": 5,
+       "name": "NULL2",
+       "x": 3,
+       "y": 3
+      },
+      {
+       "number": 6,
+       "name": "OUT",
+       "x": 2,
+       "y": 3
+      },
+      {
+       "number": 7,
+       "name": "VCC",
+       "x": 1,
+       "y": 3
+      },
+      {
+       "number": 8,
+       "name": "NC",
+       "x": 0,
+       "y": 3
+      }
+     ],
+     "symbol": "box"
+    },
+    "spice": {
+     "text": "* AULA-C CC0-1.0; macromodelo propio\n.subckt UPIITA_LM741 NULL1 INM INP VEE NULL2 OUT VCC NC params: GBW=1e6 SR=0.5e6 AOL=200e3 CMRR_DB=90 IB=80e-9 IOS=20e-9 RIN=2e6 HR=1.0 RQ=17.6e3\n.param CINT=1n ISR={SR*CINT} GM={6.2832*GBW*CINT} KCM={10**(-CMRR_DB/20)}\nBMID MID 0 V={(V(VCC)+V(VEE))/2}\nBHI HI 0 V={max(V(VCC)-HR,V(MID))}\nBLO LO 0 V={min(V(VEE)+HR,V(MID))}\nRQ1 VCC VEE {RQ}\nRD INP INM {RIN}\nIBP INP MID DC {IB+IOS/2}\nIBN INM MID DC {IB-IOS/2}\nBCM ECM 0 V={KCM*((V(INP)+V(INM))/2-V(MID))}\nBG MID N1 I={max(-ISR,min(ISR,GM*(V(INP,INM)+V(ECM))))}\nCI N1 MID {CINT}\nRO N1 MID {AOL/GM}\nDH N1 HI DCLAMP\nDL LO N1 DCLAMP\nBO OI 0 V={V(N1)}\nROUT OI OUT 75\nRN1 NULL1 0 1e12\nRN2 NULL2 0 1e12\nRNC NC 0 1e12\n.model DCLAMP D(IS=1e-15 N=0.1)\n.ends UPIITA_LM741"
+    },
+    "mapping": {
+     "1": "NULL1",
+     "2": "INM",
+     "3": "INP",
+     "4": "VEE",
+     "5": "NULL2",
+     "6": "OUT",
+     "7": "VCC",
+     "8": "NC"
+    },
+    "parameters": {
+     "GBW": 1000000.0,
+     "SR": 500000.0,
+     "AOL": 200000.0,
+     "CMRR_DB": 90.0,
+     "IB": 8e-08,
+     "IOS": 2e-08
+    },
+    "notes": "Macromodelo propio CC0-1.0; cifras típicas de hoja de datos (LM741C: TI). CMRR plano (no modela la caída en frecuencia). Sin Vos.",
+    "source": "AULA-C; macromodelo conductual propio a partir de cifras típicas de hoja de datos",
+    "license": "CC0-1.0"
+   },
+   "x": 560,
+   "y": 230,
+   "rotation": 0
+  },
+  {
+   "id": "G1",
+   "type": "G",
+   "value": 0,
+   "x": 100,
+   "y": 320,
+   "rotation": 0
+  },
+  {
+   "id": "G2",
+   "type": "G",
+   "value": 0,
+   "x": 430,
+   "y": 470,
+   "rotation": 0
+  },
+  {
+   "id": "G3",
+   "type": "G",
+   "value": 0,
+   "x": 520,
+   "y": 470,
+   "rotation": 0
+  },
+  {
+   "id": "G4",
+   "type": "G",
+   "value": 0,
+   "x": 720,
+   "y": 390,
+   "rotation": 0
+  },
+  {
+   "id": "G5",
+   "type": "G",
+   "value": 0,
+   "x": 820,
+   "y": 310,
+   "rotation": 0
+  }
+ ],
+ "wires": [
+  {
+   "id": "w1",
+   "a": "V1:0",
+   "b": "R1:0"
+  },
+  {
+   "id": "w2",
+   "a": "R1:1",
+   "b": "X1:1"
+  },
+  {
+   "id": "w3",
+   "a": "R2:0",
+   "b": "X1:1"
+  },
+  {
+   "id": "w4",
+   "a": "R2:1",
+   "b": "X1:5"
+  },
+  {
+   "id": "w5",
+   "a": "X1:5",
+   "b": "RL:0"
+  },
+  {
+   "id": "w6",
+   "a": "R3:1",
+   "b": "X1:2"
+  },
+  {
+   "id": "w7",
+   "a": "R4:0",
+   "b": "X1:2"
+  },
+  {
+   "id": "w8",
+   "a": "VEE:0",
+   "b": "X1:3"
+  },
+  {
+   "id": "w9",
+   "a": "VCC:0",
+   "b": "X1:6"
+  },
+  {
+   "id": "w10",
+   "a": "R3:0",
+   "b": "V1:0"
+  },
+  {
+   "id": "w11",
+   "a": "V1:1",
+   "b": "G1:0"
+  },
+  {
+   "id": "w12",
+   "a": "R4:1",
+   "b": "G2:0"
+  },
+  {
+   "id": "w13",
+   "a": "VEE:1",
+   "b": "G3:0"
+  },
+  {
+   "id": "w14",
+   "a": "RL:1",
+   "b": "G4:0"
+  },
+  {
+   "id": "w15",
+   "a": "VCC:1",
+   "b": "G5:0"
+  }
+ ]
+}

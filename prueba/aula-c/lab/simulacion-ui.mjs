@@ -62,6 +62,7 @@ export async function simularDocumento(c,settings,{engine='ngspice',request=fetc
 }
 
 export function sondasPractica(c){
+ if(c.classLab&&c.components.some(p=>p.definition)){const model=compilar(c),source=c.components.find(p=>p.type==='V'&&p.wave)||c.components.find(p=>p.type==='V'||p.type==='I'),chip=c.components.find(p=>p.id==='X2')||c.components.find(p=>p.id==='X1')||c.components.find(p=>p.definition),pin=Math.max(0,chip.definition?.package.pins.findIndex(p=>/^OUT1?$/.test(p.name))??0);return {input:model.node(source.id+':0'),output:model.node(chip.id+':'+pin),instrument:'scope',coupling:'DC'};}
  if(!c.b309){const model=compilar(c),pins=c.probes?.find(p=>p.kind==='voltage'),input=pins?model.node(pins.plus):(model.components.find(p=>p.type==='V')?.a??model.components[0]?.a??'0'),output=pins?model.node(pins.plus):(model.components.find(p=>p.type==='C')?.a??model.components.find(p=>p.type==='R')?.b??input),dc=c.analysis?.type==='dc'||(!c.components.some(p=>p.wave||['C','L'].includes(p.type))&&c.analysis?.type!=='ac');return {input,output,instrument:dc?'meter':'scope',coupling:'DC'};}
  const model=compilar(c),[input,output]=c.b309.probes.map(pin=>model.node(pin));
  return {input,output,instrument:c.b309.practice==='i-aislamiento'?'meter':c.b309.practice==='v-sallen-key'?'bode':'scope',coupling:['iii-emisor-comun','iv-fuente-comun','v-instrumentacion'].includes(c.b309.practice)?'AC':'DC'};

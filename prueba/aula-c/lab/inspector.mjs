@@ -1,11 +1,12 @@
 import {analizarValor,descomponer,conPrefijo,unidadDe,rangoPerilla,aPosicion,deParametro,PREFIJOS} from './valor-ui.mjs';
+import {crearEditorSenal} from './senal-ui.mjs';
 // Inspector flotante: no ocupa lugar en la rejilla, así que no mueve ni achica el lienzo.
 const NOMBRES={R:'Resistencia',C:'Capacitor',L:'Inductor',V:'Fuente de voltaje',I:'Fuente de corriente',D:'Diodo',Q:'Transistor'};
 const PREF_NOMBRE={p:' (pico)',n:' (nano)','µ':' (micro)',m:' (mili)',k:' (kilo)',M:' (mega)'};
-export function crearInspector({circuito,seleccion,aplicar,cambiar,vivo,modelo,formato,fallo,chip=null}){
+export function crearInspector({circuito,seleccion,aplicar,cambiar,vivo,modelo,formato,fallo,chip=null,opamp=null,patillaje=null,hojaDatos=null}){
  const nodo=(tag,texto,padre,attrs={})=>{let e=document.createElement(tag);if(texto)e.textContent=texto;for(let [k,v] of Object.entries(attrs))e.setAttribute(k,v);padre?.append(e);return e;};
- let raiz=null,idActual=null;
- function ocultar(){raiz?.remove();raiz=null;idActual=null;}
+ let raiz=null,idActual=null,warningRefresh=null;
+ function ocultar(){raiz?.remove();raiz=null;idActual=null;warningRefresh=null;}
  function error(msg,texto){msg.textContent=texto;msg.className='inspector-msg error';}
  function limpio(msg,campo){msg.textContent='';msg.className='inspector-msg';campo.removeAttribute('aria-invalid');}
  function mostrar(p,{foco=false}={}){
@@ -16,9 +17,18 @@ export function crearInspector({circuito,seleccion,aplicar,cambiar,vivo,modelo,f
   let cerrar=nodo('button','×',cab,{type:'button','aria-label':'Cerrar propiedades',class:'inspector-cerrar'});cerrar.onclick=ocultar;
   let msg=nodo('output','',raiz,{class:'inspector-msg',role:'status'});
   raiz.onkeydown=e=>{e.stopPropagation();if(e.key!=='Escape')return;let inp=raiz.querySelector('.inspector-valor');if(inp&&inp.value!==inp.dataset.original){inp.value=inp.dataset.original;limpio(msg,inp);}else ocultar();};
+  if(opamp&&(['O','X'].includes(p.type))&&(p.type==='O'||['LM741','TL081'].includes(p.definition?.id))){
+   const current=p.type==='O'?'ideal':p.definition.id,choices=[['ideal','Ideal'],['LM741','LM741'],['TL081','TL081']],label=nodo('label','Ideal | Elegir modelo…',raiz,{class:'inspector-modelo'}),select=nodo('select','',label,{'aria-label':'Ideal | Elegir modelo…'});
+   for(const [id,name] of choices)select.add(new Option(name,id));select.value=current;
+   const warning=nodo('p','',raiz,{class:'inspector-aviso',role:'status','aria-live':'polite'});
+   const updateWarning=()=>{if(current==='ideal')warning.textContent='';else{const missing=opamp.faltan(p);warning.textContent=missing.length?'Faltan '+missing.join(' y ')+'; conecta la alimentación.':'';}};warningRefresh=updateWarning;updateWarning();
+   select.onchange=()=>{try{opamp.cambiar(p,select.value);mostrar(p);}catch(e){select.value=current;error(msg,e.message);}};
+  }
   if(p.definition){
+   if(patillaje){let b=nodo('button','Ver patillaje completo',raiz,{type:'button'});b.onclick=()=>patillaje(p);}const hd=typeof hojaDatos==='function'?hojaDatos():hojaDatos;if(hd&&['LM741','TL081'].includes(p.definition.id)){let b=nodo('button','Ver hoja de datos',raiz,{type:'button'});b.onclick=()=>hd.abrir(p.definition.id);}
    if(chip&&chip.es(p)){let g=chip.ganancia(p);nodo('p',g===null?'':'Ganancia con la R_G conectada: '+(g===Infinity?'sin R_G (G = 1)':'G = '+Number(g.toPrecision(4))),raiz,{class:'inspector-ayuda'});let c=nodo('button','Cambiar chip → '+chip.otro(p),raiz,{type:'button'});c.onclick=()=>{chip.cambiar(p);};}
    let b=nodo('button','Editar modelo',raiz,{type:'button'});b.onclick=()=>modelo(p.definition);}
+  else if('VI'.includes(p.type)&&!p.definition)crearEditorSenal(raiz,p,{aplicar:(q,value,wave)=>{q.value=value;if(wave)q.wave=wave;else delete q.wave;},cambiar,fallo});
   else if(unidadDe(p)&&!p.wave)numerico(p,msg,foco);
   else textual(p,msg,foco);
  }
@@ -44,7 +54,8 @@ export function crearInspector({circuito,seleccion,aplicar,cambiar,vivo,modelo,f
  function textual(p,msg,foco){
   let nl=['D','Q'].includes(p.type),fila=nodo('div','',raiz,{class:'inspector-fila'}),campo=nodo('input','',fila,{type:'text',class:'inspector-valor','aria-label':nl?'Modelo Is n'+(p.type==='Q'?' beta':''):'Valor o forma de onda de '+p.id,autocomplete:'off',spellcheck:'false'});
   campo.value=nl?`${p.Is??(p.type==='D'?2.52e-9:1e-14)} ${p.n??(p.type==='D'?1.752:1)}${p.type==='Q'?' '+(p.beta??100):''}`:p.wave?`${p.wave.type.toUpperCase()}(${p.wave.args.join(' ')})`:formato(p.value).replace(/ /g,'');campo.dataset.original=campo.value;
-  nodo('small',nl?'Is n'+(p.type==='Q'?' beta':'')+', todos positivos':'DC 1 · SIN(0 1 1000) · PULSE(0 1 0 1u 1u 1m 2m)',raiz,{class:'inspector-ayuda'});
+  if(!nl){let advanced=nodo('details','',raiz,{class:'signal-advanced'});nodo('summary','Opciones avanzadas',advanced);advanced.append(fila);nodo('small','DC 1 · SIN(0 1 1000) · PULSE(0 1 0 1u 1u 1m 2m)',advanced,{class:'inspector-ayuda'});}
+  else nodo('small','Is n'+(p.type==='Q'?' beta':'')+', todos positivos',raiz,{class:'inspector-ayuda'});
   campo.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();try{aplicar(p,campo.value);limpio(msg,campo);cambiar();campo.dataset.original=campo.value;}catch(err){campo.setAttribute('aria-invalid','true');error(msg,err.message);fallo(err);}}};
   if(foco){campo.focus();campo.select();}
  }
@@ -53,6 +64,7 @@ export function crearInspector({circuito,seleccion,aplicar,cambiar,vivo,modelo,f
   let p=circuito().components.find(q=>q.id===seleccion());
   if(!p){ocultar();return;}
   if(p.id!==idActual||!raiz){mostrar(p);return;}
+  warningRefresh?.();
   if(raiz.contains(document.activeElement))return;
   let campo=raiz.querySelector('.inspector-valor');
   if(campo&&unidadDe(p)&&!p.wave){let d=descomponer(p.value);campo.value=d.numero+d.prefijo;campo.dataset.original=campo.value;}

@@ -1,0 +1,353 @@
+{
+  "parte": "LM741",
+  "fabricante": "Texas Instruments",
+  "familia": "Op-amp › entrada bipolar",
+  "encapsulados": [
+    "PDIP-8",
+    "CDIP-8",
+    "TO-99"
+  ],
+  "hoja": {
+    "codigo": "SNOSC25D",
+    "revision": "octubre de 2015",
+    "url": "https://www.ti.com/lit/ds/symlink/lm741.pdf"
+  },
+  "variantes": {
+    "LM741": {
+      "especificaciones": [
+        {
+          "id": "offset",
+          "parametro": "Input offset voltage",
+          "minimo": null,
+          "tipico": "1",
+          "maximo": "5",
+          "unidad": "mV",
+          "condicion": "RS ≤ 10 kΩ; TA = 25°C",
+          "variante": "LM741",
+          "pagina": 5,
+          "literal": "Input offset voltage                  RS≤ 10 kΩ                              TA = 25°C                                                    1          5      mV"
+        },
+        {
+          "id": "bias",
+          "parametro": "Input bias current",
+          "minimo": null,
+          "tipico": "80",
+          "maximo": "500",
+          "unidad": "nA",
+          "condicion": "TA = 25°C",
+          "variante": "LM741",
+          "pagina": 5,
+          "literal": "Input bias current                    TA = 25°C                                                                                          80       500       nA"
+        },
+        {
+          "id": "gain",
+          "parametro": "Ganancia de lazo abierto",
+          "minimo": "50",
+          "tipico": "200",
+          "maximo": null,
+          "unidad": "V/mV",
+          "condicion": "VS = ±15 V, VO = ±10 V, RL ≥ 2 kΩ; TA = 25°C",
+          "variante": "LM741",
+          "pagina": 5,
+          "literal": "Large signal voltage gain             VS = ±15 V, VO = ±10 V, RL≥ 2          TA = 25°C                                       50        200                V/mV"
+        },
+        {
+          "id": "slew",
+          "parametro": "Slew rate",
+          "minimo": null,
+          "tipico": "0.5",
+          "maximo": null,
+          "unidad": "V/μs",
+          "condicion": "TA = 25°C, unity gain",
+          "variante": "LM741",
+          "pagina": 5,
+          "literal": "Slew rate                             TA = 25°C, unity gain                                                                             0.5                V/μs"
+        },
+        {
+          "id": "cmrr",
+          "parametro": "Common-mode rejection ratio",
+          "minimo": "80",
+          "tipico": "95",
+          "maximo": null,
+          "unidad": "dB",
+          "condicion": "RS ≤ 10 Ω, VCM = ±12 V, TAMIN ≤ TA ≤ TAMAX",
+          "variante": "LM741",
+          "pagina": 5,
+          "literal": "Common-mode rejection ratio           RS≤ 10Ω, VCM = ±12 V, TAMIN≤ TA≤ TAMAX                                                 80          95                 dB"
+        },
+        {
+          "id": "psrr",
+          "parametro": "Supply voltage rejection ratio",
+          "minimo": "86",
+          "tipico": "96",
+          "maximo": null,
+          "unidad": "dB",
+          "condicion": "VS = ±20 V to VS = ±5 V, RS ≤ 10 Ω, TAMIN ≤ TA ≤ TAMAX",
+          "variante": "LM741",
+          "pagina": 5,
+          "literal": "Supply voltage rejection ratio        VS = ±20 V to VS = ±5 V, RS≤ 10Ω, TAMIN≤ TA≤ TAMAX                                     86          96                 dB"
+        },
+        {
+          "id": "resistance",
+          "parametro": "Input resistance",
+          "minimo": "0.3",
+          "tipico": "2",
+          "maximo": null,
+          "unidad": "MΩ",
+          "condicion": "TA = 25°C, VS = ±20 V",
+          "variante": "LM741",
+          "pagina": 5,
+          "literal": "Input resistance                      TA = 25°C, VS = ±20 V                                                                  0.3          2                MΩ"
+        },
+        {
+          "id": "swing",
+          "parametro": "Output voltage swing",
+          "minimo": "±12",
+          "tipico": "±14",
+          "maximo": null,
+          "unidad": "V",
+          "condicion": "VS = ±15 V, RL ≥ 10 kΩ",
+          "variante": "LM741",
+          "pagina": 5,
+          "literal": "Output voltage swing                  VS = ±15 V                             RL≥ 10 kΩ                                      ±12        ±14                   V"
+        },
+        {
+          "id": "supply",
+          "parametro": "Supply current",
+          "minimo": null,
+          "tipico": "1.7",
+          "maximo": "2.8",
+          "unidad": "mA",
+          "condicion": "TA = 25°C",
+          "variante": "LM741",
+          "pagina": 5,
+          "literal": "Supply current                        TA = 25°C                                                                                         1.7        2.8      mA"
+        }
+      ],
+      "patillas": [
+        {
+          "numero": 1,
+          "nombre": "OFFSET NULL"
+        },
+        {
+          "numero": 2,
+          "nombre": "INVERTING INPUT"
+        },
+        {
+          "numero": 3,
+          "nombre": "NONINVERTING INPUT"
+        },
+        {
+          "numero": 4,
+          "nombre": "V−"
+        },
+        {
+          "numero": 5,
+          "nombre": "OFFSET NULL"
+        },
+        {
+          "numero": 6,
+          "nombre": "OUTPUT"
+        },
+        {
+          "numero": 7,
+          "nombre": "V+"
+        },
+        {
+          "numero": 8,
+          "nombre": "NC"
+        }
+      ]
+    },
+    "LM741C": {
+      "especificaciones": [
+        {
+          "id": "offset",
+          "parametro": "Input offset voltage",
+          "minimo": null,
+          "tipico": "2",
+          "maximo": "6",
+          "unidad": "mV",
+          "condicion": "RS ≤ 10 kΩ; TA = 25°C",
+          "variante": "LM741C",
+          "pagina": 6,
+          "literal": "Input offset voltage                          RS≤ 10 kΩ                          TA = 25°C                                              2          6     mV"
+        },
+        {
+          "id": "bias",
+          "parametro": "Input bias current",
+          "minimo": null,
+          "tipico": "80",
+          "maximo": "500",
+          "unidad": "nA",
+          "condicion": "TA = 25°C",
+          "variante": "LM741C",
+          "pagina": 6,
+          "literal": "Input bias current                            TA = 25°C                                                                               80        500      nA"
+        },
+        {
+          "id": "gain",
+          "parametro": "Ganancia de lazo abierto",
+          "minimo": "20",
+          "tipico": "200",
+          "maximo": null,
+          "unidad": "V/mV",
+          "condicion": "VS = ±15 V, VO = ±10 V, RL ≥ 2 kΩ; TA = 25°C",
+          "variante": "LM741C",
+          "pagina": 6,
+          "literal": "Large signal voltage gain                     VS = ±15 V, VO = ±10 V, RL         TA = 25°C                                 20        200                V/mV"
+        },
+        {
+          "id": "slew",
+          "parametro": "Slew rate",
+          "minimo": null,
+          "tipico": "0.5",
+          "maximo": null,
+          "unidad": "V/μs",
+          "condicion": "TA = 25°C, unity gain",
+          "variante": "LM741C",
+          "pagina": 6,
+          "literal": "Slew rate                                     TA = 25°C, Unity Gain                                                                  0.5                V/μs"
+        },
+        {
+          "id": "cmrr",
+          "parametro": "Common-mode rejection ratio",
+          "minimo": "70",
+          "tipico": "90",
+          "maximo": null,
+          "unidad": "dB",
+          "condicion": "RS ≤ 10 kΩ, VCM = ±12 V, TAMIN ≤ TA ≤ TAMAX",
+          "variante": "LM741C",
+          "pagina": 6,
+          "literal": "Common-mode rejection ratio                   RS≤ 10 kΩ, VCM = ±12 V, TAMIN≤ TA≤ TAMAX                                     70         90                 dB"
+        },
+        {
+          "id": "psrr",
+          "parametro": "Supply voltage rejection ratio",
+          "minimo": "77",
+          "tipico": "96",
+          "maximo": null,
+          "unidad": "dB",
+          "condicion": "VS = ±20 V to VS = ±5 V, RS ≤ 10 Ω, TAMIN ≤ TA ≤ TAMAX",
+          "variante": "LM741C",
+          "pagina": 6,
+          "literal": "Supply voltage rejection ratio                VS = ±20 V to VS = ±5 V, RS≤ 10Ω, TAMIN≤ TA≤ TAMAX                           77         96                 dB"
+        },
+        {
+          "id": "resistance",
+          "parametro": "Input resistance",
+          "minimo": "0.3",
+          "tipico": "2",
+          "maximo": null,
+          "unidad": "MΩ",
+          "condicion": "TA = 25°C, VS = ±20 V",
+          "variante": "LM741C",
+          "pagina": 6,
+          "literal": "Input resistance                              TA = 25°C, VS = ±20 V                                                       0.3           2                MΩ"
+        },
+        {
+          "id": "swing",
+          "parametro": "Output voltage swing",
+          "minimo": "±12",
+          "tipico": "±14",
+          "maximo": null,
+          "unidad": "V",
+          "condicion": "VS = ±15 V, RL ≥ 10 kΩ",
+          "variante": "LM741C",
+          "pagina": 6,
+          "literal": "Output voltage swing                          VS = ±15 V                         RL≥ 10 kΩ                                ±12        ±14                  V"
+        },
+        {
+          "id": "supply",
+          "parametro": "Supply current",
+          "minimo": null,
+          "tipico": "1.7",
+          "maximo": "2.8",
+          "unidad": "mA",
+          "condicion": "TA = 25°C",
+          "variante": "LM741C",
+          "pagina": 6,
+          "literal": "Supply current                                TA = 25°C                                                                              1.7         2.8     mA"
+        }
+      ],
+      "patillas": [
+        {
+          "numero": 1,
+          "nombre": "OFFSET NULL"
+        },
+        {
+          "numero": 2,
+          "nombre": "INVERTING INPUT"
+        },
+        {
+          "numero": 3,
+          "nombre": "NONINVERTING INPUT"
+        },
+        {
+          "numero": 4,
+          "nombre": "V−"
+        },
+        {
+          "numero": 5,
+          "nombre": "OFFSET NULL"
+        },
+        {
+          "numero": 6,
+          "nombre": "OUTPUT"
+        },
+        {
+          "numero": 7,
+          "nombre": "V+"
+        },
+        {
+          "numero": 8,
+          "nombre": "NC"
+        }
+      ]
+    }
+  },
+  "maximos": [
+    {
+      "parametro": "Alimentación",
+      "valor": "±22 (LM741/LM741A); ±18 (LM741C)",
+      "unidad": "V",
+      "pagina": 4,
+      "literal": "Supply voltage                              LM741, LM741A                                                                                     ±22           V\n                                            LM741C                                                                                            ±18"
+    },
+    {
+      "parametro": "Entrada diferencial",
+      "valor": "±30",
+      "unidad": "V",
+      "pagina": 4,
+      "literal": "Differential input voltage                                                                                                                    ±30           V"
+    },
+    {
+      "parametro": "Entrada",
+      "valor": "±15",
+      "unidad": "V",
+      "pagina": 4,
+      "literal": "Input voltage (5)                                                                                                                             ±15           V"
+    },
+    {
+      "parametro": "Disipación",
+      "valor": "500",
+      "unidad": "mW",
+      "pagina": 4,
+      "literal": "Power dissipation (4)                                                                                                                         500          mW"
+    },
+    {
+      "parametro": "Temperatura de operación",
+      "valor": "−50 a 125 (LM741); 0 a 70 (LM741C)",
+      "unidad": "°C",
+      "pagina": 4,
+      "literal": "Operating temperature                       LM741, LM741A                                                                        –50          125           °C\n                                            LM741C                                                                                0            70"
+    }
+  ],
+  "explicaciones": {
+    "gbw": "Por encima de su banda útil, la ganancia disponible disminuye.",
+    "slew": "Ante cambios grandes y rápidos, la salida no puede variar más deprisa que este límite.",
+    "cmrr": "Indica cuánto se rechaza una señal presente por igual en ambas entradas.",
+    "offset": "Es el pequeño desequilibrio de entrada que aparece como error a la salida."
+  },
+  "cita": "Texas Instruments, “LM741 Operational Amplifier,” SNOSC25D, rev. Oct. 2015, p. [página]."
+}

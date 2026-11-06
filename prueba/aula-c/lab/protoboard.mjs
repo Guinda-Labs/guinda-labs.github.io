@@ -1,7 +1,7 @@
 // Documento físico: coordenadas enteras a paso 2.54 mm; ningún algoritmo coloca piezas.
 import {agujerosEncapsulado} from './componentes.mjs';
 export const PASO_MM=2.54, FILAS='abcdefghij';
-export const cantidad=p=>p.definition?.package.pins.length??(p.type==='G'?1:p.type==='Q'?3:2);
+export const cantidad=p=>p.definition?.package.pins.length??(p.type==='G'?1:p.type==='Q'||p.type==='O'?3:2);
 export function estadoLed(current){let i=Number(current);return {encendido:i>1e-5&&i<=.03,quemado:i>.03,brillo:i>1e-5&&i<=.03?Math.min(1,i/.02):0};}
 // Direcciones: «a:3» (placa 1) o «p2/a:3» (placas adicionales, apiladas debajo de la primera).
 const TABLA=/^(?:(p[2-9])\/)?([a-j]|[tb][+-]):([1-9]|[1-5][0-9]|6[0-3])$/;
@@ -18,6 +18,7 @@ const agujerosDe=(size,tabla)=>[...FILAS,'t+','t-','b+','b-'].flatMap(f=>Array.f
 export function tablasDe(c){let p=c.physical||{};return [...(p.sinTabla?[]:[{id:'p1',size:p.size}]),...(p.extras||[])];}
 const base830=agujerosDe(830,'p1');
 export function anclar(x,y,c){let best=null,d=Infinity;for(let h of c?agujerosTabla(c):base830){let id=agujero(h).tabla,t=c&&tablasDe(c).find(t=>t.id===id),[a,b]=punto(h,t?.size||830),n=Math.hypot(x-a,y-b);if(n<d){d=n;best=h;}}return d<=10?best:null;}
+export function anclarDIP(x,y,c,width=3,rotation=0){if(!c||c.mode!=='board'||![0,180].includes(rotation))return null;let row=width===6?'c':'e',best=null,d=Infinity;for(const t of tablasDe(c)){let rows=agujerosTabla(c).filter(h=>h.startsWith((t.id==='p1'?'':t.id+'/')+row+':'));for(const h of rows){let [a,b]=punto(h,t.size||830),n=Math.hypot(x-a,y-b);if(n<d){best=h;d=n;}}}return d<=48?best:null;}
 export function documento(){return {placements:{},wires:[],ground:null};}
 // Sin tamaño explícito conservamos los documentos físicos anteriores.
 // Sin tamaño explícito (documentos antiguos) la placa se trata como la completa.
@@ -33,7 +34,7 @@ export function redFisica(c){let parent=new Map(),find=x=>{if(!parent.has(x))par
  let entries=Object.entries(pins),wires=[],n=0;for(let i=0;i<entries.length;i++){let [a,g]=entries[i],b=entries.slice(0,i).find(([,v])=>find(v)===find(g));if(b)wires.push({id:'w'+(++n),a:b[0],b:a});}
  return {wires,node:key=>find(pins[key]),holeNode:h=>find(grupo(h)),ground:entries.find(([,v])=>find(v)===find('0'))?.[0]};
 }
-export function avisos(c){if(c.mode!=='board')return [];let messages=[],r=redFisica(c),occupied=new Set();for(let p of c.components){let v=c.physical?.placements[p.id];if(!v){if(!c.physical?.sinTabla)messages.push(`${p.id} no está colocada en la protoboard`);continue;}if(v.holes.length!==cantidad(p))messages.push(`${p.id}: faltan patillas`);for(let h of v.holes){agujero(h);if(occupied.has(h))messages.push(`Agujero ocupado dos veces: ${h}`);occupied.add(h);}if(p.type!=='G'&&new Set(v.holes.map(grupo)).size<v.holes.length)messages.push(`Cortocircuito en ${p.id}: patillas en la misma fila`);}
+export function avisos(c){if(c.mode!=='board')return [];let messages=[],r=redFisica(c),occupied=new Set();for(let p of c.components){if(p.type==='O'){messages.push(`${p.id} es un op-amp ideal y no tiene forma física; elige un modelo con hoja de datos para colocarlo en protoboard`);continue;}let v=c.physical?.placements[p.id];if(!v){if(!c.physical?.sinTabla)messages.push(`${p.id} no está colocada en la protoboard`);continue;}if(v.holes.length!==cantidad(p))messages.push(`${p.id}: faltan patillas`);for(let h of v.holes){agujero(h);if(occupied.has(h))messages.push(`Agujero ocupado dos veces: ${h}`);occupied.add(h);}if(p.type!=='G'&&new Set(v.holes.map(grupo)).size<v.holes.length)messages.push(`Cortocircuito en ${p.id}: patillas en la misma fila`);}
  // Compare particiones completas, no sólo los puentes representativos de cada red.
  let intended=new Map(),find=x=>{if(!intended.has(x))intended.set(x,x);if(intended.get(x)!==x)intended.set(x,find(intended.get(x)));return intended.get(x);};for(let w of c.logicalRequest||c.wires)intended.set(find(w.a),find(w.b));let keys=c.components.flatMap(p=>Array.from({length:cantidad(p)},(_,i)=>p.id+':'+i));for(let i=0;i<keys.length;i++)for(let j=0;j<i;j++){let a=keys[i],b=keys[j],actual=r.node(a)===r.node(b),want=find(a)===find(b);if(actual!==want){let h=c.physical?.placements[b.split(':')[0]]?.holes[+b.split(':')[1]];messages.push(`${want?'Falta unir':'Sobra conexión entre'} ${a} con ${b}${h?' en la fila '+h:''}`);}}return messages;
 }

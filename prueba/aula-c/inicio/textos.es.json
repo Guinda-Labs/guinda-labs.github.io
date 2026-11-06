@@ -1,0 +1,12 @@
+{
+  "portada": {"descripcion":"Un espacio en el navegador para simular circuitos, calcular con Octave y escribir documentos técnicos."},
+  "barra": {"aria":"Componentes de AULA-C","menu":"Menú","inicio":"AULA-C, inicio","laboratorio":"Laboratorio","documento":"Documento","folio":"Folio","octave":"Octave","clases":"Clases","tema":"Tema","sistema":"Sistema","claro":"Claro","oscuro":"Oscuro","temaAria":"Tema de color"},
+  "componentes": {"titulo":"Abrir","boton":"Abrir","items":[
+    {"id":"lab","nombre":"Laboratorio","ruta":"lab/","descripcion":"Esquemático, protoboard, osciloscopio y simulación con ngspice.","corta":"Circuitos e instrumentos","miniatura":"lab"},
+    {"id":"documento","nombre":"Documento","ruta":"documento/","descripcion":"Texto, ecuaciones, bloques de circuito y código de Octave en un mismo cuaderno.","corta":"Cuaderno con cálculos","miniatura":"documento"},
+    {"id":"folio","nombre":"Folio","ruta":"folio/","descripcion":"Editor de LaTeX que compila en el navegador.","corta":"Editor de LaTeX","nota":"La primera vez descarga unos 128 MB.","miniatura":"folio"},
+    {"id":"octave","nombre":"Estudio Octave","etiqueta":"Octave","ruta":"octave/","descripcion":"Cálculo numérico compatible con MATLAB, en el navegador, con editor, consola y espacio de trabajo.","corta":"Cálculo numérico compatible con MATLAB, en el navegador","miniatura":"octave"}
+  ]},
+  "clases": {"titulo":"Clases","intro":"Lecciones con teoría, ejercicios y laboratorios en el mismo lugar.","pie":"Por ahora hay una clase.","items":[{"nombre":"Amplificadores operacionales","incluye":["Lección interactiva","Unidades","Laboratorios de clase"],"subtitulo":"Lección interactiva · Unidades · Laboratorios de clase","boton":"Abrir lección","ruta":"documento/?clase=opamps&unidad=interactiva"}]},
+  "recientes": {"titulo":"Continuar donde te quedaste","intro":"Los proyectos recientes se guardan solo en este navegador.","pie":"Los archivos locales se vuelven a seleccionar al abrirlos.","vacioTitulo":"Aún no hay proyectos recientes","vacioTexto":"Cuando abras un proyecto en cualquier componente, aparecerá aquí. Mientras tanto, elige un componente.","continuar":"Continuar","abrir":"Abrir","archivo":"Proyecto","menosDeUnaHora":"hace menos de 1 h","horas":"hace {n} h","ayer":"ayer","dias":"hace {n} días","fecha":{"dateStyle":"medium"}}
+}

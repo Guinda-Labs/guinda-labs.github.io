@@ -1,0 +1,369 @@
+{
+  "parte": "TL081",
+  "fabricante": "Texas Instruments",
+  "familia": "Op-amp › entrada JFET",
+  "encapsulados": [
+    "PDIP-8",
+    "SOIC-8",
+    "TO-99",
+    "CDIP-8"
+  ],
+  "hoja": {
+    "codigo": "SLOS081O",
+    "revision": "septiembre de 2025",
+    "url": "https://www.ti.com/lit/ds/symlink/tl081.pdf"
+  },
+  "variantes": {
+    "TL081C": {
+      "especificaciones": [
+        {
+          "id": "offset",
+          "parametro": "Input offset voltage",
+          "minimo": null,
+          "tipico": "3",
+          "maximo": "10",
+          "unidad": "mV",
+          "condicion": "VO = 0 V; RS = 50 Ω; TA = 25°C; TL08xC",
+          "variante": "TL081C",
+          "pagina": 14,
+          "literal": "                                                                 TL08xC                                                                     3          10"
+        },
+        {
+          "id": "bias",
+          "parametro": "Input bias current",
+          "minimo": "65",
+          "tipico": "200",
+          "maximo": null,
+          "unidad": "pA",
+          "condicion": "VO = 0 V; TA = 25°C; TL08xC",
+          "variante": "TL081C",
+          "pagina": 14,
+          "literal": "                                                                 TL08xC, TL08xAC,                                                          65         200      pA"
+        },
+        {
+          "id": "gain",
+          "parametro": "Open-loop voltage gain",
+          "minimo": "25",
+          "tipico": "200",
+          "maximo": null,
+          "unidad": "V/mV",
+          "condicion": "VO = 0 V; TL08xC; TA = 25°C",
+          "variante": "TL081C",
+          "pagina": 14,
+          "literal": "                                                                 TL08xC                                                        25         200"
+        },
+        {
+          "id": "gbw",
+          "parametro": "Gain-bandwidth product",
+          "minimo": null,
+          "tipico": "5.25",
+          "maximo": null,
+          "unidad": "MHz",
+          "condicion": "All other devices; package restrictions apply",
+          "variante": "TL081C",
+          "pagina": 14,
+          "literal": "             product                  All other devices                                                                                  5.25"
+        },
+        {
+          "id": "slew",
+          "parametro": "Slew rate",
+          "minimo": "8",
+          "tipico": "20",
+          "maximo": null,
+          "unidad": "V/μs",
+          "condicion": "VI = 10 V, CL = 100 pF, RL = 2 kΩ; TL08xC; VS = ±15 V",
+          "variante": "TL081C",
+          "pagina": 16,
+          "literal": "                                              V = 10 V, C   = 100 pF, R   =    TL08xM                                      5             20                     V/μs"
+        },
+        {
+          "id": "cmrr",
+          "parametro": "Common-mode rejection ratio",
+          "minimo": "70",
+          "tipico": "100",
+          "maximo": null,
+          "unidad": "dB",
+          "condicion": "VO = 0 V, RS = 50 Ω; TL08xC",
+          "variante": "TL081C",
+          "pagina": 14,
+          "literal": "                                      V   = V                    TL08xC                                                        70         100"
+        },
+        {
+          "id": "psrr",
+          "parametro": "Supply-voltage rejection ratio",
+          "minimo": "70",
+          "tipico": "100",
+          "maximo": null,
+          "unidad": "dB",
+          "condicion": "VS = ±9 V to ±18 V, VO = 0 V, RS = 50 Ω; TL08xC",
+          "variante": "TL081C",
+          "pagina": 14,
+          "literal": "                                      V   = V                    TL08xC                                                        70         100"
+        },
+        {
+          "id": "resistance",
+          "parametro": "Common-mode input resistance",
+          "minimo": null,
+          "tipico": "1",
+          "maximo": null,
+          "unidad": "TΩ",
+          "condicion": "TL08xC",
+          "variante": "TL081C",
+          "pagina": 14,
+          "literal": " R           Common-mode input                                                                                                              1                  TΩ"
+        },
+        {
+          "id": "swing",
+          "parametro": "Maximum peak output voltage swing",
+          "minimo": "±12",
+          "tipico": "±13.5",
+          "maximo": null,
+          "unidad": "V",
+          "condicion": "RL = 10 kΩ; TA = 25°C",
+          "variante": "TL081C",
+          "pagina": 14,
+          "literal": "                                      RL = 10 kΩ                                                                             ±12        ±13.5"
+        },
+        {
+          "id": "supply",
+          "parametro": "Quiescent current per amplifier",
+          "minimo": null,
+          "tipico": "1.4",
+          "maximo": "2.5",
+          "unidad": "mA",
+          "condicion": "VO = 0 V; no load; ±15 V",
+          "variante": "TL081C",
+          "pagina": 15,
+          "literal": " IQ         Quiescent current per  VO = 0 V; no load                                                                            1.4        2.5     mA"
+        }
+      ],
+      "patillas": [
+        {
+          "numero": 1,
+          "nombre": "OFFSET N1"
+        },
+        {
+          "numero": 2,
+          "nombre": "IN−"
+        },
+        {
+          "numero": 3,
+          "nombre": "IN+"
+        },
+        {
+          "numero": 4,
+          "nombre": "VCC−"
+        },
+        {
+          "numero": 5,
+          "nombre": "OFFSET N2"
+        },
+        {
+          "numero": 6,
+          "nombre": "OUTPUT"
+        },
+        {
+          "numero": 7,
+          "nombre": "VCC+"
+        },
+        {
+          "numero": 8,
+          "nombre": "NC"
+        }
+      ]
+    },
+    "TL081H": {
+      "especificaciones": [
+        {
+          "id": "offset",
+          "parametro": "Input offset voltage",
+          "minimo": "±1",
+          "tipico": "±4",
+          "maximo": "±5",
+          "unidad": "mV",
+          "condicion": "TA = −40°C to +125°C; VS = 4.5 V to 40 V",
+          "variante": "TL081H",
+          "pagina": 12,
+          "literal": " VOS             Input offset voltage                                            T   = –40°C to +125°C                                                     ±5        mV"
+        },
+        {
+          "id": "bias",
+          "parametro": "Input bias current",
+          "minimo": "±1",
+          "tipico": null,
+          "maximo": "±300",
+          "unidad": "pA",
+          "condicion": "DCK and DBV packages",
+          "variante": "TL081H",
+          "pagina": 12,
+          "literal": " IB              Input bias current                                              DCK and DBV packages                                       ±1           ±300        pA"
+        },
+        {
+          "id": "gain",
+          "parametro": "Open-loop voltage gain",
+          "minimo": "118",
+          "tipico": "125",
+          "maximo": null,
+          "unidad": "dB",
+          "condicion": "VS = 40 V, TA = −40°C to +125°C",
+          "variante": "TL081H",
+          "pagina": 12,
+          "literal": " AOL             Open-loop voltage gain        (VCC–) + 0.3 V < VO < (VCC+)      TA = –40°C to +125°C                       118            125                       dB"
+        },
+        {
+          "id": "gbw",
+          "parametro": "Gain-bandwidth product",
+          "minimo": null,
+          "tipico": "5.25",
+          "maximo": null,
+          "unidad": "MHz",
+          "condicion": "TL08xH",
+          "variante": "TL081H",
+          "pagina": 12,
+          "literal": " GBW             Gain-bandwidth product                                                                                                   5.25                      MHz"
+        },
+        {
+          "id": "slew",
+          "parametro": "Slew rate",
+          "minimo": null,
+          "tipico": "20",
+          "maximo": null,
+          "unidad": "V/μs",
+          "condicion": "VS = 40 V, G = +1, CL = 20 pF",
+          "variante": "TL081H",
+          "pagina": 12,
+          "literal": " SR              Slew rate                     VS = 40 V, G = +1, CL = 20 pF                                                                20                      V/μs"
+        },
+        {
+          "id": "cmrr",
+          "parametro": "Common-mode rejection ratio",
+          "minimo": "100",
+          "tipico": "105",
+          "maximo": null,
+          "unidad": "dB",
+          "condicion": "VS = 40 V; (VCC−) + 2.5 V < VCM < (VCC+) − 1.5 V; TA = −40°C to +125°C",
+          "variante": "TL081H",
+          "pagina": 12,
+          "literal": "                                               VS = 40 V, (VCC–) + 2.5 V <                                                 100             105                       dB"
+        },
+        {
+          "id": "resistance",
+          "parametro": "Differential input impedance",
+          "minimo": null,
+          "tipico": "100 || 2",
+          "maximo": null,
+          "unidad": "MΩ || pF",
+          "condicion": "TL08xH",
+          "variante": "TL081H",
+          "pagina": 12,
+          "literal": " ZID             Differential                                                                                                          100 || 2                   MΩ || pF"
+        },
+        {
+          "id": "psrr",
+          "parametro": "Input offset voltage versus power supply",
+          "minimo": "±1",
+          "tipico": "±10",
+          "maximo": null,
+          "unidad": "μV/V",
+          "condicion": "VS = 5 V to 40 V, VCM = VS/2; TA = −40°C to +125°C",
+          "variante": "TL081H",
+          "pagina": 12,
+          "literal": " PSRR            Input offset voltage versus   VS = 5V to 40V,                   TA = –40°C to +125°C                                       ±1            ±10       μV/V"
+        },
+        {
+          "id": "supply",
+          "parametro": "Corriente de alimentación",
+          "minimo": null,
+          "tipico": null,
+          "maximo": null,
+          "unidad": "mA",
+          "condicion": "No especificado para TL081H en tabla consultada",
+          "variante": "TL081H",
+          "pagina": 12,
+          "literal": "GBW             Gain-bandwidth product                                                                                                   5.25                      MHz"
+        }
+      ],
+      "patillas": [
+        {
+          "numero": 1,
+          "nombre": "OFFSET N1"
+        },
+        {
+          "numero": 2,
+          "nombre": "IN−"
+        },
+        {
+          "numero": 3,
+          "nombre": "IN+"
+        },
+        {
+          "numero": 4,
+          "nombre": "VCC−"
+        },
+        {
+          "numero": 5,
+          "nombre": "OFFSET N2"
+        },
+        {
+          "numero": 6,
+          "nombre": "OUTPUT"
+        },
+        {
+          "numero": 7,
+          "nombre": "VCC+"
+        },
+        {
+          "numero": 8,
+          "nombre": "NC"
+        }
+      ]
+    }
+  },
+  "maximos": [
+    {
+      "parametro": "Alimentación total",
+      "valor": "36 (NS/PS/TL08xM); 42 (otros dispositivos)",
+      "unidad": "V",
+      "pagina": 9,
+      "literal": "                                                            All NS and PS packages; All TL08xM devices                          –0.3                      36      V\n Supply voltage, VS = (V+) – (V–)                           All other devices                                                      0                      42      V"
+    },
+    {
+      "parametro": "Tensión de modo común de entrada",
+      "valor": "(V−) − 0.3 a (V−) + 36 (NS/PS/TL08xM); (V−) − 0.5 a (V+) + 0.5 (otros)",
+      "unidad": "V",
+      "pagina": 9,
+      "literal": "                                                        (3) All NS and PS packages; All TL08xM devices                    (V–) – 0.3              (V–) + 36       V\n                               Common-mode voltage          All other devices                                             (V–) – 0.5              (V+) + 0.5      V"
+    },
+    {
+      "parametro": "Entrada diferencial",
+      "valor": "No hay un valor único: la tabla limita la entrada por familia y la nota remite a tensión de entrada",
+      "unidad": "V",
+      "pagina": 9,
+      "literal": "Differential voltage"
+    },
+    {
+      "parametro": "Temperatura ambiente de operación",
+      "valor": "−55 a 150",
+      "unidad": "°C",
+      "pagina": 9,
+      "literal": " Operating ambient temperature, TA                                                                                              –55                     150       °C"
+    }
+  ],
+  "curvas": {
+    "ac": {
+      "figura": "5-9",
+      "pagina": 18
+    },
+    "transitorio": {
+      "figura": "5-31",
+      "pagina": 22
+    }
+  },
+  "explicaciones": {
+    "gbw": "Por encima de su banda útil, la ganancia disponible disminuye.",
+    "slew": "Ante cambios grandes y rápidos, la salida no puede variar más deprisa que este límite.",
+    "cmrr": "Indica cuánto se rechaza una señal presente por igual en ambas entradas.",
+    "offset": "Es el pequeño desequilibrio de entrada que aparece como error a la salida."
+  },
+  "cita": "Texas Instruments, “TL081 JFET-Input Operational Amplifiers,” SLOS081O, rev. Sep. 2025, p. [página]."
+}

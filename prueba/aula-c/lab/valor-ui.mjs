@@ -41,10 +41,24 @@ export const deParametro=(r,t)=>Number((r.log?10**(Math.log10(r.min)+t*(Math.log
 // Ganancia de las hojas de datos: AD620 G=1+49.4k/RG; INA128 G=1+50k/RG (RG entre las patillas 1 y 8).
 export const CHIPS_INA={AD620:49400,INA128:50000};
 export const otroChip=id=>id==='AD620'?'INA128':id==='INA128'?'AD620':null;
+export function alimentacionesFaltantes(c,id){const p=c.components.find(q=>q.id===id);if(!p?.definition)return [];return ['VCC','VEE'].filter(name=>{const i=p.definition.package.pins.findIndex(pin=>pin.name===name);return i<0||!c.wires.some(w=>w.a===id+':'+i||w.b===id+':'+i);});}
+export function cambiarOpamp(c,id,modelo='ideal',definicion=null){
+ let p=c.components.find(q=>q.id===id),actual=p?.definition?.id||'ideal';
+ if(!p||!((p.type==='O'&&modelo!=='ideal')||(actual!=='ideal'&&(modelo==='ideal'||['LM741','TL081'].includes(modelo)))))throw Error('Cambio de op-amp incompatible');
+ if(modelo!=='ideal'&&(!definicion||definicion.id!==modelo||definicion.package.pins.length!==8))throw Error('Modelo de op-amp no disponible');
+ const pin={ideal:{INP:0,INM:1,OUT:2},LM741:{INM:1,INP:2,VEE:3,OUT:5,VCC:6},TL081:{INM:1,INP:2,VEE:3,OUT:5,VCC:6}};
+ const from=pin[actual],to=pin[modelo];
+ const remap=list=>list?.filter(w=>{for(const side of ['a','b']){const key=w[side];if(!key?.startsWith(id+':'))continue;const i=Number(key.slice(id.length+1)),name=Object.keys(from).find(n=>from[n]===i);if(!name)throw Error('El cable usa una patilla que no existe en el modelo destino');if(to[name]===undefined)w[side]=null;else w[side]=id+':'+to[name];}return w.a&&w.b;});
+ c.wires=remap(c.wires)||[];if(c.logicalRequest)c.logicalRequest=remap(c.logicalRequest);if(c.physical?.directos)c.physical.directos=remap(c.physical.directos);
+ if(modelo==='ideal'){p.type='O';p.value=1e6;delete p.definition;delete p.schematic;if(c.physical?.placements)delete c.physical.placements[id];if(c.physical?.libres)delete c.physical.libres[id];}
+ else{p.type='X';p.definition=structuredClone(definicion);delete p.schematic;}
+ return modelo==='ideal'?[]:['VCC','VEE'].filter(n=>!c.wires.some(w=>w.a===id+':'+to[n]||w.b===id+':'+to[n]));
+}
 // Sustituir solo la definición conserva las terminales, el montaje y la resistencia externa.
 export function cambiarChip(c,id,definicion){
  let p=c.components.find(p=>p.id===id);
- if(!p||otroChip(p.definition?.id)!==definicion?.id)throw Error('Cambio de chip incompatible');
+ if(!p)throw Error('Cambio de chip incompatible');
+ if(otroChip(p.definition?.id)!==definicion?.id)return cambiarOpamp(c,id,definicion?.id||'ideal',definicion);
  p.definition=structuredClone(definicion);
  let rg=rgConectada(c,id),ganancia=gananciaINA(p.definition.id,rg?.value||0);
  console.info('[AULA-C cambiar chip]',{pieza:id,modelo:p.definition.id,rg:rg?.id,resistencia:rg?.value,ganancia});

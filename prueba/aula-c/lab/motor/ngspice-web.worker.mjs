@@ -8,7 +8,7 @@ export function crearRuntime({cargar=()=>import('../vendor/eecircuit-engine/eeci
   if(!starting)starting=(async()=>{const {Simulation}=await cargar();simulation=new Simulation();await simulation.start();version=simulation.getInitInfo().match(/ngspice[-\s]+([\w.]+)/i)?.[1]||'sin verificar';})();
   try{await starting;}catch(e){starting=null;throw e;}
  }
- async function ejecutar({codigo,limiteMs=60000}){
+ async function ejecutar({codigo,limiteMs=120000}){
   const start=performance.now();let stdout='',stderr='';
   try{
    if(typeof codigo!=='string'||codigo.length>2000000)throw Error('Deck inválido o mayor de 2 MB');

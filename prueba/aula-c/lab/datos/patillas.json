@@ -1,0 +1,1134 @@
+{
+ "piezas": [
+  {
+   "id": "LM741",
+   "parte": "LM741",
+   "fabricante": "Texas Instruments",
+   "hoja": "SNOSC25D (Revised October 2015)",
+   "url": "https://www.ti.com/lit/ds/symlink/lm741.pdf",
+   "encapsulado": "PDIP-8 (P)",
+   "pagina_tabla": "3",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "OFFSET NULL",
+     "tipo": "I",
+     "funcion_literal": "Offset null pin used to eliminate the offset voltage and balance the input voltages.",
+     "funcion_es": "Patilla de anulación de tensión de desvío (offset) y balance de tensiones de entrada.",
+     "que_conectar": "Potenciómetro de 10 kΩ entre patillas 1 y 5 con el cursor conectado a V-.",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "INVERTING INPUT",
+     "tipo": "I",
+     "funcion_literal": "Inverting signal input.",
+     "funcion_es": "Entrada de señal inversora.",
+     "que_conectar": "Señal analógica de entrada inversora o red de realimentación.",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "NONINVERTING INPUT",
+     "tipo": "I",
+     "funcion_literal": "Noninverting signal input.",
+     "funcion_es": "Entrada de señal no inversora.",
+     "que_conectar": "Señal analógica de entrada no inversora o referencia a tierra.",
+     "maximo": null
+    },
+    {
+     "numero": 4,
+     "nombre_hoja": "V−",
+     "tipo": "P",
+     "funcion_literal": "Negative supply voltage.",
+     "funcion_es": "Tensión de alimentación negativa.",
+     "que_conectar": "Carril de alimentación negativo (-Vcc) o tierra en configuración de fuente simple.",
+     "maximo": "Alimentación ±22 V (LM741, LM741A); ±18 V (LM741C). Hoja SNOSC25D, p. 4."
+    },
+    {
+     "numero": 5,
+     "nombre_hoja": "OFFSET NULL",
+     "tipo": "I",
+     "funcion_literal": "Offset null pin used to eliminate the offset voltage and balance the input voltages.",
+     "funcion_es": "Patilla de anulación de tensión de desvío (offset) y balance de tensiones de entrada.",
+     "que_conectar": "Extremo opuesto del potenciómetro de 10 kΩ conectado a la patilla 1 (cursor a V-).",
+     "maximo": null
+    },
+    {
+     "numero": 6,
+     "nombre_hoja": "OUTPUT",
+     "tipo": "O",
+     "funcion_literal": "Amplified signal output.",
+     "funcion_es": "Salida de señal amplificada.",
+     "que_conectar": "Carga del circuito o lazo de realimentación a la entrada inversora.",
+     "maximo": null
+    },
+    {
+     "numero": 7,
+     "nombre_hoja": "V+",
+     "tipo": "P",
+     "funcion_literal": "Positive supply voltage.",
+     "funcion_es": "Tensión de alimentación positiva.",
+     "que_conectar": "Carril de alimentación positivo (+Vcc).",
+     "maximo": "Alimentación ±22 V (LM741, LM741A); ±18 V (LM741C). Hoja SNOSC25D, p. 4."
+    },
+    {
+     "numero": 8,
+     "nombre_hoja": "NC",
+     "tipo": null,
+     "funcion_literal": "No connect (should be left floating)",
+     "funcion_es": "Sin conexión interna (debe dejarse flotante).",
+     "que_conectar": null,
+     "maximo": null
+    }
+   ],
+   "notas": "Datos obtenidos de la hoja oficial SNOSC25D de Texas Instruments. La tabla 'Pin Functions' se encuentra en la sección 5 (página 3). En la columna I/O de la hoja oficial, los pines de alimentación V- y V+ están tipificados como 'I'.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables. Orquestador leyó la hoja SNOSC25D: Pin Functions p. 3 y Absolute Maximum Ratings p. 4."
+  },
+  {
+   "id": "TL081",
+   "parte": "TL081",
+   "fabricante": "Texas Instruments",
+   "hoja": "SLOS081O (Revised September 2025)",
+   "url": "https://www.ti.com/lit/ds/symlink/tl081.pdf",
+   "encapsulado": "PDIP-8 (P)",
+   "pagina_tabla": "4",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "OFFSET N1",
+     "tipo": null,
+     "funcion_literal": "Input offset adjustment",
+     "funcion_es": "Ajuste de tensión de desvío (offset) de entrada.",
+     "que_conectar": "Extremo de potenciómetro de 100 kΩ conectado a patilla 5, con cursor a VCC- (dejar flotante si no se calibra).",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "IN–",
+     "tipo": "I",
+     "funcion_literal": "Inverting input",
+     "funcion_es": "Entrada inversora.",
+     "que_conectar": "Señal de entrada inversora o red de realimentación.",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "IN+",
+     "tipo": "I",
+     "funcion_literal": "Noninverting input",
+     "funcion_es": "Entrada no inversora.",
+     "que_conectar": "Señal de entrada no inversora.",
+     "maximo": null
+    },
+    {
+     "numero": 4,
+     "nombre_hoja": "VCC–",
+     "tipo": "P",
+     "funcion_literal": "Negative power supply",
+     "funcion_es": "Alimentación negativa.",
+     "que_conectar": "Carril de alimentación negativo (o tierra en fuente simple).",
+     "maximo": null
+    },
+    {
+     "numero": 5,
+     "nombre_hoja": "OFFSET N2",
+     "tipo": null,
+     "funcion_literal": "Input offset adjustment",
+     "funcion_es": "Ajuste de tensión de desvío (offset) de entrada.",
+     "que_conectar": "Extremo de potenciómetro de 100 kΩ conectado a patilla 1, con cursor a VCC- (dejar flotante si no se calibra).",
+     "maximo": null
+    },
+    {
+     "numero": 6,
+     "nombre_hoja": "OUT",
+     "tipo": "O",
+     "funcion_literal": "Output",
+     "funcion_es": "Salida.",
+     "que_conectar": "Carga o red de realimentación hacia la entrada inversora.",
+     "maximo": null
+    },
+    {
+     "numero": 7,
+     "nombre_hoja": "VCC+",
+     "tipo": "P",
+     "funcion_literal": "Positive power supply",
+     "funcion_es": "Alimentación positiva.",
+     "que_conectar": "Carril de alimentación positivo.",
+     "maximo": null
+    },
+    {
+     "numero": 8,
+     "nombre_hoja": "NC",
+     "tipo": null,
+     "funcion_literal": "Do not connect",
+     "funcion_es": "No conectar.",
+     "que_conectar": null,
+     "maximo": null
+    }
+   ],
+   "notas": "En la hoja SLOS081 de TI, los dispositivos clásicos TL081 (paquete P, PDIP-8) disponen de terminales de ajuste de offset en los pines 1 y 5 (OFFSET N1 y OFFSET N2). En la variante modernizada TL081H, dichos pines carecen de conexión interna y figuran como 'NC (Do not connect)'.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "TL072",
+   "parte": "TL072",
+   "fabricante": "Texas Instruments",
+   "hoja": "SLOS080N (Revised June 2024)",
+   "url": "https://www.ti.com/lit/ds/symlink/tl072.pdf",
+   "encapsulado": "PDIP-8 (P)",
+   "pagina_tabla": "4",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "1OUT",
+     "tipo": "O",
+     "funcion_literal": "Channel 1 Output",
+     "funcion_es": "Salida del canal 1.",
+     "que_conectar": "Carga o lazo de realimentación del amplificador 1.",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "1IN−",
+     "tipo": "I",
+     "funcion_literal": "Channel 1 Inverting input",
+     "funcion_es": "Entrada inversora del canal 1.",
+     "que_conectar": "Señal de entrada inversora o nodo de realimentación del canal 1.",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "1IN+",
+     "tipo": "I",
+     "funcion_literal": "Channel 1 Noninverting input",
+     "funcion_es": "Entrada no inversora del canal 1.",
+     "que_conectar": "Señal de entrada no inversora del canal 1.",
+     "maximo": null
+    },
+    {
+     "numero": 4,
+     "nombre_hoja": "VCC−",
+     "tipo": "P",
+     "funcion_literal": "Negative power supply",
+     "funcion_es": "Alimentación negativa.",
+     "que_conectar": "Carril de alimentación negativo (o tierra en fuente simple).",
+     "maximo": null
+    },
+    {
+     "numero": 5,
+     "nombre_hoja": "2IN+",
+     "tipo": "I",
+     "funcion_literal": "Channel 2 Noninverting input",
+     "funcion_es": "Entrada no inversora del canal 2.",
+     "que_conectar": "Señal de entrada no inversora del canal 2.",
+     "maximo": null
+    },
+    {
+     "numero": 6,
+     "nombre_hoja": "2IN−",
+     "tipo": "I",
+     "funcion_literal": "Channel 2 Inverting input",
+     "funcion_es": "Entrada inversora del canal 2.",
+     "que_conectar": "Señal de entrada inversora o nodo de realimentación del canal 2.",
+     "maximo": null
+    },
+    {
+     "numero": 7,
+     "nombre_hoja": "2OUT",
+     "tipo": "O",
+     "funcion_literal": "Channel 2 Output",
+     "funcion_es": "Salida del canal 2.",
+     "que_conectar": "Carga o lazo de realimentación del amplificador 2.",
+     "maximo": null
+    },
+    {
+     "numero": 8,
+     "nombre_hoja": "VCC+",
+     "tipo": "P",
+     "funcion_literal": "Positive power supply",
+     "funcion_es": "Alimentación positiva.",
+     "que_conectar": "Carril de alimentación positivo.",
+     "maximo": null
+    }
+   ],
+   "notas": "Extraído de la tabla 'Pin Functions: TL072x' de la hoja SLOS080 de Texas Instruments (paquetes D, P, PS, PW, JG). La columna Type no asigna letra a los pines de alimentación en esta tabla.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "TL082",
+   "parte": "TL082",
+   "fabricante": "Texas Instruments",
+   "hoja": "SLOS081O (Revised September 2025)",
+   "url": "https://www.ti.com/lit/ds/symlink/tl082.pdf",
+   "encapsulado": "PDIP-8 (P)",
+   "pagina_tabla": "4",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "1OUT",
+     "tipo": "O",
+     "funcion_literal": "Output, channel 1",
+     "funcion_es": "Salida del canal 1.",
+     "que_conectar": "Carga o lazo de realimentación del amplificador 1.",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "1IN–",
+     "tipo": "I",
+     "funcion_literal": "Inverting input, channel 1",
+     "funcion_es": "Entrada inversora del canal 1.",
+     "que_conectar": "Señal de entrada inversora o nodo de realimentación del canal 1.",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "1IN+",
+     "tipo": "I",
+     "funcion_literal": "Noninverting input, channel 1",
+     "funcion_es": "Entrada no inversora del canal 1.",
+     "que_conectar": "Señal de entrada no inversora del canal 1.",
+     "maximo": null
+    },
+    {
+     "numero": 4,
+     "nombre_hoja": "VCC–",
+     "tipo": "P",
+     "funcion_literal": "Negative power supply",
+     "funcion_es": "Alimentación negativa.",
+     "que_conectar": "Carril de alimentación negativo (o tierra en fuente simple).",
+     "maximo": null
+    },
+    {
+     "numero": 5,
+     "nombre_hoja": "2IN+",
+     "tipo": "I",
+     "funcion_literal": "Noninverting input, channel 2",
+     "funcion_es": "Entrada no inversora del canal 2.",
+     "que_conectar": "Señal de entrada no inversora del canal 2.",
+     "maximo": null
+    },
+    {
+     "numero": 6,
+     "nombre_hoja": "2IN–",
+     "tipo": "I",
+     "funcion_literal": "Inverting input, channel 2",
+     "funcion_es": "Entrada inversora del canal 2.",
+     "que_conectar": "Señal de entrada inversora o nodo de realimentación del canal 2.",
+     "maximo": null
+    },
+    {
+     "numero": 7,
+     "nombre_hoja": "2OUT",
+     "tipo": "O",
+     "funcion_literal": "Output, channel 2",
+     "funcion_es": "Salida del canal 2.",
+     "que_conectar": "Carga o lazo de realimentación del amplificador 2.",
+     "maximo": null
+    },
+    {
+     "numero": 8,
+     "nombre_hoja": "VCC+",
+     "tipo": "P",
+     "funcion_literal": "Positive power supply",
+     "funcion_es": "Alimentación positiva.",
+     "que_conectar": "Carril de alimentación positivo.",
+     "maximo": null
+    }
+   ],
+   "notas": "Extraído de la tabla 'Pin Functions: TL082x' de la hoja SLOS081 de Texas Instruments para encapsulado de 8 patillas PDIP (P).",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "TL084",
+   "parte": "TL084",
+   "fabricante": "Texas Instruments",
+   "hoja": "SLOS081O (Revised September 2025)",
+   "url": "https://www.ti.com/lit/ds/symlink/tl084.pdf",
+   "encapsulado": "PDIP-14 (N)",
+   "pagina_tabla": "5",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "1OUT",
+     "tipo": "O",
+     "funcion_literal": "Output, channel 1",
+     "funcion_es": "Salida del canal 1.",
+     "que_conectar": "Carga o realimentación del canal 1.",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "1IN–",
+     "tipo": "I",
+     "funcion_literal": "Inverting input, channel 1",
+     "funcion_es": "Entrada inversora del canal 1.",
+     "que_conectar": "Señal de entrada inversora del canal 1.",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "1IN+",
+     "tipo": "I",
+     "funcion_literal": "Noninverting input, channel 1",
+     "funcion_es": "Entrada no inversora del canal 1.",
+     "que_conectar": "Señal de entrada no inversora del canal 1.",
+     "maximo": null
+    },
+    {
+     "numero": 4,
+     "nombre_hoja": "VCC+",
+     "tipo": "P",
+     "funcion_literal": "Positive power supply",
+     "funcion_es": "Alimentación positiva.",
+     "que_conectar": "Carril de alimentación positivo común a los 4 canales.",
+     "maximo": null
+    },
+    {
+     "numero": 5,
+     "nombre_hoja": "2IN+",
+     "tipo": "I",
+     "funcion_literal": "Noninverting input, channel 2",
+     "funcion_es": "Entrada no inversora del canal 2.",
+     "que_conectar": "Señal de entrada no inversora del canal 2.",
+     "maximo": null
+    },
+    {
+     "numero": 6,
+     "nombre_hoja": "2IN–",
+     "tipo": "I",
+     "funcion_literal": "Inverting input, channel 2",
+     "funcion_es": "Entrada inversora del canal 2.",
+     "que_conectar": "Señal de entrada inversora del canal 2.",
+     "maximo": null
+    },
+    {
+     "numero": 7,
+     "nombre_hoja": "2OUT",
+     "tipo": "O",
+     "funcion_literal": "Output, channel 2",
+     "funcion_es": "Salida del canal 2.",
+     "que_conectar": "Carga o realimentación del canal 2.",
+     "maximo": null
+    },
+    {
+     "numero": 8,
+     "nombre_hoja": "3OUT",
+     "tipo": "O",
+     "funcion_literal": "Output, channel 3",
+     "funcion_es": "Salida del canal 3.",
+     "que_conectar": "Carga o realimentación del canal 3.",
+     "maximo": null
+    },
+    {
+     "numero": 9,
+     "nombre_hoja": "3IN–",
+     "tipo": "I",
+     "funcion_literal": "Inverting input, channel 3",
+     "funcion_es": "Entrada inversora del canal 3.",
+     "que_conectar": "Señal de entrada inversora del canal 3.",
+     "maximo": null
+    },
+    {
+     "numero": 10,
+     "nombre_hoja": "3IN+",
+     "tipo": "I",
+     "funcion_literal": "Noninverting input, channel 3",
+     "funcion_es": "Entrada no inversora del canal 3.",
+     "que_conectar": "Señal de entrada no inversora del canal 3.",
+     "maximo": null
+    },
+    {
+     "numero": 11,
+     "nombre_hoja": "VCC–",
+     "tipo": "P",
+     "funcion_literal": "Negative power supply",
+     "funcion_es": "Alimentación negativa.",
+     "que_conectar": "Carril de alimentación negativo común a los 4 canales (o tierra en fuente simple).",
+     "maximo": null
+    },
+    {
+     "numero": 12,
+     "nombre_hoja": "4IN+",
+     "tipo": "I",
+     "funcion_literal": "Noninverting input, channel 4",
+     "funcion_es": "Entrada no inversora del canal 4.",
+     "que_conectar": "Señal de entrada no inversora del canal 4.",
+     "maximo": null
+    },
+    {
+     "numero": 13,
+     "nombre_hoja": "4IN–",
+     "tipo": "I",
+     "funcion_literal": "Inverting input, channel 4",
+     "funcion_es": "Entrada inversora del canal 4.",
+     "que_conectar": "Señal de entrada inversora del canal 4.",
+     "maximo": null
+    },
+    {
+     "numero": 14,
+     "nombre_hoja": "4OUT",
+     "tipo": "O",
+     "funcion_literal": "Output, channel 4",
+     "funcion_es": "Salida del canal 4.",
+     "que_conectar": "Carga o realimentación del canal 4.",
+     "maximo": null
+    }
+   ],
+   "notas": "Extraído de la tabla 'Pin Functions: TL084x' de la hoja SLOS081 de Texas Instruments para encapsulado PDIP de 14 patillas (designado como paquete N por TI).",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "LM358",
+   "parte": "LM358",
+   "fabricante": "Texas Instruments",
+   "hoja": "SLOS068Z (Revised October 2024)",
+   "url": "https://www.ti.com/lit/ds/symlink/lm358.pdf",
+   "encapsulado": "PDIP-8 (P)",
+   "pagina_tabla": "4",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "1OUT",
+     "tipo": "O",
+     "funcion_literal": "Output, channel 1",
+     "funcion_es": "Salida del canal 1.",
+     "que_conectar": "Carga del circuito o lazo de realimentación del amplificador 1.",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "1IN−",
+     "tipo": "I",
+     "funcion_literal": "Inverting input, channel 1",
+     "funcion_es": "Entrada inversora del canal 1.",
+     "que_conectar": "Señal analógica inversora o nodo de realimentación del canal 1.",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "1IN+",
+     "tipo": "I",
+     "funcion_literal": "Noninverting input, channel 1",
+     "funcion_es": "Entrada no inversora del canal 1.",
+     "que_conectar": "Señal analógica no inversora del canal 1.",
+     "maximo": null
+    },
+    {
+     "numero": 4,
+     "nombre_hoja": "GND",
+     "tipo": "P",
+     "funcion_literal": "Negative power supply or ground",
+     "funcion_es": "Alimentación negativa o tierra.",
+     "que_conectar": "Tierra común del sistema (en alimentación simple) o carril negativo (en alimentación partida).",
+     "maximo": null
+    },
+    {
+     "numero": 5,
+     "nombre_hoja": "2IN+",
+     "tipo": "I",
+     "funcion_literal": "Noninverting input, channel 2",
+     "funcion_es": "Entrada no inversora del canal 2.",
+     "que_conectar": "Señal analógica no inversora del canal 2.",
+     "maximo": null
+    },
+    {
+     "numero": 6,
+     "nombre_hoja": "2IN−",
+     "tipo": "I",
+     "funcion_literal": "Inverting input, channel 2",
+     "funcion_es": "Entrada inversora del canal 2.",
+     "que_conectar": "Señal analógica inversora o nodo de realimentación del canal 2.",
+     "maximo": null
+    },
+    {
+     "numero": 7,
+     "nombre_hoja": "2OUT",
+     "tipo": "O",
+     "funcion_literal": "Output, channel 2",
+     "funcion_es": "Salida del canal 2.",
+     "que_conectar": "Carga del circuito o lazo de realimentación del amplificador 2.",
+     "maximo": null
+    },
+    {
+     "numero": 8,
+     "nombre_hoja": "VCC",
+     "tipo": "P",
+     "funcion_literal": "Positive power supply",
+     "funcion_es": "Alimentación positiva.",
+     "que_conectar": "Carril positivo de alimentación (+3 V a +30 V/+32 V en LM358 estándar, hasta +36 V en LM358B).",
+     "maximo": null
+    }
+   ],
+   "notas": "Extraído de la tabla 'Pin Functions' de la hoja SLOS068 de Texas Instruments. El encapsulado PDIP-8 corresponde a la designación de paquete P de TI. En esquemas de aplicación, el pin 4 se designa comúnmente como GND o V-.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "AD620",
+   "parte": "AD620",
+   "fabricante": "Analog Devices",
+   "hoja": "Rev. H (AD620)",
+   "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/AD620.pdf",
+   "encapsulado": "PDIP-8 (N-8)",
+   "pagina_tabla": "1",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "RG",
+     "tipo": null,
+     "funcion_literal": "Gain setting resistor terminal",
+     "funcion_es": "Terminal de resistencia externa de ganancia RG.",
+     "que_conectar": "Resistencia externa RG hacia la patilla 8 para fijar ganancia G = 1 + (49.4 kΩ / RG); se deja en circuito abierto para G = 1.",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "–IN",
+     "tipo": "I",
+     "funcion_literal": "Inverting Input",
+     "funcion_es": "Entrada analógica inversora.",
+     "que_conectar": "Terminal negativo de la señal de entrada diferencial.",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "+IN",
+     "tipo": "I",
+     "funcion_literal": "Noninverting Input",
+     "funcion_es": "Entrada analógica no inversora.",
+     "que_conectar": "Terminal positivo de la señal de entrada diferencial.",
+     "maximo": null
+    },
+    {
+     "numero": 4,
+     "nombre_hoja": "–VS",
+     "tipo": "P",
+     "funcion_literal": "Negative Power Supply",
+     "funcion_es": "Tensión de alimentación negativa.",
+     "que_conectar": "Carril de alimentación negativo (rango nominal −2.3 V a −18 V) o tierra en operación con fuente simple con acoplamiento adecuado.",
+     "maximo": null
+    },
+    {
+     "numero": 5,
+     "nombre_hoja": "REF",
+     "tipo": "I",
+     "funcion_literal": "Reference terminal",
+     "funcion_es": "Terminal de referencia de salida.",
+     "que_conectar": "Conexión a tierra de muy baja impedancia o tensión de referencia analógica para desplazar el nivel de cero de la salida.",
+     "maximo": null
+    },
+    {
+     "numero": 6,
+     "nombre_hoja": "OUTPUT",
+     "tipo": "O",
+     "funcion_literal": "Output",
+     "funcion_es": "Salida de tensión amplificada.",
+     "que_conectar": "Carga de salida, filtro o convertidor analógico a digital (ADC).",
+     "maximo": null
+    },
+    {
+     "numero": 7,
+     "nombre_hoja": "+VS",
+     "tipo": "P",
+     "funcion_literal": "Positive Power Supply",
+     "funcion_es": "Tensión de alimentación positiva.",
+     "que_conectar": "Carril de alimentación positivo (rango nominal +2.3 V a +18 V).",
+     "maximo": null
+    },
+    {
+     "numero": 8,
+     "nombre_hoja": "RG",
+     "tipo": null,
+     "funcion_literal": "Gain setting resistor terminal",
+     "funcion_es": "Terminal de resistencia externa de ganancia RG.",
+     "que_conectar": "Extremo opuesto de la resistencia externa RG conectada a la patilla 1.",
+     "maximo": null
+    }
+   ],
+   "notas": "La hoja oficial de Analog Devices (Rev. H) define la asignación de pines a través del diagrama 'CONNECTION DIAGRAM (Top View, 8-Lead Plastic DIP [N-8])' en la portada (página 1) y especifica sus funciones a lo largo de las secciones técnicas ('Theory of Operation' y 'Gain Setting'). No contiene una tabla columnar formal independiente de 'Pin Functions'. El encapsulado PDIP-8 se designa con el código de paquete N-8.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "INA128",
+   "parte": "INA128",
+   "fabricante": "Texas Instruments",
+   "hoja": "SBOS051B (Revised February 2005)",
+   "url": "https://www.ti.com/lit/ds/symlink/ina128.pdf",
+   "encapsulado": "PDIP-8 (P)",
+   "pagina_tabla": "3",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "RG",
+     "tipo": null,
+     "funcion_literal": "Gain setting pin. For gains greater than 1, place a gain resistor between pin 1 and pin 8.",
+     "funcion_es": "Patilla de ajuste de ganancia. Se conecta un resistor RG entre el pin 1 y el pin 8 para ganancias mayores a 1.",
+     "que_conectar": "Resistencia externa RG conectada al pin 8 para fijar ganancia G = 1 + (50 kΩ / RG); dejar en circuito abierto para G = 1.",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "–IN",
+     "tipo": "I",
+     "funcion_literal": "Negative (inverting) input.",
+     "funcion_es": "Entrada negativa (inversora).",
+     "que_conectar": "Terminal negativo de la señal analógica diferencial.",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "+IN",
+     "tipo": "I",
+     "funcion_literal": "Positive (non-inverting) input.",
+     "funcion_es": "Entrada positiva (no inversora).",
+     "que_conectar": "Terminal positivo de la señal analógica diferencial.",
+     "maximo": null
+    },
+    {
+     "numero": 4,
+     "nombre_hoja": "V–",
+     "tipo": "P",
+     "funcion_literal": "Negative power supply.",
+     "funcion_es": "Alimentación negativa.",
+     "que_conectar": "Carril de alimentación negativo (de −2.25 V a −18 V) o tierra en configuración de fuente simple.",
+     "maximo": null
+    },
+    {
+     "numero": 5,
+     "nombre_hoja": "REF",
+     "tipo": "I",
+     "funcion_literal": "Reference input. Output voltage is referenced to this pin.",
+     "funcion_es": "Entrada de referencia. La tensión de salida se referencia respecto a esta patilla.",
+     "que_conectar": "Conexión a tierra de baja impedancia o tensión de referencia para compensar o desplazar el nivel de salida.",
+     "maximo": null
+    },
+    {
+     "numero": 6,
+     "nombre_hoja": "VO",
+     "tipo": "O",
+     "funcion_literal": "Output voltage.",
+     "funcion_es": "Tensión de salida amplificada.",
+     "que_conectar": "Carga de salida, etapa de filtrado o entrada de convertidor ADC.",
+     "maximo": null
+    },
+    {
+     "numero": 7,
+     "nombre_hoja": "V+",
+     "tipo": "P",
+     "funcion_literal": "Positive power supply.",
+     "funcion_es": "Alimentación positiva.",
+     "que_conectar": "Carril de alimentación positivo (+2.25 V a +18 V).",
+     "maximo": null
+    },
+    {
+     "numero": 8,
+     "nombre_hoja": "RG",
+     "tipo": null,
+     "funcion_literal": "Gain setting pin. For gains greater than 1, place a gain resistor between pin 1 and pin 8.",
+     "funcion_es": "Patilla de ajuste de ganancia. Se conecta un resistor RG entre el pin 1 y el pin 8 para ganancias mayores a 1.",
+     "que_conectar": "Extremo opuesto del resistor externo RG conectado a la patilla 1.",
+     "maximo": null
+    }
+   ],
+   "notas": "Extraído de la hoja SBOS051 de Texas Instruments (diseño original Burr-Brown) para el encapsulado PDIP-8 (paquete P). Las entradas de señal diferencial (pines 2 y 3) cuentan con protección interna hasta ±40 V sin daño, aun sin alimentación aplicada.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "MOC3021",
+   "parte": "MOC3021M",
+   "fabricante": "onsemi",
+   "hoja": "MOC3020M-D",
+   "url": "https://www.onsemi.com/pdf/datasheet/moc3020m-d.pdf",
+   "encapsulado": "DIP-6",
+   "pagina_tabla": "1",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "Anode",
+     "tipo": "I",
+     "funcion_literal": "Anode",
+     "funcion_es": "Ánodo del diodo emisor infrarrojo de entrada",
+     "que_conectar": "Resistencia limitadora de corriente conectada a línea de señal/alimentación de control",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "Cathode",
+     "tipo": "I",
+     "funcion_literal": "Cathode",
+     "funcion_es": "Cátodo del diodo emisor infrarrojo de entrada",
+     "que_conectar": "Retorno a tierra o conmutador de control (colector abierto/drenador abierto)",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "NC",
+     "tipo": "NC",
+     "funcion_literal": "Not Connected",
+     "funcion_es": "Sin conexión interna",
+     "que_conectar": null,
+     "maximo": null
+    },
+    {
+     "numero": 4,
+     "nombre_hoja": "Main Terminal",
+     "tipo": "I/O",
+     "funcion_literal": "Main Terminal",
+     "funcion_es": "Terminal principal del fototriac de salida",
+     "que_conectar": "Compuerta (Gate) del triac de potencia a través de resistencia",
+     "maximo": null
+    },
+    {
+     "numero": 5,
+     "nombre_hoja": "Substrate",
+     "tipo": "NC",
+     "funcion_literal": "Substrate (Do not connect)",
+     "funcion_es": "Sustrato del triac (no conectar / dejar flotante)",
+     "que_conectar": null,
+     "maximo": null
+    },
+    {
+     "numero": 6,
+     "nombre_hoja": "Main Terminal",
+     "tipo": "I/O",
+     "funcion_literal": "Main Terminal",
+     "funcion_es": "Terminal principal del fototriac de salida",
+     "que_conectar": "Línea de CA a través de resistencia hacia MT2 del triac de potencia",
+     "maximo": null
+    }
+   ],
+   "notas": "DIP-6 estándar de 6 patillas. La patilla 5 corresponde al sustrato del triac y la hoja de datos especifica explícitamente no conectarla a ningún potencial.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "4N25",
+   "parte": "4N25",
+   "fabricante": "Vishay Semiconductors",
+   "hoja": "Document Number 83725",
+   "url": "https://www.vishay.com/docs/83725/4n25.pdf",
+   "encapsulado": "DIP-6",
+   "pagina_tabla": "1",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "Anode",
+     "tipo": "I",
+     "funcion_literal": "Anode",
+     "funcion_es": "Ánodo del diodo emisor infrarrojo de GaAs",
+     "que_conectar": "Resistencia en serie hacia la señal de activación lógica",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "Cathode",
+     "tipo": "I",
+     "funcion_literal": "Cathode",
+     "funcion_es": "Cátodo del diodo emisor infrarrojo",
+     "que_conectar": "GND o salida de colector/drenador abierto del controlador",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "NC",
+     "tipo": "NC",
+     "funcion_literal": "NC",
+     "funcion_es": "Sin conexión",
+     "que_conectar": null,
+     "maximo": null
+    },
+    {
+     "numero": 4,
+     "nombre_hoja": "Emitter",
+     "tipo": "O",
+     "funcion_literal": "Emitter",
+     "funcion_es": "Emisor del fototransistor NPN",
+     "que_conectar": "GND o resistencia de carga a tierra",
+     "maximo": null
+    },
+    {
+     "numero": 5,
+     "nombre_hoja": "Collector",
+     "tipo": "O",
+     "funcion_literal": "Collector",
+     "funcion_es": "Colector del fototransistor NPN",
+     "que_conectar": "Resistencia de pull-up hacia VCC o carril positivo de alimentación",
+     "maximo": null
+    },
+    {
+     "numero": 6,
+     "nombre_hoja": "Base",
+     "tipo": "I",
+     "funcion_literal": "Base",
+     "funcion_es": "Base del fototransistor NPN",
+     "que_conectar": "Normalmente no conectada (flotante) o resistencia de alto valor a tierra para ajustar tiempo de respuesta e inmunidad al ruido",
+     "maximo": null
+    }
+   ],
+   "notas": "DIP-6 estándar según Vishay Doc. 83725. La base del fototransistor se deja habitualmente desconectada si no se requiere ajuste de sensibilidad.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "2N3904",
+   "parte": "2N3904",
+   "fabricante": "onsemi",
+   "hoja": "2N3904/D",
+   "url": "https://www.onsemi.com/pdf/datasheet/2n3904-d.pdf",
+   "encapsulado": "TO-92 (TO-226AA)",
+   "pagina_tabla": "1",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "Emitter",
+     "tipo": "O",
+     "funcion_literal": "Emitter",
+     "funcion_es": "Emisor",
+     "que_conectar": "GND o resistencia de degeneración de emisor",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "Base",
+     "tipo": "I",
+     "funcion_literal": "Base",
+     "funcion_es": "Base",
+     "que_conectar": "Resistencia de polarización o de señal de base",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "Collector",
+     "tipo": "I",
+     "funcion_literal": "Collector",
+     "funcion_es": "Colector",
+     "que_conectar": "Carga conectada a la fuente positiva de alimentación",
+     "maximo": null
+    }
+   ],
+   "notas": "Orden de patillas para onsemi TO-92 (Style 1): 1 = Emisor, 2 = Base, 3 = Colector (observando la cara plana del encapsulado con las terminales apuntando hacia abajo, de izquierda a derecha).",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "2N3906",
+   "parte": "2N3906",
+   "fabricante": "onsemi",
+   "hoja": "2N3906/D",
+   "url": "https://www.onsemi.com/pdf/datasheet/2n3906-d.pdf",
+   "encapsulado": "TO-92 (TO-226AA)",
+   "pagina_tabla": "1",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "Emitter",
+     "tipo": "I",
+     "funcion_literal": "Emitter",
+     "funcion_es": "Emisor",
+     "que_conectar": "Carril positivo de alimentación (VCC) o resistencia de emisor",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "Base",
+     "tipo": "I",
+     "funcion_literal": "Base",
+     "funcion_es": "Base",
+     "que_conectar": "Resistencia de polarización/control hacia potencial bajo o masa",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "Collector",
+     "tipo": "O",
+     "funcion_literal": "Collector",
+     "funcion_es": "Colector",
+     "que_conectar": "Carga hacia tierra o carril negativo",
+     "maximo": null
+    }
+   ],
+   "notas": "Orden de patillas para onsemi TO-92 (Style 1): 1 = Emisor, 2 = Base, 3 = Colector (observando la cara plana con las terminales hacia abajo, de izquierda a derecha).",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "BS170",
+   "parte": "BS170",
+   "fabricante": "onsemi",
+   "hoja": "BS170/D",
+   "url": "https://www.onsemi.com/pdf/datasheet/bs170-d.pdf",
+   "encapsulado": "TO-92 (TO-226AA)",
+   "pagina_tabla": "1",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "Drain",
+     "tipo": "I/O",
+     "funcion_literal": "Drain",
+     "funcion_es": "Drenador",
+     "que_conectar": "Carga conectada a la tensión de alimentación positiva",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "Gate",
+     "tipo": "I",
+     "funcion_literal": "Gate",
+     "funcion_es": "Compuerta / Puerta",
+     "que_conectar": "Señal de control de tensión lógica o analógica",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "Source",
+     "tipo": "I/O",
+     "funcion_literal": "Source",
+     "funcion_es": "Fuente / Surtidor",
+     "que_conectar": "Referencia de tierra (GND)",
+     "maximo": null
+    }
+   ],
+   "notas": "En el encapsulado TO-92 de onsemi (Style 2), el orden de terminales de izquierda a derecha con la cara plana al frente y patillas hacia abajo es: 1 = Drain, 2 = Gate, 3 = Source. ATENCIÓN: Fabricantes históricos (como Vishay Siliconix) han utilizado el patillaje 1 = Source, 2 = Gate, 3 = Drain para el mismo código de parte.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "IRF540N",
+   "parte": "IRF540NPbF",
+   "fabricante": "Infineon Technologies",
+   "hoja": "PD - 93863",
+   "url": "https://www.infineon.com/dgdl/irf540npbf.pdf?fileId=5546d462533600a4015355e396ba199f",
+   "encapsulado": "TO-220AB",
+   "pagina_tabla": "8",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "Gate",
+     "tipo": "I",
+     "funcion_literal": "Gate",
+     "funcion_es": "Compuerta / Puerta",
+     "que_conectar": "Resistencia de disparo / circuito controlador de compuerta (gate driver)",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "Drain",
+     "tipo": "I/O",
+     "funcion_literal": "Drain",
+     "funcion_es": "Drenador",
+     "que_conectar": "Carga de potencia hacia el positivo de la fuente",
+     "maximo": null
+    },
+    {
+     "numero": 3,
+     "nombre_hoja": "Source",
+     "tipo": "I/O",
+     "funcion_literal": "Source",
+     "funcion_es": "Fuente / Surtidor",
+     "que_conectar": "GND / retorno de potencia del circuito",
+     "maximo": null
+    },
+    {
+     "numero": 4,
+     "nombre_hoja": "TAB",
+     "tipo": "I/O",
+     "funcion_literal": "Drain",
+     "funcion_es": "Pestaña metálica posterior conectada internamente a Drenador",
+     "que_conectar": "Disipador térmico (requiere aislante de mica/silicona si el disipador comparte tierra)",
+     "maximo": null
+    }
+   ],
+   "notas": "TO-220AB visto de frente con terminales hacia abajo y pestaña metálica al fondo: 1 = Gate, 2 = Drain, 3 = Source. La pestaña de montaje (TAB) está unida internamente a la patilla 2 (Drain).",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "1N4148",
+   "parte": "1N4148",
+   "fabricante": "Vishay Semiconductors",
+   "hoja": "Document Number 81857",
+   "url": "https://www.vishay.com/docs/81857/1n4148.pdf",
+   "encapsulado": "DO-35 (DO-204AH)",
+   "pagina_tabla": "1",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "Cathode",
+     "tipo": "I/O",
+     "funcion_literal": "Cathode (indicated by black color band)",
+     "funcion_es": "Cátodo (identificado por la banda negra)",
+     "que_conectar": "Potencial más positivo en corte/bloqueo inverso o salida rectificada hacia la carga",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "Anode",
+     "tipo": "I/O",
+     "funcion_literal": "Anode",
+     "funcion_es": "Ánodo (terminal opuesto sin banda)",
+     "que_conectar": "Potencial positivo de entrada en conducción directa",
+     "maximo": null
+    }
+   ],
+   "notas": "Diodo axial de señal de 2 terminales en encapsulado de vidrio DO-35. La terminal marcada con la franja negra es el cátodo; la terminal opuesta es el ánodo.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "1N4007",
+   "parte": "1N4007",
+   "fabricante": "Vishay General Semiconductor",
+   "hoja": "Document Number 88503",
+   "url": "https://www.vishay.com/docs/88503/1n4001.pdf",
+   "encapsulado": "DO-41 (DO-204AL)",
+   "pagina_tabla": "1",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "Cathode",
+     "tipo": "I/O",
+     "funcion_literal": "Cathode (color band denotes cathode end)",
+     "funcion_es": "Cátodo (marcado por la franja de color en el cuerpo)",
+     "que_conectar": "Filtro capacitivo / polo positivo de la carga en rectificación",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "Anode",
+     "tipo": "I/O",
+     "funcion_literal": "Anode",
+     "funcion_es": "Ánodo (terminal sin franja)",
+     "que_conectar": "Línea de corriente alterna (AC) o entrada positiva a rectificar",
+     "maximo": null
+    }
+   ],
+   "notas": "Diodo rectificador de potencia de 2 terminales axiales en encapsulado plástico DO-41. La banda impresa sobre el cuerpo define el cátodo.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  },
+  {
+   "id": "1N5819",
+   "parte": "1N5819",
+   "fabricante": "Vishay General Semiconductor",
+   "hoja": "Document Number 88525",
+   "url": "https://www.vishay.com/docs/88525/1n5817.pdf",
+   "encapsulado": "DO-41 (DO-204AL)",
+   "pagina_tabla": "1",
+   "patillas": [
+    {
+     "numero": 1,
+     "nombre_hoja": "Cathode",
+     "tipo": "I/O",
+     "funcion_literal": "Cathode (color band denotes cathode end)",
+     "funcion_es": "Cátodo (marcado por la franja de color en el cuerpo)",
+     "que_conectar": "Salida rectificada / riel positivo en fuentes conmutadas",
+     "maximo": null
+    },
+    {
+     "numero": 2,
+     "nombre_hoja": "Anode",
+     "tipo": "I/O",
+     "funcion_literal": "Anode",
+     "funcion_es": "Ánodo (terminal sin franja)",
+     "que_conectar": "Nodo de conmutación o tierra (en función de diodo de libre circulación / flyback)",
+     "maximo": null
+    }
+   ],
+   "notas": "Diodo Schottky axial de 2 terminales en encapsulado plástico DO-41. La franja impresa identifica el extremo del cátodo.",
+   "verificacion": "Funciones y nombres extraídos por Gemini 3.8 Flash de la hoja citada el 2026-11-05 y cotejados contra el patillaje del laboratorio; máximos retirados por no confiables."
+  }
+ ]
+}

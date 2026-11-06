@@ -1,0 +1,12 @@
+.bar-host{position:relative;container-type:inline-size;background:var(--ipn-superficie);border-bottom:1px solid var(--ipn-linea)}
+.bar{display:flex;align-items:center;gap:var(--ipn-s3);min-height:52px;padding:0 var(--ipn-s4);max-width:880px;margin:auto}
+.bar a,.bar summary{display:inline-flex;align-items:center;min-height:40px;padding:0 var(--ipn-s3);border-radius:var(--ipn-radio-control);font-size:var(--ipn-t2);color:var(--ipn-texto);text-decoration:none}
+.bar a:hover,.bar summary:hover{background:var(--ipn-hundido)}.bar .bar-marca{padding:0 var(--ipn-s2) 0 0;font-weight:700;letter-spacing:.08em;color:var(--ipn-acento-fuerte)}
+.bar a[aria-current]{background:var(--ipn-acento-suave);color:var(--ipn-acento-fuerte);font-weight:600}.bar .bar-marca[aria-current]{background:none}
+.bar-nav{display:flex;gap:var(--ipn-s1);margin-left:var(--ipn-s2)}.bar-menu,.bar-actual{display:none}
+.bar-menu summary{list-style:none;cursor:pointer;border:1px solid var(--ipn-borde);gap:var(--ipn-s2)}.bar-menu summary::-webkit-details-marker{display:none}
+.bar-menu summary svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;transition:transform .15s}.bar-menu[open] summary svg{transform:rotate(180deg)}
+.bar-panel{position:absolute;right:var(--ipn-s4);top:calc(100% + var(--ipn-s1));z-index:5;min-width:200px;display:grid;padding:var(--ipn-s2);background:var(--ipn-superficie);border:1px solid var(--ipn-linea);border-radius:var(--ipn-radio-superficie)}.bar-panel a{width:100%}
+.bar .tema{display:inline-flex;align-items:center;gap:var(--ipn-s2);margin-left:auto;min-height:40px;padding:0 var(--ipn-s3);border:1px solid var(--ipn-borde);border-radius:var(--ipn-radio-control);font-size:var(--ipn-t2)}.tema select{max-width:100%;border:0;background:transparent;color:var(--ipn-texto);font:inherit}
+@container(max-width:719px){.bar-nav{display:none}.bar-menu{display:block;margin-left:auto}.bar-actual{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ipn-tenue)}.bar .tema{margin-left:0}.bar .tx{display:none}}
+@container(max-width:359px){.bar-actual{display:none!important}.bar{padding:0 var(--ipn-s3)}}

@@ -7,7 +7,7 @@ export class MotorNgspiceWeb {
   this.worker.onmessage=({data})=>{const p=this.pending.get(data.id);if(!p)return;clearTimeout(p.timer);this.pending.delete(data.id);data.error?p.reject(Error(data.error)):p.resolve(data.result);};
   this.worker.onerror=e=>this.detener(Error('Worker ngspice: '+e.message));
  }
- llamar(method,args,limiteMs=60000){
+ llamar(method,args,limiteMs=120000){
   this.conectar();const id=++this.sequence;
   return new Promise((resolve,reject)=>{const timer=setTimeout(()=>this.detener(Error(`ngspice excedió ${limiteMs} ms (${method})`)),limiteMs);this.pending.set(id,{resolve,reject,timer});this.worker.postMessage({id,method,args});});
  }
@@ -16,9 +16,9 @@ export class MotorNgspiceWeb {
   return this.starting;
  }
  async info(){return {...await this.llamar('info'),peso:this.peso};}
- async ejecutar(args){await this.iniciar();return this.llamar('ejecutar',args,args.limiteMs??60000);}
+ async ejecutar(args){await this.iniciar();return this.llamar('ejecutar',args,args.limiteMs??120000);}
  async variables(){return this.llamar('variables');}
- async request(route,{body}={}){await this.iniciar();try{const result=await this.llamar(route.endsWith('validar-modelo')?'validar':'simular',JSON.parse(body));return {ok:true,json:async()=>result};}catch(e){return {ok:false,text:async()=>e.message};}}
+ async request(route,{body}={}){await this.iniciar();try{const result=await this.llamar(route.endsWith('validar-modelo')?'validar':'simular',JSON.parse(body),120000);return {ok:true,headers:{get:name=>name.toLowerCase()==='content-type'?'application/json':null},json:async()=>result};}catch(e){return {ok:false,status:500,headers:{get:name=>name.toLowerCase()==='content-type'?'application/json':null},json:async()=>({error:e.message})};}}
  detener(error=Error('Simulación cancelada; se reinició el motor')){++this.generation;this.worker?.terminate();this.worker=null;this.listo=false;this.starting=null;for(const p of this.pending.values()){clearTimeout(p.timer);p.reject(error);}this.pending.clear();}
  async cancelar(){this.detener();await this.iniciar();return {reiniciado:true};}
  async cerrar(){this.detener(Error('Motor cerrado'));}
