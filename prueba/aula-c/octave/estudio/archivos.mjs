@@ -59,7 +59,7 @@ export async function pngDesdeRaw(raw) {
   canvas.getContext('2d').putImageData(new ImageData(data,width,height),0,0);
   return canvas.convertToBlob({type:'image/png'});
 }
-export const funcionesPDI=['aulac_native','aulac_rawread','aulac_rawwrite','imread','imfinfo','imwrite','aulac_figuras'];
+export const funcionesPDI=['aulac_native','aulac_rawread','aulac_rawwrite','imread','imfinfo','imwrite','aulac_figuras','ls'];
 export async function instalarPDI(contents) {
   for(const name of funcionesPDI) {
     const response=await fetch(`./octave/${name}.m`);

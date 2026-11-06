@@ -1,5 +1,5 @@
 {
-  "bytes": 136540094,
+  "bytes": 136540448,
   "files": [
     "estudio/app.mjs",
     "estudio/archivos.mjs",
@@ -16,6 +16,7 @@
     "estudio/octave/imfinfo.m",
     "estudio/octave/imread.m",
     "estudio/octave/imwrite.m",
+    "estudio/octave/ls.m",
     "estudio/style.css",
     "estudio/textos.mjs",
     "estudio/tokens.css",
@@ -554,5 +555,5 @@
     "index.html",
     "sw.js"
   ],
-  "revision": "db097519b8304f58d3851ef5a8bc3ce7acd848f633c18bbe824c5c636d08ade6"
+  "revision": "fa1292d937c41071727493e94338d772d838da5bafcff37a610eff1defb2a5f2"
 }

@@ -31,7 +31,7 @@ kernel.preparar=()=>{
   return kernel.ejecutar(`${iniciarPDI} if exist('${path}','dir'), cd('${path}'); endif`,()=>{},true);
 };
 const code = () => model ? model.sharedModel.getSource() : $('fallback').value;
-function setCode(value) { if (model) model.sharedModel.setSource(value); else $('fallback').value = value; saveDraft(); }
+function setCode(value) { if (code() === value) { saveDraft(); return; } if (editor) editor.setValue(value); else if (model) model.sharedModel.setSource(value); else $('fallback').value = value; saveDraft(); }
 function saveDraft() { storage.set('aulac-octave-code',code()); storage.set('aulac-octave-name',$('filename').textContent); }
 $('fallback').value = storage.get('aulac-octave-code') ?? t('example.code');
 $('filename').textContent = storage.get('aulac-octave-name') || t('example.name');
