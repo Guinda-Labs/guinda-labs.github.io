@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-11-10T22:41:18.446439Z",
+  "cambio": "2026-11-10T22:54:26.501442Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -723,6 +723,11 @@
     "2TV5|TELEFONIA": {
       "url": "https://chat.whatsapp.com/K0ROmhELvNGCX0cTHcxk7M",
       "desde": "2026-11-10T22:41:03.968Z",
+      "reemplazo": null
+    },
+    "3TV2|BASES DE DATOS DISTRIBUIDAS": {
+      "url": "https://chat.whatsapp.com/J0L8G4p7WDg66RD4zbI9qh",
+      "desde": "2026-11-10T22:54:13.120Z",
       "reemplazo": null
     }
   }
