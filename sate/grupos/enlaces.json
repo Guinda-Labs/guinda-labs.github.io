@@ -1,6 +1,6 @@
 {
   "periodo": "2027/1",
-  "cambio": "2026-10-27T22:00:25.644000Z",
+  "cambio": "2026-11-10T22:41:18.446439Z",
   "enlaces": {
     "2MM10|DISPOSITIVOS LOGICOS PROGRAMABLES": {
       "url": "https://chat.whatsapp.com/E9rDiMDjbP1JN4Ttdlusfc",
@@ -718,6 +718,11 @@
     "3BV3|TEORIA DEL CONTROL": {
       "url": "https://chat.whatsapp.com/KULaYG1j7XU5MiXyw0b4sU",
       "desde": "2026-10-27T22:00:15.234Z",
+      "reemplazo": null
+    },
+    "2TV5|TELEFONIA": {
+      "url": "https://chat.whatsapp.com/K0ROmhELvNGCX0cTHcxk7M",
+      "desde": "2026-11-10T22:41:03.968Z",
       "reemplazo": null
     }
   }
